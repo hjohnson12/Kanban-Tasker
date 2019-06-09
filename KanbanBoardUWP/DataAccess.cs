@@ -93,6 +93,12 @@ namespace KanbanBoardUWP
                 // Query the db and get the tasks
                 while (query.Read())
                 {
+                    string[] tags;
+                    if(query.GetString(5).ToString() == "")
+                        tags = new string[] { }; // Empty array if no tags are in the col
+                    else
+                        tags = query.GetString(5).Split(","); // Turn string of tags into string array, fills listview
+
                     KanbanModel row = new KanbanModel()
                     {
                         ID = query.GetString(0),
@@ -100,8 +106,9 @@ namespace KanbanBoardUWP
                         Description = query.GetString(2),
                         Category = query.GetString(3),
                         ColorKey = query.GetString(4),
-                        Tags = query.GetString(5).Split(",") // Turn string of tags into string array, fills listview
+                        Tags = tags // Turn string of tags into string array, fills listview
                     };
+  
                     tasks.Add(row);
                 }
                 db.Close();

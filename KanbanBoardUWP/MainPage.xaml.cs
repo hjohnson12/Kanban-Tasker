@@ -230,7 +230,7 @@ namespace KanbanBoardUWP
             };
             contentDialogEditTask.CloseButtonClick += contentDialogEditTask_CloseButtonClick;       // Create event for dialog close button
             contentDialogEditTask.PrimaryButtonClick += contentDialogEditTask_SaveClick;       // Create event for dialog close button
-            contentDialogEditTask.PrimaryButtonClick += (sender2, e2) => contentDialogEditTask_DeleteClick(sender2, e2, selectedCardModel); // Create event for save click
+            contentDialogEditTask.SecondaryButtonClick += (sender2, e2) => contentDialogEditTask_DeleteClick(sender2, e2, selectedCardModel); // Create event for delete click
 
             var result = await contentDialogEditTask.ShowAsync(); // Show Dialog
         }
