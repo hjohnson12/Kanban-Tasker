@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# API KEYS FILE
+ApiKeys.xml
+
 # User-specific files
 *.rsuser
 *.suo
