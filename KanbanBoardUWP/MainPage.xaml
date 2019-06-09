@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="KanbanBoardUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:KanbanBoardUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
+    xmlns:muxc="using:Windows.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <!--Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"-->
+    <Grid  x:Name="grid">
+      
+        <!--<Grid.Background>
+            <AcrylicBrush TintColor="AliceBlue" BackgroundSource="HostBackdrop" TintOpacity="0.7"/>
+        </Grid.Background>-->
+
+        <syncfusion:SfKanban MinColumnWidth="150"
+                       ColumnMappingPath="Category" 
+                       ItemsSource="{Binding}"
+                       AutoGenerateColumns="False"
+                       x:Name="kanbanControl" CardTapped="KanbanControl_CardTapped" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
+            <syncfusion:SfKanban.Background>
+                <AcrylicBrush TintColor="AliceBlue" BackgroundSource="HostBackdrop" TintOpacity="0.5" FallbackColor="AliceBlue"/>
+            </syncfusion:SfKanban.Background>
+            <syncfusion:SfKanban.Header>
+                <Border VerticalAlignment="Center" Height="50"  BorderThickness=".1" BorderBrush="White" Background="White"
+                        Width="2000">
+                    <!--<TextBlock Text="Pizza Shop" Foreground="White" FontWeight="Bold" FontSize="18"
+                               HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>-->
+                    <!--<CommandBar Background="Transparent" IsOpen="True" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                        <AppBarButton Icon="Add" Label="Add"/>
+                        <AppBarButton Icon="ReShare" Label="Share"/>
+                        <AppBarButton Icon="Edit" Label="Edit"/>
+                        
+                    </CommandBar>-->
+
+                    <!--<CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right"
+                        HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                        <AppBarButton Icon="Add" Label="Add"/>
+                        <AppBarButton Icon="ReShare" Label="Share" />
+                        <AppBarButton Icon="Edit" Label="Edit"/>
+                    </CommandBar>-->
+                    <muxc:MenuBar>
+                        <muxc:MenuBarItem Title="File">
+                            <MenuFlyoutItem Text="New Task" x:Name="mnuItemNewTask" Click="MnuItemNewTask_Click"/>
+                            <MenuFlyoutItem Text="Open..."/>
+                            <MenuFlyoutItem Text="Save"/>
+                            <MenuFlyoutItem Text="Exit"/>
+                        </muxc:MenuBarItem>
+
+                        <muxc:MenuBarItem Title="Edit">
+                            <MenuFlyoutItem Text="Undo"/>
+                            <MenuFlyoutItem Text="Cut"/>
+                            <MenuFlyoutItem Text="Copy"/>
+                            <MenuFlyoutItem Text="Paste"/>
+                        </muxc:MenuBarItem>
+
+                        <muxc:MenuBarItem Title="Help">
+                            <MenuFlyoutItem Text="About"/>
+                        </muxc:MenuBarItem>
+                    </muxc:MenuBar>
+                </Border>
+            </syncfusion:SfKanban.Header>
+            <syncfusion:SfKanban.IndicatorColorPalette>
+                <syncfusion:ColorMapping Key="Low" Color="Blue" />
+                <syncfusion:ColorMapping Key="Normal" Color="Green" />
+                <syncfusion:ColorMapping Key="High" Color="Red" />
+            </syncfusion:SfKanban.IndicatorColorPalette>
+            <syncfusion:KanbanColumn Categories="Open" Title="To Do" MinimumLimit="1" MaximumLimit="1">
+                <syncfusion:KanbanColumn.ErrorBarSettings>
+                    <syncfusion:ErrorBarSettings Color="Gray" MaxValidationColor="Red"
+                                                 MinValidationColor="Green"/>
+                </syncfusion:KanbanColumn.ErrorBarSettings>
+            </syncfusion:KanbanColumn>
+            <syncfusion:KanbanColumn Categories="Study" Title="To Study" MinimumLimit="1" MaximumLimit="10">
+                <syncfusion:KanbanColumn.ErrorBarSettings>
+                    <syncfusion:ErrorBarSettings Color="Gray" MaxValidationColor="Red"
+                                                 MinValidationColor="Green"/>
+                </syncfusion:KanbanColumn.ErrorBarSettings>
+            </syncfusion:KanbanColumn>
+            <syncfusion:KanbanColumn Categories="In Progress" Title="Progress" MinimumLimit="1" MaximumLimit="10">
+                <syncfusion:KanbanColumn.ErrorBarSettings>
+                    <syncfusion:ErrorBarSettings Color="Gray" MaxValidationColor="Red"
+                                                 MinValidationColor="Green"/>
+                </syncfusion:KanbanColumn.ErrorBarSettings>
+            </syncfusion:KanbanColumn>
+            <syncfusion:KanbanColumn Categories="Review,Done" Title="Done" MinimumLimit="1" MaximumLimit="10">
+                <syncfusion:KanbanColumn.ErrorBarSettings>
+                    <syncfusion:ErrorBarSettings Color="Gray" MaxValidationColor="Red"
+                                                 MinValidationColor="Green"/>
+                </syncfusion:KanbanColumn.ErrorBarSettings>
+            </syncfusion:KanbanColumn>
+        </syncfusion:SfKanban>
+    </Grid>
+</Page>
