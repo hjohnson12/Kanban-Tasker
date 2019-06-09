@@ -23,7 +23,7 @@
                        AutoGenerateColumns="False"
                        x:Name="kanbanControl" CardTapped="KanbanControl_CardTapped" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
             <syncfusion:SfKanban.Background>
-                <AcrylicBrush TintColor="AliceBlue" BackgroundSource="HostBackdrop" TintOpacity="0.5" FallbackColor="AliceBlue"/>
+                <AcrylicBrush TintColor="AliceBlue" BackgroundSource="HostBackdrop" TintOpacity="0.71" FallbackColor="AliceBlue"/>
             </syncfusion:SfKanban.Background>
             <syncfusion:SfKanban.Header>
                 <Border VerticalAlignment="Center" Height="50"  BorderThickness=".1" BorderBrush="White" Background="White"
@@ -46,20 +46,9 @@
                     <muxc:MenuBar>
                         <muxc:MenuBarItem Title="File">
                             <MenuFlyoutItem Text="New Task" x:Name="mnuItemNewTask" Click="MnuItemNewTask_Click"/>
-                            <MenuFlyoutItem Text="Open..."/>
-                            <MenuFlyoutItem Text="Save"/>
-                            <MenuFlyoutItem Text="Exit"/>
-                        </muxc:MenuBarItem>
-
-                        <muxc:MenuBarItem Title="Edit">
-                            <MenuFlyoutItem Text="Undo"/>
-                            <MenuFlyoutItem Text="Cut"/>
-                            <MenuFlyoutItem Text="Copy"/>
-                            <MenuFlyoutItem Text="Paste"/>
-                        </muxc:MenuBarItem>
-
-                        <muxc:MenuBarItem Title="Help">
-                            <MenuFlyoutItem Text="About"/>
+                            <!--<MenuFlyoutItem Text="Open..."/>
+                            <MenuFlyoutItem Text="Save"/>-->
+                            <MenuFlyoutItem Text="Exit" Click="MnuItemExitApp_Click"/>
                         </muxc:MenuBarItem>
                     </muxc:MenuBar>
                 </Border>
