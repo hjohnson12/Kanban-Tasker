@@ -9,9 +9,13 @@ Implemented with a Sqlite database to store the tasks and uses CRUD operations a
 
 ![Image of Program](KanbanBoardUWP/Images/KanbanBoard.PNG)
 
+![Image of Program4](KanbanBoardUWP/Images/KanbanBoard4.png)
+
 ![Image of Program2](KanbanBoardUWP/Images/KanbanBoard2.PNG)
 
 ![Image of Program3](KanbanBoardUWP/Images/KanbanBoard3.PNG)
+
+
 
 ## Getting Started
 
