@@ -29,7 +29,7 @@ Minimum version: Windows 10, Version 1809
 
 Target Version: Windows 10, Version 1903
 
-Nuget Packages Installed:
+Nuget Packages Rrequierd:
 
 Microsoft Sqlite should be installed on your system by default. So, the nuget package "Microsoft.Data.Sqlite" or "Microsoft.Data.Sqlite.Core" will
 work. SQLitePCLRaw.bundle_winsqlite3. (Tutorial on these installations can be found on microsoft docs here: https://docs.microsoft.com/en-us/windows/uwp/data-access/sqlite-databases)
