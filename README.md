@@ -11,7 +11,7 @@ Implemented with a Sqlite database to store the tasks and uses CRUD operations a
 
 ![Image of Program](KanbanBoardUWP/Images/KanbanBoard.PNG)
 
-##### Allows multiple sections in a column:
+##### Allows multiple sections in a column and drag and drop between columns seamlessly:
 
 ![Image of Program](KanbanBoardUWP/Images/KanbanBoard4.png)
 
