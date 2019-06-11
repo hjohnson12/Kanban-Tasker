@@ -38,6 +38,10 @@ The program requires a license from Syncfusion since the Kanban Control is a con
 
 Essentially, generate a key for the UWP controls and head to App.xaml.cs and add your key into the string "YOUR_API_KEY". 
 
+***Known Bugs***: 
+  * Currently in this view, there are no major bugs found. 
+    * To use the Swimlane view as you can see in the samples for Syncfusion UWP Kanban on their website, you'll need to add the *Assignee* property to each KanbanModel object. **Beware**, when updating the swimlane view card items, there is a bug where not all card items show. This bug has been reported with Syncfusion and is track to be patched in their late June 2019 update.
+
 ### Prerequisites
 
 Minimum version: Windows 10, Version 1809
