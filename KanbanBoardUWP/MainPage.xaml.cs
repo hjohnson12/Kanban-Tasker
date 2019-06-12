@@ -66,6 +66,17 @@ namespace KanbanBoardUWP
         {
             this.InitializeComponent();
             kanbanControl.ItemsSource = DataAccess.GetData(); // Get data from database
+            var brush = new RevealBorderBrush();
+            brush.Color = Colors.Green;
+            KanbanCardStyle kanbanCardStyle = new KanbanCardStyle();
+            //foreach(var card in kanbanControl.ItemsSource)
+            //{
+            //    foreach()
+            //}
+            //kanbanCardStyle.BorderBrush = 
+  
+            kanbanCardStyle.BorderBrush = brush;
+            kanbanControl.CardStyle = kanbanCardStyle;
         }
 
         //=====================================================================
