@@ -66,16 +66,65 @@ namespace KanbanBoardUWP
         {
             this.InitializeComponent();
             kanbanControl.ItemsSource = DataAccess.GetData(); // Get data from database
+
+            // Add reveal focus to Kanban Card Items
+            // Set card items background color according to priority color
             var brush = new RevealBorderBrush();
-            brush.Color = Colors.Green;
             KanbanCardStyle kanbanCardStyle = new KanbanCardStyle();
+
+            //foreach (var colorMap in kanbanControl.IndicatorColorPalette)
+            //{
+            //    // Add each key from the color palette to the combobox
+            //    var key = colorMap.Key;
+            //    ComboBoxEditTaskColorKey.Items.Add(key);
+            //}
+
+            //foreach(var card in kanbanControl.ItemsSource)
+            //{
+            //    var c = new KanbanCardItem();
+            //    c = card as KanbanCardItem;
+            //    c.BorderBrush = new SolidColorBrush(Colors.Purple);
+            //}
+            // foreach (var card in )
             //foreach(var card in kanbanControl.ItemsSource)
             //{
             //    foreach()
             //}
             //kanbanCardStyle.BorderBrush = 
-  
+            //KanbanCardCollection collect = kanbanControl.ItemsSource as KanbanCardCollection;
+            //foreach (var item in collect)
+            //    collect.Add(item);
+            //collect= kanbanControl.ItemsSource as KanbanCardCollection;
+
+            // Test to turn border of card to what inidicator color pallette color is
+            //foreach (var col in kanbanControl.Columns)
+            //{
+            //    //foreach (var model in col.ItemsSource as ObservableCollection<KanbanModel>)
+            //    //{
+            //    //    if ((string)model.ColorKey == "Red")
+            //    //    {
+            //    //        var card = model as KanbanCardItem;
+            //    //    }
+            //    //} 
+            //   // var coll = col.car
+            //    foreach (var card in col.Cards)
+            //    {
+            //        //brush.Color = Colors.Red;
+            //        //brush.FallbackColor = Colors.Purple;
+                    
+            //        //brush.Opacity = 0.8;
+            //        //card.BorderBrush = brush;
+            //        card.Background = new SolidColorBrush(Colors.Blue);
+                    
+            //    }
+            //}
+
+            brush.Color = Color.FromArgb(255, 0, 39, 76);
+            brush.FallbackColor = Colors.Gray;
+            brush.Opacity = 0.8;
+            kanbanCardStyle.CornerRadius = new CornerRadius(10.0);
             kanbanCardStyle.BorderBrush = brush;
+            kanbanCardStyle.BorderThickness = new Thickness(3.0);
             kanbanControl.CardStyle = kanbanCardStyle;
         }
 
@@ -94,7 +143,7 @@ namespace KanbanBoardUWP
         {
             // Determine selected card
             var selectedCardModel = e.SelectedCard.Content as KanbanModel;
-
+            
             // Create ScrollViewer control to be used with the content dialog
             ScrollViewerEditTaskDiag = new ScrollViewer();
 
