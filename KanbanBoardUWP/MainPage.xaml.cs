@@ -67,10 +67,6 @@ namespace KanbanBoardUWP
             this.InitializeComponent();
             kanbanControl.ItemsSource = DataAccess.GetData(); // Get data from database
 
-            // Add reveal focus to Kanban Card Items
-            // Set card items background color according to priority color
-            var brush = new RevealBorderBrush();
-            KanbanCardStyle kanbanCardStyle = new KanbanCardStyle();
 
             //foreach (var colorMap in kanbanControl.IndicatorColorPalette)
             //{
@@ -111,21 +107,49 @@ namespace KanbanBoardUWP
             //    {
             //        //brush.Color = Colors.Red;
             //        //brush.FallbackColor = Colors.Purple;
-                    
+
             //        //brush.Opacity = 0.8;
             //        //card.BorderBrush = brush;
             //        card.Background = new SolidColorBrush(Colors.Blue);
-                    
+
             //    }
             //}
 
-            brush.Color = Color.FromArgb(255, 0, 39, 76);
-            brush.FallbackColor = Colors.Gray;
-            brush.Opacity = 0.8;
-            kanbanCardStyle.CornerRadius = new CornerRadius(10.0);
-            kanbanCardStyle.BorderBrush = brush;
-            kanbanCardStyle.BorderThickness = new Thickness(3.0);
-            kanbanControl.CardStyle = kanbanCardStyle;
+            //=======================================================
+            // ADD REVEAL BRUSHES TO CARD ITEMS
+            //=======================================================
+
+            // Reveal Border Brush
+            // Make the kanban card semi-transparent
+            RevealBorderBrush revealBorderBrush = new RevealBorderBrush
+            {
+                Color = Colors.Black,
+                FallbackColor = Colors.Gray,
+                Opacity = 0.8,
+                TargetTheme = ApplicationTheme.Dark
+            };
+
+            // Reveal Background Brush
+            // Make the kanban card semi-transparent
+            RevealBackgroundBrush revealBackgroundBrush = new RevealBackgroundBrush
+            {
+                TargetTheme = ApplicationTheme.Light,
+                FallbackColor = Colors.YellowGreen,
+                //Color = Colors.LightCyan,
+                Color = Colors.DeepSkyBlue,
+                Opacity = 0.8
+            };
+
+            // Set KanbanCardStyle properties
+            KanbanCardStyle kanbanCardStyle = new KanbanCardStyle
+            {
+                CornerRadius = new CornerRadius(10.0),
+                BorderBrush = revealBorderBrush,
+                BorderThickness = new Thickness(3.0),
+                Background = revealBackgroundBrush
+            };
+            kanbanCardStyle.Background = (RevealBackgroundBrush)Application.Current.Resources["SystemControlHighlightListLowRevealBackgroundBrush"];
+            kanbanControl.CardStyle = kanbanCardStyle; // Set cardstyle property as the card style obj
         }
 
         //=====================================================================
