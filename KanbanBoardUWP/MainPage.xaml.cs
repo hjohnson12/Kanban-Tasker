@@ -310,6 +310,8 @@ namespace KanbanBoardUWP
             {
                 Title = "Edit Task",
                 Content = ScrollViewerEditTaskDiag,
+                Background = (AcrylicBrush)Resources["RegionBrush"],
+                
                 PrimaryButtonText = "Save",
                 SecondaryButtonText = "Delete",
                 CloseButtonText = "Close"

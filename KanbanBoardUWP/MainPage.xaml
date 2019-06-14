@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Windows.UI.Xaml.Controls"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -138,10 +137,16 @@
                     </Grid>
                 </Border>
             </DataTemplate>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ThemeDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
     <!--  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"  -->
-    <Grid x:Name="grid" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+    <Grid
+        x:Name="grid"
+        Background="{ThemeResource RegionBrush}"
+        BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
 
         <!--<Grid.Background>
             <AcrylicBrush TintColor="AliceBlue" BackgroundSource="HostBackdrop" TintOpacity="0.7"/>
@@ -153,19 +158,21 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             AutoGenerateColumns="False"
+            Background="{ThemeResource RegionBrush}"
             BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
             CardTapped="KanbanControl_CardTapped"
             CardTemplate="{StaticResource KanbanCardTemplate}"
             ColumnMappingPath="Category"
             ItemsSource="{Binding}"
             MinColumnWidth="150">
-            <syncfusion:SfKanban.Background>
+
+            <!--<syncfusion:SfKanban.Background>
                 <AcrylicBrush
                     BackgroundSource="HostBackdrop"
                     FallbackColor="AliceBlue"
                     TintColor="AliceBlue"
                     TintOpacity="0.71" />
-            </syncfusion:SfKanban.Background>
+            </syncfusion:SfKanban.Background>-->
             <!--<syncfusion:SfKanban.ColumnHeaderTemplate>
                 <DataTemplate>
 
