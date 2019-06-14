@@ -23,6 +23,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace KanbanBoardUWP
 {
+
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -121,22 +123,22 @@ namespace KanbanBoardUWP
 
             // Reveal Border Brush
             // Make the kanban card semi-transparent
-            RevealBorderBrush revealBorderBrush = new RevealBorderBrush
-            {
-                Color = Colors.Black,
-                FallbackColor = Colors.Gray,
-                Opacity = 0.8,
-                TargetTheme = ApplicationTheme.Dark
-            };
+            //RevealBorderBrush revealBorderBrush = new RevealBorderBrush
+            //{
+            //    Color = Colors.Black,
+            //    FallbackColor = Colors.Gray,
+            //    Opacity = 0.8,
+            //    TargetTheme = ApplicationTheme.Dark
+            //};
 
             // Reveal Background Brush
             // Make the kanban card semi-transparent
             RevealBackgroundBrush revealBackgroundBrush = new RevealBackgroundBrush
             {
                 TargetTheme = ApplicationTheme.Light,
-                FallbackColor = Colors.YellowGreen,
+                FallbackColor = Colors.LightGray,
                 //Color = Colors.LightCyan,
-                Color = Colors.DeepSkyBlue,
+                Color = Colors.LightGray,
                 Opacity = 0.8
             };
 
@@ -144,11 +146,10 @@ namespace KanbanBoardUWP
             KanbanCardStyle kanbanCardStyle = new KanbanCardStyle
             {
                 CornerRadius = new CornerRadius(10.0),
-                BorderBrush = revealBorderBrush,
                 BorderThickness = new Thickness(3.0),
                 Background = revealBackgroundBrush
             };
-            kanbanCardStyle.Background = (RevealBackgroundBrush)Application.Current.Resources["SystemControlHighlightListLowRevealBackgroundBrush"];
+            //kanbanCardStyle.Background = (RevealBackgroundBrush)Application.Current.Resources["SystemControlHighlightListLowRevealBackgroundBrush"];
             kanbanControl.CardStyle = kanbanCardStyle; // Set cardstyle property as the card style obj
         }
 
@@ -592,6 +593,61 @@ namespace KanbanBoardUWP
         private void MnuItemExitApp_Click(object sender, RoutedEventArgs e)
         {
             CoreApplication.Exit();
+        }
+    }
+
+    public class StringToColorConvertor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value.ToString() == "Low")
+            {
+
+                RevealBorderBrush revealBorderBrush = new RevealBorderBrush
+                {
+                    Color = Colors.Blue,
+                    FallbackColor = Colors.Blue,
+                    Opacity = 0.8,
+                    TargetTheme = ApplicationTheme.Light
+                };
+
+                // Low Priority - Reveal Brush
+                return revealBorderBrush;
+            }
+            if (value.ToString() == "Normal")
+            {
+                // Normal Priority - Reveal Brush
+                RevealBorderBrush revealBorderBrush = new RevealBorderBrush
+                {
+                    Color = Colors.Green,
+                    FallbackColor = Colors.Green,
+                    Opacity = 0.8,
+                    TargetTheme = ApplicationTheme.Light
+                };
+
+                // Low Priority - Reveal Brush
+                return revealBorderBrush;
+            }
+            if (value.ToString() == "High")
+            {
+                // High Priority - Reveal Brush
+                RevealBorderBrush revealBorderBrush = new RevealBorderBrush
+                {
+                    Color = Colors.Red,
+                    FallbackColor = Colors.Red,
+                    Opacity = 0.8,
+                    TargetTheme = ApplicationTheme.Light
+                };
+
+                // Low Priority - Reveal Brush
+                return revealBorderBrush;
+            }
+            return new SolidColorBrush(Colors.Transparent);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return value;
         }
     }
 }
