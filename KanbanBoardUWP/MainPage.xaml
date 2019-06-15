@@ -143,10 +143,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <!--  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"  -->
-    <Grid
-        x:Name="grid"
-        Background="{ThemeResource RegionBrush}"
-        BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+    <Grid x:Name="grid" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
 
         <!--<Grid.Background>
             <AcrylicBrush TintColor="AliceBlue" BackgroundSource="HostBackdrop" TintOpacity="0.7"/>
@@ -173,22 +170,19 @@
                     TintColor="AliceBlue"
                     TintOpacity="0.71" />
             </syncfusion:SfKanban.Background>-->
-            <!--<syncfusion:SfKanban.ColumnHeaderTemplate>
+            <syncfusion:SfKanban.ColumnHeaderTemplate>
                 <DataTemplate>
 
-                    <StackPanel
-                        Width="300"
-                        Height="40"
-                        Background="Silver">
+                    <StackPanel Width="300" Height="40">
                         <TextBlock
                             Margin="10"
                             HorizontalAlignment="Left"
-                            Foreground="Purple"
+                            Foreground="White"
                             Text="{Binding Header}" />
                     </StackPanel>
 
                 </DataTemplate>
-            </syncfusion:SfKanban.ColumnHeaderTemplate>-->
+            </syncfusion:SfKanban.ColumnHeaderTemplate>
 
             <syncfusion:SfKanban.Header>
                 <Border
@@ -233,10 +227,26 @@
                 </Border>
             </syncfusion:SfKanban.Header>
             <syncfusion:SfKanban.IndicatorColorPalette>
-                <syncfusion:ColorMapping Key="Low" Color="Blue" />
-                <syncfusion:ColorMapping Key="Normal" Color="Green" />
+                <syncfusion:ColorMapping Key="Low" Color="Green" />
+                <syncfusion:ColorMapping Key="Normal" Color="Yellow" />
                 <syncfusion:ColorMapping Key="High" Color="Red" />
             </syncfusion:SfKanban.IndicatorColorPalette>
+            <!--<syncfusion:SfKanban.CardStyle>
+
+            </syncfusion:SfKanban.CardStyle>-->
+            <!--<syncfusion:SfKanban.ColumnHeaderTemplate>
+                <DataTemplate>
+
+                    <StackPanel Width="300" Height="40">
+                        <TextBlock
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            Foreground="White"
+                            Text="{Binding Header}" />
+                    </StackPanel>
+
+                </DataTemplate>
+            </syncfusion:SfKanban.ColumnHeaderTemplate>-->
             <syncfusion:KanbanColumn
                 Title="To Do"
                 Categories="Open"

@@ -44,7 +44,7 @@
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource SystemAccentColor}"
-                        Opacity="0.2"
+                        Opacity="0.6"
                         TintColor="{StaticResource RegionColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -86,7 +86,7 @@
                     <RevealBackgroundBrush
                         x:Key="SystemControlHighlightListLowRevealBackgroundBrush"
                         FallbackColor="{StaticResource SystemListMediumColor}"
-                        Opacity="0.2"
+                        Opacity="0.6"
                         TargetTheme="Light"
                         Color="{ThemeResource SystemRevealListMediumColor}" />
                     <Color x:Key="RegionColor">#FFCFEAFF</Color>
@@ -94,7 +94,7 @@
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource SystemAccentColor}"
-                        Opacity="0.2"
+                        Opacity="0.6"
                         TintColor="{StaticResource RegionColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -105,10 +105,125 @@
                 x:Key="RegionBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{StaticResource SystemAccentColor}"
-                Opacity="0.2"
+                Opacity="0.6"
                 TintColor="{StaticResource RegionColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>-->
+    <!--  Free Public License 1.0.0 Permission to use, copy, modify, and/or distribute this code for any purpose with or without fee is hereby granted.  -->
+    <!--  Free Public License 1.0.0 Permission to use, copy, modify, and/or distribute this code for any purpose with or without fee is hereby granted.  -->
+    <!--  Free Public License 1.0.0 Permission to use, copy, modify, and/or distribute this code for any purpose with or without fee is hereby granted.  -->
+    <!--  Free Public License 1.0.0 Permission to use, copy, modify, and/or distribute this code for any purpose with or without fee is hereby granted.  -->
+    <!--  Free Public License 1.0.0 Permission to use, copy, modify, and/or distribute this code for any purpose with or without fee is hereby granted.  -->
+    <!--<ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <ResourceDictionary.MergedDictionaries>
+                <ColorPaletteResources
+                    Accent="#FFCC4D11"
+                    AltHigh="#FF000000"
+                    AltLow="#FF000000"
+                    AltMedium="#FF000000"
+                    AltMediumHigh="#FF000000"
+                    AltMediumLow="#FF000000"
+                    BaseHigh="#FFFFFFFF"
+                    BaseLow="#FF2F7BAD"
+                    BaseMedium="#FF8DBFDF"
+                    BaseMediumHigh="#FFA5D0EC"
+                    BaseMediumLow="#FF5E9DC6"
+                    ChromeAltLow="#FFA5D0EC"
+                    ChromeBlackHigh="#FF000000"
+                    ChromeBlackLow="#FFA5D0EC"
+                    ChromeBlackMedium="#FF000000"
+                    ChromeBlackMediumLow="#FF000000"
+                    ChromeDisabledHigh="#FF2F7BAD"
+                    ChromeDisabledLow="#FF8DBFDF"
+                    ChromeGray="#FF76AED3"
+                    ChromeHigh="#FF76AED3"
+                    ChromeLow="#FF093B73"
+                    ChromeMedium="#FF134B82"
+                    ChromeMediumLow="#FF266B9F"
+                    ChromeWhite="#FFFFFFFF"
+                    ListLow="#FF134B82"
+                    ListMedium="#FF2F7BAD" />
+                <ResourceDictionary>
+                    <Color x:Key="SystemChromeAltMediumHighColor">#CC2264B3</Color>
+                    <Color x:Key="SystemChromeAltHighColor">#FF2264B3</Color>
+                    <Color x:Key="SystemRevealListLowColor">#FF134B82</Color>
+                    <Color x:Key="SystemRevealListMediumColor">#FF2F7BAD</Color>
+                    <Color x:Key="RegionColor">#FF2264B3</Color>
+                    <AcrylicBrush
+                        x:Key="RegionBrush"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{StaticResource RegionColor}"
+                        Opacity="0.5"
+                        TintColor="{StaticResource RegionColor}"
+                        TintLuminosityOpacity="0.4" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <ResourceDictionary.MergedDictionaries>
+                <ColorPaletteResources
+                    Accent="#FF5E73CC"
+                    AltHigh="#FFFFFFFF"
+                    AltLow="#FFFFFFFF"
+                    AltMedium="#FFFFFFFF"
+                    AltMediumHigh="#FFFFFFFF"
+                    AltMediumLow="#FFFFFFFF"
+                    BaseHigh="#FF000000"
+                    BaseLow="#FF7CBEE0"
+                    BaseMedium="#FF3282A8"
+                    BaseMediumHigh="#FF005A83"
+                    BaseMediumLow="#FF196E96"
+                    ChromeAltLow="#FF005A83"
+                    ChromeBlackHigh="#FF000000"
+                    ChromeBlackLow="#FF7CBEE0"
+                    ChromeBlackMedium="#FF005A83"
+                    ChromeBlackMediumLow="#FF3282A8"
+                    ChromeDisabledHigh="#FF7CBEE0"
+                    ChromeDisabledLow="#FF3282A8"
+                    ChromeGray="#FF196E96"
+                    ChromeHigh="#FF7CBEE0"
+                    ChromeLow="#FFC1E9FE"
+                    ChromeMedium="#FFB3E0F8"
+                    ChromeMediumLow="#FFC1E9FE"
+                    ChromeWhite="#FFFFFFFF"
+                    ListLow="#FFB3E0F8"
+                    ListMedium="#FF7CBEE0" />
+                <ResourceDictionary>
+                    <Color x:Key="SystemChromeAltMediumHighColor">#CC81D1FC</Color>
+                    <Color x:Key="SystemChromeAltHighColor">#FF81D1FC</Color>
+                    <Color x:Key="SystemRevealListLowColor">#FFB3E0F8</Color>
+                    <Color x:Key="SystemRevealListMediumColor">#FF7CBEE0</Color>
+                    <RevealBackgroundBrush
+                        x:Key="SystemControlHighlightListLowRevealBackgroundBrush"
+                        FallbackColor="{StaticResource SystemListMediumColor}"
+                        TargetTheme="Light"
+                        Color="{ThemeResource SystemRevealListMediumColor}" />
+                    <Color x:Key="RegionColor">#FF81D1FC</Color>
+                    <AcrylicBrush
+                        x:Key="RegionBrush"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{StaticResource RegionColor}"
+                        Opacity="0.5"
+                        TintColor="{StaticResource RegionColor}"
+                        TintLuminosityOpacity="0.4" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <StaticResource x:Key="RegionColor" ResourceKey="SystemColorWindowColor" />
+            <AcrylicBrush
+                x:Key="RegionBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{StaticResource RegionColor}"
+                Opacity="0.5"
+                TintColor="{StaticResource RegionColor}"
+                TintLuminosityOpacity="0.4" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>-->
+
+    <!--  Free Public License 1.0.0 Permission to use, copy, modify, and/or distribute this code for any purpose with or without fee is hereby granted.  -->
+    <!--  Free Public License 1.0.0 Permission to use, copy, modify, and/or distribute this code for any purpose with or without fee is hereby granted.  -->
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
             <ResourceDictionary.MergedDictionaries>
@@ -140,17 +255,18 @@
                     ListLow="#FF3F2E4B"
                     ListMedium="#FF64576B" />
                 <ResourceDictionary>
-                    <Color x:Key="SystemChromeAltMediumHighColor">#CC262738</Color>
-                    <Color x:Key="SystemChromeAltHighColor">#FF262738</Color>
+                    <Color x:Key="SystemChromeAltMediumHighColor">#CC3B3C57</Color>
+                    <Color x:Key="SystemChromeAltHighColor">#FF3B3C57</Color>
                     <Color x:Key="SystemRevealListLowColor">#FF3F2E4B</Color>
                     <Color x:Key="SystemRevealListMediumColor">#FF64576B</Color>
-                    <Color x:Key="RegionColor">#FF262738</Color>
+                    <Color x:Key="RegionColor">#FF3B3C57</Color>
                     <AcrylicBrush
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource RegionColor}"
-                        Opacity="0.2"
-                        TintColor="{StaticResource RegionColor}" />
+                        Opacity="0.4"
+                        TintColor="{StaticResource RegionColor}"
+                        TintLuminosityOpacity="0.9" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -184,8 +300,8 @@
                     ListLow="#FFFBE4FF"
                     ListMedium="#FFEECEFF" />
                 <ResourceDictionary>
-                    <Color x:Key="SystemChromeAltMediumHighColor">#CCFEF6FF</Color>
-                    <Color x:Key="SystemChromeAltHighColor">#FFFEF6FF</Color>
+                    <Color x:Key="SystemChromeAltMediumHighColor">#CCE8D5EB</Color>
+                    <Color x:Key="SystemChromeAltHighColor">#FFE8D5EB</Color>
                     <Color x:Key="SystemRevealListLowColor">#FFFBE4FF</Color>
                     <Color x:Key="SystemRevealListMediumColor">#FFEECEFF</Color>
                     <RevealBackgroundBrush
@@ -193,12 +309,12 @@
                         FallbackColor="{StaticResource SystemListMediumColor}"
                         TargetTheme="Light"
                         Color="{ThemeResource SystemRevealListMediumColor}" />
-                    <Color x:Key="RegionColor">#FFFEF6FF</Color>
+                    <Color x:Key="RegionColor">#FFE8D5EB</Color>
                     <AcrylicBrush
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource RegionColor}"
-                        Opacity="0.2"
+                        Opacity="0.8"
                         TintColor="{StaticResource RegionColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -209,9 +325,11 @@
                 x:Key="RegionBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{StaticResource RegionColor}"
-                Opacity="0.2"
-                TintColor="{StaticResource RegionColor}" />
+                Opacity="0.4"
+                TintColor="{StaticResource RegionColor}"
+                TintLuminosityOpacity="0.9" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+
 
 </ResourceDictionary>

@@ -136,10 +136,9 @@ namespace KanbanBoardUWP
             RevealBackgroundBrush revealBackgroundBrush = new RevealBackgroundBrush
             {
                 TargetTheme = ApplicationTheme.Light,
-                FallbackColor = Colors.LightGray,
-                //Color = Colors.LightCyan,
-                Color = Colors.LightGray,
-                Opacity = 0.8
+                FallbackColor = Colors.AliceBlue,
+                Color = Colors.AliceBlue,
+                Opacity = 0.3
             };
 
             // Set KanbanCardStyle properties
@@ -310,7 +309,6 @@ namespace KanbanBoardUWP
             {
                 Title = "Edit Task",
                 Content = ScrollViewerEditTaskDiag,
-                Background = (AcrylicBrush)Resources["RegionBrush"],
                 
                 PrimaryButtonText = "Save",
                 SecondaryButtonText = "Delete",
@@ -607,8 +605,8 @@ namespace KanbanBoardUWP
 
                 RevealBorderBrush revealBorderBrush = new RevealBorderBrush
                 {
-                    Color = Colors.Blue,
-                    FallbackColor = Colors.Blue,
+                    Color = Colors.Green,
+                    FallbackColor = Colors.Green,
                     Opacity = 0.8,
                     TargetTheme = ApplicationTheme.Light
                 };
@@ -621,8 +619,8 @@ namespace KanbanBoardUWP
                 // Normal Priority - Reveal Brush
                 RevealBorderBrush revealBorderBrush = new RevealBorderBrush
                 {
-                    Color = Colors.Green,
-                    FallbackColor = Colors.Green,
+                    Color = Colors.Yellow,
+                    FallbackColor = Colors.Yellow,
                     Opacity = 0.8,
                     TargetTheme = ApplicationTheme.Light
                 };
