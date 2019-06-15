@@ -64,6 +64,12 @@ namespace KanbanBoardUWP
         public TextBox TxtBoxNewTaskImageUrl { get; set; }
         public ScrollViewer ScrollViewerNewTaskDiag { get; set; }
 
+        public string Title { get; set; }
+        public string ID { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public string ColorKey { get; set; }
+        public string Tags { get; set; }
         public MainPage()
         {
             this.InitializeComponent();
@@ -175,6 +181,11 @@ namespace KanbanBoardUWP
             // Call helper function for editing a task
 
             //e.SelectedCard.Background = new SolidColorBrush(Colors.Blue);
+            //EditTaskHelper(sender, e);
+
+
+
+            // TEST, refactor content dialog to XAML:
             EditTaskHelper(sender, e);
         }
 
@@ -182,158 +193,172 @@ namespace KanbanBoardUWP
         {
             // Determine selected card
             var selectedCardModel = e.SelectedCard.Content as KanbanModel;
-            
-            // Create ScrollViewer control to be used with the content dialog
-            ScrollViewerEditTaskDiag = new ScrollViewer();
+            Title = selectedCardModel.Title;
+            ID = selectedCardModel.ID;
+            Description = selectedCardModel.Description;
+            Category = selectedCardModel.Category.ToString();
+            ColorKey = selectedCardModel.ColorKey.ToString();
 
-            // Stack panel to hold our controls
-            StackPanelEditTaskDiag = new StackPanel();
-
-            // ID TEXTBOX
-            TxtBoxEditTaskId = new TextBox
-            {
-                Header = "ID:",
-                Text = selectedCardModel.ID,
-                IsEnabled = false
-            };
-            StackPanelEditTaskDiag.Children.Add(TxtBoxEditTaskId);
-
-            // TITLE TEXTBOX
-            TxtBoxEditTaskTitle = new TextBox
-            {
-                Header = "Title:",
-                Text = selectedCardModel.Title
-            };
-            StackPanelEditTaskDiag.Children.Add(TxtBoxEditTaskTitle);
-
-            // ASSIGNEE TEXTBOX (RE-IMPLEMENT LATER, BUG WITH SWIMLANE VIEW ON THEIR END)
-            // Got up to where when you create a new task with the same assignee, it wouldn't show as a card, but the numbers would incr.
-            //txtBoxEditTaskAssignee = new TextBox
-            //{
-            //    Header = "Assignee:",
-            //};
-            //stackPanelEditTaskDiag.Children.Add(txtBoxEditTaskAssignee);
-
-            // DESCRIPTION TEXTBOX
-            TxtBoxEditTaskDescr = new TextBox
-            {
-                Header = "Description:",
-                AcceptsReturn = true,
-                TextWrapping = TextWrapping.Wrap,
-                MaxLength = 100,
-                MaxHeight = 400,
-                Text = selectedCardModel.Description
-            };
-            ScrollViewer.SetVerticalScrollBarVisibility(TxtBoxEditTaskDescr, ScrollBarVisibility.Auto);
-            StackPanelEditTaskDiag.Children.Add(TxtBoxEditTaskDescr);
-
-            // CATEGORY COMBOBOX
-            ComboBoxEditTaskCategory = new ComboBox
-            {
-                IsEditable = false,
-                Header = "Category:"
-            };
-            foreach (var col in kanbanControl.ActualColumns)
-            {
-                // Fill category combobox with categories from the columns
-                var categories = col.Categories;
-                if (categories.Contains(","))
-                {
-                    var tokens = categories.Split(",");
-                    foreach (var token in tokens)
-                        ComboBoxEditTaskCategory.Items.Add(token);
-                }
-                else
-                    ComboBoxEditTaskCategory.Items.Add(categories);
-            }
-            ComboBoxEditTaskCategory.SelectedItem = selectedCardModel.Category;
-            StackPanelEditTaskDiag.Children.Add(ComboBoxEditTaskCategory);
-
-            // COLOR KEY COMBOBOX
-            ComboBoxEditTaskColorKey = new ComboBox
-            {
-                IsEditable = false,
-                Header = "Color Key:"
-            };
-            foreach (var colorMap in kanbanControl.IndicatorColorPalette)
-            {
-                // Add each key from the color palette to the combobox
-                var key = colorMap.Key;
-                ComboBoxEditTaskColorKey.Items.Add(key);
-            }
-            ComboBoxEditTaskColorKey.SelectedItem = selectedCardModel.ColorKey.ToString();
-            StackPanelEditTaskDiag.Children.Add(ComboBoxEditTaskColorKey);
-
-            // TAGS LIST VIEW & COLLECTION (Added to stackpanel after textbox below)
-            EditTaskTagsCollection = new ObservableCollection<string>();
-            ListViewEditTaskTags = new ListView
-            {
-                CanDragItems = true,
-                CanReorderItems = true,
-                AllowDrop = true,
-                MaxHeight = 150,
-                SelectionMode = ListViewSelectionMode.Multiple,
-                ItemsSource = EditTaskTagsCollection
-            };
+            // Get tags
+            List<string> tagsList = new List<string>();
             foreach (var tag in selectedCardModel.Tags)
-                EditTaskTagsCollection.Add(tag); // Add card tags to collection
+                tagsList.Add(tag.ToString());
+            var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
+            Tags = tags;
 
+            await contentDialogTask.ShowAsync();
+
+            //// Create ScrollViewer control to be used with the content dialog
+            //ScrollViewerEditTaskDiag = new ScrollViewer();
+
+            //// Stack panel to hold our controls
+            //StackPanelEditTaskDiag = new StackPanel();
+
+            //// ID TEXTBOX
+            //TxtBoxEditTaskId = new TextBox
+            //{
+            //    Header = "ID:",
+            //    Text = selectedCardModel.ID,
+            //    IsEnabled = false
+            //};
+            //StackPanelEditTaskDiag.Children.Add(TxtBoxEditTaskId);
+
+            //// TITLE TEXTBOX
+            //TxtBoxEditTaskTitle = new TextBox
+            //{
+            //    Header = "Title:",
+            //    Text = selectedCardModel.Title
+            //};
+            //StackPanelEditTaskDiag.Children.Add(TxtBoxEditTaskTitle);
+
+            //// ASSIGNEE TEXTBOX (RE-IMPLEMENT LATER, BUG WITH SWIMLANE VIEW ON THEIR END)
+            //// Got up to where when you create a new task with the same assignee, it wouldn't show as a card, but the numbers would incr.
+            ////txtBoxEditTaskAssignee = new TextBox
+            ////{
+            ////    Header = "Assignee:",
+            ////};
+            ////stackPanelEditTaskDiag.Children.Add(txtBoxEditTaskAssignee);
+
+            //// DESCRIPTION TEXTBOX
+            //TxtBoxEditTaskDescr = new TextBox
+            //{
+            //    Header = "Description:",
+            //    AcceptsReturn = true,
+            //    TextWrapping = TextWrapping.Wrap,
+            //    MaxLength = 100,
+            //    MaxHeight = 400,
+            //    Text = selectedCardModel.Description
+            //};
+            //ScrollViewer.SetVerticalScrollBarVisibility(TxtBoxEditTaskDescr, ScrollBarVisibility.Auto);
+            //StackPanelEditTaskDiag.Children.Add(TxtBoxEditTaskDescr);
+
+            //// CATEGORY COMBOBOX
+            //ComboBoxEditTaskCategory = new ComboBox
+            //{
+            //    IsEditable = false,
+            //    Header = "Category:"
+            //};
             //foreach (var col in kanbanControl.ActualColumns)
             //{
-            //    foreach (var card in col.Items)
+            //    // Fill category combobox with categories from the columns
+            //    var categories = col.Categories;
+            //    if (categories.Contains(","))
             //    {
-            //        card.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 48, 179, 221));
-            //        var cardData = card.Content as KanbanModel;
-            //        foreach (var tag in cardData.Tags)
-            //            EditTaskTagsCollection.Add(tag);
+            //        var tokens = categories.Split(",");
+            //        foreach (var token in tokens)
+            //            ComboBoxEditTaskCategory.Items.Add(token);
             //    }
+            //    else
+            //        ComboBoxEditTaskCategory.Items.Add(categories);
             //}
+            //ComboBoxEditTaskCategory.SelectedItem = selectedCardModel.Category;
+            //StackPanelEditTaskDiag.Children.Add(ComboBoxEditTaskCategory);
 
-            // TAGS TEXTBOX & KEY DOWN EVENT HANDLER
-            TxtBoxEditTaskTags = new TextBox
-            {
-                Header = "Tags:",
-                PlaceholderText = "Type and press enter to add a new tag to the list"
-            };
-            TxtBoxEditTaskTags.KeyDown += (sender2, e2) => txtBoxEditTaskTags_EnterKeyDown(sender2, e2, ListViewEditTaskTags);  // Add tag to collection
-            StackPanelEditTaskDiag.Children.Add(TxtBoxEditTaskTags);
-            StackPanelEditTaskDiag.Children.Add(ListViewEditTaskTags);
-
-            // DELETE SELECTED ITEMS BUTTON & CLICK EVENT HANDLER
-            BtnEditTaskDeleteTags = new Button
-            {
-                Content = "Delete Selected Items"
-            };
-            StackPanelEditTaskDiag.Children.Add(BtnEditTaskDeleteTags);
-            BtnEditTaskDeleteTags.Click += (sender2, e2) => btnEditTaskDeleteTags_Click(sender2, e2, ListViewEditTaskTags); // Delete tags from collection
-
-            // IMAGE URL TEXTBOX
-            //txtBoxEditTaskImageUrl = new TextBox
+            //// COLOR KEY COMBOBOX
+            //ComboBoxEditTaskColorKey = new ComboBox
             //{
-            //    Header = "Image URL",
-            //    IsEnabled = false,
-            //    Text = selectedCardModel.ImageURL.ToString()
+            //    IsEditable = false,
+            //    Header = "Color Key:"
             //};
-            //stackPanelEditTaskDiag.Children.Add(txtBoxEditTaskImageUrl);
+            //foreach (var colorMap in kanbanControl.IndicatorColorPalette)
+            //{
+            //    // Add each key from the color palette to the combobox
+            //    var key = colorMap.Key;
+            //    ComboBoxEditTaskColorKey.Items.Add(key);
+            //}
+            //ComboBoxEditTaskColorKey.SelectedItem = selectedCardModel.ColorKey.ToString();
+            //StackPanelEditTaskDiag.Children.Add(ComboBoxEditTaskColorKey);
 
-            // Set scroll viewers content to the contentPanel of controls
-            StackPanelEditTaskDiag.Margin = new Thickness(0, 0, 20, 10);
-            ScrollViewerEditTaskDiag.Content = StackPanelEditTaskDiag;
-            // Create dialog for editing task & attach event handlers
-            ContentDialog contentDialogEditTask = new ContentDialog()
-            {
-                Title = "Edit Task",
-                Content = ScrollViewerEditTaskDiag,
-                Background = (AcrylicBrush)Resources["RegionBrush"],
-                PrimaryButtonText = "Save",
-                SecondaryButtonText = "Delete",
-                CloseButtonText = "Close"
-            };
-            contentDialogEditTask.CloseButtonClick += contentDialogEditTask_CloseButtonClick;       // Create event for dialog close button
-            contentDialogEditTask.PrimaryButtonClick += contentDialogEditTask_SaveClick;       // Create event for dialog close button
-            contentDialogEditTask.SecondaryButtonClick += (sender2, e2) => contentDialogEditTask_DeleteClick(sender2, e2, selectedCardModel); // Create event for delete click
+            //// TAGS LIST VIEW & COLLECTION (Added to stackpanel after textbox below)
+            //EditTaskTagsCollection = new ObservableCollection<string>();
+            //ListViewEditTaskTags = new ListView
+            //{
+            //    CanDragItems = true,
+            //    CanReorderItems = true,
+            //    AllowDrop = true,
+            //    MaxHeight = 150,
+            //    SelectionMode = ListViewSelectionMode.Multiple,
+            //    ItemsSource = EditTaskTagsCollection
+            //};
+            //foreach (var tag in selectedCardModel.Tags)
+            //    EditTaskTagsCollection.Add(tag); // Add card tags to collection
 
-            var result = await contentDialogEditTask.ShowAsync(); // Show Dialog
+            ////foreach (var col in kanbanControl.ActualColumns)
+            ////{
+            ////    foreach (var card in col.Items)
+            ////    {
+            ////        card.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 48, 179, 221));
+            ////        var cardData = card.Content as KanbanModel;
+            ////        foreach (var tag in cardData.Tags)
+            ////            EditTaskTagsCollection.Add(tag);
+            ////    }
+            ////}
+
+            //// TAGS TEXTBOX & KEY DOWN EVENT HANDLER
+            //TxtBoxEditTaskTags = new TextBox
+            //{
+            //    Header = "Tags:",
+            //    PlaceholderText = "Type and press enter to add a new tag to the list"
+            //};
+            //TxtBoxEditTaskTags.KeyDown += (sender2, e2) => txtBoxEditTaskTags_EnterKeyDown(sender2, e2, ListViewEditTaskTags);  // Add tag to collection
+            //StackPanelEditTaskDiag.Children.Add(TxtBoxEditTaskTags);
+            //StackPanelEditTaskDiag.Children.Add(ListViewEditTaskTags);
+
+            //// DELETE SELECTED ITEMS BUTTON & CLICK EVENT HANDLER
+            //BtnEditTaskDeleteTags = new Button
+            //{
+            //    Content = "Delete Selected Items"
+            //};
+            //StackPanelEditTaskDiag.Children.Add(BtnEditTaskDeleteTags);
+            //BtnEditTaskDeleteTags.Click += (sender2, e2) => btnEditTaskDeleteTags_Click(sender2, e2, ListViewEditTaskTags); // Delete tags from collection
+
+            //// IMAGE URL TEXTBOX
+            ////txtBoxEditTaskImageUrl = new TextBox
+            ////{
+            ////    Header = "Image URL",
+            ////    IsEnabled = false,
+            ////    Text = selectedCardModel.ImageURL.ToString()
+            ////};
+            ////stackPanelEditTaskDiag.Children.Add(txtBoxEditTaskImageUrl);
+
+            //// Set scroll viewers content to the contentPanel of controls
+            //StackPanelEditTaskDiag.Margin = new Thickness(0, 0, 20, 10);
+            //ScrollViewerEditTaskDiag.Content = StackPanelEditTaskDiag;
+            //// Create dialog for editing task & attach event handlers
+            //ContentDialog contentDialogEditTask = new ContentDialog()
+            //{
+            //    Title = "Edit Task",
+            //    Content = ScrollViewerEditTaskDiag,
+            //    Background = (AcrylicBrush)Resources["RegionBrush"],
+            //    PrimaryButtonText = "Save",
+            //    SecondaryButtonText = "Delete",
+            //    CloseButtonText = "Close"
+            //};
+            //contentDialogEditTask.CloseButtonClick += contentDialogEditTask_CloseButtonClick;       // Create event for dialog close button
+            //contentDialogEditTask.PrimaryButtonClick += contentDialogEditTask_SaveClick;       // Create event for dialog close button
+            //contentDialogEditTask.SecondaryButtonClick += (sender2, e2) => contentDialogEditTask_DeleteClick(sender2, e2, selectedCardModel); // Create event for delete click
+
+            //var result = await contentDialogEditTask.ShowAsync(); // Show Dialog
         }
 
         private void contentDialogEditTask_DeleteClick(ContentDialog sender, ContentDialogButtonClickEventArgs args, KanbanModel selectedCardModel)

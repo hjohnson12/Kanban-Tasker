@@ -298,5 +298,26 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
         </syncfusion:SfKanban>
+        <ContentDialog x:Name="contentDialogTask" CloseButtonText="Cancel">
+            <StackPanel>
+                <TextBlock TextWrapping="WrapWholeWords">
+                    <Run>
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor
+                        congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus
+                        malesuada libero, sit amet commodo magna eros quis urna.
+                    </Run><LineBreak />
+                    <Run>Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</Run><LineBreak />
+                    <Run>
+                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames
+                        ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
+                    </Run><LineBreak />
+                    <Run>
+                        Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc.
+                        Mauris eget neque at sem venenatis eleifend. Ut nonummy.
+                    </Run>
+                </TextBlock>
+
+            </StackPanel>
+        </ContentDialog>
     </Grid>
 </Page>
