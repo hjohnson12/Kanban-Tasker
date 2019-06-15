@@ -264,9 +264,8 @@
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource RegionColor}"
-                        Opacity="0.4"
                         TintColor="{StaticResource RegionColor}"
-                        TintLuminosityOpacity="0.9" />
+                        TintOpacity="0.4" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -314,8 +313,8 @@
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource RegionColor}"
-                        Opacity="0.8"
-                        TintColor="{StaticResource RegionColor}" />
+                        TintColor="{StaticResource RegionColor}"
+                        TintOpacity="0.8" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -325,9 +324,8 @@
                 x:Key="RegionBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{StaticResource RegionColor}"
-                Opacity="0.4"
                 TintColor="{StaticResource RegionColor}"
-                TintLuminosityOpacity="0.9" />
+                TintOpacity="0.4" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

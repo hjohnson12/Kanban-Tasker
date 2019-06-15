@@ -23,14 +23,14 @@
                         TextTrimming="CharacterEllipsis" />
                 </Border>
             </DataTemplate>
-
+            <!--  FOR BACKGROUND, Keep: {Binding Tag.CardStyle.Background, RelativeSource={RelativeSource Mode=TemplatedParent}}  -->
             <DataTemplate x:Key="KanbanCardTemplate">
                 <Border
                     Height="Auto"
                     MinHeight="100"
                     MaxHeight="300"
                     Margin="0,6,0,6"
-                    Background="{Binding Tag.CardStyle.Background, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    Background="AliceBlue"
                     BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
                     BorderThickness="2"
                     CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
@@ -228,7 +228,7 @@
             </syncfusion:SfKanban.Header>
             <syncfusion:SfKanban.IndicatorColorPalette>
                 <syncfusion:ColorMapping Key="Low" Color="Green" />
-                <syncfusion:ColorMapping Key="Normal" Color="Yellow" />
+                <syncfusion:ColorMapping Key="Normal" Color="Orange" />
                 <syncfusion:ColorMapping Key="High" Color="Red" />
             </syncfusion:SfKanban.IndicatorColorPalette>
             <!--<syncfusion:SfKanban.CardStyle>
@@ -247,11 +247,13 @@
 
                 </DataTemplate>
             </syncfusion:SfKanban.ColumnHeaderTemplate>-->
+
             <syncfusion:KanbanColumn
                 Title="To Do"
                 Categories="Open"
                 MaximumLimit="1"
                 MinimumLimit="1">
+
                 <syncfusion:KanbanColumn.ErrorBarSettings>
                     <syncfusion:ErrorBarSettings
                         MaxValidationColor="Red"

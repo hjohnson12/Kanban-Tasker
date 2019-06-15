@@ -150,6 +150,21 @@ namespace KanbanBoardUWP
             };
             //kanbanCardStyle.Background = (RevealBackgroundBrush)Application.Current.Resources["SystemControlHighlightListLowRevealBackgroundBrush"];
             kanbanControl.CardStyle = kanbanCardStyle; // Set cardstyle property as the card style obj
+
+            // TEST: Color columns?
+            //AcrylicBrush bckBrush = new AcrylicBrush
+            //{
+            //    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+            //    FallbackColor = Colors.AliceBlue,
+            //    TintColor = Colors.AliceBlue,
+            //    TintOpacity = 0.3
+                
+            //};
+            //foreach (var col in kanbanControl.ActualColumns)
+            //{
+
+            //    col.Background = bckBrush;
+            //}
         }
 
         //=====================================================================
@@ -309,7 +324,7 @@ namespace KanbanBoardUWP
             {
                 Title = "Edit Task",
                 Content = ScrollViewerEditTaskDiag,
-                
+                Background = (AcrylicBrush)Resources["RegionBrush"],
                 PrimaryButtonText = "Save",
                 SecondaryButtonText = "Delete",
                 CloseButtonText = "Close"
@@ -619,8 +634,8 @@ namespace KanbanBoardUWP
                 // Normal Priority - Reveal Brush
                 RevealBorderBrush revealBorderBrush = new RevealBorderBrush
                 {
-                    Color = Colors.Yellow,
-                    FallbackColor = Colors.Yellow,
+                    Color = Colors.Orange,
+                    FallbackColor = Colors.Orange,
                     Opacity = 0.8,
                     TargetTheme = ApplicationTheme.Light
                 };
