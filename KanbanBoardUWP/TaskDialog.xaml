@@ -7,8 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Task Information"
     CloseButtonText="Cancel"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick_1"
+    PrimaryButtonClick="TaskDialog_SaveButtonClick"
     PrimaryButtonText="Save"
+    SecondaryButtonClick="TaskDialog_DeleteButtonClick"
     SecondaryButtonText="Delete"
     mc:Ignorable="d">
     <ContentDialog.Resources>

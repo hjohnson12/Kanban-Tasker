@@ -34,8 +34,11 @@ namespace KanbanBoardUWP
             this.InitializeComponent();
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void TaskDialog_DeleteButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            // Delete Task and update kanban
+            DataAccess.DeleteTask(Model.ID);
+            Kanban.ItemsSource = DataAccess.GetData();
         }
 
         private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -62,7 +65,7 @@ namespace KanbanBoardUWP
                 (lstViewTags.ItemsSource as IList).Remove(item);
         }
 
-        private void ContentDialog_PrimaryButtonClick_1(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void TaskDialog_SaveButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             // Store tags as a single string using csv format
             // When calling GetData(), the string will be parsed into separate tags and stored into the list view
