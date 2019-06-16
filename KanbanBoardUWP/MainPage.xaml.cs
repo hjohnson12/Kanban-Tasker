@@ -184,7 +184,7 @@ namespace KanbanBoardUWP
                 TagsCollection.Add(tag); // Add card tags to collection
 
 
-            // Set Corresponding TaskDialog Properties
+            // Set corresponding TaskDialog properties
             // Edit TaskDialog Init
             TaskDialog taskDialog = new TaskDialog
             {
@@ -240,21 +240,63 @@ namespace KanbanBoardUWP
 
         public async void NewTaskHelper()
         {
-            
-            // Create ScrollViewer to be used in the content dialog
-            ScrollViewerNewTaskDiag = new ScrollViewer();
-            ScrollViewerNewTaskDiag.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-
-            // Stack panel to hold our controls
-            StackPanelNewTaskDiag = new StackPanel();
-
-            // TITLE TEXTBOX
-            TxtBoxNewTaskTitle = new TextBox
+            // Add column categories to a list
+            // Displayed in a combobox in TaskDialog for the user to choose
+            // which column for the task to be in
+            List<string> categories = new List<string>();
+            foreach (var col in kanbanControl.ActualColumns)
             {
-                Header = "Title:",
-                PlaceholderText = "Type your information here"
-            };
-            StackPanelNewTaskDiag.Children.Add(TxtBoxNewTaskTitle);
+                // Fill categories list with the categories from the col
+                var strCategories = col.Categories;
+                if (strCategories.Contains(","))
+                {
+                    // >1 sections in col, split into separate sections
+                    var tokens = strCategories.Split(",");
+                    foreach (var token in tokens)
+                        categories.Add(token);
+                }
+                else // 1 section in column
+                    categories.Add(strCategories);
+            }
+
+            // Add color keys to a list
+            // Displayed in a combobox in TaskDialog for user to choose
+            // the color key for a task
+            List<string> colorKeys = new List<string>();
+            foreach (var colorMap in kanbanControl.IndicatorColorPalette)
+            {
+                // Add each key from the color palette to the combobox
+                var key = colorMap.Key;
+                colorKeys.Add(key.ToString());
+            }
+
+            // Set corresponding TaskDialog properties
+            TaskDialog taskDialog = new TaskDialog();
+            taskDialog.Model = new KanbanModel();
+            taskDialog.Kanban = kanbanControl;
+            taskDialog.Categories = categories;
+            taskDialog.ColorKeys = colorKeys;
+            taskDialog.PrimaryButtonText = "Create";
+            taskDialog.CloseButtonText = "Cancel";
+            taskDialog.IsSecondaryButtonEnabled = false;
+
+            // Create manual event handler to create event instead of edit
+            taskDialog.PrimaryButtonClick += TaskDialog_CreateButtonClick;
+            var result = await taskDialog.ShowAsync();
+            // Create ScrollViewer to be used in the content dialog
+            //ScrollViewerNewTaskDiag = new ScrollViewer();
+            //ScrollViewerNewTaskDiag.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+
+            //// Stack panel to hold our controls
+            //StackPanelNewTaskDiag = new StackPanel();
+
+            //// TITLE TEXTBOX
+            //TxtBoxNewTaskTitle = new TextBox
+            //{
+            //    Header = "Title:",
+            //    PlaceholderText = "Type your information here"
+            //};
+            //StackPanelNewTaskDiag.Children.Add(TxtBoxNewTaskTitle);
 
             // ASSIGNEE TEXTBOX (RE-IMPLEMENT LATER, BUG WITH SWIMLANE VIEW ON THEIR END)
             // Got up to where when you create a new task with the same assignee, it wouldn't show as a card, but the numbers would incr.
@@ -266,107 +308,112 @@ namespace KanbanBoardUWP
             //stackPanelNewTaskDiag.Children.Add(txtBoxNewTaskAssignee);
 
             // DESCRIPTION TEXTBOX
-            TxtBoxNewTaskDescr = new TextBox
-            {
-                Header = "Description:",
-                AcceptsReturn = true,
-                TextWrapping = TextWrapping.Wrap,
-                MaxLength = 100,
-                MaxHeight = 400
-            };
-            ScrollViewer.SetVerticalScrollBarVisibility(TxtBoxNewTaskDescr, ScrollBarVisibility.Auto); // Allows scroll
-            StackPanelNewTaskDiag.Children.Add(TxtBoxNewTaskDescr);
-
-            // CATEGORY COMBOBOX
-            ComboBoxNewTaskCategory = new ComboBox
-            {
-                IsEditable = true,
-                Header = "Category:"
-            };
-            foreach (var col in kanbanControl.ActualColumns)
-            {
-                // Fill category combobox with categories from the columns
-                var categories = col.Categories;
-                if (categories.Contains(", "))
-                {
-                    var tokens = categories.Split(", ");
-                    foreach (var category in tokens)
-                        ComboBoxNewTaskCategory.Items.Add(category);
-                }
-                else
-                    ComboBoxNewTaskCategory.Items.Add(categories);
-            }
-            StackPanelNewTaskDiag.Children.Add(ComboBoxNewTaskCategory);
-
-            // COLOR KEY COMBOBOX
-            ComboBoxNewTaskColorKey = new ComboBox
-            {
-                IsEditable = false,
-                Header = "Color Key: "
-            };
-            foreach (var colorMap in kanbanControl.IndicatorColorPalette)
-            {
-                // Add each key from the color palette to the combobox
-                var key = colorMap.Key;
-                ComboBoxNewTaskColorKey.Items.Add(key);
-            }
-            StackPanelNewTaskDiag.Children.Add(ComboBoxNewTaskColorKey);
-
-            // TAGS LIST VIEW & COLLECTION (Added to stackpanel after textbox below)
-            NewTaskTagsCollection = new ObservableCollection<string>();
-            ListViewNewTaskTags = new ListView
-            {
-                CanDragItems = true,
-                CanReorderItems = true,
-                AllowDrop = true,
-                MaxHeight = 150,
-                SelectionMode = ListViewSelectionMode.Multiple,
-                ItemsSource = NewTaskTagsCollection
-            };
-
-            // TAGS TEXTBOX & KEY DOWN EVENT HANDLER
-            TxtBoxNewTaskTags = new TextBox
-            {
-                Header = "Tags:",
-                PlaceholderText = "Type and press enter to add a new tag to the list."
-            };
-            TxtBoxNewTaskTags.KeyDown += (sender2, e2) => TxtBoxNewTaskTags_EnterKeyDown(sender2, e2, ListViewNewTaskTags); // Event to add tag to collection
-            StackPanelNewTaskDiag.Children.Add(TxtBoxNewTaskTags);
-            StackPanelNewTaskDiag.Children.Add(ListViewNewTaskTags);
-
-            // DELETE SELECTED ITEMS BUTTON & CLICK EVENT HANDLER
-            BtnNewTaskDeleteTags = new Button
-            {
-                Content = "Delete Selected Items"
-            };
-            StackPanelNewTaskDiag.Children.Add(BtnNewTaskDeleteTags);
-            BtnNewTaskDeleteTags.Click += (sender2, e2) => btnNewTaskDeleteTags_Click(sender2, e2, ListViewNewTaskTags); // Event to delete tags from collection
-
-            // IMAGE URL TEXTBOX
-            //TxtBoxNewTaskImageUrl = new TextBox
+            //TxtBoxNewTaskDescr = new TextBox
             //{
-            //    Header = "Image URL",
-            //    PlaceholderText = "Type your information here"
+            //    Header = "Description:",
+            //    AcceptsReturn = true,
+            //    TextWrapping = TextWrapping.Wrap,
+            //    MaxLength = 100,
+            //    MaxHeight = 400
             //};
-            //StackPanelNewTaskDiag.Children.Add(TxtBoxNewTaskImageUrl);
+            //ScrollViewer.SetVerticalScrollBarVisibility(TxtBoxNewTaskDescr, ScrollBarVisibility.Auto); // Allows scroll
+            //StackPanelNewTaskDiag.Children.Add(TxtBoxNewTaskDescr);
 
-            // Set scrollViewer content to our StackPanel
-            ScrollViewerNewTaskDiag.Content = StackPanelNewTaskDiag;
+            //// CATEGORY COMBOBOX
+            //ComboBoxNewTaskCategory = new ComboBox
+            //{
+            //    IsEditable = true,
+            //    Header = "Category:"
+            //};
+            //foreach (var col in kanbanControl.ActualColumns)
+            //{
+            //    // Fill category combobox with categories from the columns
+            //    var categories = col.Categories;
+            //    if (categories.Contains(", "))
+            //    {
+            //        var tokens = categories.Split(", ");
+            //        foreach (var category in tokens)
+            //            ComboBoxNewTaskCategory.Items.Add(category);
+            //    }
+            //    else
+            //        ComboBoxNewTaskCategory.Items.Add(categories);
+            //}
+            //StackPanelNewTaskDiag.Children.Add(ComboBoxNewTaskCategory);
 
-            // Create dialog for adding new task & attach event handlers
-            ContentDialog contentDialogNewTask = new ContentDialog()
-            {
-                Title = "New Task",
-                Content = ScrollViewerNewTaskDiag,
-                PrimaryButtonText = "Create",
-                SecondaryButtonText = "Cancel",
-                BorderThickness = new Windows.UI.Xaml.Thickness(0, 0, 0, 0)
-            };
-            contentDialogNewTask.CloseButtonClick += contentDialogNewTask_CloseButtonClick;
-            contentDialogNewTask.PrimaryButtonClick += contentDialogNewTask_CreateClick;
-            contentDialogNewTask.Opened += contentDialogNewTask_Opened;
+            //// COLOR KEY COMBOBOX
+            //ComboBoxNewTaskColorKey = new ComboBox
+            //{
+            //    IsEditable = false,
+            //    Header = "Color Key: "
+            //};
+            //foreach (var colorMap in kanbanControl.IndicatorColorPalette)
+            //{
+            //    // Add each key from the color palette to the combobox
+            //    var key = colorMap.Key;
+            //    ComboBoxNewTaskColorKey.Items.Add(key);
+            //}
+            //StackPanelNewTaskDiag.Children.Add(ComboBoxNewTaskColorKey);
 
-            await contentDialogNewTask.ShowAsync(); // Show Dialog
+            //// TAGS LIST VIEW & COLLECTION (Added to stackpanel after textbox below)
+            //NewTaskTagsCollection = new ObservableCollection<string>();
+            //ListViewNewTaskTags = new ListView
+            //{
+            //    CanDragItems = true,
+            //    CanReorderItems = true,
+            //    AllowDrop = true,
+            //    MaxHeight = 150,
+            //    SelectionMode = ListViewSelectionMode.Multiple,
+            //    ItemsSource = NewTaskTagsCollection
+            //};
+
+            //// TAGS TEXTBOX & KEY DOWN EVENT HANDLER
+            //TxtBoxNewTaskTags = new TextBox
+            //{
+            //    Header = "Tags:",
+            //    PlaceholderText = "Type and press enter to add a new tag to the list."
+            //};
+            //TxtBoxNewTaskTags.KeyDown += (sender2, e2) => TxtBoxNewTaskTags_EnterKeyDown(sender2, e2, ListViewNewTaskTags); // Event to add tag to collection
+            //StackPanelNewTaskDiag.Children.Add(TxtBoxNewTaskTags);
+            //StackPanelNewTaskDiag.Children.Add(ListViewNewTaskTags);
+
+            //// DELETE SELECTED ITEMS BUTTON & CLICK EVENT HANDLER
+            //BtnNewTaskDeleteTags = new Button
+            //{
+            //    Content = "Delete Selected Items"
+            //};
+            //StackPanelNewTaskDiag.Children.Add(BtnNewTaskDeleteTags);
+            //BtnNewTaskDeleteTags.Click += (sender2, e2) => btnNewTaskDeleteTags_Click(sender2, e2, ListViewNewTaskTags); // Event to delete tags from collection
+
+            //// IMAGE URL TEXTBOX
+            ////TxtBoxNewTaskImageUrl = new TextBox
+            ////{
+            ////    Header = "Image URL",
+            ////    PlaceholderText = "Type your information here"
+            ////};
+            ////StackPanelNewTaskDiag.Children.Add(TxtBoxNewTaskImageUrl);
+
+            //// Set scrollViewer content to our StackPanel
+            //ScrollViewerNewTaskDiag.Content = StackPanelNewTaskDiag;
+
+            //// Create dialog for adding new task & attach event handlers
+            //ContentDialog contentDialogNewTask = new ContentDialog()
+            //{
+            //    Title = "New Task",
+            //    Content = ScrollViewerNewTaskDiag,
+            //    PrimaryButtonText = "Create",
+            //    SecondaryButtonText = "Cancel",
+            //    BorderThickness = new Windows.UI.Xaml.Thickness(0, 0, 0, 0)
+            //};
+            //contentDialogNewTask.CloseButtonClick += contentDialogNewTask_CloseButtonClick;
+            //contentDialogNewTask.PrimaryButtonClick += contentDialogNewTask_CreateClick;
+            //contentDialogNewTask.Opened += contentDialogNewTask_Opened;
+
+            //await contentDialogNewTask.ShowAsync(); // Show Dialog
+        }
+
+        private void TaskDialog_CreateButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            var msg = new MessageDialog("LOLOL");
         }
 
         // Add brush to New Task content dialog
