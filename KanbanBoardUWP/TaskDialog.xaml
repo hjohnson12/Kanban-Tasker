@@ -1,0 +1,69 @@
+﻿<ContentDialog
+    x:Class="KanbanBoardUWP.TaskDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:KanbanBoardUWP"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Task Information"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonText="Button1"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    SecondaryButtonText="Button2"
+    mc:Ignorable="d">
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ThemeDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <TextBox
+                    x:Name="txtBoxID"
+                    Header="ID:"
+                    IsEnabled="False"
+                    Text="{Binding ID}" />
+                <TextBox
+                    x:Name="txtBoxTitle"
+                    Header="TItle:"
+                    Text="{Binding Title}" />
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBox
+                        x:Name="txtBoxDescription"
+                        MaxHeight="400"
+                        AcceptsReturn="True"
+                        Header="Description"
+                        MaxLength="100"
+                        Text="{Binding Description}"
+                        TextWrapping="Wrap" />
+                </ScrollViewer>
+                <ComboBox
+                    x:Name="comboBoxCategories"
+                    Header="Category:"
+                    IsEditable="False" />
+                <ComboBox
+                    x:Name="comboBoxColorKey"
+                    Header="Color Key:"
+                    IsEditable="False" />
+                <TextBox
+                    x:Name="txtBoxTags"
+                    Header="Tags:"
+                    PlaceholderText="Type and press enter to add a new tag to the list" />
+                <ListView
+                    x:Name="lstViewTags"
+                    MaxHeight="150"
+                    AllowDrop="True"
+                    CanDragItems="True"
+                    CanReorderItems="True"
+                    ItemsSource="{Binding EditTaskTagsCollection}"
+                    SelectionMode="Multiple" />
+                <Button x:Name="btnDeleteTags" Content="Delete Selected Items" />
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ContentDialog>
