@@ -358,7 +358,10 @@ namespace KanbanBoardUWP
 
             //var result = await contentDialogEditTask.ShowAsync(); // Show Dialog
 
-            await contentDialogTask.ShowAsync();
+            //await contentDialogTask.ShowAsync();
+            var dialog = new TaskDialog();
+            dialog.Model = selectedCardModel;
+            await dialog.ShowAsync();
 
         }
 
