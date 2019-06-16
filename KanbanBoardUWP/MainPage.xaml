@@ -211,7 +211,7 @@
                         <AppBarButton Icon="ReShare" Label="Share" />
                         <AppBarButton Icon="Edit" Label="Edit" />
                     </CommandBar>-->
-                    <muxc:MenuBar>
+                    <muxc:MenuBar RequestedTheme="Dark">
                         <muxc:MenuBarItem Title="File">
                             <MenuFlyoutItem
                                 x:Name="mnuItemNewTask"
