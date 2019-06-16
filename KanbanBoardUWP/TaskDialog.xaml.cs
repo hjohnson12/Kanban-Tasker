@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,13 +26,17 @@ namespace KanbanBoardUWP
         public List<string> Categories { get; set; }
         public List<string> ColorKeys { get; set; }
         public KanbanModel Model { get; set; }
+        public bool IsModelNull { get; set; }
         public ObservableCollection<string> TaskTags { get; set; }
 
-        public SfKanban Kanban { get; set; }
+        public SfKanban Kanban { get; set; } // Access to kanbanBoard from MainPage
 
         public TaskDialog()
         {
             this.InitializeComponent();
+
+            // Initialize TaskTags for adding tags to listview
+            TaskTags = new ObservableCollection<string>();
         }
 
         private void TaskDialog_DeleteButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -65,21 +70,49 @@ namespace KanbanBoardUWP
                 (lstViewTags.ItemsSource as IList).Remove(item);
         }
 
-        private void TaskDialog_SaveButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void TaskDialog_SaveButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            // Store tags as a single string using csv format
-            // When calling GetData(), the string will be parsed into separate tags and stored into the list view
-            List<string> tagsList = new List<string>();
-            foreach (var tag in lstViewTags.Items)
-                tagsList.Add(tag.ToString());
-            var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
+            if(!IsModelNull) // Editing a Task
+            {
+                // Store tags as a single string using csv format
+                // When calling GetData(), the string will be parsed into separate tags and stored into the list view
+                List<string> tagsList = new List<string>();
+                foreach (var tag in lstViewTags.Items)
+                    tagsList.Add(tag.ToString());
+                var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
 
-            // Update item in database
-            DataAccess.UpdateTask(txtBoxID.Text, txtBoxTitle.Text,
-                txtBoxDescription.Text, comboBoxCategories.SelectedItem.ToString(),
-                comboBoxColorKey.SelectedItem.ToString(), tags);
+                // Update item in database
+                DataAccess.UpdateTask(txtBoxID.Text, txtBoxTitle.Text,
+                    txtBoxDescription.Text, comboBoxCategories.SelectedItem.ToString(),
+                    comboBoxColorKey.SelectedItem.ToString(), tags);
 
-            Kanban.ItemsSource = DataAccess.GetData(); // Update kanban
+                Kanban.ItemsSource = DataAccess.GetData(); // Update kanban
+            }
+            else if (IsModelNull) // Creating a Task
+            {
+                List<string> tagsList = new List<string>();
+                foreach (var tag in lstViewTags.Items)
+                    tagsList.Add(tag.ToString());
+                var tags = string.Join(',', tagsList); // Convert to single string
+
+                // To allow a draft task, require user to have category and colorkey chosen
+                if (comboBoxCategories.SelectedItem == null || comboBoxColorKey.SelectedItem == null)
+                {
+                    var messageDialog = new MessageDialog("NOTE: You must fill out a category and color key to be able to create a draft task", "ERROR");
+                    await messageDialog.ShowAsync();
+                }
+                else
+                {
+                    // Add task to database
+                    DataAccess.AddTask(txtBoxTitle.Text,
+                        txtBoxDescription.Text, comboBoxCategories.SelectedItem.ToString(),
+                        comboBoxColorKey.SelectedItem.ToString(), tags);
+
+                    // Update KanbanControl
+                    Kanban.ItemsSource = DataAccess.GetData();
+                }
+            }
+          
         }
 
         private void TaskDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -87,5 +120,13 @@ namespace KanbanBoardUWP
             sender.Hide(); // Cancel dialog
         }
 
+        private void ContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        {
+            if (Model == null)
+                IsModelNull = true;
+            else if (Model != null)
+                IsModelNull = false;
+
+        }
     }
 }

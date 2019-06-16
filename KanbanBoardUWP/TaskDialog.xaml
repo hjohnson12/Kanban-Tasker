@@ -8,6 +8,7 @@
     Title="Task Information"
     CloseButtonClick="TaskDialog_CloseButtonClick"
     CloseButtonText="Cancel"
+    Opened="ContentDialog_Opened"
     PrimaryButtonClick="TaskDialog_SaveButtonClick"
     PrimaryButtonText="Save"
     SecondaryButtonClick="TaskDialog_DeleteButtonClick"

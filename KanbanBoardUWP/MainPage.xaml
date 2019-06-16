@@ -149,7 +149,7 @@
         </Grid.Background>-->
 
         <syncfusion:SfKanban
-            x:Name="kanbanControl"
+            x:Name="kanbanBoard"
             Margin="0,0,0,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -157,7 +157,7 @@
             AutoGenerateColumns="False"
             Background="{ThemeResource RegionBrush}"
             BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
-            CardTapped="KanbanControl_CardTapped"
+            CardTapped="KanbanBoard_CardTapped"
             CardTemplate="{StaticResource KanbanCardTemplate}"
             ColumnMappingPath="Category"
             ItemsSource="{Binding}"
@@ -211,7 +211,7 @@
                         <AppBarButton Icon="ReShare" Label="Share" />
                         <AppBarButton Icon="Edit" Label="Edit" />
                     </CommandBar>-->
-                    <muxc:MenuBar RequestedTheme="Dark">
+                    <muxc:MenuBar Foreground="Black">
                         <muxc:MenuBarItem Title="File">
                             <MenuFlyoutItem
                                 x:Name="mnuItemNewTask"
