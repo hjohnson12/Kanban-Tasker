@@ -82,5 +82,10 @@ namespace KanbanBoardUWP
             Kanban.ItemsSource = DataAccess.GetData(); // Update kanban
         }
 
+        private void TaskDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            sender.Hide(); // Cancel dialog
+        }
+
     }
 }
