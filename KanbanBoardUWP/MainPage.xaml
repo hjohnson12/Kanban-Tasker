@@ -153,6 +153,7 @@
             Margin="0,0,0,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
+            x:FieldModifier="Public"
             AutoGenerateColumns="False"
             Background="{ThemeResource RegionBrush}"
             BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
@@ -297,72 +298,5 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
         </syncfusion:SfKanban>
-        <ContentDialog x:Name="contentDialogTask" CloseButtonText="Cancel">
-            <ContentDialog.DataContext>
-                <local:TaskDetails />
-            </ContentDialog.DataContext>
-            <ScrollViewer>
-                <StackPanel>
-                    <TextBox
-                        x:Name="txtBoxID"
-                        Header="ID:"
-                        IsEnabled="False"
-                        Text="{Binding ID}" />
-                    <TextBox
-                        x:Name="txtBoxTitle"
-                        Header="TItle:"
-                        Text="{Binding Title}" />
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <TextBox
-                            x:Name="txtBoxDescription"
-                            MaxHeight="400"
-                            AcceptsReturn="True"
-                            Header="Description"
-                            MaxLength="100"
-                            Text="{Binding Description}"
-                            TextWrapping="Wrap" />
-                    </ScrollViewer>
-                    <ComboBox
-                        x:Name="comboBoxCategories"
-                        Header="Category:"
-                        IsEditable="False" />
-                    <ComboBox
-                        x:Name="comboBoxColorKey"
-                        Header="Color Key:"
-                        IsEditable="False" />
-                    <TextBox
-                        x:Name="txtBoxTags"
-                        Header="Tags:"
-                        PlaceholderText="Type and press enter to add a new tag to the list" />
-                    <ListView
-                        MaxHeight="150"
-                        AllowDrop="True"
-                        CanDragItems="True"
-                        CanReorderItems="True"
-                        ItemsSource="{Binding EditTaskTagsCollection}"
-                        SelectionMode="Multiple" />
-
-
-
-                    <!--<TextBlock TextWrapping="WrapWholeWords">
-                    <Run>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor
-                        congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus
-                        malesuada libero, sit amet commodo magna eros quis urna.
-                    </Run><LineBreak />
-                    <Run>Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</Run><LineBreak />
-                    <Run>
-                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-                        ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
-                    </Run><LineBreak />
-                    <Run>
-                        Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc.
-                        Mauris eget neque at sem venenatis eleifend. Ut nonummy.
-                    </Run>
-                </TextBlock>-->
-
-                </StackPanel>
-            </ScrollViewer>
-        </ContentDialog>
     </Grid>
 </Page>

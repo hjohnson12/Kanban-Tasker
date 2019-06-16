@@ -64,64 +64,13 @@ namespace KanbanBoardUWP
         public TextBox TxtBoxNewTaskImageUrl { get; set; }
         public ScrollViewer ScrollViewerNewTaskDiag { get; set; }
 
-        //public string Title { get; set; }
-        //public string ID { get; set; }
-        //public string Description { get; set; }
-        //public string Category { get; set; }
-        //public string ColorKey { get; set; }
-        //public string Tags { get; set; }
+        public List<KanbanModel> Items { get ; set; }
+
         public MainPage()
         {
             this.InitializeComponent();
             kanbanControl.ItemsSource = DataAccess.GetData(); // Get data from database
 
-
-            //foreach (var colorMap in kanbanControl.IndicatorColorPalette)
-            //{
-            //    // Add each key from the color palette to the combobox
-            //    var key = colorMap.Key;
-            //    ComboBoxEditTaskColorKey.Items.Add(key);
-            //}
-
-            //foreach(var card in kanbanControl.ItemsSource)
-            //{
-            //    var c = new KanbanCardItem();
-            //    c = card as KanbanCardItem;
-            //    c.BorderBrush = new SolidColorBrush(Colors.Purple);
-            //}
-            // foreach (var card in )
-            //foreach(var card in kanbanControl.ItemsSource)
-            //{
-            //    foreach()
-            //}
-            //kanbanCardStyle.BorderBrush = 
-            //KanbanCardCollection collect = kanbanControl.ItemsSource as KanbanCardCollection;
-            //foreach (var item in collect)
-            //    collect.Add(item);
-            //collect= kanbanControl.ItemsSource as KanbanCardCollection;
-
-            // Test to turn border of card to what inidicator color pallette color is
-            //foreach (var col in kanbanControl.Columns)
-            //{
-            //    //foreach (var model in col.ItemsSource as ObservableCollection<KanbanModel>)
-            //    //{
-            //    //    if ((string)model.ColorKey == "Red")
-            //    //    {
-            //    //        var card = model as KanbanCardItem;
-            //    //    }
-            //    //} 
-            //   // var coll = col.car
-            //    foreach (var card in col.Cards)
-            //    {
-            //        //brush.Color = Colors.Red;
-            //        //brush.FallbackColor = Colors.Purple;
-
-            //        //brush.Opacity = 0.8;
-            //        //card.BorderBrush = brush;
-            //        card.Background = new SolidColorBrush(Colors.Blue);
-
-            //    }
-            //}
 
             //=======================================================
             // ADD REVEAL BRUSHES TO CARD ITEMS
@@ -191,20 +140,23 @@ namespace KanbanBoardUWP
 
         public async void EditTaskHelper(object sender, KanbanTappedEventArgs e)
         {
+            // Edit Task Dialog Init
+            var dialog = new TaskDialog();
+
             // Determine selected card
             var selectedCardModel = e.SelectedCard.Content as KanbanModel;
-            TaskDetails.Title = selectedCardModel.Title;
-            TaskDetails.ID = selectedCardModel.ID;
-            TaskDetails.Description = selectedCardModel.Description;
-            TaskDetails.Category = selectedCardModel.Category.ToString();
-            TaskDetails.ColorKey = selectedCardModel.ColorKey.ToString();
-            
-            // Get tags
-            List<string> tagsList = new List<string>();
-            foreach (var tag in selectedCardModel.Tags)
-                tagsList.Add(tag.ToString());
-            var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
-            TaskDetails.Tags = tags;
+            //TaskDetails.Title = selectedCardModel.Title;
+            //TaskDetails.ID = selectedCardModel.ID;
+            //TaskDetails.Description = selectedCardModel.Description;
+            //TaskDetails.Category = selectedCardModel.Category.ToString();
+            //TaskDetails.ColorKey = selectedCardModel.ColorKey.ToString();
+
+            //// Get tags
+            //List<string> tagsList = new List<string>();
+            //foreach (var tag in selectedCardModel.Tags)
+            //    tagsList.Add(tag.ToString());
+            //var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
+            //TaskDetails.Tags = tags;
 
 
             //// Create ScrollViewer control to be used with the content dialog
@@ -257,20 +209,22 @@ namespace KanbanBoardUWP
             //    IsEditable = false,
             //    Header = "Category:"
             //};
+            List<string> categories = new List<string>();
             foreach (var col in kanbanControl.ActualColumns)
             {
                 // Fill category combobox with categories from the columns
-                var categories = col.Categories;
-                if (categories.Contains(","))
+                var strCategories = col.Categories;
+                if (strCategories.Contains(","))
                 {
-                    var tokens = categories.Split(",");
+                    var tokens = strCategories.Split(",");
                     foreach (var token in tokens)
-                        comboBoxCategories.Items.Add(token);
+                        categories.Add(token);
                 }
                 else
-                    comboBoxCategories.Items.Add(categories);
+                    categories.Add(strCategories);
             }
-            comboBoxCategories.SelectedItem = selectedCardModel.Category;
+            dialog.Categories = categories;
+            //comboBoxCategories.SelectedItem = selectedCardModel.Category;
 
             //// COLOR KEY COMBOBOX
             //ComboBoxEditTaskColorKey = new ComboBox
@@ -278,13 +232,15 @@ namespace KanbanBoardUWP
             //    IsEditable = false,
             //    Header = "Color Key:"
             //};
+            List<string> colorKeys = new List<string>();
             foreach (var colorMap in kanbanControl.IndicatorColorPalette)
             {
                 // Add each key from the color palette to the combobox
                 var key = colorMap.Key;
-                comboBoxColorKey.Items.Add(key);
+                colorKeys.Add(key.ToString());
             }
-            comboBoxColorKey.SelectedItem = selectedCardModel.ColorKey.ToString();
+            dialog.ColorKeys = colorKeys;
+            //comboBoxColorKey.SelectedItem = selectedCardModel.ColorKey.ToString();
             //StackPanelEditTaskDiag.Children.Add(ComboBoxEditTaskColorKey);
 
             //// TAGS LIST VIEW & COLLECTION (Added to stackpanel after textbox below)
@@ -300,7 +256,7 @@ namespace KanbanBoardUWP
             //};
             foreach (var tag in selectedCardModel.Tags)
                 EditTaskTagsCollection.Add(tag); // Add card tags to collection
-
+            dialog.TaskTags = EditTaskTagsCollection;
             ////foreach (var col in kanbanControl.ActualColumns)
             ////{
             ////    foreach (var card in col.Items)
@@ -359,10 +315,38 @@ namespace KanbanBoardUWP
             //var result = await contentDialogEditTask.ShowAsync(); // Show Dialog
 
             //await contentDialogTask.ShowAsync();
-            var dialog = new TaskDialog();
             dialog.Model = selectedCardModel;
-            await dialog.ShowAsync();
+            dialog.Kanban = kanbanControl;
+            var result = await dialog.ShowAsync();
 
+            //if (result == ContentDialogResult.Primary)
+            //{
+            //    //  Save Task & Update UI
+
+            //    // Store tags as a single string using csv format
+            //    // When calling GetData(), the string will be parsed into separate tags and stored into the list view
+            //    List<string> tagsList = new List<string>();
+            //    foreach (var tag in ListViewEditTaskTags.Items)
+            //        tagsList.Add(tag.ToString());
+
+            //    var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
+            //    // Update item in database
+            //    DataAccess.UpdateTask(TxtBoxEditTaskId.Text, TxtBoxEditTaskTitle.Text,
+            //        TxtBoxEditTaskDescr.Text, ComboBoxEditTaskCategory.SelectedItem.ToString(),
+            //        ComboBoxEditTaskColorKey.SelectedItem.ToString(), tags);
+
+            //    kanbanControl.ItemsSource = DataAccess.GetData(); // Update kanban
+            //}
+            //else if (result == ContentDialogResult.Secondary)
+            //{
+            //    // Delete Task & Update UI
+            //    DataAccess.DeleteTask(selectedCardModel.ID);
+            //    kanbanControl.ItemsSource = DataAccess.GetData();
+
+            //    // Test
+            //    //this.Items.Remove(selectedCardModel);
+            //    //OnPropertyChanged(nameof(Items)); // Inform Kanban that ItemSource binding is changed
+            //}
         }
 
         private void contentDialogEditTask_DeleteClick(ContentDialog sender, ContentDialogButtonClickEventArgs args, KanbanModel selectedCardModel)
@@ -370,50 +354,6 @@ namespace KanbanBoardUWP
             // Delete Task and update kanban
             DataAccess.DeleteTask(selectedCardModel.ID);
             kanbanControl.ItemsSource = DataAccess.GetData(); 
-        }
-
-        private void contentDialogEditTask_SaveClick(ContentDialog sender2, ContentDialogButtonClickEventArgs e2)
-        {
-            // Store tags as a single string using csv format
-            // When calling GetData(), the string will be parsed into separate tags and stored into the list view
-            List<string> tagsList = new List<string>();
-            foreach (var tag in ListViewEditTaskTags.Items)
-                tagsList.Add(tag.ToString());
-            var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
-
-            // Update item in database
-            DataAccess.UpdateTask(TxtBoxEditTaskId.Text, TxtBoxEditTaskTitle.Text,
-                TxtBoxEditTaskDescr.Text, ComboBoxEditTaskCategory.SelectedItem.ToString(),
-                ComboBoxEditTaskColorKey.SelectedItem.ToString(), tags);
-
-            kanbanControl.ItemsSource = DataAccess.GetData(); // Update kanban
-        }
-
-        private void contentDialogEditTask_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            sender.Hide(); // Hide content dialog when user cancels
-        }
-
-        private void btnEditTaskDeleteTags_Click(object sender, RoutedEventArgs e, ListView listViewEditTaskTags)
-        {
-            var copyOfSelectedItems = listViewEditTaskTags.SelectedItems.ToArray();
-            foreach (var item in copyOfSelectedItems)
-                (listViewEditTaskTags.ItemsSource as IList).Remove(item);
-        }
-
-        private void txtBoxEditTaskTags_EnterKeyDown(object sender, KeyRoutedEventArgs e, ListView listViewEditTaskTags)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                var currentTextBox = sender as TextBox;
-                if (currentTextBox.Text == "")
-                    return;
-                else
-                {
-                    EditTaskTagsCollection.Add(currentTextBox.Text);
-                    currentTextBox.Text = "";
-                }
-            }
         }
 
         //=====================================================================

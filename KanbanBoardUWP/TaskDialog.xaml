@@ -6,10 +6,10 @@
     xmlns:local="using:KanbanBoardUWP"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Task Information"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="Button1"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    SecondaryButtonText="Button2"
+    CloseButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick_1"
+    PrimaryButtonText="Save"
+    SecondaryButtonText="Delete"
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <ResourceDictionary>
@@ -44,14 +44,19 @@
                 <ComboBox
                     x:Name="comboBoxCategories"
                     Header="Category:"
-                    IsEditable="False" />
+                    IsEditable="False"
+                    ItemsSource="{x:Bind Categories}"
+                    SelectedItem="{x:Bind Model.Category}" />
                 <ComboBox
                     x:Name="comboBoxColorKey"
                     Header="Color Key:"
-                    IsEditable="False" />
+                    IsEditable="False"
+                    ItemsSource="{x:Bind ColorKeys}"
+                    SelectedItem="{x:Bind Model.ColorKey}" />
                 <TextBox
                     x:Name="txtBoxTags"
                     Header="Tags:"
+                    KeyDown="TxtBoxTags_KeyDown"
                     PlaceholderText="Type and press enter to add a new tag to the list" />
                 <ListView
                     x:Name="lstViewTags"
@@ -59,9 +64,12 @@
                     AllowDrop="True"
                     CanDragItems="True"
                     CanReorderItems="True"
-                    ItemsSource="{Binding EditTaskTagsCollection}"
+                    ItemsSource="{x:Bind TaskTags}"
                     SelectionMode="Multiple" />
-                <Button x:Name="btnDeleteTags" Content="Delete Selected Items" />
+                <Button
+                    x:Name="btnDeleteTags"
+                    Click="BtnDeleteTags_Click"
+                    Content="Delete Selected Items" />
 
             </StackPanel>
         </ScrollViewer>
