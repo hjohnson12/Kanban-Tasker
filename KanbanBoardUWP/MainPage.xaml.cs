@@ -64,12 +64,12 @@ namespace KanbanBoardUWP
         public TextBox TxtBoxNewTaskImageUrl { get; set; }
         public ScrollViewer ScrollViewerNewTaskDiag { get; set; }
 
-        public string Title { get; set; }
-        public string ID { get; set; }
-        public string Description { get; set; }
-        public string Category { get; set; }
-        public string ColorKey { get; set; }
-        public string Tags { get; set; }
+        //public string Title { get; set; }
+        //public string ID { get; set; }
+        //public string Description { get; set; }
+        //public string Category { get; set; }
+        //public string ColorKey { get; set; }
+        //public string Tags { get; set; }
         public MainPage()
         {
             this.InitializeComponent();
@@ -193,20 +193,19 @@ namespace KanbanBoardUWP
         {
             // Determine selected card
             var selectedCardModel = e.SelectedCard.Content as KanbanModel;
-            Title = selectedCardModel.Title;
-            ID = selectedCardModel.ID;
-            Description = selectedCardModel.Description;
-            Category = selectedCardModel.Category.ToString();
-            ColorKey = selectedCardModel.ColorKey.ToString();
-
+            TaskDetails.Title = selectedCardModel.Title;
+            TaskDetails.ID = selectedCardModel.ID;
+            TaskDetails.Description = selectedCardModel.Description;
+            TaskDetails.Category = selectedCardModel.Category.ToString();
+            TaskDetails.ColorKey = selectedCardModel.ColorKey.ToString();
+            
             // Get tags
             List<string> tagsList = new List<string>();
             foreach (var tag in selectedCardModel.Tags)
                 tagsList.Add(tag.ToString());
             var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
-            Tags = tags;
+            TaskDetails.Tags = tags;
 
-            await contentDialogTask.ShowAsync();
 
             //// Create ScrollViewer control to be used with the content dialog
             //ScrollViewerEditTaskDiag = new ScrollViewer();
@@ -258,21 +257,20 @@ namespace KanbanBoardUWP
             //    IsEditable = false,
             //    Header = "Category:"
             //};
-            //foreach (var col in kanbanControl.ActualColumns)
-            //{
-            //    // Fill category combobox with categories from the columns
-            //    var categories = col.Categories;
-            //    if (categories.Contains(","))
-            //    {
-            //        var tokens = categories.Split(",");
-            //        foreach (var token in tokens)
-            //            ComboBoxEditTaskCategory.Items.Add(token);
-            //    }
-            //    else
-            //        ComboBoxEditTaskCategory.Items.Add(categories);
-            //}
-            //ComboBoxEditTaskCategory.SelectedItem = selectedCardModel.Category;
-            //StackPanelEditTaskDiag.Children.Add(ComboBoxEditTaskCategory);
+            foreach (var col in kanbanControl.ActualColumns)
+            {
+                // Fill category combobox with categories from the columns
+                var categories = col.Categories;
+                if (categories.Contains(","))
+                {
+                    var tokens = categories.Split(",");
+                    foreach (var token in tokens)
+                        comboBoxCategories.Items.Add(token);
+                }
+                else
+                    comboBoxCategories.Items.Add(categories);
+            }
+            comboBoxCategories.SelectedItem = selectedCardModel.Category;
 
             //// COLOR KEY COMBOBOX
             //ComboBoxEditTaskColorKey = new ComboBox
@@ -280,17 +278,17 @@ namespace KanbanBoardUWP
             //    IsEditable = false,
             //    Header = "Color Key:"
             //};
-            //foreach (var colorMap in kanbanControl.IndicatorColorPalette)
-            //{
-            //    // Add each key from the color palette to the combobox
-            //    var key = colorMap.Key;
-            //    ComboBoxEditTaskColorKey.Items.Add(key);
-            //}
-            //ComboBoxEditTaskColorKey.SelectedItem = selectedCardModel.ColorKey.ToString();
+            foreach (var colorMap in kanbanControl.IndicatorColorPalette)
+            {
+                // Add each key from the color palette to the combobox
+                var key = colorMap.Key;
+                comboBoxColorKey.Items.Add(key);
+            }
+            comboBoxColorKey.SelectedItem = selectedCardModel.ColorKey.ToString();
             //StackPanelEditTaskDiag.Children.Add(ComboBoxEditTaskColorKey);
 
             //// TAGS LIST VIEW & COLLECTION (Added to stackpanel after textbox below)
-            //EditTaskTagsCollection = new ObservableCollection<string>();
+            EditTaskTagsCollection = new ObservableCollection<string>();
             //ListViewEditTaskTags = new ListView
             //{
             //    CanDragItems = true,
@@ -300,8 +298,8 @@ namespace KanbanBoardUWP
             //    SelectionMode = ListViewSelectionMode.Multiple,
             //    ItemsSource = EditTaskTagsCollection
             //};
-            //foreach (var tag in selectedCardModel.Tags)
-            //    EditTaskTagsCollection.Add(tag); // Add card tags to collection
+            foreach (var tag in selectedCardModel.Tags)
+                EditTaskTagsCollection.Add(tag); // Add card tags to collection
 
             ////foreach (var col in kanbanControl.ActualColumns)
             ////{
@@ -359,6 +357,9 @@ namespace KanbanBoardUWP
             //contentDialogEditTask.SecondaryButtonClick += (sender2, e2) => contentDialogEditTask_DeleteClick(sender2, e2, selectedCardModel); // Create event for delete click
 
             //var result = await contentDialogEditTask.ShowAsync(); // Show Dialog
+
+            await contentDialogTask.ShowAsync();
+
         }
 
         private void contentDialogEditTask_DeleteClick(ContentDialog sender, ContentDialogButtonClickEventArgs args, KanbanModel selectedCardModel)
@@ -689,5 +690,16 @@ namespace KanbanBoardUWP
         {
             return value;
         }
+    }
+
+    public class TaskDetails
+    {
+
+        public static string Title { get; set; }
+        public static string ID { get; set; }
+        public static string Description { get; set; }
+        public static string Category { get; set; }
+        public static string ColorKey { get; set; }
+        public static string Tags { get; set; }
     }
 }
