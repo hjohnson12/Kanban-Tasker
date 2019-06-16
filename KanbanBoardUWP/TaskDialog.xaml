@@ -26,11 +26,11 @@
                     x:Name="txtBoxID"
                     Header="ID:"
                     IsEnabled="False"
-                    Text="{Binding ID}" />
+                    Text="{x:Bind Model.ID}" />
                 <TextBox
                     x:Name="txtBoxTitle"
                     Header="TItle:"
-                    Text="{Binding Title}" />
+                    Text="{x:Bind Model.Title}" />
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <TextBox
                         x:Name="txtBoxDescription"
@@ -38,7 +38,7 @@
                         AcceptsReturn="True"
                         Header="Description"
                         MaxLength="100"
-                        Text="{Binding Description}"
+                        Text="{x:Bind Model.Description}"
                         TextWrapping="Wrap" />
                 </ScrollViewer>
                 <ComboBox
