@@ -189,8 +189,8 @@
                     Width="2000"
                     Height="50"
                     VerticalAlignment="Center"
-                    Background="White"
-                    BorderBrush="White"
+                    Background="DarkGray"
+                    BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
                     BorderThickness=".1">
                     <!--<TextBlock Text="Pizza Shop" Foreground="White" FontWeight="Bold" FontSize="18"
                                HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>-->
@@ -211,8 +211,8 @@
                         <AppBarButton Icon="ReShare" Label="Share" />
                         <AppBarButton Icon="Edit" Label="Edit" />
                     </CommandBar>-->
-                    <muxc:MenuBar Foreground="Black">
-                        <muxc:MenuBarItem Title="File">
+                    <muxc:MenuBar Background="{ThemeResource RegionBrush}">
+                        <muxc:MenuBarItem Title="File" Foreground="Black">
                             <MenuFlyoutItem
                                 x:Name="mnuItemNewTask"
                                 Click="MnuItemNewTask_Click"

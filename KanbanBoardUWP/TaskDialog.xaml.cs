@@ -122,11 +122,10 @@ namespace KanbanBoardUWP
 
         private void ContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
-            if (Model == null)
+            if (Model == null)      // Creating task
                 IsModelNull = true;
-            else if (Model != null)
+            else if (Model != null) // Editing task
                 IsModelNull = false;
-
         }
     }
 }
