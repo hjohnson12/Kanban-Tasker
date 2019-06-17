@@ -143,12 +143,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <!--  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"  -->
-    <Grid x:Name="grid" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
-        <!--<Grid.Background>
-            <AcrylicBrush TintColor="AliceBlue" BackgroundSource="HostBackdrop" TintOpacity="0.7"/>
-        </Grid.Background>-->
 
+    <Grid x:Name="grid" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+
+        <!--  KANBAN BOARD  -->
         <syncfusion:SfKanban
             x:Name="kanbanBoard"
             Margin="0,0,0,0"
@@ -164,26 +162,7 @@
             ItemsSource="{Binding}"
             MinColumnWidth="150">
 
-            <!--<syncfusion:SfKanban.Background>
-                <AcrylicBrush
-                    BackgroundSource="HostBackdrop"
-                    FallbackColor="AliceBlue"
-                    TintColor="AliceBlue"
-                    TintOpacity="0.71" />
-            </syncfusion:SfKanban.Background>-->
-            <!--<syncfusion:SfKanban.ColumnHeaderTemplate>
-                <DataTemplate>
-
-                    <StackPanel Width="300" Height="40">
-                        <TextBlock
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            Foreground="White"
-                            Text="{Binding Header}" />
-                    </StackPanel>
-
-                </DataTemplate>
-            </syncfusion:SfKanban.ColumnHeaderTemplate>-->
+            <!--  KANBAN BOARD COLUMN HEADER TEMPLATE  -->
             <syncfusion:SfKanban.ColumnHeaderTemplate>
                 <DataTemplate>
                     <Grid Width="300" Background="Transparent">
@@ -240,6 +219,7 @@
                 </DataTemplate>
             </syncfusion:SfKanban.ColumnHeaderTemplate>
 
+            <!--  KANBAN BOARD HEADER TEMPLATE  -->
             <syncfusion:SfKanban.Header>
                 <Border
                     Width="2000"
@@ -248,14 +228,6 @@
                     Background="DarkGray"
                     BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
                     BorderThickness=".1">
-                    <!--<TextBlock Text="Pizza Shop" Foreground="White" FontWeight="Bold" FontSize="18"
-                               HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>-->
-                    <!--<CommandBar Background="Transparent" IsOpen="True" HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                        <AppBarButton Icon="Add" Label="Add"/>
-                        <AppBarButton Icon="ReShare" Label="Share"/>
-                        <AppBarButton Icon="Edit" Label="Edit"/>
-
-                    </CommandBar>-->
 
                     <!--<CommandBar
                         HorizontalAlignment="Left"
@@ -282,34 +254,20 @@
                     </muxc:MenuBar>
                 </Border>
             </syncfusion:SfKanban.Header>
+
+            <!--  KANBAN BOARD PRIORITY INDICATOR PALLETTE  -->
             <syncfusion:SfKanban.IndicatorColorPalette>
                 <syncfusion:ColorMapping Key="Low" Color="Green" />
                 <syncfusion:ColorMapping Key="Normal" Color="Orange" />
                 <syncfusion:ColorMapping Key="High" Color="Red" />
             </syncfusion:SfKanban.IndicatorColorPalette>
-            <!--<syncfusion:SfKanban.CardStyle>
 
-            </syncfusion:SfKanban.CardStyle>-->
-            <!--<syncfusion:SfKanban.ColumnHeaderTemplate>
-                <DataTemplate>
-
-                    <StackPanel Width="300" Height="40">
-                        <TextBlock
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            Foreground="White"
-                            Text="{Binding Header}" />
-                    </StackPanel>
-
-                </DataTemplate>
-            </syncfusion:SfKanban.ColumnHeaderTemplate>-->
-
+            <!--  COLUMN : To Do  -->
             <syncfusion:KanbanColumn
                 Title="To Do"
                 Categories="Open"
                 MaximumLimit="1"
                 MinimumLimit="1">
-
                 <syncfusion:KanbanColumn.ErrorBarSettings>
                     <syncfusion:ErrorBarSettings
                         MaxValidationColor="Red"
@@ -317,6 +275,8 @@
                         Color="Gray" />
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
+
+            <!--  COLUMN : To Study  -->
             <syncfusion:KanbanColumn
                 Title="To Study"
                 Categories="Study"
@@ -329,8 +289,10 @@
                         Color="Gray" />
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
+
+            <!--  COLUMN : In Progress  -->
             <syncfusion:KanbanColumn
-                Title="Progress"
+                Title="In Progress"
                 Categories="In Progress"
                 MaximumLimit="10"
                 MinimumLimit="1">
@@ -341,6 +303,8 @@
                         Color="Gray" />
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
+
+            <!--  COLUMN : Done  -->
             <syncfusion:KanbanColumn
                 Title="Done"
                 Categories="Review,Done"
