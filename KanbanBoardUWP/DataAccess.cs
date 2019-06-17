@@ -40,11 +40,13 @@ namespace KanbanBoardUWP
             {
                 db.Open();
 
-                SqliteCommand insertCommand = new SqliteCommand();
-                insertCommand.Connection = db;
+                SqliteCommand insertCommand = new SqliteCommand
+                {
+                    Connection = db,
 
-                // Use parameterized query to prevent SQL injection attacks
-                insertCommand.CommandText = "INSERT INTO MyTable VALUES (NULL, @title, @desc, @categ, @colorKey, @tags);";
+                    // Use parameterized query to prevent SQL injection attacks
+                    CommandText = "INSERT INTO MyTable VALUES (NULL, @title, @desc, @categ, @colorKey, @tags);"
+                };
                 insertCommand.Parameters.AddWithValue("@title", title);
                 insertCommand.Parameters.AddWithValue("@desc", desc);
                 insertCommand.Parameters.AddWithValue("@categ", categ);

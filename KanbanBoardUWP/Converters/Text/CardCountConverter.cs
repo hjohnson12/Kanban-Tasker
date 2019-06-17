@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace KanbanBoardUWP
+namespace KanbanBoardUWP.Converters.Text
 {
     public class CardCountConverter : IValueConverter
     {

@@ -118,8 +118,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\CardCountConverter.cs" />
-    <Compile Include="Converters\StringToColorConverter.cs" />
+    <Compile Include="Converters\Text\CardCountConverter.cs" />
+    <Compile Include="Converters\Text\StringToColorConverter.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -177,9 +177,7 @@
       <Version>17.1.0.50</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\Text\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
