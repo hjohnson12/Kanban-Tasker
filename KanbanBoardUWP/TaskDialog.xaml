@@ -1,0 +1,103 @@
+﻿<ContentDialog
+    x:Class="KanbanBoardUWP.TaskDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:KanbanBoardUWP"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Task Information"
+    CloseButtonClick="TaskDialog_CloseButtonClick"
+    CloseButtonText="Cancel"
+    Opened="ContentDialog_Opened"
+    PrimaryButtonClick="TaskDialog_SaveButtonClick"
+    PrimaryButtonText="Save"
+    SecondaryButtonClick="TaskDialog_DeleteButtonClick"
+    SecondaryButtonText="Delete"
+    mc:Ignorable="d">
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ThemeDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+    <ContentDialog.Background>
+        <!--<RevealBackgroundBrush Opacity="0.7" Color="{ThemeResource RegionColor}"  />-->
+        <AcrylicBrush
+            BackgroundSource="HostBackdrop"
+            TintColor="{ThemeResource RegionColor}"
+            TintOpacity="0.6" />
+    </ContentDialog.Background>
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <TextBox
+                    x:Name="txtBoxID"
+                    Header="ID:"
+                    IsEnabled="False"
+                    Text="{x:Bind Model.ID}" />
+                <TextBox
+                    x:Name="txtBoxTitle"
+                    Margin="0,15,0,0"
+                    Header="TItle:"
+                    PlaceholderText="Type your information here"
+                    Text="{x:Bind Model.Title}" />
+                <!--  (RE-IMPLEMENT LATER, BUG WITH SWIMLANE VIEW ON THEIR END, June 2019 Update)  -->
+                <!--<TextBox Header="Assignee:" />-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBox
+                        x:Name="txtBoxDescription"
+                        MaxHeight="400"
+                        Margin="0,15,0,0"
+                        AcceptsReturn="True"
+                        Header="Description"
+                        MaxLength="100"
+                        PlaceholderText="Type your information here"
+                        Text="{x:Bind Model.Description}"
+                        TextWrapping="Wrap" />
+                </ScrollViewer>
+                <ComboBox
+                    x:Name="comboBoxCategories"
+                    Margin="0,15,0,0"
+                    Header="Category:"
+                    IsEditable="False"
+                    ItemsSource="{x:Bind Categories}"
+                    PlaceholderText="Choose One:"
+                    SelectedItem="{x:Bind Model.Category}" />
+                <ComboBox
+                    x:Name="comboBoxColorKey"
+                    Margin="0,15,0,0"
+                    Header="Color Key:"
+                    IsEditable="False"
+                    ItemsSource="{x:Bind ColorKeys}"
+                    PlaceholderText="Choose One:"
+                    SelectedItem="{x:Bind Model.ColorKey}" />
+                <TextBox
+                    x:Name="txtBoxTags"
+                    Margin="0,15,0,0"
+                    Header="Tags:"
+                    KeyDown="TxtBoxTags_KeyDown"
+                    PlaceholderText="Type and press enter to add a new tag to the list" />
+                <ListView
+                    x:Name="lstViewTags"
+                    MaxHeight="150"
+                    AllowDrop="True"
+                    CanDragItems="True"
+                    CanReorderItems="True"
+                    ItemsSource="{x:Bind TaskTags}"
+                    SelectionMode="Multiple" />
+                <Button
+                    x:Name="btnDeleteTags"
+                    Click="BtnDeleteTags_Click"
+                    Content="Delete Selected Items" />
+                <!--  Later Implementation, choose pic  -->
+                <!--<TextBox
+                    x:Name="txtBoxImageUrl"
+                    Header="Image URL:"
+                    IsEnabled="False"
+                    Text="{x:Bind Model.ImageURL}" />-->
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ContentDialog>
