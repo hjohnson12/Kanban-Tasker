@@ -163,59 +163,67 @@
             ItemsSource="{Binding}"
             MinColumnWidth="150">
 
-            <!--  KANBAN BOARD COLUMN HEADER TEMPLATE  -->
             <syncfusion:SfKanban.ColumnHeaderTemplate>
                 <DataTemplate>
-                    <Grid Width="300" Background="Transparent">
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="9*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="6*" />
                             <RowDefinition Height="4*" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock
-                            x:Name="Header"
-                            Grid.Row="0"
-                            Grid.ColumnSpan="1"
-                            Margin="0,5,0,5"
-                            VerticalAlignment="Center"
-                            FontSize="16"
-                            FontWeight="Medium"
-                            Foreground="White"
-                            Text="{Binding Header}"
-                            TextWrapping="NoWrap" />
+                        <TextBlock x:Name="Header"  Text="{Binding Header}" 
+                                           VerticalAlignment="Center" 
+                                           FontWeight="Medium" 
+                                           FontSize="16" 
+                                           Foreground="White" 
+                                           TextWrapping="NoWrap" 
+                                           Grid.Row="0" 
+                                           Margin="0,5,0,5" 
+                                           Grid.ColumnSpan="1" />
 
-                        <StackPanel
-                            x:Name="WIPPanel"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                Margin="0,2,0,5"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Foreground="White"
-                                Text="{Binding [ItemsCount]}"
-                                TextWrapping="WrapWholeWords" />
-                            <TextBlock
-                                Margin="5,2,0,5"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Foreground="White"
-                                Text="{Binding CardCount}"
-                                TextWrapping="WrapWholeWords" />
-                            <TextBlock
-                                Margin="0,2,0,5"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Foreground="White"
-                                Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, ConverterParameter=MinMaxLimit, Converter={StaticResource cardCountConverter}}"
-                                TextWrapping="WrapWholeWords" />
-
+                        <StackPanel Grid.Row="1" x:Name="WIPPanel" 
+                                            Grid.Column="0" 
+                                            Orientation="Horizontal">
+                            <TextBlock Text="{Binding [ItemsCount]}"  
+                                               Margin="0,2,0,5" 
+                                               VerticalAlignment="Center" 
+                                               Foreground="White" 
+                                               FontSize="14" 
+                                               TextWrapping="WrapWholeWords"/>
+                            <TextBlock Text="{Binding CardCount}" 
+                                               Margin="5,2,0,5" 
+                                               VerticalAlignment="Center" 
+                                               Foreground="White" 
+                                               FontSize="14" 
+                                               TextWrapping="WrapWholeWords"/>
+                            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent},  
+                                               ConverterParameter=MinMaxLimit, 
+                                               Converter={StaticResource cardCountConverter}}" 
+                                               Margin="0,2,0,5" 
+                                               Foreground="White" 
+                                               VerticalAlignment="Center" 
+                                               FontSize="14" 
+                                               TextWrapping="WrapWholeWords" />
                         </StackPanel>
+                        <Border Grid.Column="1" x:Name="CollapsedIcon" Background="Transparent"
+                                        Grid.Row="1">
+                            <Path Data="M172.444,310.778 L158.444,317.111 L171.222,324.222" 
+                                          Stretch="Fill" HorizontalAlignment="Right" 
+                                          Stroke="#FF595959"
+                                          StrokeThickness="2" 
+                                          StrokeLineJoin="Miter" 
+                                          UseLayoutRounding="False" 
+                                          Width="7" Height="14">
+                                <Path.RenderTransform>
+                                    <CompositeTransform x:Name="RotateTransform" 
+                                                                Rotation="0"/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Border>
                     </Grid>
                 </DataTemplate>
             </syncfusion:SfKanban.ColumnHeaderTemplate>

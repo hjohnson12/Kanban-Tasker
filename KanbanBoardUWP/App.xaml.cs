@@ -42,7 +42,7 @@ namespace KanbanBoardUWP
             else
             {
                 // Use community license
-                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_API_KEY");
+                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTEyMDk1QDMxMzcyZTMxMmUzMFdmb053V3k1d094U3hNeWVVWUF1b0pPb2tpRTJGS2I1dnBSQ1VDZ1NLRlk9");
             }
 
             this.InitializeComponent();
