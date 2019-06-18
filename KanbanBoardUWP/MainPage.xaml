@@ -11,6 +11,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
+            <RevealBackgroundBrush x:Key="CardBackgroundRevealBrush"  Color="AliceBlue" FallbackColor="AliceBlue" Opacity="0.8" TargetTheme="Light"/>
             <local1:StringToColorConverter x:Key="stringToColorConvertor" />
             <local1:CardCountConverter x:Key="cardCountConverter" />
             <DataTemplate x:Key="TagsTemplate">
@@ -32,7 +33,7 @@
                     MinHeight="100"
                     MaxHeight="300"
                     Margin="0,6,0,6"
-                    Background="AliceBlue"
+                    Background="{ThemeResource CardBackgroundRevealBrush}"
                     BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
                     BorderThickness="2"
                     CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">

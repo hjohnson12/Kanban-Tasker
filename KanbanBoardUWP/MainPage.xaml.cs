@@ -34,55 +34,6 @@ namespace KanbanBoardUWP
         {
             this.InitializeComponent();
             kanbanBoard.ItemsSource = DataAccess.GetData(); // Get data from database
-
-            //=======================================================
-            // ADD REVEAL BRUSHES TO CARD ITEMS
-            //=======================================================
-
-            // Reveal Border Brush
-            // Make the kanban card semi-transparent
-            //RevealBorderBrush revealBorderBrush = new RevealBorderBrush
-            //{
-            //    Color = Colors.Black,
-            //    FallbackColor = Colors.Gray,
-            //    Opacity = 0.8,
-            //    TargetTheme = ApplicationTheme.Dark
-            //};
-
-            // Reveal Background Brush
-            // Make the kanban card semi-transparent
-            RevealBackgroundBrush revealBackgroundBrush = new RevealBackgroundBrush
-            {
-                TargetTheme = ApplicationTheme.Light,
-                FallbackColor = Colors.AliceBlue,
-                Color = Colors.AliceBlue,
-                Opacity = 0.3
-            };
-
-            // Set KanbanCardStyle properties
-            KanbanCardStyle kanbanCardStyle = new KanbanCardStyle
-            {
-                CornerRadius = new CornerRadius(10.0),
-                BorderThickness = new Thickness(3.0),
-                Background = revealBackgroundBrush
-            };
-            //kanbanCardStyle.Background = (RevealBackgroundBrush)Application.Current.Resources["SystemControlHighlightListLowRevealBackgroundBrush"];
-            kanbanBoard.CardStyle = kanbanCardStyle; // Set cardstyle property as the card style obj
-
-            // TEST: Color columns?
-            //AcrylicBrush bckBrush = new AcrylicBrush
-            //{
-            //    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
-            //    FallbackColor = Colors.AliceBlue,
-            //    TintColor = Colors.AliceBlue,
-            //    TintOpacity = 0.3
-                
-            //};
-            //foreach (var col in kanbanBoard.ActualColumns)
-            //{
-
-            //    col.Background = bckBrush;
-            //}
         }
 
         //=====================================================================
