@@ -34,6 +34,9 @@ namespace KanbanBoardUWP
         {
             this.InitializeComponent();
             kanbanBoard.ItemsSource = DataAccess.GetData(); // Get data from database
+
+            // Add rounded corners to each card
+            kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
         }
 
         //=====================================================================
