@@ -140,39 +140,5 @@ namespace KanbanBoardUWP
             }
         }
 
-        //public static List<String> GetIds()
-        //{
-        //    List<String> ids = new List<string>();
-
-        //    using (SqliteConnection db =
-        //        new SqliteConnection("Filename=sqliteSample.db"))
-        //    {
-        //        db.Open();
-
-        //        // TEST
-        //        //SqliteCommand selectCommand = new SqliteCommand("SELECT id FROM MyTable", db);
-        //        //SqliteDataReader query = selectCommand.ExecuteReader();
-
-        //        //while(query.Read())
-        //        //{
-        //        //    ids.Add(query.GetString(0));
-        //        //}
-
-        //        SqliteCommand selectCommand = new SqliteCommand
-        //            ("SELECT Text_Entry from MyTable", db);
-
-        //        SqliteDataReader query = selectCommand.ExecuteReader();
-
-        //        while (query.Read())
-        //        {
-        //            ids.Add(query.GetString(0));
-        //        }
-
-        //        db.Close();
-        //    }
-
-        //    return ids;
-        //}
-
     }
 }
