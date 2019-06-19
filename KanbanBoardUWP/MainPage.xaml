@@ -11,7 +11,12 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
-            <RevealBackgroundBrush x:Key="CardBackgroundRevealBrush"  Color="AliceBlue" FallbackColor="AliceBlue" Opacity="0.8" TargetTheme="Light"/>
+            <RevealBackgroundBrush
+                x:Key="CardBackgroundRevealBrush"
+                FallbackColor="AliceBlue"
+                Opacity="0.8"
+                TargetTheme="Light"
+                Color="AliceBlue" />
             <local1:StringToColorConverter x:Key="stringToColorConvertor" />
             <local1:CardCountConverter x:Key="cardCountConverter" />
             <DataTemplate x:Key="TagsTemplate">
@@ -176,52 +181,62 @@
                             <RowDefinition Height="4*" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock x:Name="Header"  Text="{Binding Header}" 
-                                           VerticalAlignment="Center" 
-                                           FontWeight="Medium" 
-                                           FontSize="16" 
-                                           Foreground="White" 
-                                           TextWrapping="NoWrap" 
-                                           Grid.Row="0" 
-                                           Margin="0,5,0,5" 
-                                           Grid.ColumnSpan="1" />
+                        <TextBlock
+                            x:Name="Header"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="1"
+                            Margin="0,5,0,5"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            FontWeight="Medium"
+                            Foreground="White"
+                            Text="{Binding Header}"
+                            TextWrapping="NoWrap" />
 
-                        <StackPanel Grid.Row="1" x:Name="WIPPanel" 
-                                            Grid.Column="0" 
-                                            Orientation="Horizontal">
-                            <TextBlock Text="{Binding [ItemsCount]}"  
-                                               Margin="0,2,0,5" 
-                                               VerticalAlignment="Center" 
-                                               Foreground="White" 
-                                               FontSize="14" 
-                                               TextWrapping="WrapWholeWords"/>
-                            <TextBlock Text="{Binding CardCount}" 
-                                               Margin="5,2,0,5" 
-                                               VerticalAlignment="Center" 
-                                               Foreground="White" 
-                                               FontSize="14" 
-                                               TextWrapping="WrapWholeWords"/>
-                            <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent},  
-                                               ConverterParameter=MinMaxLimit, 
-                                               Converter={StaticResource cardCountConverter}}" 
-                                               Margin="0,2,0,5" 
-                                               Foreground="White" 
-                                               VerticalAlignment="Center" 
-                                               FontSize="14" 
-                                               TextWrapping="WrapWholeWords" />
+                        <StackPanel
+                            x:Name="WIPPanel"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,2,0,5"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="{Binding [ItemsCount]}"
+                                TextWrapping="WrapWholeWords" />
+                            <TextBlock
+                                Margin="5,2,0,5"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="{Binding CardCount}"
+                                TextWrapping="WrapWholeWords" />
+                            <TextBlock
+                                Margin="0,2,0,5"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, ConverterParameter=MinMaxLimit, Converter={StaticResource cardCountConverter}}"
+                                TextWrapping="WrapWholeWords" />
                         </StackPanel>
-                        <Border Grid.Column="1" x:Name="CollapsedIcon" Background="Transparent"
-                                        Grid.Row="1">
-                            <Path Data="M172.444,310.778 L158.444,317.111 L171.222,324.222" 
-                                          Stretch="Fill" HorizontalAlignment="Right" 
-                                          Stroke="#FF595959"
-                                          StrokeThickness="2" 
-                                          StrokeLineJoin="Miter" 
-                                          UseLayoutRounding="False" 
-                                          Width="7" Height="14">
+                        <Border
+                            x:Name="CollapsedIcon"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Background="Transparent">
+                            <Path
+                                Width="7"
+                                Height="14"
+                                HorizontalAlignment="Right"
+                                Data="M172.444,310.778 L158.444,317.111 L171.222,324.222"
+                                Stretch="Fill"
+                                Stroke="#FF595959"
+                                StrokeLineJoin="Miter"
+                                StrokeThickness="2"
+                                UseLayoutRounding="False">
                                 <Path.RenderTransform>
-                                    <CompositeTransform x:Name="RotateTransform" 
-                                                                Rotation="0"/>
+                                    <CompositeTransform x:Name="RotateTransform" Rotation="0" />
                                 </Path.RenderTransform>
                             </Path>
                         </Border>
