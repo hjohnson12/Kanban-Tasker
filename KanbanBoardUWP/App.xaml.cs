@@ -29,20 +29,17 @@ namespace KanbanBoardUWP
         /// </summary>
         public App()
         {
-            
-            // Open XML file and get key if file exists
-            if(File.Exists("ApiKeys.xml"))
+            // Register SyncfusionLicense
+            // Check to see if API KEY is in your Environment Variables
+            if (Environment.GetEnvironmentVariable("SYNCFUSION_API_KEY") == null)
             {
-                XmlDocument doc = new XmlDocument();
-                doc.Load("ApiKeys.xml");
-                XmlNode node = doc.DocumentElement.FirstChild; // Only have one API key for this project
-                var key = node.InnerText;
-                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(key);
+                // If key not available, use free community license here: https://www.syncfusion.com/products/communitylicense
+                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR API KEY");
             }
             else
             {
-                // Use community license
-                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR API KEY");
+                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
+                    Environment.GetEnvironmentVariable("SYNCFUSION_API_KEY"));
             }
 
             this.InitializeComponent();
