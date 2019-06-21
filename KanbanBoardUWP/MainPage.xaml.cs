@@ -141,4 +141,68 @@ namespace KanbanBoardUWP
         }
     }
 
+    public class CollapsedHeaderMargin : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            TextBlock textBlock = value as TextBlock;
+            textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            double top = textBlock.DesiredSize.Width - 10;
+            Thickness thickness = new Thickness(-12, top, 0, 0);
+            return thickness;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return value;
+        }
+    }
+
+    public class CardTemplateConvertor : DependencyObject, IValueConverter
+    {
+
+        public object column
+        {
+            get { return (object)GetValue(columnProperty); }
+            set { SetValue(columnProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for column.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty columnProperty =
+            DependencyProperty.Register("column", typeof(object), typeof(CardTemplateConvertor), new PropertyMetadata(null));
+
+
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            //KanbanColumn column = (KanbanColumn)parameter;
+
+            //if (column.IsExpanded)
+            //{
+            //	column.Template = (ControlTemplate)column.Resources["CollapsedTemplate"];
+            //}
+            //else
+            //{
+            //	column.Template = (ControlTemplate)column.Resources["DefaultKanbanHeaderTemplate"];
+            //}
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            //KanbanColumn column = (KanbanColumn)parameter;
+
+            //if (column.IsExpanded)
+            //{
+            //	column.Template = (ControlTemplate)column.Resources["CollapsedTemplate"];
+            //}
+            //else
+            //{
+            //	column.Template = (ControlTemplate)column.Resources["DefaultKanbanHeaderTemplate"];
+            //}
+
+            return value;
+        }
+    }
+
 }

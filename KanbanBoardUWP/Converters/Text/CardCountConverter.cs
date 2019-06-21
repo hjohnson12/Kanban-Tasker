@@ -31,17 +31,17 @@ namespace KanbanBoardUWP.Converters.Text
 
             if (columnTag.Minimum > -1 && columnTag.Maximum > -1)
             {
-                return "  |  " + "Min" + " " + columnTag.Minimum + " / "
-                          + "Max" + " " + columnTag.Maximum;
+                return "  |  " + "Min:" + " " + columnTag.Minimum + " / "
+                          + "Max:" + " " + columnTag.Maximum;
             }
             else if (columnTag.Maximum > -1)
             {
-                return "  |  " + "Max" + " " + columnTag.Maximum;
+                return "  |  " + "Max:" + " " + columnTag.Maximum;
 
             }
             else if (columnTag.Minimum > -1)
             {
-                return "  |  " + "Min" + " " + columnTag.Minimum;
+                return "  |  " + "Min:" + " " + columnTag.Minimum;
 
             }
             else

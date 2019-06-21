@@ -10,6 +10,7 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     mc:Ignorable="d">
     <Page.Resources>
+
         <ResourceDictionary>
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
@@ -19,6 +20,9 @@
                 Color="AliceBlue" />
             <local1:StringToColorConverter x:Key="stringToColorConvertor" />
             <local1:CardCountConverter x:Key="cardCountConverter" />
+            <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
+            <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
+
             <DataTemplate x:Key="TagsTemplate">
                 <Border Background="#FFEDEDED" CornerRadius="2">
                     <TextBlock
@@ -280,14 +284,44 @@
                 </Border>
             </syncfusion:SfKanban.Header>
 
+            <syncfusion:SfKanban.CardStyle>
+                <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
+            </syncfusion:SfKanban.CardStyle>
+
             <!--  KANBAN BOARD PRIORITY INDICATOR PALLETTE  -->
             <syncfusion:SfKanban.IndicatorColorPalette>
                 <syncfusion:ColorMapping Key="Low" Color="Green" />
                 <syncfusion:ColorMapping Key="Normal" Color="Orange" />
                 <syncfusion:ColorMapping Key="High" Color="Red" />
             </syncfusion:SfKanban.IndicatorColorPalette>
+            
+            <local:CustomKanbanColumn x:Name="Open" Categories="Open" Title="To Do" MinimumLimit="3" MaximumLimit="10" CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}">
+                <local:CustomKanbanColumn.ErrorBarSettings>
+                    <kanban:ErrorBarSettings Color="Gray" MaxValidationColor="Red"
+                                                 MinValidationColor="Green"/>
+                </local:CustomKanbanColumn.ErrorBarSettings>
+            </local:CustomKanbanColumn>
+            <local:CustomKanbanColumn Categories="Study" Title="To Study" MinimumLimit="3" MaximumLimit="10" CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}">
+                <local:CustomKanbanColumn.ErrorBarSettings>
+                    <kanban:ErrorBarSettings Color="Gray" MaxValidationColor="Red"
+                                                 MinValidationColor="Green"/>
+                </local:CustomKanbanColumn.ErrorBarSettings>
+            </local:CustomKanbanColumn>
+            <local:CustomKanbanColumn Categories="In Progress" Title="Progress" MinimumLimit="5" MaximumLimit="10" CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}">
+                <local:CustomKanbanColumn.ErrorBarSettings>
+                    <kanban:ErrorBarSettings Color="Gray" MaxValidationColor="Red"
+                                                 MinValidationColor="Green"/>
+                </local:CustomKanbanColumn.ErrorBarSettings>
+            </local:CustomKanbanColumn>
+            <local:CustomKanbanColumn Categories="Review,Done" Title="Done" MinimumLimit="3" MaximumLimit="10" CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}">
+                <local:CustomKanbanColumn.ErrorBarSettings>
+                    <kanban:ErrorBarSettings Color="Gray" MaxValidationColor="Red"
+                                                 MinValidationColor="Green"/>
+                </local:CustomKanbanColumn.ErrorBarSettings>
+            </local:CustomKanbanColumn>
 
-            <!--  COLUMN : To Do  -->
+
+            <!--  COLUMN : To Do  --><!--
             <syncfusion:KanbanColumn
                 Title="To Do"
                 Categories="Open"
@@ -301,7 +335,7 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
 
-            <!--  COLUMN : To Study  -->
+            --><!--  COLUMN : To Study  --><!--
             <syncfusion:KanbanColumn
                 Title="To Study"
                 Categories="Study"
@@ -315,7 +349,7 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
 
-            <!--  COLUMN : In Progress  -->
+            --><!--  COLUMN : In Progress  --><!--
             <syncfusion:KanbanColumn
                 Title="In Progress"
                 Categories="In Progress"
@@ -329,7 +363,7 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
 
-            <!--  COLUMN : Done  -->
+            --><!--  COLUMN : Done  --><!--
             <syncfusion:KanbanColumn
                 Title="Done"
                 Categories="Review,Done"
@@ -341,7 +375,7 @@
                         MinValidationColor="Green"
                         Color="Gray" />
                 </syncfusion:KanbanColumn.ErrorBarSettings>
-            </syncfusion:KanbanColumn>
+            </syncfusion:KanbanColumn>-->
         </syncfusion:SfKanban>
     </Grid>
 </Page>
