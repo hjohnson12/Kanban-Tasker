@@ -37,6 +37,7 @@ namespace KanbanBoardUWP
 
             // Add rounded corners to each card
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
+            kanbanBoard.CardStyle.IconVisibility = Visibility.Collapsed;
         }
 
         //=====================================================================
@@ -174,32 +175,32 @@ namespace KanbanBoardUWP
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            //KanbanColumn column = (KanbanColumn)parameter;
+            KanbanColumn column = (KanbanColumn)parameter;
 
-            //if (column.IsExpanded)
-            //{
-            //	column.Template = (ControlTemplate)column.Resources["CollapsedTemplate"];
-            //}
-            //else
-            //{
-            //	column.Template = (ControlTemplate)column.Resources["DefaultKanbanHeaderTemplate"];
-            //}
+            if (column.IsExpanded)
+            {
+                column.Template = (ControlTemplate)column.Resources["CollapsedTemplate"];
+            }
+            else
+            {
+                column.Template = (ControlTemplate)column.Resources["DefaultKanbanHeaderTemplate"];
+            }
 
             return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            //KanbanColumn column = (KanbanColumn)parameter;
+            KanbanColumn column = (KanbanColumn)parameter;
 
-            //if (column.IsExpanded)
-            //{
-            //	column.Template = (ControlTemplate)column.Resources["CollapsedTemplate"];
-            //}
-            //else
-            //{
-            //	column.Template = (ControlTemplate)column.Resources["DefaultKanbanHeaderTemplate"];
-            //}
+            if (column.IsExpanded)
+            {
+                column.Template = (ControlTemplate)column.Resources["CollapsedTemplate"];
+            }
+            else
+            {
+                column.Template = (ControlTemplate)column.Resources["DefaultKanbanHeaderTemplate"];
+            }
 
             return value;
         }
