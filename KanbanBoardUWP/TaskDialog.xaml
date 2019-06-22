@@ -30,7 +30,7 @@
     </ContentDialog.Background>
     <Grid>
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel Margin="20">
                 <TextBox
                     x:Name="txtBoxID"
                     Header="ID:"

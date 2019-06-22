@@ -202,7 +202,8 @@
                                 Background="Transparent"
                                 Click="BtnNewTaskCurrentColumn_Click"
                                 Content="&#xE710;"
-                                FontFamily="Segoe MDL2 Assets" />
+                                FontFamily="Segoe MDL2 Assets"
+                                ToolTipService.ToolTip="Add task to column" />
                         </StackPanel>
                         <StackPanel
                             x:Name="WIPPanel"
@@ -301,8 +302,9 @@
             <!--  COLUMN : To Do  -->
             <syncfusion:KanbanColumn
                 Title="To Do"
+                MinWidth="260"
                 Categories="Open"
-                MaximumLimit="1"
+                MaximumLimit="10"
                 MinimumLimit="1">
                 <syncfusion:KanbanColumn.ErrorBarSettings>
                     <syncfusion:ErrorBarSettings
@@ -315,6 +317,7 @@
             <!--  COLUMN : To Study  -->
             <syncfusion:KanbanColumn
                 Title="To Study"
+                MinWidth="260"
                 Categories="Study"
                 MaximumLimit="10"
                 MinimumLimit="1">
@@ -329,6 +332,7 @@
             <!--  COLUMN : In Progress  -->
             <syncfusion:KanbanColumn
                 Title="In Progress"
+                MinWidth="260"
                 Categories="In Progress"
                 MaximumLimit="10"
                 MinimumLimit="1">
@@ -343,6 +347,7 @@
             <!--  COLUMN : Done  -->
             <syncfusion:KanbanColumn
                 Title="Done"
+                MinWidth="260"
                 Categories="Review,Done"
                 MaximumLimit="10"
                 MinimumLimit="1">
