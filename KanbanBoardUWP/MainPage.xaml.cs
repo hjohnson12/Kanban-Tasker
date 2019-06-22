@@ -34,7 +34,6 @@ namespace KanbanBoardUWP
         {
             this.InitializeComponent();
             kanbanBoard.ItemsSource = DataAccess.GetData(); // Get data from database
-
             // Add rounded corners to each card
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
         }
@@ -48,7 +47,7 @@ namespace KanbanBoardUWP
             // Pre: Get information to pass to the dialog for displaying
             //      Set corresponding properties in TaskDialog
             // Post: Information passed, dialog opened
-
+            
             // Get selected card
             var selectedCardModel = e.SelectedCard.Content as KanbanModel;
 
@@ -138,6 +137,49 @@ namespace KanbanBoardUWP
             foreach (var tag in selectedModel.Tags)
                 TagsCollection.Add(tag); // Add card tags to collection
             return TagsCollection;
+        }
+
+        private async void BtnNewTaskCurrentColumn_Click(object sender, RoutedEventArgs e)
+        {
+            // Add task to specific column
+            // Only show categories within that column
+            var btn = sender as Button;
+            var context = btn.DataContext as ColumnTag;
+            var currentColTitle = context.Header.ToString();
+
+            // Add current column categories to a list
+            // Displayed in a combobox in TaskDialog for the user to
+            // choose which category to put the task in the current column
+            List<string> lstCategories = new List<string>();
+            foreach (var col in kanbanBoard.ActualColumns)
+            {
+                if(col.Title.ToString() == currentColTitle)
+                {
+                    // Fill categories list with the categories from the col
+                    var strCategories = col.Categories;
+                    if (strCategories.Contains(","))
+                    {
+                        // >1 sections in col, split into separate sections
+                        var tokens = strCategories.Split(",");
+                        foreach (var token in tokens)
+                            lstCategories.Add(token);
+                    }
+                    else // 1 section in column
+                        lstCategories.Add(strCategories);
+                }
+            }
+
+            // Set corresponding TaskDialog properties
+            TaskDialog newTaskDialog = new TaskDialog
+            {
+                Model = null,
+                Kanban = kanbanBoard,
+                Categories = lstCategories,
+                ColorKeys = GetColorKeys(kanbanBoard),
+                PrimaryButtonText = "Create",
+                IsSecondaryButtonEnabled = false,
+            };
+            await newTaskDialog.ShowAsync(); // Dialog open
         }
     }
 

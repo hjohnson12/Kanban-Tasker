@@ -180,19 +180,30 @@
                             <RowDefinition Height="6*" />
                             <RowDefinition Height="4*" />
                         </Grid.RowDefinitions>
-
-                        <TextBlock
-                            x:Name="Header"
+                        <StackPanel
                             Grid.Row="0"
-                            Grid.ColumnSpan="1"
-                            Margin="0,5,0,5"
-                            VerticalAlignment="Center"
-                            FontSize="16"
-                            FontWeight="Medium"
-                            Foreground="White"
-                            Text="{Binding Header}"
-                            TextWrapping="NoWrap" />
-
+                            Grid.ColumnSpan="2"
+                            Width="1000"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                x:Name="Header"
+                                Margin="0,5,0,5"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontWeight="Medium"
+                                Foreground="White"
+                                Text="{Binding Header}"
+                                TextWrapping="NoWrap" />
+                            <Button
+                                x:Name="btnNewTask"
+                                Margin="5,5,0,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                Click="BtnNewTaskCurrentColumn_Click"
+                                Content="&#xE710;"
+                                FontFamily="Segoe MDL2 Assets" />
+                        </StackPanel>
                         <StackPanel
                             x:Name="WIPPanel"
                             Grid.Row="1"

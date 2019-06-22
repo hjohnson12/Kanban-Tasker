@@ -28,6 +28,7 @@ namespace KanbanBoardUWP
         public KanbanModel Model { get; set; }
         public bool IsModelNull { get; set; }
         public ObservableCollection<string> TaskTags { get; set; }
+        public string SelectedCategory { get; set; }
 
         public SfKanban Kanban { get; set; } // Access to kanbanBoard from MainPage
 
