@@ -10,6 +10,7 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     mc:Ignorable="d">
     <Page.Resources>
+
         <ResourceDictionary>
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
@@ -19,6 +20,111 @@
                 Color="AliceBlue" />
             <local1:StringToColorConverter x:Key="stringToColorConvertor" />
             <local1:CardCountConverter x:Key="cardCountConverter" />
+            <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
+            <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
+            <ControlTemplate x:Key="CollapsedColumnTemplate" TargetType="local:CustomKanbanColumn">
+                <Grid Margin="2,0,0,0" Background="{ThemeResource RegionBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Line
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Stretch="Fill"
+                        Stroke="{TemplateBinding BorderBrush}"
+                        StrokeDashOffset="1"
+                        StrokeThickness="1.5"
+                        X1="0"
+                        X2="0"
+                        Y1="0"
+                        Y2="300" />
+                    <Line
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Stretch="Fill"
+                        Stroke="{TemplateBinding BorderBrush}"
+                        StrokeDashOffset="1"
+                        StrokeThickness="1.5"
+                        X1="0"
+                        X2="0"
+                        Y1="0"
+                        Y2="300" />
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                x:Name="Header"
+                                Grid.Row="0"
+                                Margin="0,5,0,5"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontWeight="Medium"
+                                Foreground="GreenYellow"
+                                Opacity="0"
+                                Text="{TemplateBinding Title}"
+                                TextWrapping="NoWrap" />
+
+                            <Border
+                                x:Name="ExpandIcon"
+                                Grid.Row="1"
+                                Margin="0,8,0,0"
+                                Background="Transparent">
+                                <Path
+                                    Width="7"
+                                    Height="14"
+                                    HorizontalAlignment="Center"
+                                    Data="M129.843,187.893 L141.871,195.519 L130.236,203.308"
+                                    IsHitTestVisible="False"
+                                    Stretch="Fill"
+                                    Stroke="White"
+                                    StrokeLineJoin="Miter"
+                                    StrokeThickness="1.5"
+                                    UseLayoutRounding="False" />
+                            </Border>
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Margin="0,45,0,10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                FontSize="13"
+                                FontWeight="Normal"
+                                Foreground="White"
+                                Text="{Binding Cards.Count, Converter={StaticResource HeaderConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                <TextBlock.RenderTransform>
+                                    <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Canvas HorizontalAlignment="Center">
+                                <TextBlock
+                                    Text="{TemplateBinding Title}"
+                                    Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
+                                    HorizontalAlignment="Center"
+                                    FontSize="16"
+                                    FontWeight="Medium"
+                                    Foreground="White">
+                                    <TextBlock.RenderTransform>
+                                        <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </Canvas>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </ControlTemplate>
             <DataTemplate x:Key="TagsTemplate">
                 <Border Background="#FFEDEDED" CornerRadius="2">
                     <TextBlock
@@ -243,7 +349,7 @@
                                 HorizontalAlignment="Right"
                                 Data="M172.444,310.778 L158.444,317.111 L171.222,324.222"
                                 Stretch="Fill"
-                                Stroke="#FF595959"
+                                Stroke="White"
                                 StrokeLineJoin="Miter"
                                 StrokeThickness="2"
                                 UseLayoutRounding="False">
@@ -292,6 +398,10 @@
                 </Border>
             </syncfusion:SfKanban.Header>
 
+            <syncfusion:SfKanban.CardStyle>
+                <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
+            </syncfusion:SfKanban.CardStyle>
+
             <!--  KANBAN BOARD PRIORITY INDICATOR PALLETTE  -->
             <syncfusion:SfKanban.IndicatorColorPalette>
                 <syncfusion:ColorMapping Key="Low" Color="Green" />
@@ -299,7 +409,63 @@
                 <syncfusion:ColorMapping Key="High" Color="Red" />
             </syncfusion:SfKanban.IndicatorColorPalette>
 
+            <local:CustomKanbanColumn
+                x:Name="Open"
+                Title="To Do"
+                Categories="Open"
+                CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                MaximumLimit="10"
+                MinimumLimit="3">
+                <local:CustomKanbanColumn.ErrorBarSettings>
+                    <syncfusion:ErrorBarSettings
+                        MaxValidationColor="Red"
+                        MinValidationColor="Green"
+                        Color="Gray" />
+                </local:CustomKanbanColumn.ErrorBarSettings>
+            </local:CustomKanbanColumn>
+            <local:CustomKanbanColumn
+                Title="To Study"
+                Categories="Study"
+                CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                MaximumLimit="10"
+                MinimumLimit="3">
+                <local:CustomKanbanColumn.ErrorBarSettings>
+                    <syncfusion:ErrorBarSettings
+                        MaxValidationColor="Red"
+                        MinValidationColor="Green"
+                        Color="Gray" />
+                </local:CustomKanbanColumn.ErrorBarSettings>
+            </local:CustomKanbanColumn>
+            <local:CustomKanbanColumn
+                Title="Progress"
+                Categories="In Progress"
+                CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                MaximumLimit="10"
+                MinimumLimit="5">
+                <local:CustomKanbanColumn.ErrorBarSettings>
+                    <syncfusion:ErrorBarSettings
+                        MaxValidationColor="Red"
+                        MinValidationColor="Green"
+                        Color="Gray" />
+                </local:CustomKanbanColumn.ErrorBarSettings>
+            </local:CustomKanbanColumn>
+            <local:CustomKanbanColumn
+                Title="Done"
+                Categories="Review,Done"
+                CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                MaximumLimit="10"
+                MinimumLimit="3">
+                <local:CustomKanbanColumn.ErrorBarSettings>
+                    <syncfusion:ErrorBarSettings
+                        MaxValidationColor="Red"
+                        MinValidationColor="Green"
+                        Color="Gray" />
+                </local:CustomKanbanColumn.ErrorBarSettings>
+            </local:CustomKanbanColumn>
+
+
             <!--  COLUMN : To Do  -->
+            <!--
             <syncfusion:KanbanColumn
                 Title="To Do"
                 MinWidth="260"
@@ -314,7 +480,9 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
 
+            -->
             <!--  COLUMN : To Study  -->
+            <!--
             <syncfusion:KanbanColumn
                 Title="To Study"
                 MinWidth="260"
@@ -329,7 +497,9 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
 
+            -->
             <!--  COLUMN : In Progress  -->
+            <!--
             <syncfusion:KanbanColumn
                 Title="In Progress"
                 MinWidth="260"
@@ -344,7 +514,9 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>
 
+            -->
             <!--  COLUMN : Done  -->
+            <!--
             <syncfusion:KanbanColumn
                 Title="Done"
                 MinWidth="260"
@@ -357,7 +529,7 @@
                         MinValidationColor="Green"
                         Color="Gray" />
                 </syncfusion:KanbanColumn.ErrorBarSettings>
-            </syncfusion:KanbanColumn>
+            </syncfusion:KanbanColumn>-->
         </syncfusion:SfKanban>
     </Grid>
 </Page>
