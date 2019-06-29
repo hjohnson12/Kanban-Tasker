@@ -148,7 +148,16 @@
                     BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
                     BorderThickness="2"
                     CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-
+                    <Border.ContextFlyout>
+                        <CommandBarFlyout x:Name="ImageCommandsFlyout">
+                            <AppBarButton Icon="Edit" ToolTipService.ToolTip="Edit Task"/>
+                            <AppBarButton Icon="Share" ToolTipService.ToolTip="Share"/>
+                            <CommandBarFlyout.SecondaryCommands>
+                                <AppBarButton Label="Select all"/>
+                                <AppBarButton Label="Delete" Icon="Delete"/>
+                            </CommandBarFlyout.SecondaryCommands>
+                        </CommandBarFlyout>
+                    </Border.ContextFlyout>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
