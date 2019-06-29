@@ -30,6 +30,7 @@ namespace KanbanBoardUWP
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public KanbanModel SelectedModel { get; set; }
         public MainPage()
         {
             this.InitializeComponent();
@@ -42,28 +43,54 @@ namespace KanbanBoardUWP
         //=====================================================================
         // FUNCTIONS & EVENTS FOR EDITING A TASK
         //=====================================================================
-
-        private async void KanbanBoard_CardTapped(object sender, KanbanTappedEventArgs e)
+        
+        private void KanbanBoard_CardTapped(object sender, KanbanTappedEventArgs e)
         {
             // Pre: Get information to pass to the dialog for displaying
             //      Set corresponding properties in TaskDialog
             // Post: Information passed, dialog opened
-            
+            // Always show in standard mode
             // Get selected card
+            var currentCol = e.SelectedColumn.Title.ToString();
+            var selectedCardIndex = e.SelectedCardIndex;
             var selectedCardModel = e.SelectedCard.Content as KanbanModel;
+            SelectedModel = e.SelectedCard.Content as KanbanModel; 
 
-            // Set corresponding TaskDialog properties
-            // Edit TaskDialog Init
-            TaskDialog editTaskDialog = new TaskDialog
-            {
-                Kanban = kanbanBoard,
-                Model = selectedCardModel,
-                Categories = GetCategories(kanbanBoard), // Set Categories Property
-                ColorKeys = GetColorKeys(kanbanBoard), // Set ColorKeys Property
-                TaskTags = GetTagCollection(selectedCardModel)
-            };
-            await editTaskDialog.ShowAsync(); // Dialog open
+            ShowContextMenu(false, selectedCardIndex, currentCol);
+
+            //// Set corresponding TaskDialog properties
+            //// Edit TaskDialog Init
+            //TaskDialog editTaskDialog = new TaskDialog
+            //{
+            //    Kanban = kanbanBoard,
+            //    Model = selectedCardModel,
+            //    Categories = GetCategories(kanbanBoard), // Set Categories Property
+            //    ColorKeys = GetColorKeys(kanbanBoard), // Set ColorKeys Property
+            //    TaskTags = GetTagCollection(selectedCardModel)
+            //};
+            //await editTaskDialog.ShowAsync(); // Dialog open
         }
+
+        public void ShowContextMenu(bool isTransient, int index, string currentCol)
+        {
+            // Workaround to show context menu next to selected card model
+            foreach (var col in kanbanBoard.ActualColumns)
+            {
+                if (col.Title.ToString() == currentCol)
+                {
+                    for (int i = 0; i <= col.Cards.Count; i++)
+                    {
+                        if (i == index)
+                        {
+                            FlyoutShowOptions myOption = new FlyoutShowOptions();
+                            myOption.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
+                            taskFlyout.ShowAt(col.Cards[i], myOption);
+                        }
+                    }
+                }
+            }
+        }
+
 
         //=====================================================================
         // FUNCTIONS & EVENTS FOR ADDING A NEW TASK

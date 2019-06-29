@@ -148,19 +148,7 @@
                     BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
                     BorderThickness="2"
                     CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                    
-                    <!-- Context flyout on right-click of card -->
-                    <Border.ContextFlyout>
-                        <CommandBarFlyout x:Name="taskCardFlyout" Placement="Right" ShowMode="Transient">
-                            <AppBarButton Label="Edit Task" Icon="Edit" ToolTipService.ToolTip="Share" />
-                            <AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete"/>
-                            <!-- To Do: Later Implementation of quick moving to next column -->
-                            <!--<CommandBarFlyout.SecondaryCommands>
-                                <AppBarButton x:Name="MoveButton1" Label="Move" />
-                            </CommandBarFlyout.SecondaryCommands>-->
-                        </CommandBarFlyout>
-                    </Border.ContextFlyout>
-                    
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
@@ -263,6 +251,13 @@
                     </Grid>
                 </Border>
             </DataTemplate>
+            <CommandBarFlyout Placement="Right" x:Name="taskFlyout">
+            <AppBarButton Label="Edit Task" Icon="Edit" ToolTipService.ToolTip="Edit" />
+            <AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete" />
+            <!--<CommandBarFlyout.SecondaryCommands>
+                --><!--<AppBarButton x:Name="MoveButton1" Label="Move" />--><!--
+            </CommandBarFlyout.SecondaryCommands>-->
+            </CommandBarFlyout>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ThemeDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -286,7 +281,6 @@
             ColumnMappingPath="Category"
             ItemsSource="{Binding}"
             MinColumnWidth="150">
-
             <syncfusion:SfKanban.ColumnHeaderTemplate>
                 <DataTemplate>
                     <Grid>
