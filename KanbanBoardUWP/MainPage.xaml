@@ -137,7 +137,7 @@
                         TextTrimming="CharacterEllipsis" />
                 </Border>
             </DataTemplate>
-            <!--  FOR BACKGROUND, Keep: {Binding Tag.CardStyle.Background, RelativeSource={RelativeSource Mode=TemplatedParent}}  -->
+            <!--  FOR BACKGROUND, KEEP: {Binding Tag.CardStyle.Background, RelativeSource={RelativeSource Mode=TemplatedParent}}  -->
             <DataTemplate x:Key="KanbanCardTemplate">
                 <Border
                     Height="Auto"
@@ -148,8 +148,10 @@
                     BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
                     BorderThickness="2"
                     CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                    
+                    <!-- Context flyout on right-click of card -->
                     <Border.ContextFlyout>
-                        <CommandBarFlyout x:Name="ImageCommandsFlyout" Placement="Right" ShowMode="Transient">
+                        <CommandBarFlyout x:Name="taskCardFlyout" Placement="Right" ShowMode="Transient">
                             <AppBarButton Label="Edit Task" Icon="Edit" ToolTipService.ToolTip="Share" />
                             <AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete"/>
                             <!-- To Do: Later Implementation of quick moving to next column -->
@@ -158,6 +160,7 @@
                             </CommandBarFlyout.SecondaryCommands>-->
                         </CommandBarFlyout>
                     </Border.ContextFlyout>
+                    
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
