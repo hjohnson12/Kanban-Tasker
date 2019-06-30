@@ -1,4 +1,5 @@
-﻿using Syncfusion.UI.Xaml.Kanban;
+﻿using KanbanBoardUWP.ViewModel;
+using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,12 +31,17 @@ namespace KanbanBoardUWP
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public MainViewModel ViewModel { get; set; }
+
         public KanbanModel SelectedModel { get; set; }
         public bool IsOpen { get; set; }
         public MainPage()
         {
             this.InitializeComponent();
-            kanbanBoard.ItemsSource = DataAccess.GetData(); // Get data from database
+
+            ViewModel = new MainViewModel();
+
+            //kanbanBoard.ItemsSource = DataAccess.GetData(); // Get data from database
             // Add rounded corners to each card
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
             // kanbanBoard.CardStyle.IconVisibility = Visibility.Collapsed;

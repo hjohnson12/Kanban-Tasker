@@ -118,6 +118,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Base\Observable.cs" />
     <Compile Include="Converters\Text\CardCountConverter.cs" />
     <Compile Include="Converters\Text\StringToColorConverter.cs" />
     <Compile Include="CustomKanbanColumn.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="TaskDialog.xaml.cs">
       <DependentUpon>TaskDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
