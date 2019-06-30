@@ -307,14 +307,13 @@
                         <TextBox
                             x:Name="txtBoxID"
                             Header="ID:"
-                            IsEnabled="False" />
+                            IsEnabled="False"
+                            Text="{x:Bind ViewModel.ID, Mode=OneWay}" />
                         <TextBox
                             x:Name="txtBoxTitle"
                             Margin="0,15,0,0"
-                            Header="TItle:"
-                            PlaceholderText="Type your information here" />
-                        <!--  (RE-IMPLEMENT LATER, BUG WITH SWIMLANE VIEW ON THEIR END, June 2019 Update)  -->
-                        <!--<TextBox Header="Assignee:" />-->
+                            PlaceholderText="Type your information here"
+                            Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <TextBox
                                 x:Name="txtBoxDescription"
@@ -324,6 +323,7 @@
                                 Header="Description"
                                 MaxLength="100"
                                 PlaceholderText="Type your information here"
+                                Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
                         </ScrollViewer>
                         <ComboBox
@@ -331,13 +331,17 @@
                             Margin="0,15,0,0"
                             Header="Category:"
                             IsEditable="False"
-                            PlaceholderText="Choose One:" />
+                            ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
+                            PlaceholderText="Choose One:"
+                            SelectedItem="{x:Bind ViewModel.Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <ComboBox
                             x:Name="comboBoxColorKey"
                             Margin="0,15,0,0"
                             Header="Color Key:"
                             IsEditable="False"
-                            PlaceholderText="Choose One:" />
+                            ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneTime}"
+                            PlaceholderText="Choose One:"
+                            SelectedItem="{x:Bind ViewModel.ColorKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox
                             x:Name="txtBoxTags"
                             Margin="0,15,0,0"
@@ -349,6 +353,7 @@
                             AllowDrop="True"
                             CanDragItems="True"
                             CanReorderItems="True"
+                            ItemsSource="{x:Bind ViewModel.TaskTags, Mode=OneWay}"
                             SelectionMode="Multiple" />
                         <Button x:Name="btnDeleteTags" Content="Delete Selected Items" />
                         <!--  Later Implementation, choose pic  -->
@@ -378,10 +383,10 @@
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{Binding}"
+                ItemsSource="{x:Bind ViewModel.Tasks}"
                 MinColumnWidth="150">
                 <syncfusion:SfKanban.ContextFlyout>
-                    <CommandBarFlyout x:Name="ContextMenu">
+                    <CommandBarFlyout x:Name="kanbanFlyout">
                         <CommandBarFlyout.SecondaryCommands>
                             <AppBarButton
                                 x:Name="flyoutBtnNewTask"

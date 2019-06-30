@@ -16,6 +16,17 @@
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <ResourceDictionary>
+            <ControlTemplate x:Key="txtBoxControlTemplate" TargetType="TextBox">
+                <Border BorderBrush="{ThemeResource RegionBrush}" BorderThickness="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Width="100"
+                            Margin="5"
+                            Text="lololo" />
+                        <AppBarButton Icon="Undo" Label="Undo" />
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ThemeDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>

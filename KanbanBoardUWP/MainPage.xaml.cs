@@ -32,7 +32,7 @@ namespace KanbanBoardUWP
     public sealed partial class MainPage : Page
     {
         public MainViewModel ViewModel { get; set; }
-
+        public ComboBoxItem comboBoxItem { get; set; }
         public KanbanModel SelectedModel { get; set; }
         public bool IsOpen { get; set; }
         public MainPage()
@@ -62,7 +62,6 @@ namespace KanbanBoardUWP
             var currentCol = e.SelectedColumn.Title.ToString();
             var selectedCardIndex = e.SelectedCardIndex;
             SelectedModel = e.SelectedCard.Content as KanbanModel;
-            
             // Show context menu next to selected card
             ShowContextMenu(selectedCardIndex, currentCol);
         }
@@ -95,16 +94,16 @@ namespace KanbanBoardUWP
         private async void MnuItemNewTask_Click(object sender, RoutedEventArgs e)
         {
             // Set corresponding TaskDialog properties
-            TaskDialog newTaskDialog = new TaskDialog
-            {
-                Model = null,
-                Kanban = kanbanBoard,
-                Categories = GetCategories(kanbanBoard),
-                ColorKeys = GetColorKeys(kanbanBoard),
-                PrimaryButtonText = "Create",
-                IsSecondaryButtonEnabled = false
-            };
-            await newTaskDialog.ShowAsync(); // Dialog open
+            //TaskDialog newTaskDialog = new TaskDialog
+            //{
+            //    Model = null,
+            //    Kanban = kanbanBoard,
+            //    Categories = GetCategories(kanbanBoard),
+            //    ColorKeys = GetColorKeys(kanbanBoard),
+            //    PrimaryButtonText = "Create",
+            //    IsSecondaryButtonEnabled = false
+            //};
+            //await newTaskDialog.ShowAsync(); // Dialog open
         }
 
         private void MnuItemExitApp_Click(object sender, RoutedEventArgs e)
@@ -116,12 +115,12 @@ namespace KanbanBoardUWP
         // HELPER FUNCTIONS
         //=====================================================================
 
-        public List<string> GetCategories(SfKanban kanban)
+        public ObservableCollection<string> GetCategories(SfKanban kanban)
         {
             // Add column categories to a list
             // Displayed in a combobox in TaskDialog for the user to choose
             // which column for the task to be in
-            List<string> lstCategories = new List<string>();
+            ObservableCollection<string> lstCategories = new ObservableCollection<string>();
             foreach (var col in kanban.ActualColumns)
             {
                 // Fill categories list with the categories from the col
@@ -139,12 +138,12 @@ namespace KanbanBoardUWP
             return lstCategories;
         }
 
-        public List<string> GetColorKeys(SfKanban kanban)
+        public ObservableCollection<string> GetColorKeys(SfKanban kanban)
         {
             // Add color keys to a list
             // Displayed in a combobox in TaskDialog for user to choose
             // the color key for a task
-            List<string> lstColorKeys = new List<string>();
+            ObservableCollection<string> lstColorKeys = new ObservableCollection<string>();
             foreach (var colorMap in kanban.IndicatorColorPalette)
             {
                 // Add each key from the color palette to the combobox
@@ -158,10 +157,10 @@ namespace KanbanBoardUWP
         {
             // Add selected card tags to a collection
             // Tags Collection is displayed in a listview in TaskDialog 
-            var TagsCollection = new ObservableCollection<string>();
+            var tagsCollection = new ObservableCollection<string>();
             foreach (var tag in selectedModel.Tags)
-                TagsCollection.Add(tag); // Add card tags to collection
-            return TagsCollection;
+                tagsCollection.Add(tag); // Add card tags to collection
+            return tagsCollection;
         }
 
         private async void BtnNewTaskCurrentColumn_Click(object sender, RoutedEventArgs e)
@@ -194,27 +193,34 @@ namespace KanbanBoardUWP
                 }
             }
 
-            // Set corresponding TaskDialog properties
-            TaskDialog newTaskDialog = new TaskDialog
-            {
-                Model = null,
-                Kanban = kanbanBoard,
-                Categories = lstCategories,
-                ColorKeys = GetColorKeys(kanbanBoard),
-                PrimaryButtonText = "Create",
-                IsSecondaryButtonEnabled = false,
-            };
-            await newTaskDialog.ShowAsync(); // Dialog open
+            //// Set corresponding TaskDialog properties
+            //TaskDialog newTaskDialog = new TaskDialog
+            //{
+            //    Model = null,
+            //    Kanban = kanbanBoard,
+            //    Categories = lstCategories,
+            //    ColorKeys = GetColorKeys(kanbanBoard),
+            //    PrimaryButtonText = "Create",
+            //    IsSecondaryButtonEnabled = false,
+            //};
+            //await newTaskDialog.ShowAsync(); // Dialog open
         }
 
         private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
         {
+            // Call helper from ViewModel to handle model-related data
+            ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
+                GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
+            //ViewModel.SelectedCard = SelectedModel; // Selected Model
+
+            // UI Related Code
+
             // Hide flyout
             taskFlyout.Hide();
 
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
-
+           
             
             //// Set corresponding TaskDialog properties
             //// Edit TaskDialog Init
@@ -253,19 +259,27 @@ namespace KanbanBoardUWP
                 return; // Cancel
         }
 
-        private async void FlyoutBtnNewTask_Click(object sender, RoutedEventArgs e)
+        private void FlyoutBtnNewTask_Click(object sender, RoutedEventArgs e)
         {
             // Set corresponding TaskDialog properties to create new task
-            TaskDialog newTaskDialog = new TaskDialog
-            {
-                Model = null,
-                Kanban = kanbanBoard,
-                Categories = GetCategories(kanbanBoard),
-                ColorKeys = GetColorKeys(kanbanBoard),
-                PrimaryButtonText = "Create",
-                IsSecondaryButtonEnabled = false
-            };
-            await newTaskDialog.ShowAsync(); // Dialog open
+            //TaskDialog newTaskDialog = new TaskDialog
+            //{
+            //    Model = null,
+            //    Kanban = kanbanBoard,
+            //    Categories = GetCategories(kanbanBoard),
+            //    ColorKeys = GetColorKeys(kanbanBoard),
+            //    PrimaryButtonText = "Create",
+            //    IsSecondaryButtonEnabled = false
+            //};
+            //await newTaskDialog.ShowAsync(); // Dialog open
+
+            // Hide flyout
+            kanbanFlyout.Hide();
+
+            ViewModel.Model = new KanbanModel(); // New Task, null model
+
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
         }
 
         private void appBarBtnClosePane_Click(object sender, RoutedEventArgs e)
