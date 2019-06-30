@@ -31,6 +31,7 @@ namespace KanbanBoardUWP
     public sealed partial class MainPage : Page
     {
         public KanbanModel SelectedModel { get; set; }
+        public bool IsOpen { get; set; }
         public MainPage()
         {
             this.InitializeComponent();
@@ -200,22 +201,26 @@ namespace KanbanBoardUWP
             await newTaskDialog.ShowAsync(); // Dialog open
         }
 
-        private async void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
+        private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
         {
             // Hide flyout
             taskFlyout.Hide();
 
-            // Set corresponding TaskDialog properties
-            // Edit TaskDialog Init
-            TaskDialog editTaskDialog = new TaskDialog
-            {
-                Kanban = kanbanBoard,
-                Model = SelectedModel,
-                Categories = GetCategories(kanbanBoard), // Set Categories Property
-                ColorKeys = GetColorKeys(kanbanBoard), // Set ColorKeys Property
-                TaskTags = GetTagCollection(SelectedModel)
-            };
-            await editTaskDialog.ShowAsync(); // Dialog open
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
+
+            
+            //// Set corresponding TaskDialog properties
+            //// Edit TaskDialog Init
+            //TaskDialog editTaskDialog = new TaskDialog
+            //{
+            //    Kanban = kanbanBoard,
+            //    Model = SelectedModel,
+            //    Categories = GetCategories(kanbanBoard), // Set Categories Property
+            //    ColorKeys = GetColorKeys(kanbanBoard), // Set ColorKeys Property
+            //    TaskTags = GetTagCollection(SelectedModel)
+            //};
+            //await editTaskDialog.ShowAsync(); // Dialog open
         }
 
         private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
@@ -255,6 +260,11 @@ namespace KanbanBoardUWP
                 IsSecondaryButtonEnabled = false
             };
             await newTaskDialog.ShowAsync(); // Dialog open
+        }
+
+        private void appBarBtnClosePane_Click(object sender, RoutedEventArgs e)
+        {
+            splitView.IsPaneOpen = false;
         }
     }
 
