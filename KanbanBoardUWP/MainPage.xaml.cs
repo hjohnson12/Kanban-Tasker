@@ -264,18 +264,6 @@ namespace KanbanBoardUWP
 
         private void FlyoutBtnNewTask_Click(object sender, RoutedEventArgs e)
         {
-            // Set corresponding TaskDialog properties to create new task
-            //TaskDialog newTaskDialog = new TaskDialog
-            //{
-            //    Model = null,
-            //    Kanban = kanbanBoard,
-            //    Categories = GetCategories(kanbanBoard),
-            //    ColorKeys = GetColorKeys(kanbanBoard),
-            //    PrimaryButtonText = "Create",
-            //    IsSecondaryButtonEnabled = false
-            //};
-            //await newTaskDialog.ShowAsync(); // Dialog open
-
             // Hide flyout
             kanbanFlyout.Hide();
 

@@ -21,7 +21,7 @@
             <AcrylicBrush
                 x:Key="PaneBackgroundAcrylicBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="LightGray"
+                FallbackColor="DarkGray"
                 TintColor="Black"
                 TintOpacity="0.7" />
             <local1:StringToColorConverter x:Key="stringToColorConvertor" />
