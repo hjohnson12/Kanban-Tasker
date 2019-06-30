@@ -286,6 +286,22 @@ namespace KanbanBoardUWP
         {
             splitView.IsPaneOpen = false;
         }
+
+        private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            // Add Tag to listview on keydown event
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                var tagsTextBox = sender as TextBox;
+                if (tagsTextBox.Text == "")
+                    return;
+                else
+                {
+                    ViewModel.AddTagToCollection(tagsTextBox.Text);
+                    tagsTextBox.Text = "";
+                }
+            }
+        }
     }
 
     public class CollapsedHeaderMargin : IValueConverter

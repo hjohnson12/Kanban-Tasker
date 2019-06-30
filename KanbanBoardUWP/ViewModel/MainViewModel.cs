@@ -37,6 +37,12 @@ namespace KanbanBoardUWP.ViewModel
             //    tagsList.Add(tag.ToString());
             //var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
         }
+
+        public void AddTagToCollection(string tag)
+        {
+            TaskTags.Add(tag);
+        }
+
         public ObservableCollection<string> TaskTags
         {
             get { return _taskTags; }

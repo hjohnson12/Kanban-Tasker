@@ -346,6 +346,7 @@
                             x:Name="txtBoxTags"
                             Margin="0,15,0,0"
                             Header="Tags:"
+                            KeyDown="TxtBoxTags_KeyDown"
                             PlaceholderText="Type and press enter to add a new tag to the list" />
                         <ListView
                             x:Name="lstViewTags"
