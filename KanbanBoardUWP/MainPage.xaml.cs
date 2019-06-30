@@ -339,6 +339,9 @@ namespace KanbanBoardUWP
 
                 // Use view model to operate on model-related data
                 ViewModel.SaveTask(tags);
+
+                if (splitView.IsPaneOpen == true)
+                    splitView.IsPaneOpen = false;
             }
             else if (ViewModel.CardModel == null) // Creating a Task
             {
@@ -357,25 +360,12 @@ namespace KanbanBoardUWP
                     comboBoxCategories.SelectedItem = "To Do";
                     comboBoxColorKey.SelectedItem = "Low";
                 }
-                else
-                {
-
-                    // Store tags as a single string using csv format
-                    // When calling GetData(), the string will be parsed into separate tags and stored into the list view
-                  
-
-                    ViewModel.AddTask(tags);
-
-                    // Add task to database
-                    //DataAccess.AddTask(txtBoxTitle.Text,
-                    //    txtBoxDescription.Text, comboBoxCategories.SelectedItem.ToString(),
-                    //    comboBoxColorKey.SelectedItem.ToString(), tags);
-
-                    //// Update KanbanControl
-                    //Kanban.ItemsSource = DataAccess.GetData();
-                }
+                
                 ViewModel.AddTask(tags);
 
+                // Close pane
+                if (splitView.IsPaneOpen == true)
+                    splitView.IsPaneOpen = false;
             }
 
         }

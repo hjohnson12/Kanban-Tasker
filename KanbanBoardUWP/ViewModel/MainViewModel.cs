@@ -79,8 +79,13 @@ namespace KanbanBoardUWP.ViewModel
         public void SaveTask(string tags)
         {
             // Tags are stroed as string[] in KanbanModel
-            // STrip string into a string[]
-            var tagsArray = tags.Split(',');
+            // Strip string into a string[]
+            string[] tagsArray;
+            if (tags == "")
+                tagsArray = new string[] { };
+            else
+                tagsArray = tags.Split(",");
+
 
             // Create model and add to Tasks Colelction
             var newModel = new KanbanModel
@@ -94,15 +99,14 @@ namespace KanbanBoardUWP.ViewModel
             };
 
             // Update item in collection
-            // DEBUG ISSUE -- Deletes item
             var found = Tasks.FirstOrDefault(x => x.ID == ID);
             int i = Tasks.IndexOf(found);
             Tasks[i] = newModel;
 
             // Update item in database
-            //DataAccess.UpdateTask(ID, Title,
-            //    Description, "Open",
-            //    "Low", tags);
+            DataAccess.UpdateTask(ID, Title,
+                Description, Category.ToString(),
+                ColorKey.ToString(), tags);
         }
 
         public void DeleteTask(KanbanModel model)
@@ -161,8 +165,9 @@ namespace KanbanBoardUWP.ViewModel
             {
                 _cardModel = value;
 
-                // Update Task Properties to Selected Cards
-                if (_cardModel == null)
+                // Update Task Properties 
+
+                if (_cardModel == null) // New Task
                 {
                     ID = null;
                     Title = null;
@@ -173,7 +178,7 @@ namespace KanbanBoardUWP.ViewModel
                     TagsCollection = new ObservableCollection<string>();
                     OnPropertyChanged();
                 }
-                else
+                else // Edit Task
                 {
                     ID = _cardModel.ID;
                     Title = _cardModel.Title;
