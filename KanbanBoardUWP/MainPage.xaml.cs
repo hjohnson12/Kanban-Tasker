@@ -356,6 +356,8 @@ namespace KanbanBoardUWP
                 foreach (var tag in lstViewTags.Items)
                     tagsList.Add(tag.ToString());
                 var tags = string.Join(',', tagsList); // Convert to single string
+                if (tags == "")
+                    tags = null;
 
                 // To allow a draft task, require user to have category and colorkey chosen
                 if (comboBoxCategories.SelectedItem == null || comboBoxColorKey.SelectedItem == null)

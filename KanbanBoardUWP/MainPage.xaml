@@ -371,22 +371,27 @@
                     </StackPanel>
 
                 </ScrollViewer>
-                <StackPanel
+                <Border
                     Grid.Row="2"
-                    Margin="10"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Button
-                        x:Name="btnSaveTask"
-                        Margin="5"
-                        Click="BtnSaveTask_Click"
-                        Content="Save" />
-                    <Button
-                        x:Name="btnCancelEdit"
-                        Margin="5"
-                        Click="BtnCancelEdit_Click"
-                        Content="Cancel" />
-                </StackPanel>
+                    BorderBrush="Gray"
+                    BorderThickness="0,1,0,0">
+                    <StackPanel
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <Button
+                            x:Name="btnSaveTask"
+                            Margin="5"
+                            Click="BtnSaveTask_Click"
+                            Content="Save" />
+                        <Button
+                            x:Name="btnCancelEdit"
+                            Margin="5"
+                            Click="BtnCancelEdit_Click"
+                            Content="Cancel" />
+                    </StackPanel>
+                </Border>
             </Grid>
         </SplitView.Pane>
 

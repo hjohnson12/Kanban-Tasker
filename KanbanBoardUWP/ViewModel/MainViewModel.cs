@@ -95,7 +95,12 @@ namespace KanbanBoardUWP.ViewModel
 
         public void AddTask(string tags)
         {
-            var tagsArray = tags.Split(',');
+            
+            string[] tagsArray = new string[] { };
+            if (tags != null)
+                tagsArray = tags.Split(',');
+            else
+                tags = "";
             var newModel = new KanbanModel();
             newModel.ID = ID;
             newModel.Title = Title;
@@ -144,7 +149,7 @@ namespace KanbanBoardUWP.ViewModel
                     Description = null;
                     Category = null;
                     ColorKey = null;
-                    Tags = null;
+                    Tags = new string[] { };
                     TagsCollection = new ObservableCollection<string>();
                     OnPropertyChanged();
                 }
