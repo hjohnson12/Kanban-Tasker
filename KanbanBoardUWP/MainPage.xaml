@@ -252,8 +252,8 @@
                 </Border>
             </DataTemplate>
             <CommandBarFlyout Placement="Right" x:Name="taskFlyout">
-            <AppBarButton Label="Edit Task" Icon="Edit" ToolTipService.ToolTip="Edit" />
-            <AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete" />
+            <AppBarButton Label="Edit Task" Icon="Edit" ToolTipService.ToolTip="Edit" x:Name="flyoutBtnEdit" Click="FlyoutBtnEdit_Click"/>
+            <AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete" x:Name="flyoutBtnDelete" Click="FlyoutBtnDelete_Click" />
             <!--<CommandBarFlyout.SecondaryCommands>
                 --><!--<AppBarButton x:Name="MoveButton1" Label="Move" />--><!--
             </CommandBarFlyout.SecondaryCommands>-->
@@ -281,6 +281,15 @@
             ColumnMappingPath="Category"
             ItemsSource="{Binding}"
             MinColumnWidth="150">
+            <syncfusion:SfKanban.ContextFlyout>
+                <CommandBarFlyout x:Name="ContextMenu">
+                    <CommandBarFlyout.SecondaryCommands>
+                        <AppBarButton Label="Add Task" Icon="Add"/>
+                        <AppBarSeparator />
+                        <AppBarButton Label="Properties"/>
+                    </CommandBarFlyout.SecondaryCommands>
+                </CommandBarFlyout>
+            </syncfusion:SfKanban.ContextFlyout>
             <syncfusion:SfKanban.ColumnHeaderTemplate>
                 <DataTemplate>
                     <Grid>
@@ -537,5 +546,6 @@
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>-->
         </syncfusion:SfKanban>
+        
     </Grid>
 </Page>

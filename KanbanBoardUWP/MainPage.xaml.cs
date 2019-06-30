@@ -49,41 +49,31 @@ namespace KanbanBoardUWP
             // Pre: Get information to pass to the dialog for displaying
             //      Set corresponding properties in TaskDialog
             // Post: Information passed, dialog opened
+
             // Always show in standard mode
             // Get selected card
             var currentCol = e.SelectedColumn.Title.ToString();
             var selectedCardIndex = e.SelectedCardIndex;
-            var selectedCardModel = e.SelectedCard.Content as KanbanModel;
             SelectedModel = e.SelectedCard.Content as KanbanModel; 
 
-            ShowContextMenu(false, selectedCardIndex, currentCol);
-
-            //// Set corresponding TaskDialog properties
-            //// Edit TaskDialog Init
-            //TaskDialog editTaskDialog = new TaskDialog
-            //{
-            //    Kanban = kanbanBoard,
-            //    Model = selectedCardModel,
-            //    Categories = GetCategories(kanbanBoard), // Set Categories Property
-            //    ColorKeys = GetColorKeys(kanbanBoard), // Set ColorKeys Property
-            //    TaskTags = GetTagCollection(selectedCardModel)
-            //};
-            //await editTaskDialog.ShowAsync(); // Dialog open
+            // Show context menu next to selected card
+            ShowContextMenu(selectedCardIndex, currentCol);
         }
 
-        public void ShowContextMenu(bool isTransient, int index, string currentCol)
+        public void ShowContextMenu(int currentCardindex, string currentCol)
         {
             // Workaround to show context menu next to selected card model
             foreach (var col in kanbanBoard.ActualColumns)
             {
                 if (col.Title.ToString() == currentCol)
                 {
+                    // Set flyout to selected card index
                     for (int i = 0; i <= col.Cards.Count; i++)
                     {
-                        if (i == index)
+                        if (i == currentCardindex)
                         {
                             FlyoutShowOptions myOption = new FlyoutShowOptions();
-                            myOption.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
+                            myOption.ShowMode = FlyoutShowMode.Transient;
                             taskFlyout.ShowAt(col.Cards[i], myOption);
                         }
                     }
@@ -208,6 +198,48 @@ namespace KanbanBoardUWP
                 IsSecondaryButtonEnabled = false,
             };
             await newTaskDialog.ShowAsync(); // Dialog open
+        }
+
+        private async void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            // Hide flyout
+            taskFlyout.Hide();
+
+            // Set corresponding TaskDialog properties
+            // Edit TaskDialog Init
+            TaskDialog editTaskDialog = new TaskDialog
+            {
+                Kanban = kanbanBoard,
+                Model = SelectedModel,
+                Categories = GetCategories(kanbanBoard), // Set Categories Property
+                ColorKeys = GetColorKeys(kanbanBoard), // Set ColorKeys Property
+                TaskTags = GetTagCollection(SelectedModel)
+            };
+            await editTaskDialog.ShowAsync(); // Dialog open
+        }
+
+        private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // Hide flyout
+            taskFlyout.Hide();
+
+            ContentDialog deleteDialog = new ContentDialog()
+            {
+                Title = "Delete Task Confirmation",
+                PrimaryButtonText = "Yes",
+                Content = "Are you sure you wish to delete this task?",
+                SecondaryButtonText = "No"
+            };
+            var result = await deleteDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                // Delete Task and update kanban
+                DataAccess.DeleteTask(SelectedModel.ID);
+                kanbanBoard.ItemsSource = DataAccess.GetData();
+            }
+            else
+                return; // Cancel
         }
     }
 
