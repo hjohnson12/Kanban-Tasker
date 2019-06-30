@@ -54,6 +54,13 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
+        public void NewTaskHelper(List<string> categories, List<string> colorKeys)
+        {
+            CardModel = null; // Null card for new task
+            Categories = categories;
+            ColorKeys = colorKeys;
+        }
+
         public void EditTaskHelper(KanbanModel selectedModel, List<string> categories, List<string> colorKeys, ObservableCollection<string> tags)
         {
             // Get content ready to show in splitview pane
@@ -96,6 +103,11 @@ namespace KanbanBoardUWP.ViewModel
             //DataAccess.UpdateTask(ID, Title,
             //    Description, "Open",
             //    "Low", tags);
+        }
+
+        public void DeleteTask(KanbanModel model)
+        {
+            Tasks.Remove(model);
         }
 
         public void AddTask(string tags)

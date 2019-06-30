@@ -333,14 +333,16 @@
                             Header="Category:"
                             IsEditable="False"
                             ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
-                            PlaceholderText="Choose One:" />
+                            PlaceholderText="Choose One:"
+                            SelectedItem="{x:Bind ViewModel.Category, Mode=OneWay}" />
                         <ComboBox
                             x:Name="comboBoxColorKey"
                             Margin="0,15,0,0"
                             Header="Color Key:"
                             IsEditable="False"
                             ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
-                            PlaceholderText="Choose One:" />
+                            PlaceholderText="Choose One:"
+                            Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
                         <TextBox
                             x:Name="txtBoxTags"
                             Margin="0,15,0,0"

@@ -91,26 +91,13 @@ namespace KanbanBoardUWP
         //=====================================================================
         // FUNCTIONS & EVENTS FOR ADDING A NEW TASK
         //=====================================================================
-        private async void MnuItemNewTask_Click(object sender, RoutedEventArgs e)
+        private void MnuItemNewTask_Click(object sender, RoutedEventArgs e)
         {
-            // Set corresponding TaskDialog properties
-            //TaskDialog newTaskDialog = new TaskDialog
-            //{
-            //    Model = null,
-            //    Kanban = kanbanBoard,
-            //    Categories = GetCategories(kanbanBoard),
-            //    ColorKeys = GetColorKeys(kanbanBoard),
-            //    PrimaryButtonText = "Create",
-            //    IsSecondaryButtonEnabled = false
-            //};
-            //await newTaskDialog.ShowAsync(); // Dialog open
-
-
             // Hide flyout
             kanbanFlyout.Hide();
 
             // Null card for new task
-            ViewModel.CardModel = null;
+            ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
 
             // Open pane if not already
             if (splitView.IsPaneOpen == false)
@@ -176,6 +163,8 @@ namespace KanbanBoardUWP
 
         private async void BtnNewTaskCurrentColumn_Click(object sender, RoutedEventArgs e)
         {
+            // TO DO
+
             // Add task to specific column
             // Only show categories within that column
             var btn = sender as Button;
@@ -262,9 +251,9 @@ namespace KanbanBoardUWP
 
             if (result == ContentDialogResult.Primary)
             {
-                // Delete Task and update kanban
+                // Delete Task from collection and database
+                ViewModel.DeleteTask(SelectedModel);
                 DataAccess.DeleteTask(SelectedModel.ID);
-                kanbanBoard.ItemsSource = DataAccess.GetData();
             }
             else
                 return; // Cancel
@@ -287,7 +276,8 @@ namespace KanbanBoardUWP
             // Hide flyout
             kanbanFlyout.Hide();
 
-            ViewModel.Task = new KanbanModel(); // New Task, null model
+            //ViewModel.Task = new KanbanModel(); // New Task, null model
+            ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
 
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
