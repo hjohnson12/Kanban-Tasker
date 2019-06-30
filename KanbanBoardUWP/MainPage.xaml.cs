@@ -54,8 +54,8 @@ namespace KanbanBoardUWP
             // Get selected card
             var currentCol = e.SelectedColumn.Title.ToString();
             var selectedCardIndex = e.SelectedCardIndex;
-            SelectedModel = e.SelectedCard.Content as KanbanModel; 
-
+            SelectedModel = e.SelectedCard.Content as KanbanModel;
+            
             // Show context menu next to selected card
             ShowContextMenu(selectedCardIndex, currentCol);
         }
@@ -240,6 +240,21 @@ namespace KanbanBoardUWP
             }
             else
                 return; // Cancel
+        }
+
+        private async void FlyoutBtnNewTask_Click(object sender, RoutedEventArgs e)
+        {
+            // Set corresponding TaskDialog properties to create new task
+            TaskDialog newTaskDialog = new TaskDialog
+            {
+                Model = null,
+                Kanban = kanbanBoard,
+                Categories = GetCategories(kanbanBoard),
+                ColorKeys = GetColorKeys(kanbanBoard),
+                PrimaryButtonText = "Create",
+                IsSecondaryButtonEnabled = false
+            };
+            await newTaskDialog.ShowAsync(); // Dialog open
         }
     }
 
