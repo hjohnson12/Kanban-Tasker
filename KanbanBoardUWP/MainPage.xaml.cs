@@ -110,7 +110,7 @@ namespace KanbanBoardUWP
             kanbanFlyout.Hide();
 
             // Null card for new task
-            ViewModel.SelectedCard = null;
+            ViewModel.CardModel = null;
 
             // Open pane if not already
             if (splitView.IsPaneOpen == false)
@@ -287,7 +287,7 @@ namespace KanbanBoardUWP
             // Hide flyout
             kanbanFlyout.Hide();
 
-            ViewModel.Model = new KanbanModel(); // New Task, null model
+            ViewModel.Task = new KanbanModel(); // New Task, null model
 
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
@@ -332,12 +332,12 @@ namespace KanbanBoardUWP
             if (splitView.IsPaneOpen == true)
                 splitView.IsPaneOpen = false;
 
-            ViewModel.SelectedCard = null; // Reset selected card property
+            ViewModel.CardModel = null; // Reset selected card property
         }
 
         private async void BtnSaveTask_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.SelectedCard != null) // Editing a Task
+            if (ViewModel.CardModel != null) // Editing a Task
             {
                 // UI-related operations
                 // Store tags as a single string using csv format
@@ -350,7 +350,7 @@ namespace KanbanBoardUWP
                 // Use view model to operate on model-related data
                 ViewModel.SaveTask(tags);
             }
-            else if (ViewModel.SelectedCard == null) // Creating a Task
+            else if (ViewModel.CardModel == null) // Creating a Task
             {
                 List<string> tagsList = new List<string>();
                 foreach (var tag in lstViewTags.Items)
@@ -396,7 +396,7 @@ namespace KanbanBoardUWP
             else if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
 
-            ViewModel.SelectedCard = null;
+            ViewModel.CardModel = null;
         }
     }
 

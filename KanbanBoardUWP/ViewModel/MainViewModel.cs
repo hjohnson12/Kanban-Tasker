@@ -22,9 +22,9 @@ namespace KanbanBoardUWP.ViewModel
         }
         public ObservableCollection<string> Categories { get; set; }
         public ObservableCollection<string> ColorKeys { get; set; }
-        public KanbanModel Model = new KanbanModel();
-        private KanbanModel _originalSelectedCard;
-        private KanbanModel _selectedCard;
+        public KanbanModel Task = new KanbanModel();
+        private KanbanModel _originalCardModel;
+        private KanbanModel _cardModel;
         private ObservableCollection<string> _tagsCollection;
         private ObservableCollection<KanbanModel> _tasks;
 
@@ -36,8 +36,8 @@ namespace KanbanBoardUWP.ViewModel
         public void EditTaskHelper(KanbanModel selectedModel, ObservableCollection<string> categories, ObservableCollection<string> colorKeys, ObservableCollection<string> tags)
         {
             // Get content ready to show in splitview pane
-            OriginalSelectedCard = selectedModel;
-            SelectedCard = selectedModel;
+            OriginalCardModel = selectedModel;
+            CardModel = selectedModel;
             Categories = categories;
             ColorKeys = colorKeys;
             TagsCollection = tags;
@@ -57,7 +57,7 @@ namespace KanbanBoardUWP.ViewModel
 
         public void NewTaskHelper()
         {
-            SelectedCard = null;
+            CardModel = null;
             // Create null items 
             //ID = null;
             //Title = null;
@@ -73,15 +73,22 @@ namespace KanbanBoardUWP.ViewModel
 
         public void SaveTask(string tags)
         {
+            // Tags are stroed as string[] in KanbanModel
+            // STrip string into a string[]
             var tagsArray = tags.Split(',');
-            var newModel = new KanbanModel();
-            newModel.ID = ID;
-            newModel.Title = Title;
-            newModel.Description = Description;
-            newModel.Category = Category;
-            newModel.ColorKey = ColorKey;
-            newModel.Tags = tagsArray;
 
+            // Create model and add to Tasks Colelction
+            var newModel = new KanbanModel
+            {
+                ID = ID,
+                Title = Title,
+                Description = Description,
+                Category = Category,
+                ColorKey = ColorKey,
+                Tags = tagsArray
+            };
+
+            // Update item in collection
             // DEBUG ISSUE -- Deletes item
             var found = Tasks.FirstOrDefault(x => x.ID == ID);
             int i = Tasks.IndexOf(found);
@@ -95,30 +102,33 @@ namespace KanbanBoardUWP.ViewModel
 
         public void AddTask(string tags)
         {
-            
+            // Tags are stored as as string[] in KanbanModel
+            // Strip string into a sting[]
             string[] tagsArray = new string[] { };
-            if (tags != null)
+            if (tags != null) 
                 tagsArray = tags.Split(',');
             else
-                tags = "";
-            var newModel = new KanbanModel();
-            newModel.ID = ID;
-            newModel.Title = Title;
-            newModel.Description = Description;
-            newModel.Category = "Open";
-            newModel.ColorKey = "Low";
-            newModel.Tags = tagsArray;
-            Tasks.Add(newModel);
+                tags = ""; // No tags
 
-            var categ = (string)Category;
-            var colorKey = (string)ColorKey;
+            // Create model and add to Tasks collection
+            var model = new KanbanModel
+            {
+                ID = ID,
+                Title = Title,
+                Description = Description,
+                Category = "Open",
+                ColorKey = "Low",
+                Tags = tagsArray
+            };
+            Tasks.Add(model);
+
             // Add task to database
             DataAccess.AddTask(Title,
                 Description, "Open",
                 "Low", tags);
         }
 
-        public KanbanModel OriginalSelectedCard
+        public KanbanModel OriginalCardModel
         {
             get;
             set;
@@ -134,15 +144,15 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
-        public KanbanModel SelectedCard
+        public KanbanModel CardModel
         {
-            get { return _selectedCard; }
+            get { return _cardModel; }
             set
             {
-                _selectedCard = value;
+                _cardModel = value;
 
                 // Update Task Properties to Selected Cards
-                if (_selectedCard == null)
+                if (_cardModel == null)
                 {
                     ID = null;
                     Title = null;
@@ -155,12 +165,12 @@ namespace KanbanBoardUWP.ViewModel
                 }
                 else
                 {
-                    ID = _selectedCard.ID;
-                    Title = _selectedCard.Title;
-                    Description = _selectedCard.Description;
-                    Category = _selectedCard.Category.ToString();
-                    ColorKey = _selectedCard.ColorKey.ToString();
-                    Tags = _selectedCard.Tags;
+                    ID = _cardModel.ID;
+                    Title = _cardModel.Title;
+                    Description = _cardModel.Description;
+                    Category = _cardModel.Category.ToString();
+                    ColorKey = _cardModel.ColorKey.ToString();
+                    Tags = _cardModel.Tags;
                     OnPropertyChanged();
                 }
             }
@@ -170,14 +180,14 @@ namespace KanbanBoardUWP.ViewModel
         {
             get
             {
-                if (Model.ID == null)
+                if (Task.ID == null)
                     return "";
                 else
-                    return Model.ID;
+                    return Task.ID;
             }
             set
             {
-                Model.ID = value;
+                Task.ID = value;
                 OnPropertyChanged();
             }
         }
@@ -186,14 +196,14 @@ namespace KanbanBoardUWP.ViewModel
         {
             get
             {
-                if (Model.Title == null)
+                if (Task.Title == null)
                     return "";
                 else
-                    return Model.Title;
+                    return Task.Title;
             }
             set
             {
-                Model.Title = value;
+                Task.Title = value;
                 OnPropertyChanged();
             }
         }
@@ -202,14 +212,14 @@ namespace KanbanBoardUWP.ViewModel
         {
             get
             {
-                if (Model.Description == null)
+                if (Task.Description == null)
                     return "";
                 else
-                    return Model.Description;
+                    return Task.Description;
             }
             set
             {
-                Model.Description = value;
+                Task.Description = value;
                 OnPropertyChanged();
             }
         }
@@ -217,11 +227,11 @@ namespace KanbanBoardUWP.ViewModel
         public object Category
         {
             get {
-                return Model.Category;
+                return Task.Category;
             }
             set
             {
-                Model.Category = value;
+                Task.Category = value;
                 OnPropertyChanged();
             }
         }
@@ -230,11 +240,11 @@ namespace KanbanBoardUWP.ViewModel
         {
             get
             {
-                return Model.ColorKey;
+                return Task.ColorKey;
             }
             set
             {
-                Model.ColorKey = value;
+                Task.ColorKey = value;
                 OnPropertyChanged();
             }
         }
@@ -247,11 +257,11 @@ namespace KanbanBoardUWP.ViewModel
                 //    return;
                 //else
                 //    return Model.Tags;
-                return Model.Tags;
+                return Task.Tags;
             }
             set
             {
-                Model.Tags = value;
+                Task.Tags = value;
                 OnPropertyChanged();
             }
         }
