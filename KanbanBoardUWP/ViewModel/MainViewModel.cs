@@ -19,6 +19,7 @@ namespace KanbanBoardUWP.ViewModel
         private ObservableCollection<KanbanModel> _tasks;
         private List<string> _categories;
         private List<string> _colorKeys;
+        private string _selectedCategory;
 
         public MainViewModel()
         {
@@ -76,7 +77,7 @@ namespace KanbanBoardUWP.ViewModel
             TagsCollection.Add(tag);
         }
 
-        public void SaveTask(string tags)
+        public void SaveTask(string tags, object selectedCategory, object selectedColorKey)
         {
             // Tags are stroed as string[] in KanbanModel
             // Strip string into a string[]
@@ -87,14 +88,14 @@ namespace KanbanBoardUWP.ViewModel
                 tagsArray = tags.Split(",");
 
 
-            // Create model and add to Tasks Colelction
+            // Create model
             var newModel = new KanbanModel
             {
                 ID = ID,
                 Title = Title,
                 Description = Description,
-                Category = Category,
-                ColorKey = ColorKey,
+                Category = selectedCategory,
+                ColorKey = selectedColorKey,
                 Tags = tagsArray
             };
 
@@ -114,7 +115,7 @@ namespace KanbanBoardUWP.ViewModel
             Tasks.Remove(model);
         }
 
-        public void AddTask(string tags)
+        public void AddTask(string tags, object selectedCategory, object selectedColorKey)
         {
             // Tags are stored as as string[] in KanbanModel
             // Strip string into a sting[]
@@ -130,16 +131,16 @@ namespace KanbanBoardUWP.ViewModel
                 ID = ID,
                 Title = Title,
                 Description = Description,
-                Category = "Open",
-                ColorKey = "Low",
+                Category = selectedCategory,
+                ColorKey = selectedColorKey,
                 Tags = tagsArray
             };
             Tasks.Add(model);
 
             // Add task to database
             DataAccess.AddTask(Title,
-                Description, "Open",
-                "Low", tags);
+                Description, selectedCategory.ToString(),
+                selectedColorKey.ToString(), tags);
         }
 
         public KanbanModel OriginalCardModel
@@ -186,7 +187,7 @@ namespace KanbanBoardUWP.ViewModel
                     Category = _cardModel.Category.ToString();
                     ColorKey = _cardModel.ColorKey.ToString();
                     Tags = _cardModel.Tags;
-                    OnPropertyChanged();
+                    OnPropertyChanged("CardModel");
                 }
             }
         }
@@ -247,9 +248,10 @@ namespace KanbanBoardUWP.ViewModel
             set
             {
                 Task.Category = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Category");
             }
         }
+
 
         public object ColorKey
         {

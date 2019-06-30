@@ -26,6 +26,7 @@
                 TintOpacity="0.7" />
             <local1:StringToColorConverter x:Key="stringToColorConvertor" />
             <local1:CardCountConverter x:Key="cardCountConverter" />
+            <local1:ItemConverter x:Key="itemConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
             <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
             <ControlTemplate x:Key="CollapsedColumnTemplate" TargetType="local:CustomKanbanColumn">
@@ -313,6 +314,7 @@
                         <TextBox
                             x:Name="txtBoxTitle"
                             Margin="0,15,0,0"
+                            Header="Title:"
                             PlaceholderText="Type your information here"
                             Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -333,8 +335,7 @@
                             Header="Category:"
                             IsEditable="False"
                             ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
-                            PlaceholderText="Choose One:"
-                            SelectedItem="{x:Bind ViewModel.Category, Mode=OneWay}" />
+                            PlaceholderText="Choose One:" />
                         <ComboBox
                             x:Name="comboBoxColorKey"
                             Margin="0,15,0,0"

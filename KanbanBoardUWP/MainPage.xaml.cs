@@ -211,7 +211,10 @@ namespace KanbanBoardUWP
             // Call helper from ViewModel to handle model-related data
             ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
                 GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
-            //ViewModel.SelectedCard = SelectedModel; // Selected Model
+
+            // Set selected items in combo box
+            comboBoxCategories.SelectedItem = SelectedModel.Category;
+            comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
 
             // UI Related Code
 
@@ -338,8 +341,11 @@ namespace KanbanBoardUWP
                 var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
 
                 // Use view model to operate on model-related data
-                ViewModel.SaveTask(tags);
+                var selectedCategory = comboBoxCategories.SelectedItem;
+                var selectedColorKey = comboBoxColorKey.SelectedItem;
+                ViewModel.SaveTask(tags, selectedCategory, selectedColorKey);
 
+                // Close pane when done
                 if (splitView.IsPaneOpen == true)
                     splitView.IsPaneOpen = false;
             }
@@ -360,23 +366,15 @@ namespace KanbanBoardUWP
                     comboBoxCategories.SelectedItem = "To Do";
                     comboBoxColorKey.SelectedItem = "Low";
                 }
-                
-                ViewModel.AddTask(tags);
 
-                // Close pane
+                var selectedCategory = comboBoxCategories.SelectedItem;
+                var selectedColorKey = comboBoxColorKey.SelectedItem;
+                ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
+
+                // Close pane when done
                 if (splitView.IsPaneOpen == true)
                     splitView.IsPaneOpen = false;
             }
-
-        }
-        public void ClosePane()
-        {
-            if (splitView.IsPaneOpen == true)
-                splitView.IsPaneOpen = false;
-            else if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-
-            ViewModel.CardModel = null;
         }
     }
 
