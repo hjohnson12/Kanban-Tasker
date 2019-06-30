@@ -293,6 +293,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <AppBarButton
                     x:Name="appBarBtnClosePane"
@@ -354,9 +355,12 @@
                             AllowDrop="True"
                             CanDragItems="True"
                             CanReorderItems="True"
-                            ItemsSource="{x:Bind ViewModel.TaskTags, Mode=OneWay}"
+                            ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}"
                             SelectionMode="Multiple" />
-                        <Button x:Name="btnDeleteTags" Content="Delete Selected Items" />
+                        <Button
+                            x:Name="btnDeleteTags"
+                            Click="BtnDeleteTags_Click"
+                            Content="Delete Selected Items" />
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
                     x:Name="txtBoxImageUrl"
@@ -365,7 +369,24 @@
                     Text="{x:Bind Model.ImageURL}" />-->
 
                     </StackPanel>
+
                 </ScrollViewer>
+                <StackPanel
+                    Grid.Row="2"
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btnSaveTask"
+                        Margin="5"
+                        Click="BtnSaveTask_Click"
+                        Content="Save" />
+                    <Button
+                        x:Name="btnCancelEdit"
+                        Margin="5"
+                        Click="BtnCancelEdit_Click"
+                        Content="Cancel" />
+                </StackPanel>
             </Grid>
         </SplitView.Pane>
 
@@ -384,7 +405,7 @@
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks}"
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
                 MinColumnWidth="150">
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">

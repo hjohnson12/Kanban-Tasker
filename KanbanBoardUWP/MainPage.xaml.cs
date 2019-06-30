@@ -104,6 +104,17 @@ namespace KanbanBoardUWP
             //    IsSecondaryButtonEnabled = false
             //};
             //await newTaskDialog.ShowAsync(); // Dialog open
+
+
+            // Hide flyout
+            kanbanFlyout.Hide();
+
+            // Null card for new task
+            ViewModel.SelectedCard = null;
+
+            // Open pane if not already
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
         }
 
         private void MnuItemExitApp_Click(object sender, RoutedEventArgs e)
@@ -302,7 +313,91 @@ namespace KanbanBoardUWP
                 }
             }
         }
+
+        private void BtnDeleteTags_Click(object sender, RoutedEventArgs e)
+        {
+            // Delete selected items in the New Task tags listview
+            var copyOfSelectedItems = lstViewTags.SelectedItems.ToArray();
+            foreach (var item in copyOfSelectedItems)
+                (lstViewTags.ItemsSource as IList).Remove(item);
+            //ViewModel.DeleteTagsFromCollection(copyOfSelectedItems);
+        }
+
+        private void BtnCancelEdit_Click(object sender, RoutedEventArgs e)
+        {
+            // Reset changes and close pane\
+            // To Do: Change when adding task
+            SelectedModel = ViewModel.OriginalSelectedCard;
+
+            if (splitView.IsPaneOpen == true)
+                splitView.IsPaneOpen = false;
+
+            ViewModel.SelectedCard = null; // Reset selected card property
+        }
+
+        private async void BtnSaveTask_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.SelectedCard != null) // Editing a Task
+            {
+                // UI-related operations
+                // Store tags as a single string using csv format
+                // When calling GetData(), the string will be parsed into separate tags and stored into the list view
+                List<string> tagsList = new List<string>();
+                foreach (var tag in lstViewTags.Items)
+                    tagsList.Add(tag.ToString());
+                var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
+
+                // Use view model to operate on model-related data
+                ViewModel.SaveTask(tags);
+            }
+            else if (ViewModel.SelectedCard == null) // Creating a Task
+            {
+                List<string> tagsList = new List<string>();
+                foreach (var tag in lstViewTags.Items)
+                    tagsList.Add(tag.ToString());
+                var tags = string.Join(',', tagsList); // Convert to single string
+
+                // To allow a draft task, require user to have category and colorkey chosen
+                if (comboBoxCategories.SelectedItem == null || comboBoxColorKey.SelectedItem == null)
+                {
+                    //var messageDialog = new MessageDialog("NOTE: You must fill out a category and color key to be able to create a draft task", "ERROR");
+                    //await messageDialog.ShowAsync();
+                    comboBoxCategories.SelectedItem = "To Do";
+                    comboBoxColorKey.SelectedItem = "Low";
+                }
+                else
+                {
+
+                    // Store tags as a single string using csv format
+                    // When calling GetData(), the string will be parsed into separate tags and stored into the list view
+                  
+
+                    ViewModel.AddTask(tags);
+
+                    // Add task to database
+                    //DataAccess.AddTask(txtBoxTitle.Text,
+                    //    txtBoxDescription.Text, comboBoxCategories.SelectedItem.ToString(),
+                    //    comboBoxColorKey.SelectedItem.ToString(), tags);
+
+                    //// Update KanbanControl
+                    //Kanban.ItemsSource = DataAccess.GetData();
+                }
+                ViewModel.AddTask(tags);
+
+            }
+
+        }
+        public void ClosePane()
+        {
+            if (splitView.IsPaneOpen == true)
+                splitView.IsPaneOpen = false;
+            else if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
+
+            ViewModel.SelectedCard = null;
+        }
     }
+
 
     public class CollapsedHeaderMargin : IValueConverter
     {
