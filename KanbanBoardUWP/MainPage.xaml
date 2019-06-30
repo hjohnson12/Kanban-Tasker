@@ -285,8 +285,6 @@
                 <CommandBarFlyout x:Name="ContextMenu">
                     <CommandBarFlyout.SecondaryCommands>
                         <AppBarButton Label="Add Task" Icon="Add"/>
-                        <AppBarSeparator />
-                        <AppBarButton Label="Properties"/>
                     </CommandBarFlyout.SecondaryCommands>
                 </CommandBarFlyout>
             </syncfusion:SfKanban.ContextFlyout>
