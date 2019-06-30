@@ -263,11 +263,87 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+    <SplitView x:Name="splitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+           IsPaneOpen="True" OpenPaneLength="350" CompactPaneLength="48" DisplayMode="Inline" >
+        <SplitView.Pane>
+            <Grid>
+                <ScrollViewer>
+                    <StackPanel Margin="20">
+                        <TextBox
+                    x:Name="txtBoxID"
+                    Header="ID:"
+                    IsEnabled="False"
+                    Text="{x:Bind Model.ID}" />
+                        <TextBox
+                    x:Name="txtBoxTitle"
+                    Margin="0,15,0,0"
+                    Header="TItle:"
+                    PlaceholderText="Type your information here"
+                    Text="{x:Bind Model.Title}" />
+                        <!--  (RE-IMPLEMENT LATER, BUG WITH SWIMLANE VIEW ON THEIR END, June 2019 Update)  -->
+                        <!--<TextBox Header="Assignee:" />-->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <TextBox
+                        x:Name="txtBoxDescription"
+                        MaxHeight="400"
+                        Margin="0,15,0,0"
+                        AcceptsReturn="True"
+                        Header="Description"
+                        MaxLength="100"
+                        PlaceholderText="Type your information here"
+                        Text="{x:Bind Model.Description}"
+                        TextWrapping="Wrap" />
+                        </ScrollViewer>
+                        <ComboBox
+                    x:Name="comboBoxCategories"
+                    Margin="0,15,0,0"
+                    Header="Category:"
+                    IsEditable="False"
+                    ItemsSource="{x:Bind Categories}"
+                    PlaceholderText="Choose One:"
+                    SelectedItem="{x:Bind Model.Category}" />
+                        <ComboBox
+                    x:Name="comboBoxColorKey"
+                    Margin="0,15,0,0"
+                    Header="Color Key:"
+                    IsEditable="False"
+                    ItemsSource="{x:Bind ColorKeys}"
+                    PlaceholderText="Choose One:"
+                    SelectedItem="{x:Bind Model.ColorKey}" />
+                        <TextBox
+                    x:Name="txtBoxTags"
+                    Margin="0,15,0,0"
+                    Header="Tags:"
+                    KeyDown="TxtBoxTags_KeyDown"
+                    PlaceholderText="Type and press enter to add a new tag to the list" />
+                        <ListView
+                    x:Name="lstViewTags"
+                    MaxHeight="150"
+                    AllowDrop="True"
+                    CanDragItems="True"
+                    CanReorderItems="True"
+                    ItemsSource="{x:Bind TaskTags}"
+                    SelectionMode="Multiple" />
+                        <Button
+                    x:Name="btnDeleteTags"
+                    Click="BtnDeleteTags_Click"
+                    Content="Delete Selected Items" />
+                        <!--  Later Implementation, choose pic  -->
+                        <!--<TextBox
+                    x:Name="txtBoxImageUrl"
+                    Header="Image URL:"
+                    IsEnabled="False"
+                    Text="{x:Bind Model.ImageURL}" />-->
 
-    <Grid x:Name="grid" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </SplitView.Pane>
 
-        <!--  KANBAN BOARD  -->
-        <syncfusion:SfKanban
+        <Grid x:Name="grid" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+
+            <!--  KANBAN BOARD  -->
+            <syncfusion:SfKanban
             x:Name="kanbanBoard"
             Margin="0,0,0,0"
             HorizontalAlignment="Stretch"
@@ -281,30 +357,30 @@
             ColumnMappingPath="Category"
             ItemsSource="{Binding}"
             MinColumnWidth="150">
-            <syncfusion:SfKanban.ContextFlyout>
-                <CommandBarFlyout x:Name="ContextMenu">
-                    <CommandBarFlyout.SecondaryCommands>
-                        <AppBarButton Label="New Task" Icon="Add" x:Name="flyoutBtnNewTask" Click="FlyoutBtnNewTask_Click"/>
-                    </CommandBarFlyout.SecondaryCommands>
-                </CommandBarFlyout>
-            </syncfusion:SfKanban.ContextFlyout>
-            <syncfusion:SfKanban.ColumnHeaderTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="9*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="6*" />
-                            <RowDefinition Height="4*" />
-                        </Grid.RowDefinitions>
-                        <StackPanel
+                <syncfusion:SfKanban.ContextFlyout>
+                    <CommandBarFlyout x:Name="ContextMenu">
+                        <CommandBarFlyout.SecondaryCommands>
+                            <AppBarButton Label="New Task" Icon="Add" x:Name="flyoutBtnNewTask" Click="FlyoutBtnNewTask_Click"/>
+                        </CommandBarFlyout.SecondaryCommands>
+                    </CommandBarFlyout>
+                </syncfusion:SfKanban.ContextFlyout>
+                <syncfusion:SfKanban.ColumnHeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="9*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="6*" />
+                                <RowDefinition Height="4*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel
                             Grid.Row="0"
                             Grid.ColumnSpan="2"
                             Width="1000"
                             Orientation="Horizontal">
-                            <TextBlock
+                                <TextBlock
                                 x:Name="Header"
                                 Margin="0,5,0,5"
                                 HorizontalAlignment="Left"
@@ -314,7 +390,7 @@
                                 Foreground="White"
                                 Text="{Binding Header}"
                                 TextWrapping="NoWrap" />
-                            <Button
+                                <Button
                                 x:Name="btnNewTask"
                                 Margin="5,5,0,0"
                                 HorizontalAlignment="Right"
@@ -323,40 +399,40 @@
                                 Content="&#xE710;"
                                 FontFamily="Segoe MDL2 Assets"
                                 ToolTipService.ToolTip="Add task to column" />
-                        </StackPanel>
-                        <StackPanel
+                            </StackPanel>
+                            <StackPanel
                             x:Name="WIPPanel"
                             Grid.Row="1"
                             Grid.Column="0"
                             Orientation="Horizontal">
-                            <TextBlock
+                                <TextBlock
                                 Margin="0,2,0,5"
                                 VerticalAlignment="Center"
                                 FontSize="14"
                                 Foreground="White"
                                 Text="{Binding [ItemsCount]}"
                                 TextWrapping="WrapWholeWords" />
-                            <TextBlock
+                                <TextBlock
                                 Margin="5,2,0,5"
                                 VerticalAlignment="Center"
                                 FontSize="14"
                                 Foreground="White"
                                 Text="{Binding CardCount}"
                                 TextWrapping="WrapWholeWords" />
-                            <TextBlock
+                                <TextBlock
                                 Margin="0,2,0,5"
                                 VerticalAlignment="Center"
                                 FontSize="14"
                                 Foreground="White"
                                 Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, ConverterParameter=MinMaxLimit, Converter={StaticResource cardCountConverter}}"
                                 TextWrapping="WrapWholeWords" />
-                        </StackPanel>
-                        <Border
+                            </StackPanel>
+                            <Border
                             x:Name="CollapsedIcon"
                             Grid.Row="1"
                             Grid.Column="1"
                             Background="Transparent">
-                            <Path
+                                <Path
                                 Width="7"
                                 Height="14"
                                 HorizontalAlignment="Right"
@@ -366,18 +442,18 @@
                                 StrokeLineJoin="Miter"
                                 StrokeThickness="2"
                                 UseLayoutRounding="False">
-                                <Path.RenderTransform>
-                                    <CompositeTransform x:Name="RotateTransform" Rotation="0" />
-                                </Path.RenderTransform>
-                            </Path>
-                        </Border>
-                    </Grid>
-                </DataTemplate>
-            </syncfusion:SfKanban.ColumnHeaderTemplate>
+                                    <Path.RenderTransform>
+                                        <CompositeTransform x:Name="RotateTransform" Rotation="0" />
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </syncfusion:SfKanban.ColumnHeaderTemplate>
 
-            <!--  KANBAN BOARD HEADER TEMPLATE  -->
-            <syncfusion:SfKanban.Header>
-                <Border
+                <!--  KANBAN BOARD HEADER TEMPLATE  -->
+                <syncfusion:SfKanban.Header>
+                    <Border
                     Width="2000"
                     Height="50"
                     VerticalAlignment="Center"
@@ -385,7 +461,7 @@
                     BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
                     BorderThickness=".1">
 
-                    <!--<CommandBar
+                        <!--<CommandBar
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         Background="Transparent"
@@ -395,90 +471,90 @@
                         <AppBarButton Icon="ReShare" Label="Share" />
                         <AppBarButton Icon="Edit" Label="Edit" />
                     </CommandBar>-->
-                    <muxc:MenuBar Background="{ThemeResource RegionBrush}">
-                        <muxc:MenuBarItem Title="File" Foreground="Black">
-                            <MenuFlyoutItem
+                        <muxc:MenuBar Background="{ThemeResource RegionBrush}">
+                            <muxc:MenuBarItem Title="File" Foreground="Black">
+                                <MenuFlyoutItem
                                 x:Name="mnuItemNewTask"
                                 Click="MnuItemNewTask_Click"
                                 Text="New Task" />
 
-                            <MenuFlyoutItem Text="Open..." />
-                            <MenuFlyoutItem Text="Save" />
+                                <MenuFlyoutItem Text="Open..." />
+                                <MenuFlyoutItem Text="Save" />
 
-                            <MenuFlyoutItem Click="MnuItemExitApp_Click" Text="Exit" />
-                        </muxc:MenuBarItem>
-                    </muxc:MenuBar>
-                </Border>
-            </syncfusion:SfKanban.Header>
+                                <MenuFlyoutItem Click="MnuItemExitApp_Click" Text="Exit" />
+                            </muxc:MenuBarItem>
+                        </muxc:MenuBar>
+                    </Border>
+                </syncfusion:SfKanban.Header>
 
-            <syncfusion:SfKanban.CardStyle>
-                <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
-            </syncfusion:SfKanban.CardStyle>
+                <syncfusion:SfKanban.CardStyle>
+                    <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
+                </syncfusion:SfKanban.CardStyle>
 
-            <!--  KANBAN BOARD PRIORITY INDICATOR PALLETTE  -->
-            <syncfusion:SfKanban.IndicatorColorPalette>
-                <syncfusion:ColorMapping Key="Low" Color="Green" />
-                <syncfusion:ColorMapping Key="Normal" Color="Orange" />
-                <syncfusion:ColorMapping Key="High" Color="Red" />
-            </syncfusion:SfKanban.IndicatorColorPalette>
+                <!--  KANBAN BOARD PRIORITY INDICATOR PALLETTE  -->
+                <syncfusion:SfKanban.IndicatorColorPalette>
+                    <syncfusion:ColorMapping Key="Low" Color="Green" />
+                    <syncfusion:ColorMapping Key="Normal" Color="Orange" />
+                    <syncfusion:ColorMapping Key="High" Color="Red" />
+                </syncfusion:SfKanban.IndicatorColorPalette>
 
-            <local:CustomKanbanColumn
+                <local:CustomKanbanColumn
                 x:Name="Open"
                 Title="To Do"
                 Categories="Open"
                 CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                 MaximumLimit="10"
                 MinimumLimit="3">
-                <local:CustomKanbanColumn.ErrorBarSettings>
-                    <syncfusion:ErrorBarSettings
+                    <local:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
                         MaxValidationColor="Red"
                         MinValidationColor="Green"
                         Color="Gray" />
-                </local:CustomKanbanColumn.ErrorBarSettings>
-            </local:CustomKanbanColumn>
-            <local:CustomKanbanColumn
+                    </local:CustomKanbanColumn.ErrorBarSettings>
+                </local:CustomKanbanColumn>
+                <local:CustomKanbanColumn
                 Title="To Study"
                 Categories="Study"
                 CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                 MaximumLimit="10"
                 MinimumLimit="3">
-                <local:CustomKanbanColumn.ErrorBarSettings>
-                    <syncfusion:ErrorBarSettings
+                    <local:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
                         MaxValidationColor="Red"
                         MinValidationColor="Green"
                         Color="Gray" />
-                </local:CustomKanbanColumn.ErrorBarSettings>
-            </local:CustomKanbanColumn>
-            <local:CustomKanbanColumn
+                    </local:CustomKanbanColumn.ErrorBarSettings>
+                </local:CustomKanbanColumn>
+                <local:CustomKanbanColumn
                 Title="Progress"
                 Categories="In Progress"
                 CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                 MaximumLimit="10"
                 MinimumLimit="5">
-                <local:CustomKanbanColumn.ErrorBarSettings>
-                    <syncfusion:ErrorBarSettings
+                    <local:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
                         MaxValidationColor="Red"
                         MinValidationColor="Green"
                         Color="Gray" />
-                </local:CustomKanbanColumn.ErrorBarSettings>
-            </local:CustomKanbanColumn>
-            <local:CustomKanbanColumn
+                    </local:CustomKanbanColumn.ErrorBarSettings>
+                </local:CustomKanbanColumn>
+                <local:CustomKanbanColumn
                 Title="Done"
                 Categories="Review,Done"
                 CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                 MaximumLimit="10"
                 MinimumLimit="3">
-                <local:CustomKanbanColumn.ErrorBarSettings>
-                    <syncfusion:ErrorBarSettings
+                    <local:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
                         MaxValidationColor="Red"
                         MinValidationColor="Green"
                         Color="Gray" />
-                </local:CustomKanbanColumn.ErrorBarSettings>
-            </local:CustomKanbanColumn>
+                    </local:CustomKanbanColumn.ErrorBarSettings>
+                </local:CustomKanbanColumn>
 
 
-            <!--  COLUMN : To Do  -->
-            <!--
+                <!--  COLUMN : To Do  -->
+                <!--
             <syncfusion:KanbanColumn
                 Title="To Do"
                 MinWidth="260"
@@ -494,8 +570,8 @@
             </syncfusion:KanbanColumn>
 
             -->
-            <!--  COLUMN : To Study  -->
-            <!--
+                <!--  COLUMN : To Study  -->
+                <!--
             <syncfusion:KanbanColumn
                 Title="To Study"
                 MinWidth="260"
@@ -511,8 +587,8 @@
             </syncfusion:KanbanColumn>
 
             -->
-            <!--  COLUMN : In Progress  -->
-            <!--
+                <!--  COLUMN : In Progress  -->
+                <!--
             <syncfusion:KanbanColumn
                 Title="In Progress"
                 MinWidth="260"
@@ -528,8 +604,8 @@
             </syncfusion:KanbanColumn>
 
             -->
-            <!--  COLUMN : Done  -->
-            <!--
+                <!--  COLUMN : Done  -->
+                <!--
             <syncfusion:KanbanColumn
                 Title="Done"
                 MinWidth="260"
@@ -543,7 +619,8 @@
                         Color="Gray" />
                 </syncfusion:KanbanColumn.ErrorBarSettings>
             </syncfusion:KanbanColumn>-->
-        </syncfusion:SfKanban>
-        
-    </Grid>
+            </syncfusion:SfKanban>
+        </Grid>
+    </SplitView>
+    
 </Page>
