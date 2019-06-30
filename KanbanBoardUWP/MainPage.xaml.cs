@@ -126,12 +126,12 @@ namespace KanbanBoardUWP
         // HELPER FUNCTIONS
         //=====================================================================
 
-        public ObservableCollection<string> GetCategories(SfKanban kanban)
+        public List<string> GetCategories(SfKanban kanban)
         {
             // Add column categories to a list
             // Displayed in a combobox in TaskDialog for the user to choose
             // which column for the task to be in
-            ObservableCollection<string> lstCategories = new ObservableCollection<string>();
+            List<string> lstCategories = new List<string>();
             foreach (var col in kanban.ActualColumns)
             {
                 // Fill categories list with the categories from the col
@@ -149,12 +149,12 @@ namespace KanbanBoardUWP
             return lstCategories;
         }
 
-        public ObservableCollection<string> GetColorKeys(SfKanban kanban)
+        public List<string> GetColorKeys(SfKanban kanban)
         {
             // Add color keys to a list
             // Displayed in a combobox in TaskDialog for user to choose
             // the color key for a task
-            ObservableCollection<string> lstColorKeys = new ObservableCollection<string>();
+            List<string> lstColorKeys = new List<string>();
             foreach (var colorMap in kanban.IndicatorColorPalette)
             {
                 // Add each key from the color palette to the combobox
@@ -327,7 +327,7 @@ namespace KanbanBoardUWP
         {
             // Reset changes and close pane\
             // To Do: Change when adding task
-            SelectedModel = ViewModel.OriginalSelectedCard;
+            SelectedModel = ViewModel.OriginalCardModel;
 
             if (splitView.IsPaneOpen == true)
                 splitView.IsPaneOpen = false;

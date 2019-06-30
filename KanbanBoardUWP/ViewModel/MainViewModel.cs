@@ -11,6 +11,20 @@ namespace KanbanBoardUWP.ViewModel
 {
     public class MainViewModel : Observable
     {
+       
+        public KanbanModel Task = new KanbanModel();
+        private KanbanModel _originalCardModel;
+        private KanbanModel _cardModel;
+        private ObservableCollection<string> _tagsCollection;
+        private ObservableCollection<KanbanModel> _tasks;
+        private List<string> _categories;
+        private List<string> _colorKeys;
+
+        public MainViewModel()
+        {
+            Tasks = DataAccess.GetData();
+        }
+
         public ObservableCollection<KanbanModel> Tasks
         {
             get { return _tasks; }
@@ -20,20 +34,27 @@ namespace KanbanBoardUWP.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<string> Categories { get; set; }
-        public ObservableCollection<string> ColorKeys { get; set; }
-        public KanbanModel Task = new KanbanModel();
-        private KanbanModel _originalCardModel;
-        private KanbanModel _cardModel;
-        private ObservableCollection<string> _tagsCollection;
-        private ObservableCollection<KanbanModel> _tasks;
 
-        public MainViewModel()
+        public List<string> Categories
         {
-            Tasks = DataAccess.GetData();
+            get { return _categories; }
+            set
+            {
+                _categories = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<string> ColorKeys
+        {
+            get { return _colorKeys; }
+            set
+            {
+                _colorKeys = value;
+                OnPropertyChanged();
+            }
         }
 
-        public void EditTaskHelper(KanbanModel selectedModel, ObservableCollection<string> categories, ObservableCollection<string> colorKeys, ObservableCollection<string> tags)
+        public void EditTaskHelper(KanbanModel selectedModel, List<string> categories, List<string> colorKeys, ObservableCollection<string> tags)
         {
             // Get content ready to show in splitview pane
             OriginalCardModel = selectedModel;
@@ -41,35 +62,12 @@ namespace KanbanBoardUWP.ViewModel
             Categories = categories;
             ColorKeys = colorKeys;
             TagsCollection = tags;
-
-            // Store tags as a single string using csv format
-            // When calling GetData(), the string will be parsed into separate tags and stored into the list view
-            //List<string> tagsList = new List<string>();
-            //foreach (var tag in lstViewTags.Items)
-            //    tagsList.Add(tag.ToString());
-            //var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
         }
 
         public void AddTagToCollection(string tag)
         {
             TagsCollection.Add(tag);
         }
-
-        public void NewTaskHelper()
-        {
-            CardModel = null;
-            // Create null items 
-            //ID = null;
-            //Title = null;
-            //Description = null;
-            //Category = null;
-            //ColorKey = null;
-            //Tags = null;
-
-            // Try? 
-            //_selectedCard = null;
-        }
-
 
         public void SaveTask(string tags)
         {
@@ -251,14 +249,7 @@ namespace KanbanBoardUWP.ViewModel
 
         public string[] Tags
         {
-            get
-            {
-                //if (Model.Tags == null)
-                //    return;
-                //else
-                //    return Model.Tags;
-                return Task.Tags;
-            }
+            get { return Task.Tags;  }
             set
             {
                 Task.Tags = value;

@@ -333,16 +333,14 @@
                             Header="Category:"
                             IsEditable="False"
                             ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
-                            PlaceholderText="Choose One:"
-                            SelectedItem="{x:Bind ViewModel.Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            PlaceholderText="Choose One:" />
                         <ComboBox
                             x:Name="comboBoxColorKey"
                             Margin="0,15,0,0"
                             Header="Color Key:"
                             IsEditable="False"
-                            ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneTime}"
-                            PlaceholderText="Choose One:"
-                            SelectedItem="{x:Bind ViewModel.ColorKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
+                            PlaceholderText="Choose One:" />
                         <TextBox
                             x:Name="txtBoxTags"
                             Margin="0,15,0,0"
