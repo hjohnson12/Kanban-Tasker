@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Syncfusion.UI.Xaml.Kanban;
 
-namespace KanbanBoardUWP
+namespace KanbanBoardUWP.DataAccess
 {
     public static class DataProvider
     {
