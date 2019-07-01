@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Xml;
 using KanbanBoardUWP.Views;
+using KanbanBoardUWP.DataAccess;
 
 namespace KanbanBoardUWP
 {
@@ -34,7 +35,7 @@ namespace KanbanBoardUWP
             // Check to see if API KEY is in your Environment Variables
             if (Environment.GetEnvironmentVariable("SYNCFUSION_API_KEY") == null)
             {
-                // If key not available, use free community license here: https://www.syncfusion.com/products/communitylicense
+                // If key is not available, use free community license here: https://www.syncfusion.com/products/communitylicense
                 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR API KEY");
             }
             else

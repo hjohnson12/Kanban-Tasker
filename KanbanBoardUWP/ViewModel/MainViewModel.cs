@@ -15,6 +15,7 @@ namespace KanbanBoardUWP.ViewModel
         //=====================================================================
         // VARIABLES & BACKING FIELDS
         //=====================================================================
+
         public KanbanModel Task = new KanbanModel();
         private KanbanModel _originalCardModel;
         private KanbanModel _cardModel;
@@ -26,6 +27,7 @@ namespace KanbanBoardUWP.ViewModel
         //=====================================================================
         // CONSTRUCTOR
         //=====================================================================
+
         public MainViewModel()
         {
             Tasks = DataProvider.GetData();
@@ -36,13 +38,7 @@ namespace KanbanBoardUWP.ViewModel
         //=====================================================================
 
         public ObservableCollection<KanbanModel> Tasks { get; set; }
-
-        public KanbanModel OriginalCardModel
-        {
-            get;
-            set;
-        }
-
+      
         public KanbanModel CardModel
         {
             get { return _cardModel; }
@@ -188,6 +184,12 @@ namespace KanbanBoardUWP.ViewModel
                 Task.Tags = value;
                 OnPropertyChanged();
             }
+        }
+
+        public KanbanModel OriginalCardModel
+        {
+            get;
+            set;
         }
 
         //=====================================================================
