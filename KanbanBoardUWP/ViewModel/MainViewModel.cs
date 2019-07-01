@@ -18,6 +18,7 @@ namespace KanbanBoardUWP.ViewModel
         private ObservableCollection<string> _tagsCollection;
         private ObservableCollection<KanbanModel> _tasks;
         private List<string> _categories;
+        public ObservableCollection<KanbanModel> Tasks { get; set; }
         private List<string> _colorKeys;
         private string _selectedCategory;
 
@@ -26,15 +27,15 @@ namespace KanbanBoardUWP.ViewModel
             Tasks = DataAccess.GetData();
         }
 
-        public ObservableCollection<KanbanModel> Tasks
-        {
-            get { return _tasks; }
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged();
-            }
-        }
+        //public ObservableCollection<KanbanModel> Tasks
+        //{
+        //    get { return _tasks; }
+        //    set
+        //    {
+        //        _tasks = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public List<string> Categories
         {
@@ -106,8 +107,8 @@ namespace KanbanBoardUWP.ViewModel
 
             // Update item in database
             DataAccess.UpdateTask(ID, Title,
-                Description, Category.ToString(),
-                ColorKey.ToString(), tags);
+                Description, selectedCategory.ToString(),
+                selectedColorKey.ToString(), tags);
         }
 
         public void DeleteTask(KanbanModel model)
@@ -220,7 +221,7 @@ namespace KanbanBoardUWP.ViewModel
             set
             {
                 Task.Title = value;
-                OnPropertyChanged("Title");
+                OnPropertyChanged();
             }
         }
 

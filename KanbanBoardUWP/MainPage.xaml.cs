@@ -161,10 +161,8 @@ namespace KanbanBoardUWP
             return tagsCollection;
         }
 
-        private async void BtnNewTaskCurrentColumn_Click(object sender, RoutedEventArgs e)
+        private void BtnNewTaskCurrentColumn_Click(object sender, RoutedEventArgs e)
         {
-            // TO DO
-
             // Add task to specific column
             // Only show categories within that column
             var btn = sender as Button;
@@ -192,6 +190,16 @@ namespace KanbanBoardUWP
                         lstCategories.Add(strCategories);
                 }
             }
+
+            // Hide flyout
+            kanbanFlyout.Hide();
+
+            // Null card for new task
+            ViewModel.NewTaskHelper(lstCategories, GetColorKeys(kanbanBoard));
+
+            // Open pane if not already
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
         }
 
         private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
