@@ -114,6 +114,7 @@ namespace KanbanBoardUWP.ViewModel
         public void DeleteTask(KanbanModel model)
         {
             Tasks.Remove(model);
+            CardModel = null;
         }
 
         public void AddTask(string tags, object selectedCategory, object selectedColorKey)

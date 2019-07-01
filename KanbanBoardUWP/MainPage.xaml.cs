@@ -32,19 +32,16 @@ namespace KanbanBoardUWP
     public sealed partial class MainPage : Page
     {
         public MainViewModel ViewModel { get; set; }
-        public ComboBoxItem comboBoxItem { get; set; }
         public KanbanModel SelectedModel { get; set; }
-        public bool IsOpen { get; set; }
+
         public MainPage()
         {
             this.InitializeComponent();
 
             ViewModel = new MainViewModel();
 
-            //kanbanBoard.ItemsSource = DataAccess.GetData(); // Get data from database
             // Add rounded corners to each card
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
-            // kanbanBoard.CardStyle.IconVisibility = Visibility.Collapsed;
         }
 
         //=====================================================================
@@ -240,6 +237,9 @@ namespace KanbanBoardUWP
                 // Delete Task from collection and database
                 ViewModel.DeleteTask(SelectedModel);
                 DataAccess.DeleteTask(SelectedModel.ID);
+
+                // Close pane when done
+                splitView.IsPaneOpen = false;
             }
             else
                 return; // Cancel
