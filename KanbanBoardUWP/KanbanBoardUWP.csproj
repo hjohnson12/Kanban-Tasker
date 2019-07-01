@@ -120,6 +120,8 @@
     </Compile>
     <Compile Include="Base\Observable.cs" />
     <Compile Include="Converters\Text\CardCountConverter.cs" />
+    <Compile Include="Converters\Text\CardTemplateConverter.cs" />
+    <Compile Include="Converters\Text\CollapsedMarginHeader.cs" />
     <Compile Include="Converters\Text\StringToColorConverter.cs" />
     <Compile Include="CustomKanbanColumn.cs" />
     <Compile Include="DataAccess.cs" />

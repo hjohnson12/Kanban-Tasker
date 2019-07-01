@@ -11,154 +11,35 @@ namespace KanbanBoardUWP.ViewModel
 {
     public class MainViewModel : Observable
     {
-       
+        //=====================================================================
+        // VARIABLES & BACKING FIELDS
+        //=====================================================================
         public KanbanModel Task = new KanbanModel();
         private KanbanModel _originalCardModel;
         private KanbanModel _cardModel;
         private ObservableCollection<string> _tagsCollection;
         private ObservableCollection<KanbanModel> _tasks;
         private List<string> _categories;
-        public ObservableCollection<KanbanModel> Tasks { get; set; }
         private List<string> _colorKeys;
-        private string _selectedCategory;
 
+        //=====================================================================
+        // CONSTRUCTOR
+        //=====================================================================
         public MainViewModel()
         {
             Tasks = DataAccess.GetData();
         }
 
-        //public ObservableCollection<KanbanModel> Tasks
-        //{
-        //    get { return _tasks; }
-        //    set
-        //    {
-        //        _tasks = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        //=====================================================================
+        // PROPERTIES
+        //=====================================================================
 
-        public List<string> Categories
-        {
-            get { return _categories; }
-            set
-            {
-                _categories = value;
-                OnPropertyChanged();
-            }
-        }
-        public List<string> ColorKeys
-        {
-            get { return _colorKeys; }
-            set
-            {
-                _colorKeys = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public void NewTaskHelper(List<string> categories, List<string> colorKeys)
-        {
-            CardModel = null; // Null card for new task
-            Categories = categories;
-            ColorKeys = colorKeys;
-        }
-
-        public void EditTaskHelper(KanbanModel selectedModel, List<string> categories, List<string> colorKeys, ObservableCollection<string> tags)
-        {
-            // Get content ready to show in splitview pane
-            OriginalCardModel = selectedModel;
-            CardModel = selectedModel;
-            Categories = categories;
-            ColorKeys = colorKeys;
-            TagsCollection = tags;
-        }
-
-        public void AddTagToCollection(string tag)
-        {
-            TagsCollection.Add(tag);
-        }
-
-        public void SaveTask(string tags, object selectedCategory, object selectedColorKey)
-        {
-            // Tags are stroed as string[] in KanbanModel
-            // Strip string into a string[]
-            string[] tagsArray;
-            if (tags == "")
-                tagsArray = new string[] { };
-            else
-                tagsArray = tags.Split(",");
-
-
-            // Create model
-            var newModel = new KanbanModel
-            {
-                ID = ID,
-                Title = Title,
-                Description = Description,
-                Category = selectedCategory,
-                ColorKey = selectedColorKey,
-                Tags = tagsArray
-            };
-
-            // Update item in collection
-            var found = Tasks.FirstOrDefault(x => x.ID == ID);
-            int i = Tasks.IndexOf(found);
-            Tasks[i] = newModel;
-
-            // Update item in database
-            DataAccess.UpdateTask(ID, Title,
-                Description, selectedCategory.ToString(),
-                selectedColorKey.ToString(), tags);
-        }
-
-        public void DeleteTask(KanbanModel model)
-        {
-            Tasks.Remove(model);
-            CardModel = null;
-        }
-
-        public void AddTask(string tags, object selectedCategory, object selectedColorKey)
-        {
-            // Tags are stored as as string[] in KanbanModel
-            // Strip string into a sting[]
-            string[] tagsArray = new string[] { };
-            if (tags != null) 
-                tagsArray = tags.Split(',');
-            else
-                tags = ""; // No tags
-
-            // Create model and add to Tasks collection
-            var model = new KanbanModel
-            {
-                ID = ID,
-                Title = Title,
-                Description = Description,
-                Category = selectedCategory,
-                ColorKey = selectedColorKey,
-                Tags = tagsArray
-            };
-            Tasks.Add(model);
-
-            // Add task to database
-            DataAccess.AddTask(Title,
-                Description, selectedCategory.ToString(),
-                selectedColorKey.ToString(), tags);
-        }
+        public ObservableCollection<KanbanModel> Tasks { get; set; }
 
         public KanbanModel OriginalCardModel
         {
             get;
             set;
-        }
-
-        public ObservableCollection<string> TagsCollection
-        {
-            get { return _tagsCollection; }
-            set
-            {
-                _tagsCollection = value;
-                OnPropertyChanged();
-            }
         }
 
         public KanbanModel CardModel
@@ -242,9 +123,20 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
+        public List<string> Categories
+        {
+            get { return _categories; }
+            set
+            {
+                _categories = value;
+                OnPropertyChanged();
+            }
+        }
+
         public object Category
         {
-            get {
+            get
+            {
                 return Task.Category;
             }
             set
@@ -254,6 +146,15 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
+        public List<string> ColorKeys
+        {
+            get { return _colorKeys; }
+            set
+            {
+                _colorKeys = value;
+                OnPropertyChanged();
+            }
+        }
 
         public object ColorKey
         {
@@ -268,9 +169,19 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
+        public ObservableCollection<string> TagsCollection
+        {
+            get { return _tagsCollection; }
+            set
+            {
+                _tagsCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string[] Tags
         {
-            get { return Task.Tags;  }
+            get { return Task.Tags; }
             set
             {
                 Task.Tags = value;
@@ -278,5 +189,97 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
+        //=====================================================================
+        // VIEW MODEL FUNCTIONS
+        //=====================================================================
+
+        public void AddTagToCollection(string tag)
+        {
+            TagsCollection.Add(tag);
+        }
+
+        public void EditTaskHelper(KanbanModel selectedModel, List<string> categories, List<string> colorKeys, ObservableCollection<string> tags)
+        {
+            // Get content ready to show in splitview pane
+            OriginalCardModel = selectedModel;
+            CardModel = selectedModel;
+            Categories = categories;
+            ColorKeys = colorKeys;
+            TagsCollection = tags;
+        }
+
+        public void SaveTask(string tags, object selectedCategory, object selectedColorKey)
+        {
+            // Tags are stroed as string[] in KanbanModel
+            // Strip string into a string[]
+            string[] tagsArray;
+            if (tags == "")
+                tagsArray = new string[] { };
+            else
+                tagsArray = tags.Split(",");
+
+
+            // Create model
+            var newModel = new KanbanModel
+            {
+                ID = ID,
+                Title = Title,
+                Description = Description,
+                Category = selectedCategory,
+                ColorKey = selectedColorKey,
+                Tags = tagsArray
+            };
+
+            // Update item in collection
+            var found = Tasks.FirstOrDefault(x => x.ID == ID);
+            int i = Tasks.IndexOf(found);
+            Tasks[i] = newModel;
+
+            // Update item in database
+            DataAccess.UpdateTask(ID, Title,
+                Description, selectedCategory.ToString(),
+                selectedColorKey.ToString(), tags);
+        }
+
+        public void DeleteTask(KanbanModel model)
+        {
+            Tasks.Remove(model);
+            CardModel = null;
+        }
+
+        public void NewTaskHelper(List<string> categories, List<string> colorKeys)
+        {
+            CardModel = null; // Null card for new task
+            Categories = categories;
+            ColorKeys = colorKeys;
+        }
+
+        public void AddTask(string tags, object selectedCategory, object selectedColorKey)
+        {
+            // Tags are stored as as string[] in KanbanModel
+            // Strip string into a sting[]
+            string[] tagsArray = new string[] { };
+            if (tags != null) 
+                tagsArray = tags.Split(',');
+            else
+                tags = ""; // No tags
+
+            // Create model and add to Tasks collection
+            var model = new KanbanModel
+            {
+                ID = ID,
+                Title = Title,
+                Description = Description,
+                Category = selectedCategory,
+                ColorKey = selectedColorKey,
+                Tags = tagsArray
+            };
+            Tasks.Add(model);
+
+            // Add task to database
+            DataAccess.AddTask(Title,
+                Description, selectedCategory.ToString(),
+                selectedColorKey.ToString(), tags);
+        }
     }
 }

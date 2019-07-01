@@ -84,10 +84,10 @@ namespace KanbanBoardUWP
             }
         }
 
-
         //=====================================================================
         // FUNCTIONS & EVENTS FOR ADDING A NEW TASK
         //=====================================================================
+
         private void MnuItemNewTask_Click(object sender, RoutedEventArgs e)
         {
             // Hide flyout
@@ -157,6 +157,10 @@ namespace KanbanBoardUWP
                 tagsCollection.Add(tag); // Add card tags to collection
             return tagsCollection;
         }
+
+        //=====================================================================
+        // UI Events
+        //=====================================================================
 
         private void BtnNewTaskCurrentColumn_Click(object sender, RoutedEventArgs e)
         {
@@ -263,30 +267,6 @@ namespace KanbanBoardUWP
             splitView.IsPaneOpen = false;
         }
 
-        private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            // Add Tag to listview on keydown event
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                var tagsTextBox = sender as TextBox;
-                if (tagsTextBox.Text == "")
-                    return;
-                else
-                {
-                    ViewModel.AddTagToCollection(tagsTextBox.Text);
-                    tagsTextBox.Text = "";
-                }
-            }
-        }
-
-        private void BtnDeleteTags_Click(object sender, RoutedEventArgs e)
-        {
-            // Delete selected items in the New Task tags listview
-            var copyOfSelectedItems = lstViewTags.SelectedItems.ToArray();
-            foreach (var item in copyOfSelectedItems)
-                (lstViewTags.ItemsSource as IList).Remove(item);
-        }
-
         private void BtnCancelEdit_Click(object sender, RoutedEventArgs e)
         {
             // Reset changes and close pane\
@@ -299,7 +279,7 @@ namespace KanbanBoardUWP
             ViewModel.CardModel = null; // Reset selected card property
         }
 
-        private async void BtnSaveTask_Click(object sender, RoutedEventArgs e)
+        private void BtnSaveTask_Click(object sender, RoutedEventArgs e)
         {
             if (ViewModel.CardModel != null) // Editing a Task
             {
@@ -347,71 +327,29 @@ namespace KanbanBoardUWP
                     splitView.IsPaneOpen = false;
             }
         }
-    }
 
-
-    public class CollapsedHeaderMargin : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            TextBlock textBlock = value as TextBlock;
-            textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            double top = textBlock.DesiredSize.Width - 10;
-            Thickness thickness = new Thickness(-12, top, 0, 0);
-            return thickness;
+            // Add Tag to listview on keydown event
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                var tagsTextBox = sender as TextBox;
+                if (tagsTextBox.Text == "")
+                    return;
+                else
+                {
+                    ViewModel.AddTagToCollection(tagsTextBox.Text);
+                    tagsTextBox.Text = "";
+                }
+            }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        private void BtnDeleteTags_Click(object sender, RoutedEventArgs e)
         {
-            return value;
-        }
-    }
-
-    public class CardTemplateConvertor : DependencyObject, IValueConverter
-    {
-
-        public object column
-        {
-            get { return (object)GetValue(columnProperty); }
-            set { SetValue(columnProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for column.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty columnProperty =
-            DependencyProperty.Register("column", typeof(object), typeof(CardTemplateConvertor), new PropertyMetadata(null));
-
-
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            //KanbanColumn column = (KanbanColumn)parameter;
-
-            //if (column.IsExpanded)
-            //{
-            //    column.Template = (ControlTemplate)column.Resources["CollapsedTemplate"];
-            //}
-            //else
-            //{
-            //    column.Template = (ControlTemplate)column.Resources["DefaultKanbanHeaderTemplate"];
-            //}
-
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            //KanbanColumn column = (KanbanColumn)parameter;
-
-            //if (column.IsExpanded)
-            //{
-            //    column.Template = (ControlTemplate)column.Resources["CollapsedTemplate"];
-            //}
-            //else
-            //{
-            //    column.Template = (ControlTemplate)column.Resources["DefaultKanbanHeaderTemplate"];
-            //}
-
-            return value;
+            // Delete selected items in the New Task tags listview
+            var copyOfSelectedItems = lstViewTags.SelectedItems.ToArray();
+            foreach (var item in copyOfSelectedItems)
+                (lstViewTags.ItemsSource as IList).Remove(item);
         }
     }
-
 }

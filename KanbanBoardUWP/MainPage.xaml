@@ -10,7 +10,6 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     mc:Ignorable="d">
     <Page.Resources>
-
         <ResourceDictionary>
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
