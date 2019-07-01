@@ -192,18 +192,6 @@ namespace KanbanBoardUWP
                         lstCategories.Add(strCategories);
                 }
             }
-
-            //// Set corresponding TaskDialog properties
-            //TaskDialog newTaskDialog = new TaskDialog
-            //{
-            //    Model = null,
-            //    Kanban = kanbanBoard,
-            //    Categories = lstCategories,
-            //    ColorKeys = GetColorKeys(kanbanBoard),
-            //    PrimaryButtonText = "Create",
-            //    IsSecondaryButtonEnabled = false,
-            //};
-            //await newTaskDialog.ShowAsync(); // Dialog open
         }
 
         private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
@@ -212,30 +200,17 @@ namespace KanbanBoardUWP
             ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
                 GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
 
+            // UI RELATED CODE
+
             // Set selected items in combo box
             comboBoxCategories.SelectedItem = SelectedModel.Category;
             comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
-
-            // UI Related Code
 
             // Hide flyout
             taskFlyout.Hide();
 
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
-           
-            
-            //// Set corresponding TaskDialog properties
-            //// Edit TaskDialog Init
-            //TaskDialog editTaskDialog = new TaskDialog
-            //{
-            //    Kanban = kanbanBoard,
-            //    Model = SelectedModel,
-            //    Categories = GetCategories(kanbanBoard), // Set Categories Property
-            //    ColorKeys = GetColorKeys(kanbanBoard), // Set ColorKeys Property
-            //    TaskTags = GetTagCollection(SelectedModel)
-            //};
-            //await editTaskDialog.ShowAsync(); // Dialog open
         }
 
         private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
@@ -267,7 +242,8 @@ namespace KanbanBoardUWP
             // Hide flyout
             kanbanFlyout.Hide();
 
-            //ViewModel.Task = new KanbanModel(); // New Task, null model
+            // Call helper from ViewModel
+            // Sets card model to null and populates categories/colorkeys
             ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
 
             if (splitView.IsPaneOpen == false)
@@ -301,7 +277,6 @@ namespace KanbanBoardUWP
             var copyOfSelectedItems = lstViewTags.SelectedItems.ToArray();
             foreach (var item in copyOfSelectedItems)
                 (lstViewTags.ItemsSource as IList).Remove(item);
-            //ViewModel.DeleteTagsFromCollection(copyOfSelectedItems);
         }
 
         private void BtnCancelEdit_Click(object sender, RoutedEventArgs e)

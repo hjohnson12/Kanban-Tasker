@@ -26,7 +26,6 @@
                 TintOpacity="0.7" />
             <local1:StringToColorConverter x:Key="stringToColorConvertor" />
             <local1:CardCountConverter x:Key="cardCountConverter" />
-            <local1:ItemConverter x:Key="itemConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
             <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
             <ControlTemplate x:Key="CollapsedColumnTemplate" TargetType="local:CustomKanbanColumn">
@@ -411,7 +410,7 @@
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 MinColumnWidth="150">
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">

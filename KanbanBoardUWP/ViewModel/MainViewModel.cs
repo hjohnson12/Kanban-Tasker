@@ -220,7 +220,7 @@ namespace KanbanBoardUWP.ViewModel
             set
             {
                 Task.Title = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Title");
             }
         }
 
