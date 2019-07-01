@@ -240,7 +240,6 @@ namespace KanbanBoardUWP.Views
             {
                 // Delete Task from collection and database
                 ViewModel.DeleteTask(SelectedModel);
-                DataProvider.DeleteTask(SelectedModel.ID);
 
                 // Close pane when done
                 splitView.IsPaneOpen = false;

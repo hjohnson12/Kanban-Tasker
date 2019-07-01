@@ -245,6 +245,7 @@ namespace KanbanBoardUWP.ViewModel
         public void DeleteTask(KanbanModel model)
         {
             Tasks.Remove(model);
+            DataProvider.DeleteTask(model.ID); // Delete from database
             CardModel = null;
         }
 
