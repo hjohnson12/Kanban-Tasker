@@ -285,9 +285,8 @@
         x:Name="splitView"
         CompactPaneLength="48"
         DisplayMode="Inline"
-        OpenPaneLength="375"
         PaneBackground="{ThemeResource PaneBackgroundAcrylicBrush}"
-        PanePlacement="Left">
+        PanePlacement="Right">
         <SplitView.Pane>
             <Grid>
 
