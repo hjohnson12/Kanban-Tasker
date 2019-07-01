@@ -230,6 +230,7 @@ namespace KanbanBoardUWP.Views
             ContentDialog deleteDialog = new ContentDialog()
             {
                 Title = "Delete Task Confirmation",
+                Background = new SolidColorBrush(Colors.Transparent),
                 PrimaryButtonText = "Yes",
                 Content = "Are you sure you wish to delete this task?",
                 SecondaryButtonText = "No"

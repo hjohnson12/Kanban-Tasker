@@ -21,7 +21,7 @@
             <AcrylicBrush
                 x:Key="PaneBackgroundAcrylicBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="DarkGray"
+                FallbackColor="#383838"
                 TintColor="Black"
                 TintOpacity="0.7" />
             <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
@@ -295,16 +295,35 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <AppBarButton
-                    x:Name="appBarBtnClosePane"
-                    Grid.Row="0"
-                    HorizontalAlignment="Right"
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock FontWeight="Bold" Grid.Column="0" FontSize="25" Text="{x:Bind ViewModel.PaneTitle, Mode=OneWay}" Margin="20" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                        <AppBarButton
+                    x:Name="test" Grid.Column="1"
+                    HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                    Margin="5"
+                            Click="BtnSaveTask_Click"
+                    Icon="Save"
+                    Label="Save Task" />
+                        <AppBarButton
+                    x:Name="appBarBtnClosePane" Grid.Column="2"
+                    HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                    Margin="5"
                     Click="appBarBtnClosePane_Click"
                     Icon="ClosePane"
                     Label="Close Pane" />
+                    </Grid>
 
                 <ScrollViewer Grid.Row="1">
-                    <StackPanel Margin="20">
+                    <StackPanel Margin="20 0 20 20">
                         <TextBox
                             x:Name="txtBoxID"
                             Header="ID:"
@@ -324,6 +343,7 @@
                                 Margin="0,15,0,0"
                                 AcceptsReturn="True"
                                 Header="Description"
+                                Height="200"
                                 MaxLength="100"
                                 PlaceholderText="Type your information here"
                                 Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -349,7 +369,7 @@
                             Margin="0,15,0,0"
                             Header="Tags:"
                             KeyDown="TxtBoxTags_KeyDown"
-                            PlaceholderText="Type and press enter to add a new tag to the list" />
+                            PlaceholderText="Type and press enter to add a new tag" />
                         <ListView
                             x:Name="lstViewTags"
                             MaxHeight="150"
@@ -380,7 +400,20 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
-
+                        <AppBarButton
+                    x:Name="testttt" Grid.Column="1"
+                    HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                    Margin="5"
+                    Icon="Save"
+                    Label="Save Task" />
+                        <AppBarButton
+                    x:Name="testtt" Grid.Column="2"
+                    HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                    Margin="5"
+                    Icon="ClosePane"
+                    Label="Close Pane" />
                         <Button
                             x:Name="btnSaveTask"
                             Margin="5"

@@ -23,6 +23,7 @@ namespace KanbanBoardUWP.ViewModel
         private ObservableCollection<KanbanModel> _tasks;
         private List<string> _categories;
         private List<string> _colorKeys;
+        private string _paneTitle;
 
         //=====================================================================
         // CONSTRUCTOR
@@ -186,6 +187,16 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
+        public string PaneTitle
+        {
+            get { return _paneTitle; }
+            set
+            {
+                _paneTitle = value;
+                OnPropertyChanged();
+            }
+        }
+
         public KanbanModel OriginalCardModel
         {
             get;
@@ -209,6 +220,7 @@ namespace KanbanBoardUWP.ViewModel
             Categories = categories;
             ColorKeys = colorKeys;
             TagsCollection = tags;
+            PaneTitle = "Edit Task";
         }
 
         public void SaveTask(string tags, object selectedCategory, object selectedColorKey)
@@ -256,6 +268,7 @@ namespace KanbanBoardUWP.ViewModel
             CardModel = null; // Null card for new task
             Categories = categories;
             ColorKeys = colorKeys;
+            PaneTitle = "New Task";
         }
 
         public void AddTask(string tags, object selectedCategory, object selectedColorKey)
