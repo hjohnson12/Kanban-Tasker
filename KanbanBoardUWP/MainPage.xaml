@@ -116,12 +116,12 @@
                         <Grid Grid.Row="1">
                             <Canvas HorizontalAlignment="Center">
                                 <TextBlock
+                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="White"
-                                    Text="{TemplateBinding Title}">
+                                    Foreground="White">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
