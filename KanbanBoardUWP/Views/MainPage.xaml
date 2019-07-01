@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:KanbanBoardUWP"
-    xmlns:local1="using:KanbanBoardUWP.Converters.Text"
+    xmlns:helpers="using:KanbanBoardUWP.Helpers"
+    xmlns:textconverters="using:KanbanBoardUWP.Converters.Text"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Windows.UI.Xaml.Controls"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
@@ -23,11 +24,11 @@
                 FallbackColor="DarkGray"
                 TintColor="Black"
                 TintOpacity="0.7" />
-            <local1:StringToColorConverter x:Key="stringToColorConvertor" />
-            <local1:CardCountConverter x:Key="cardCountConverter" />
+            <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
+            <textconverters:CardCountConverter x:Key="cardCountConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
             <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
-            <ControlTemplate x:Key="CollapsedColumnTemplate" TargetType="local:CustomKanbanColumn">
+            <ControlTemplate x:Key="CollapsedColumnTemplate" TargetType="helpers:CustomKanbanColumn">
                 <Grid Margin="2,0,0,0" Background="{ThemeResource RegionBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -559,7 +560,7 @@
                     <syncfusion:ColorMapping Key="High" Color="Red" />
                 </syncfusion:SfKanban.IndicatorColorPalette>
 
-                <local:CustomKanbanColumn
+                <helpers:CustomKanbanColumn
                     x:Name="Open"
                     Title="To Do"
                     MinWidth="275"
@@ -567,55 +568,55 @@
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10"
                     MinimumLimit="3">
-                    <local:CustomKanbanColumn.ErrorBarSettings>
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
                             MinValidationColor="Green"
                             Color="Gray" />
-                    </local:CustomKanbanColumn.ErrorBarSettings>
-                </local:CustomKanbanColumn>
-                <local:CustomKanbanColumn
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
+                <helpers:CustomKanbanColumn
                     Title="To Study"
                     MinWidth="275"
                     Categories="Study"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10"
                     MinimumLimit="3">
-                    <local:CustomKanbanColumn.ErrorBarSettings>
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
                             MinValidationColor="Green"
                             Color="Gray" />
-                    </local:CustomKanbanColumn.ErrorBarSettings>
-                </local:CustomKanbanColumn>
-                <local:CustomKanbanColumn
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
+                <helpers:CustomKanbanColumn
                     Title="Progress"
                     MinWidth="275"
                     Categories="In Progress"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10"
                     MinimumLimit="5">
-                    <local:CustomKanbanColumn.ErrorBarSettings>
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
                             MinValidationColor="Green"
                             Color="Gray" />
-                    </local:CustomKanbanColumn.ErrorBarSettings>
-                </local:CustomKanbanColumn>
-                <local:CustomKanbanColumn
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
+                <helpers:CustomKanbanColumn
                     Title="Done"
                     MinWidth="275"
                     Categories="Review,Done"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10"
                     MinimumLimit="3">
-                    <local:CustomKanbanColumn.ErrorBarSettings>
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
                             MinValidationColor="Green"
                             Color="Gray" />
-                    </local:CustomKanbanColumn.ErrorBarSettings>
-                </local:CustomKanbanColumn>
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
             </syncfusion:SfKanban>
         </Grid>
     </SplitView>

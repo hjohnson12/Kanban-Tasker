@@ -10,8 +10,14 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 
-namespace KanbanBoardUWP
+namespace KanbanBoardUWP.Helpers
 {
+    /*
+     * Class provided by Syncfusion for creating custom columns in the kanban board
+     * 
+     * This class is used to work with the collapsing of the column
+     * 
+     */
     public class CustomKanbanColumn : KanbanColumn
     {
 
