@@ -123,9 +123,9 @@
     <Compile Include="Converters\Text\CardTemplateConverter.cs" />
     <Compile Include="Converters\Text\CollapsedMarginHeader.cs" />
     <Compile Include="Converters\Text\StringToColorConverter.cs" />
-    <Compile Include="CustomKanbanColumn.cs" />
-    <Compile Include="DataAccess.cs" />
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="ViewModel\CustomKanbanColumn.cs" />
+    <Compile Include="DataAccess\DataProvider.cs" />
+    <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -151,15 +151,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="KanbanDictionary.xaml">
+    <Page Include="Resources\KanbanDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ThemeDictionary.xaml">
+    <Page Include="Resources\ThemeDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,9 +178,7 @@
       <Version>17.1.0.50</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

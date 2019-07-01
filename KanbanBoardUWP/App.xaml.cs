@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Xml;
+using KanbanBoardUWP.Views;
 
 namespace KanbanBoardUWP
 {
@@ -45,7 +46,7 @@ namespace KanbanBoardUWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            DataAccess.InitializeDatabase();
+            DataProvider.InitializeDatabase();
         }
 
         /// <summary>

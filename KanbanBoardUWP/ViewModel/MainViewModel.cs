@@ -27,7 +27,7 @@ namespace KanbanBoardUWP.ViewModel
         //=====================================================================
         public MainViewModel()
         {
-            Tasks = DataAccess.GetData();
+            Tasks = DataProvider.GetData();
         }
 
         //=====================================================================
@@ -236,7 +236,7 @@ namespace KanbanBoardUWP.ViewModel
             Tasks[i] = newModel;
 
             // Update item in database
-            DataAccess.UpdateTask(ID, Title,
+            DataProvider.UpdateTask(ID, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
         }
@@ -277,7 +277,7 @@ namespace KanbanBoardUWP.ViewModel
             Tasks.Add(model);
 
             // Add task to database
-            DataAccess.AddTask(Title,
+            DataProvider.AddTask(Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
         }

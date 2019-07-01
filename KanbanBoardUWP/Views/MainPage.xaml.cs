@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace KanbanBoardUWP
+namespace KanbanBoardUWP.Views
 {
 
 
@@ -240,7 +240,7 @@ namespace KanbanBoardUWP
             {
                 // Delete Task from collection and database
                 ViewModel.DeleteTask(SelectedModel);
-                DataAccess.DeleteTask(SelectedModel.ID);
+                DataProvider.DeleteTask(SelectedModel.ID);
 
                 // Close pane when done
                 splitView.IsPaneOpen = false;

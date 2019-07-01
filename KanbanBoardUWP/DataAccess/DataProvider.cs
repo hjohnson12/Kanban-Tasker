@@ -9,7 +9,7 @@ using Syncfusion.UI.Xaml.Kanban;
 
 namespace KanbanBoardUWP
 {
-    public static class DataAccess
+    public static class DataProvider
     {
         public static void InitializeDatabase()
         {
