@@ -39,13 +39,13 @@
                     <Color x:Key="SystemChromeAltHighColor">#FF3B3C57</Color>
                     <Color x:Key="SystemRevealListLowColor">#FF3F2E4B</Color>
                     <Color x:Key="SystemRevealListMediumColor">#FF64576B</Color>
-                    <Color x:Key="RegionColor">#FF3B3C57</Color>
+                    <Color x:Key="RegionColor">#1e2328</Color>
                     <AcrylicBrush
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource RegionColor}"
                         TintColor="{StaticResource RegionColor}"
-                        TintOpacity="0.4" />
+                        TintOpacity="0.8" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -88,7 +88,7 @@
                         FallbackColor="{StaticResource SystemListMediumColor}"
                         TargetTheme="Light"
                         Color="{ThemeResource SystemRevealListMediumColor}" />
-                    <Color x:Key="RegionColor">#FFE8D5EB</Color>
+                    <Color x:Key="RegionColor">#1e2328</Color>
                     <AcrylicBrush
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"

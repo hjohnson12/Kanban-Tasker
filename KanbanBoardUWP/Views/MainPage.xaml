@@ -18,11 +18,12 @@
                 Opacity="0.8"
                 TargetTheme="Light"
                 Color="AliceBlue" />
+            <!-- #383838 -->
             <AcrylicBrush
                 x:Key="PaneBackgroundAcrylicBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="#383838"
-                TintColor="Black"
+                FallbackColor="#323746"
+                TintColor="#2c333a"
                 TintOpacity="0.7" />
             <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
             <textconverters:CardCountConverter x:Key="cardCountConverter" />
@@ -283,6 +284,7 @@
     </Page.Resources>
     <SplitView
         x:Name="splitView"
+        BorderThickness="0"
         DisplayMode="Inline"
         PaneBackground="{ThemeResource PaneBackgroundAcrylicBrush}"
         PanePlacement="Right">
