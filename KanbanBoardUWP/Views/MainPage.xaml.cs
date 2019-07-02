@@ -264,12 +264,19 @@ namespace KanbanBoardUWP.Views
 
         private void appBarBtnClosePane_Click(object sender, RoutedEventArgs e)
         {
-            splitView.IsPaneOpen = false;
+            // Reset changes and close pane
+            // To Do: Change when adding task
+            SelectedModel = ViewModel.OriginalCardModel;
+
+            if (splitView.IsPaneOpen == true)
+                splitView.IsPaneOpen = false;
+
+            ViewModel.CardModel = null; // Reset selected card property
         }
 
-        private void BtnCancelEdit_Click(object sender, RoutedEventArgs e)
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            // Reset changes and close pane\
+            // Reset changes and close pane
             // To Do: Change when adding task
             SelectedModel = ViewModel.OriginalCardModel;
 
