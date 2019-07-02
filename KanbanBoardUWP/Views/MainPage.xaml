@@ -320,7 +320,8 @@
                     Click="appBarBtnClosePane_Click"
                     Icon="ClosePane"
                     Label="Close Pane" />
-                    </Grid>
+                </Grid>
+                <Border BorderThickness="0 0 0 1" BorderBrush="Gray" />
 
                 <ScrollViewer Grid.Row="1">
                     <StackPanel Margin="20 0 20 20">
@@ -328,6 +329,7 @@
                             x:Name="txtBoxID"
                             Header="ID:"
                             IsEnabled="False"
+                            Visibility="Collapsed"
                             Text="{x:Bind ViewModel.ID, Mode=OneWay}" />
                         <TextBox
                             x:Name="txtBoxTitle"
