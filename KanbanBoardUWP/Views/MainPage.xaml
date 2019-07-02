@@ -328,8 +328,7 @@
                             x:Name="txtBoxID"
                             Header="ID:"
                             IsEnabled="False"
-                            Text="{x:Bind ViewModel.ID, Mode=OneWay}"
-                            Visibility="Collapsed" />
+                            Text="{x:Bind ViewModel.ID, Mode=OneWay}" />
                         <TextBox
                             x:Name="txtBoxTitle"
                             Margin="0,15,0,0"
@@ -444,7 +443,7 @@
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks}"
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
                 MinColumnWidth="150">
 
                 <syncfusion:SfKanban.ContextFlyout>

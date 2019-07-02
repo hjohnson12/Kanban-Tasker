@@ -33,7 +33,7 @@ namespace KanbanBoardUWP.DataAccess
             }
         }
 
-        public static void AddTask(string title, string desc, string categ, string colorKey, string tags)
+        public static void AddTask(int id, string title, string desc, string categ, string colorKey, string tags)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=sqliteNewTest.db"))
@@ -45,8 +45,9 @@ namespace KanbanBoardUWP.DataAccess
                     Connection = db,
 
                     // Use parameterized query to prevent SQL injection attacks
-                    CommandText = "INSERT INTO MyTable VALUES (NULL, @title, @desc, @categ, @colorKey, @tags);"
+                    CommandText = "INSERT INTO MyTable VALUES (@id, @title, @desc, @categ, @colorKey, @tags);"
                 };
+                insertCommand.Parameters.AddWithValue("@id", id);
                 insertCommand.Parameters.AddWithValue("@title", title);
                 insertCommand.Parameters.AddWithValue("@desc", desc);
                 insertCommand.Parameters.AddWithValue("@categ", categ);

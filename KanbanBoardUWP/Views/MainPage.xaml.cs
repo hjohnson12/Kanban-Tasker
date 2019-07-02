@@ -294,7 +294,7 @@ namespace KanbanBoardUWP.Views
                 // Use view model to operate on model-related data
                 var selectedCategory = comboBoxCategories.SelectedItem;
                 var selectedColorKey = comboBoxColorKey.SelectedItem;
-                ViewModel.SaveTask(tags, selectedCategory, selectedColorKey);
+                ViewModel.SaveTask(tags, selectedCategory, selectedColorKey, SelectedModel);
 
                 // Close pane when done
                 if (splitView.IsPaneOpen == true)

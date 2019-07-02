@@ -38,7 +38,15 @@ namespace KanbanBoardUWP.ViewModel
         // PROPERTIES
         //=====================================================================
 
-        public ObservableCollection<KanbanModel> Tasks { get; set; }
+        public ObservableCollection<KanbanModel> Tasks
+        {
+            get { return _tasks; }
+            set
+            {
+                _tasks = value;
+                OnPropertyChanged();
+            }
+        }
       
         public KanbanModel CardModel
         {
@@ -223,7 +231,7 @@ namespace KanbanBoardUWP.ViewModel
             PaneTitle = "Edit Task";
         }
 
-        public void SaveTask(string tags, object selectedCategory, object selectedColorKey)
+        public void SaveTask(string tags, object selectedCategory, object selectedColorKey, KanbanModel selectedCard)
         {
             // Tags are stroed as string[] in KanbanModel
             // Strip string into a string[]
@@ -233,22 +241,13 @@ namespace KanbanBoardUWP.ViewModel
             else
                 tagsArray = tags.Split(",");
 
-
-            // Create model
-            var newModel = new KanbanModel
-            {
-                ID = ID,
-                Title = Title,
-                Description = Description,
-                Category = selectedCategory,
-                ColorKey = selectedColorKey,
-                Tags = tagsArray
-            };
-
-            // Update item in collection
-            var found = Tasks.FirstOrDefault(x => x.ID == ID);
-            int i = Tasks.IndexOf(found);
-            Tasks[i] = newModel;
+            // Update model
+            var selectedModel = selectedCard;
+            selectedModel.Title = Title;
+            selectedModel.Description = Description;
+            selectedModel.Category = selectedCategory;
+            selectedModel.ColorKey = selectedColorKey;
+            selectedModel.Tags = tagsArray;
 
             // Update item in database
             DataProvider.UpdateTask(ID, Title,
@@ -281,10 +280,13 @@ namespace KanbanBoardUWP.ViewModel
             else
                 tags = ""; // No tags
 
+            // Start ID at 1; if Task.Count = 0 then it will have an ID of 1, etc.
+            int nextId = Tasks.Count + 1;
+           
             // Create model and add to Tasks collection
             var model = new KanbanModel
             {
-                ID = ID,
+                ID = nextId.ToString(),
                 Title = Title,
                 Description = Description,
                 Category = selectedCategory,
@@ -294,7 +296,7 @@ namespace KanbanBoardUWP.ViewModel
             Tasks.Add(model);
 
             // Add task to database
-            DataProvider.AddTask(Title,
+            DataProvider.AddTask(nextId, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
         }
