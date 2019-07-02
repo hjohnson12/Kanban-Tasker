@@ -407,6 +407,14 @@
                             Click="BtnSaveTask_Click"
                             Label="Save Task" />
                         <AppBarButton
+                            x:Name="btnDeleteTask"
+                            Margin="5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Icon="Save"
+                            Click="FlyoutBtnDelete_Click"
+                            Label="Delete Task" />
+                        <AppBarButton
                             x:Name="btnClosePane"
                             Margin="5"
                             HorizontalAlignment="Center"
