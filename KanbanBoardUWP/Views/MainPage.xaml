@@ -22,7 +22,7 @@
             <AcrylicBrush
                 x:Key="PaneBackgroundAcrylicBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="#323746"
+                FallbackColor="#2c333a"
                 TintColor="#2c333a"
                 TintOpacity="0.7" />
             <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
@@ -284,10 +284,10 @@
     </Page.Resources>
     <SplitView
         x:Name="splitView"
-        BorderThickness="0"
         DisplayMode="Inline"
         PaneBackground="{ThemeResource PaneBackgroundAcrylicBrush}"
         PanePlacement="Right">
+
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
