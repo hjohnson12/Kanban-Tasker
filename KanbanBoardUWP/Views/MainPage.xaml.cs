@@ -239,15 +239,15 @@ namespace KanbanBoardUWP.Views
         {
             // Hide flyout
             taskFlyout.Hide();
-
-            ContentDialog deleteDialog = new ContentDialog()
-            {
-                Title = "Delete Task Confirmation",
-                Background = new SolidColorBrush(Colors.Transparent),
-                PrimaryButtonText = "Yes",
-                Content = "Are you sure you wish to delete this task?",
-                SecondaryButtonText = "No"
-            };
+            //ContentDialog deleteDialog = new ContentDialog()
+            //{
+            //    Title = "Delete Task Confirmation",
+            //    Background = Application.Current.Resources["RegionBrush"],
+            //    PrimaryButtonText = "Yes",
+            //    Content = "Are you sure you wish to delete this task?",
+            //    SecondaryButtonText = "No"
+            //};
+            var deleteDialog = new DeleteConfirmationDialog();
             var result = await deleteDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)

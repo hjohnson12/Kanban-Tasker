@@ -661,5 +661,5 @@
             </syncfusion:SfKanban>
         </Grid>
     </SplitView>
-
+   
 </Page>
