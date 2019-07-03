@@ -90,15 +90,15 @@ namespace KanbanBoardUWP.Views
 
         private void BtnNewTask_Click(object sender, RoutedEventArgs e)
         {
+            
+            // Null card for new task
+            ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
+
+            // UI RELATED CODE 
+
             // Hide kanban flyout if used to create new task
             if (kanbanFlyout.IsOpen)
                 kanbanFlyout.Hide();
-
-            // Give title textbox focus when pane opens
-            txtBoxTitle.Focus(FocusState.Programmatic);
-
-            // Null card for new task
-            ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
 
             // Open pane if not already
             if (splitView.IsPaneOpen == false)
@@ -231,6 +231,8 @@ namespace KanbanBoardUWP.Views
 
             // Give title textbox focus once pane opens
             txtBoxTitle.Focus(FocusState.Programmatic);
+            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
+            txtBoxTitle.SelectionLength = 0;
         }
 
         private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
