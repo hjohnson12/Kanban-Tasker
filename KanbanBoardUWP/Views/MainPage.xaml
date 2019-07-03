@@ -25,6 +25,14 @@
                 FallbackColor="#2c333a"
                 TintColor="#2c333a"
                 TintOpacity="0.7" />
+            <Rectangle x:Key="paneRect" IsHitTestVisible="False" Width="12" HorizontalAlignment="Left" Opacity="0.1" Margin="-12,0,0,0">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
+                        <GradientStop Offset="1"/>
+                        <GradientStop Color="Black" Offset="0"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
             <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
             <textconverters:CardCountConverter x:Key="cardCountConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
@@ -295,7 +303,9 @@
                     <RowDefinition />
                     <RowDefinition Height="90" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
+                
+                <!-- Pane Header -->
+                <Grid Grid.Row="0" x:Name="paneHeaderGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
@@ -313,15 +323,17 @@
                     <AppBarButton
                         x:Name="appBarBtnClosePane"
                         Grid.Column="2"
-                        Margin="5"
+                        Margin="5 5 20 5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="appBarBtnClosePane_Click"
                         Icon="ClosePane"
                         Label="Close Pane" />
                 </Grid>
-                <Border BorderBrush="Gray" BorderThickness="0,0,0,1" />
-
+                <!-- Border Separator -->
+                <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Width="280" />
+                
+                <!-- Pane Body-->
                 <ScrollViewer Grid.Row="1">
                     <StackPanel Margin="20,0,20,20">
                         <TextBox
@@ -390,47 +402,43 @@
                     Text="{x:Bind Model.ImageURL}" />-->
 
                     </StackPanel>
-
                 </ScrollViewer>
-                <Border
-                    Grid.Row="2"
-                    BorderBrush="Gray"
-                    BorderThickness="0,1,0,0">
+                
+                <!-- Splitview Pane Footer -->
+                <Grid Grid.Row="2" BorderBrush="Red" x:Name="paneFooterGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <!-- Border Separator -->
+                    <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Width="280" Grid.Row="0"/>
                     <StackPanel
-                        Margin="10"
-                        HorizontalAlignment="Center"
+                        Grid.Row="1"
                         Orientation="Horizontal">
                         <AppBarButton
                             x:Name="btnSaveTask"
-                            Margin="5"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
+                            Margin="20 17 20 20"
                             Icon="Save"
                             Click="BtnSaveTask_Click"
                             Label="Save Task" />
                         <AppBarButton
                             x:Name="btnDeleteTask"
-                            Margin="5"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
+                            Margin="22 17 20 20"
                             Icon="Save"
                             Click="FlyoutBtnDelete_Click"
                             Label="Delete Task" />
                         <AppBarButton
                             x:Name="btnClosePane"
-                            Margin="5"
-                            HorizontalAlignment="Center"
+                            Margin="14 17 20 20"
                             Click="BtnCancel_Click"
-                            VerticalAlignment="Center"
                             Icon="Cancel"
                             Label="Cancel" />
                     </StackPanel>
-                </Border>
+                </Grid>
             </Grid>
         </SplitView.Pane>
 
-        <Grid x:Name="grid" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
-
+        <Grid x:Name="grid" Background="{ThemeResource RegionBrush}" >
             <!--  KANBAN BOARD  -->
             <syncfusion:SfKanban
                 x:Name="kanbanBoard"
@@ -440,12 +448,11 @@
                 x:FieldModifier="Public"
                 AutoGenerateColumns="False"
                 Background="{ThemeResource RegionBrush}"
-                BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
                 ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
-                MinColumnWidth="150">
+                MinColumnWidth="150" BorderBrush="{StaticResource RegionBrush}">
 
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
@@ -546,7 +553,7 @@
                 </syncfusion:SfKanban.ColumnHeaderTemplate>
 
                 <!--  KANBAN BOARD HEADER TEMPLATE  -->
-                <syncfusion:SfKanban.Header>
+                <!--<syncfusion:SfKanban.Header>
                     <Border
                         Width="2000"
                         Height="50"
@@ -555,7 +562,8 @@
                         BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
                         BorderThickness=".1">
 
-                        <!--<CommandBar
+                        -->
+                <!--<CommandBar
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         Background="Transparent"
@@ -565,6 +573,7 @@
                         <AppBarButton Icon="ReShare" Label="Share" />
                         <AppBarButton Icon="Edit" Label="Edit" />
                     </CommandBar>-->
+                <!--
                         <muxc:MenuBar Background="{ThemeResource RegionBrush}">
                             <muxc:MenuBarItem Title="File" Foreground="Black">
                                 <MenuFlyoutItem
@@ -579,7 +588,7 @@
                             </muxc:MenuBarItem>
                         </muxc:MenuBar>
                     </Border>
-                </syncfusion:SfKanban.Header>
+                </syncfusion:SfKanban.Header>-->
 
                 <syncfusion:SfKanban.CardStyle>
                     <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
