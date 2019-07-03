@@ -459,7 +459,7 @@
                         <CommandBarFlyout.SecondaryCommands>
                             <AppBarButton
                                 x:Name="flyoutBtnNewTask"
-                                Click="FlyoutBtnNewTask_Click"
+                                Click="BtnNewTask_Click"
                                 Icon="Add"
                                 Label="New Task" />
                         </CommandBarFlyout.SecondaryCommands>

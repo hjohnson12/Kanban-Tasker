@@ -88,10 +88,14 @@ namespace KanbanBoardUWP.Views
         // FUNCTIONS & EVENTS FOR ADDING A NEW TASK
         //=====================================================================
 
-        private void MnuItemNewTask_Click(object sender, RoutedEventArgs e)
+        private void BtnNewTask_Click(object sender, RoutedEventArgs e)
         {
-            // Hide flyout
-            kanbanFlyout.Hide();
+            // Hide kanban flyout if used to create new task
+            if (kanbanFlyout.IsOpen)
+                kanbanFlyout.Hide();
+
+            // Give title textbox focus when pane opens
+            txtBoxTitle.Focus(FocusState.Programmatic);
 
             // Null card for new task
             ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
@@ -99,6 +103,9 @@ namespace KanbanBoardUWP.Views
             // Open pane if not already
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
+
+            // Give title textbox focus when pane opens
+            txtBoxTitle.Focus(FocusState.Programmatic);
         }
 
         private void MnuItemExitApp_Click(object sender, RoutedEventArgs e)
@@ -218,8 +225,12 @@ namespace KanbanBoardUWP.Views
             // Hide flyout
             taskFlyout.Hide();
 
+            // Open pane if closed
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
+
+            // Give title textbox focus once pane opens
+            txtBoxTitle.Focus(FocusState.Programmatic);
         }
 
         private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
@@ -249,19 +260,6 @@ namespace KanbanBoardUWP.Views
                 return; // Cancel
         }
 
-        private void FlyoutBtnNewTask_Click(object sender, RoutedEventArgs e)
-        {
-            // Hide flyout
-            kanbanFlyout.Hide();
-
-            // Call helper from ViewModel
-            // Sets card model to null and populates categories/colorkeys
-            ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
-
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-        }
-
         private void appBarBtnClosePane_Click(object sender, RoutedEventArgs e)
         {
             // Reset changes and close pane
@@ -286,7 +284,7 @@ namespace KanbanBoardUWP.Views
             ViewModel.CardModel = null; // Reset selected card property
         }
 
-        private void BtnSaveTask_Click(object sender, RoutedEventArgs e)
+        private async void BtnSaveTask_Click(object sender, RoutedEventArgs e)
         {
             if (ViewModel.CardModel != null) // Editing a Task
             {
@@ -319,10 +317,8 @@ namespace KanbanBoardUWP.Views
                 // To allow a draft task, require user to have category and colorkey chosen
                 if (comboBoxCategories.SelectedItem == null || comboBoxColorKey.SelectedItem == null)
                 {
-                    //var messageDialog = new MessageDialog("NOTE: You must fill out a category and color key to be able to create a draft task", "ERROR");
-                    //await messageDialog.ShowAsync();
-                    comboBoxCategories.SelectedItem = "To Do";
-                    comboBoxColorKey.SelectedItem = "Low";
+                    var messageDialog = new MessageDialog("NOTE: You must fill out a category and color key to be able to create a draft task", "ERROR");
+                    await messageDialog.ShowAsync();
                 }
 
                 var selectedCategory = comboBoxCategories.SelectedItem;
