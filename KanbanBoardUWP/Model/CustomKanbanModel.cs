@@ -18,12 +18,16 @@ namespace KanbanBoardUWP.Model
         private string _description;
         private string _id;
 
-        public string ID { get { return _id; } set { _id = value; OnPropertyChanged(); } }
-        public string Title { get { return _title; } set { _title = value; OnPropertyChanged(); } }
-        public string Description { get { return _description; } set { _description = value; OnPropertyChanged(); } }
-        public string[] Tags { get { return _tags; } set { _tags = value; OnPropertyChanged(); } }
-        public object Category { get { return _category; } set { _category = value; OnPropertyChanged(); } }
-        public Uri ImageURL { get { return _imageUrl; } set { _imageUrl = value; OnPropertyChanged(); } }
-        public object ColorKey { get { return _colorKey; } set { _colorKey = value; OnPropertyChanged(); } }
+        //=====================================================================
+        // Common KanbanModel Property Interface Members Required
+        //=====================================================================
+
+        public string ID { get => _id; set { _id = value; OnPropertyChanged(); } }
+        public string Title { get => _title; set { _title = value; OnPropertyChanged(); } }
+        public string Description { get => _description; set { _description = value; OnPropertyChanged(); } }
+        public string[] Tags { get => _tags; set { _tags = value; OnPropertyChanged(); } }
+        public object Category { get => _category; set { _category = value; OnPropertyChanged(); } }
+        public Uri ImageURL { get => _imageUrl; set { _imageUrl = value; OnPropertyChanged(); } }
+        public object ColorKey { get => _colorKey; set { _colorKey = value; OnPropertyChanged(); } }
     }
 }
