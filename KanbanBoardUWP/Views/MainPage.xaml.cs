@@ -1,4 +1,5 @@
-﻿using KanbanBoardUWP.ViewModel;
+﻿using KanbanBoardUWP.Model;
+using KanbanBoardUWP.ViewModel;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections;
@@ -34,7 +35,7 @@ namespace KanbanBoardUWP.Views
         //=====================================================================
 
         public MainViewModel ViewModel { get; set; }
-        public KanbanModel SelectedModel { get; set; }
+        public CustomKanbanModel SelectedModel { get; set; }
 
         public MainPage()
         {
@@ -88,7 +89,7 @@ namespace KanbanBoardUWP.Views
             return lstColorKeys;
         }
 
-        public ObservableCollection<string> GetTagCollection(KanbanModel selectedModel)
+        public ObservableCollection<string> GetTagCollection(CustomKanbanModel selectedModel)
         {
             // Add selected card tags to a collection
             // Tags Collection is displayed in a listview in TaskDialog 
@@ -133,7 +134,7 @@ namespace KanbanBoardUWP.Views
             // Get selected card
             var currentCol = e.SelectedColumn.Title.ToString();
             var selectedCardIndex = e.SelectedCardIndex;
-            SelectedModel = e.SelectedCard.Content as KanbanModel;
+            SelectedModel = e.SelectedCard.Content as CustomKanbanModel;
             // Show context menu next to selected card
             ShowContextMenu(selectedCardIndex, currentCol);
         }

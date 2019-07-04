@@ -1,5 +1,6 @@
 ﻿using KanbanBoardUWP.Base;
 using KanbanBoardUWP.DataAccess;
+using KanbanBoardUWP.Model;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,11 @@ namespace KanbanBoardUWP.ViewModel
         // VARIABLES & BACKING FIELDS
         //=====================================================================
 
-        public KanbanModel Task = new KanbanModel();
-        private KanbanModel _originalCardModel;
-        private KanbanModel _cardModel;
+        public CustomKanbanModel Task = new CustomKanbanModel();
+        private CustomKanbanModel _originalCardModel;
+        private CustomKanbanModel _cardModel;
         private ObservableCollection<string> _tagsCollection;
-        private ObservableCollection<KanbanModel> _tasks;
+        private ObservableCollection<CustomKanbanModel> _tasks;
         private List<string> _categories;
         private List<string> _colorKeys;
         private string _paneTitle;
@@ -38,7 +39,7 @@ namespace KanbanBoardUWP.ViewModel
         // PROPERTIES
         //=====================================================================
 
-        public ObservableCollection<KanbanModel> Tasks
+        public ObservableCollection<CustomKanbanModel> Tasks
         {
             get { return _tasks; }
             set
@@ -48,7 +49,7 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
       
-        public KanbanModel CardModel
+        public CustomKanbanModel CardModel
         {
             get { return _cardModel; }
             set
@@ -205,7 +206,7 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
-        public KanbanModel OriginalCardModel
+        public CustomKanbanModel OriginalCardModel
         {
             get;
             set;
@@ -220,7 +221,7 @@ namespace KanbanBoardUWP.ViewModel
             TagsCollection.Add(tag);
         }
 
-        public void EditTaskHelper(KanbanModel selectedModel, List<string> categories, List<string> colorKeys, ObservableCollection<string> tags)
+        public void EditTaskHelper(CustomKanbanModel selectedModel, List<string> categories, List<string> colorKeys, ObservableCollection<string> tags)
         {
             // Get content ready to show in splitview pane
             OriginalCardModel = selectedModel;
@@ -231,9 +232,9 @@ namespace KanbanBoardUWP.ViewModel
             PaneTitle = "Edit Task";
         }
 
-        public void SaveTask(string tags, object selectedCategory, object selectedColorKey, KanbanModel selectedCard)
+        public void SaveTask(string tags, object selectedCategory, object selectedColorKey, CustomKanbanModel selectedCard)
         {
-            // Tags are stroed as string[] in KanbanModel
+            // Tags are stroed as string[] in CustomKanbanModel
             // Strip string into a string[]
             string[] tagsArray;
             if (tags == "")
@@ -255,7 +256,7 @@ namespace KanbanBoardUWP.ViewModel
                 selectedColorKey.ToString(), tags);
         }
 
-        public void DeleteTask(KanbanModel model)
+        public void DeleteTask(CustomKanbanModel model)
         {
             Tasks.Remove(model);
             DataProvider.DeleteTask(model.ID); // Delete from database
@@ -272,7 +273,7 @@ namespace KanbanBoardUWP.ViewModel
 
         public void AddTask(string tags, object selectedCategory, object selectedColorKey)
         {
-            // Tags are stored as as string[] in KanbanModel
+            // Tags are stored as as string[] in CustomKanbanModel
             // Strip string into a sting[]
             string[] tagsArray = new string[] { };
             if (tags != null) 
@@ -284,7 +285,7 @@ namespace KanbanBoardUWP.ViewModel
             int nextId = Tasks.Count + 1;
            
             // Create model and add to Tasks collection
-            var model = new KanbanModel
+            var model = new CustomKanbanModel
             {
                 ID = nextId.ToString(),
                 Title = Title,

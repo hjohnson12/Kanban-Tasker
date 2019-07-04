@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KanbanBoardUWP.Model;
 using Microsoft.Data.Sqlite;
 using Syncfusion.UI.Xaml.Kanban;
 
@@ -78,9 +79,9 @@ namespace KanbanBoardUWP.DataAccess
         //=====================================================================
         // FUNCTIONS & EVENTS FOR EDITING A TASK
         //=====================================================================
-        public static ObservableCollection<KanbanModel> GetData()
+        public static ObservableCollection<CustomKanbanModel> GetData()
         {
-            ObservableCollection<KanbanModel> tasks = new ObservableCollection<KanbanModel>();
+            ObservableCollection<CustomKanbanModel> tasks = new ObservableCollection<CustomKanbanModel>();
 
             // Get tasks and return the collection
             using (SqliteConnection db =
@@ -102,7 +103,7 @@ namespace KanbanBoardUWP.DataAccess
                     else
                         tags = query.GetString(5).Split(","); // Turn string of tags into string array, fills listview
 
-                    KanbanModel row = new KanbanModel()
+                    CustomKanbanModel row = new CustomKanbanModel()
                     {
                         ID = query.GetString(0),
                         Title = query.GetString(1),
