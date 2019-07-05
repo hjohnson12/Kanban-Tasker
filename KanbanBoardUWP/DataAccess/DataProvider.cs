@@ -130,7 +130,7 @@ namespace KanbanBoardUWP.DataAccess
             return tasks;
         }
 
-        public static void UpdateTask(string id, string boardID, string title, string descr, string category, string colorKey, string tags)
+        public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=sqliteNewTest.db"))
