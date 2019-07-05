@@ -42,7 +42,7 @@ namespace KanbanBoardUWP.DataAccess
             }
         }
 
-        public static void AddTask(int id, string title, string desc, string categ, string colorKey, string tags)
+        public static void AddTask(int id, string boardID, string title, string desc, string categ, string colorKey, string tags)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=sqliteNewTest.db"))
@@ -54,9 +54,10 @@ namespace KanbanBoardUWP.DataAccess
                     Connection = db,
 
                     // Use parameterized query to prevent SQL injection attacks
-                    CommandText = "INSERT INTO tblTasks VALUES (@id, @title, @desc, @categ, @colorKey, @tags);"
+                    CommandText = "INSERT INTO tblTasks VALUES (@id, @boardID, @title, @desc, @categ, @colorKey, @tags);"
                 };
                 insertCommand.Parameters.AddWithValue("@id", id);
+                insertCommand.Parameters.AddWithValue("@boardID", boardID);
                 insertCommand.Parameters.AddWithValue("@title", title);
                 insertCommand.Parameters.AddWithValue("@desc", desc);
                 insertCommand.Parameters.AddWithValue("@categ", categ);
@@ -98,7 +99,7 @@ namespace KanbanBoardUWP.DataAccess
                 db.Open();
 
                 SqliteCommand selectCommand = new SqliteCommand
-                    ("SELECT Id, Title, Description, Category, ColorKey, Tags from tblTasks", db);
+                    ("SELECT Id, BoardID, Title, Description, Category, ColorKey, Tags from tblTasks", db);
 
                 SqliteDataReader query = selectCommand.ExecuteReader();
 
@@ -106,18 +107,19 @@ namespace KanbanBoardUWP.DataAccess
                 while (query.Read())
                 {
                     string[] tags;
-                    if(query.GetString(5).ToString() == "")
+                    if(query.GetString(6).ToString() == "")
                         tags = new string[] { }; // Empty array if no tags are in the col
                     else
-                        tags = query.GetString(5).Split(","); // Turn string of tags into string array, fills listview
+                        tags = query.GetString(6).Split(","); // Turn string of tags into string array, fills listview
 
                     CustomKanbanModel row = new CustomKanbanModel()
                     {
                         ID = query.GetString(0),
-                        Title = query.GetString(1),
-                        Description = query.GetString(2),
-                        Category = query.GetString(3),
-                        ColorKey = query.GetString(4),
+                        BoardID = query.GetString(1),
+                        Title = query.GetString(2),
+                        Description = query.GetString(3),
+                        Category = query.GetString(4),
+                        ColorKey = query.GetString(5),
                         Tags = tags // Turn string of tags into string array, fills listview
                     };
   
@@ -128,7 +130,7 @@ namespace KanbanBoardUWP.DataAccess
             return tasks;
         }
 
-        public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
+        public static void UpdateTask(string id, string boardID, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=sqliteNewTest.db"))
