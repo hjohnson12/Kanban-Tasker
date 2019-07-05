@@ -119,6 +119,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Base\Observable.cs" />
+    <Compile Include="BoardUserControl.xaml.cs">
+      <DependentUpon>BoardUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\Text\CardCountConverter.cs" />
     <Compile Include="Converters\Text\CardTemplateConverter.cs" />
     <Compile Include="Converters\Text\CollapsedMarginHeader.cs" />
@@ -155,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="BoardUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DeleteConfirmationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
