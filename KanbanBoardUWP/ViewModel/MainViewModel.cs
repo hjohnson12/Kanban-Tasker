@@ -98,6 +98,22 @@ namespace KanbanBoardUWP.ViewModel
             }
         }
 
+        public string BoardID
+        {
+            get
+            {
+                if (Task.BoardID == null)
+                    return "";
+                else
+                    return Task.BoardID;
+            }
+            set
+            {
+                Task.BoardID = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string Title
         {
             get
@@ -283,11 +299,12 @@ namespace KanbanBoardUWP.ViewModel
 
             // Start ID at 1; if Task.Count = 0 then it will have an ID of 1, etc.
             int nextId = Tasks.Count + 1;
-           
+
             // Create model and add to Tasks collection
             var model = new CustomKanbanModel
             {
                 ID = nextId.ToString(),
+                BoardID = BoardID,
                 Title = Title,
                 Description = Description,
                 Category = selectedCategory,
@@ -297,7 +314,7 @@ namespace KanbanBoardUWP.ViewModel
             Tasks.Add(model);
 
             // Add task to database
-            DataProvider.AddTask(nextId, Title,
+            DataProvider.AddTask(nextId, BoardID, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
         }
