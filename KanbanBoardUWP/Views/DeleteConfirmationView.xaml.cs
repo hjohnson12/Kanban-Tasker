@@ -17,9 +17,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace KanbanBoardUWP.Views
 {
-    public sealed partial class DeleteConfirmationDialog : ContentDialog
+    public sealed partial class DeleteConfirmationView : ContentDialog
     {
-        public DeleteConfirmationDialog()
+        public DeleteConfirmationView()
         {
             this.InitializeComponent();
         }

@@ -17,9 +17,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace KanbanBoardUWP.Views
 {
-    public sealed partial class BoardUserControl : UserControl
+    public sealed partial class BoardView : UserControl
     {
-        public BoardUserControl()
+        public BoardView()
         {
             this.InitializeComponent();
         }

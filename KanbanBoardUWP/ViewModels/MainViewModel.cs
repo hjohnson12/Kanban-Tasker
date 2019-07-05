@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanBoardUWP.ViewModel
+namespace KanbanBoardUWP.ViewModels
 {
     public class MainViewModel : Observable
     {

@@ -1,5 +1,5 @@
-﻿using KanbanBoardUWP.Model;
-using KanbanBoardUWP.ViewModel;
+﻿using KanbanBoardUWP.Models;
+using KanbanBoardUWP.ViewModels;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections;
@@ -28,7 +28,7 @@ namespace KanbanBoardUWP.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainView : Page
     {
         //=====================================================================
         // MAIN PAGE PROPERTIES
@@ -37,7 +37,7 @@ namespace KanbanBoardUWP.Views
         public MainViewModel ViewModel { get; set; }
         public CustomKanbanModel SelectedModel { get; set; }
 
-        public MainPage()
+        public MainView()
         {
             this.InitializeComponent();
 
@@ -190,7 +190,7 @@ namespace KanbanBoardUWP.Views
             taskFlyout.Hide();
 
             // Create dialog and check button click result
-            var deleteDialog = new DeleteConfirmationDialog();
+            var deleteDialog = new DeleteConfirmationView();
             var result = await deleteDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
