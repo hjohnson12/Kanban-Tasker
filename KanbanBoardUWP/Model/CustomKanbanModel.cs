@@ -17,12 +17,14 @@ namespace KanbanBoardUWP.Model
         private string[] _tags;
         private string _description;
         private string _id;
+        private string _boardID;
 
         //=====================================================================
         // Common KanbanModel Property Interface Members Required
         //=====================================================================
 
         public string ID { get => _id; set { _id = value; OnPropertyChanged(); } }
+        public string BoardID { get => _boardID; set { _boardID = value; OnPropertyChanged(); } }
         public string Title { get => _title; set { _title = value; OnPropertyChanged(); } }
         public string Description { get => _description; set { _description = value; OnPropertyChanged(); } }
         public string[] Tags { get => _tags; set { _tags = value; OnPropertyChanged(); } }
