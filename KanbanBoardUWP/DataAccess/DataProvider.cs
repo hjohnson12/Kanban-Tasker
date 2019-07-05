@@ -19,17 +19,25 @@ namespace KanbanBoardUWP.DataAccess
             {
                 db.Open();
 
-                string tableCommand = "CREATE TABLE IF NOT " +
-                    "EXISTS MyTable (" +
+                string tblTasksCommand = "CREATE TABLE IF NOT " +
+                    "EXISTS tblTasks (" +
                     "Id INTEGER PRIMARY KEY, " +
+                    "BoardID INTEGER NULL, " + 
                     "Title NVARCHAR(2048) NULL, " +
                     "Description NVARCHAR(2048) NULL, " +
                     "Category NVARCHAR(2048) NULL, " +
                     "ColorKey NVARCHAR(2048) NULL, " +
                     "Tags NVARCHAR(2048) NULL)";
 
-                SqliteCommand createTable = new SqliteCommand(tableCommand, db);
-                createTable.ExecuteReader();
+                string tblBoardsCommand = "CREATE TABLE IF NOT " +
+                    "EXISTS tblBoards (" +
+                    "Id INTEGER PRIMARY KEY, " +
+                    "Name NVARCHAR(2048) NULL)";
+
+                SqliteCommand createTblTasks = new SqliteCommand(tblTasksCommand, db);
+                SqliteCommand createTblBoards = new SqliteCommand(tblBoardsCommand, db);
+                createTblTasks.ExecuteReader();
+                createTblBoards.ExecuteReader();
                 db.Close();
             }
         }
@@ -46,7 +54,7 @@ namespace KanbanBoardUWP.DataAccess
                     Connection = db,
 
                     // Use parameterized query to prevent SQL injection attacks
-                    CommandText = "INSERT INTO MyTable VALUES (@id, @title, @desc, @categ, @colorKey, @tags);"
+                    CommandText = "INSERT INTO tblTasks VALUES (@id, @title, @desc, @categ, @colorKey, @tags);"
                 };
                 insertCommand.Parameters.AddWithValue("@id", id);
                 insertCommand.Parameters.AddWithValue("@title", title);
@@ -68,7 +76,7 @@ namespace KanbanBoardUWP.DataAccess
             {
                 db.Open();
                 SqliteCommand deleteCommand = new SqliteCommand
-                    ("DELETE FROM MyTable WHERE Id=@id", db);
+                    ("DELETE FROM tblTasks WHERE Id=@id", db);
                 deleteCommand.Parameters.AddWithValue("id", id);
                 deleteCommand.ExecuteNonQuery();
 
@@ -90,7 +98,7 @@ namespace KanbanBoardUWP.DataAccess
                 db.Open();
 
                 SqliteCommand selectCommand = new SqliteCommand
-                    ("SELECT Id, Title, Description, Category, ColorKey, Tags from MyTable", db);
+                    ("SELECT Id, Title, Description, Category, ColorKey, Tags from tblTasks", db);
 
                 SqliteDataReader query = selectCommand.ExecuteReader();
 
@@ -129,7 +137,7 @@ namespace KanbanBoardUWP.DataAccess
 
                 // Update item
                 SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE MyTable SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
+                    ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
                 updateCommand.Parameters.AddWithValue("@title", title);
                 updateCommand.Parameters.AddWithValue("@desc", descr);
                 updateCommand.Parameters.AddWithValue("@categ", category);
