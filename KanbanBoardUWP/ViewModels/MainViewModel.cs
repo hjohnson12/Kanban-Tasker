@@ -1,6 +1,6 @@
 ﻿using KanbanBoardUWP.Base;
 using KanbanBoardUWP.DataAccess;
-using KanbanBoardUWP.Model;
+using KanbanBoardUWP.Models;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections.Generic;
