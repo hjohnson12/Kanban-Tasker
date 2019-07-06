@@ -77,7 +77,7 @@ namespace KanbanBoardUWP.ViewModels
                     Category = _cardModel.Category.ToString();
                     ColorKey = _cardModel.ColorKey.ToString();
                     Tags = _cardModel.Tags;
-                    OnPropertyChanged("CardModel");
+                    OnPropertyChanged();
                 }
             }
         }
