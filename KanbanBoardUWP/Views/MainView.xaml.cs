@@ -345,5 +345,14 @@ namespace KanbanBoardUWP.Views
         {
             CoreApplication.Exit();
         }
+
+        private void KanbanBoard_CardDragEnd(object sender, KanbanDragEndEventArgs e)
+        {
+            // Change column and category of task when dragged to new column
+            // ObservableCollection Tasks already updated
+            var targetCategory = e.TargetKey.ToString();
+            var selectedCardModel = e.SelectedCard.Content as CustomKanbanModel;
+            ViewModel.UpdateCardColumn(targetCategory, selectedCardModel);
+        }
     }
 }
