@@ -301,5 +301,12 @@ namespace KanbanBoardUWP.ViewModel
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
         }
+
+        public void UpdateCardColumn(string targetCategory, CustomKanbanModel selectedCardModel)
+        {
+            // Update card category when dragged to new column, and update in database
+            selectedCardModel.Category = targetCategory;
+            DataProvider.UpdateColumnData(selectedCardModel);
+        }
     }
 }
