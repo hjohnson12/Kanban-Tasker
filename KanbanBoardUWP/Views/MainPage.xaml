@@ -452,7 +452,7 @@
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
                 ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
-                MinColumnWidth="150" BorderBrush="{StaticResource RegionBrush}" CardDragEnd="KanbanBoard_CardDragEnd">
+                MinColumnWidth="150" BorderBrush="{StaticResource RegionBrush}">
 
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
