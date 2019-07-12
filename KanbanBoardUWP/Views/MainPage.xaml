@@ -342,44 +342,58 @@
                             IsEnabled="False"
                             Text="{x:Bind ViewModel.ID, Mode=OneWay}"
                             Visibility="Collapsed" />
+                        <TextBlock Text="Title" FontWeight="Bold" FontSize="15" Foreground="White" Margin="0 20 0 5"/>
                         <TextBox
                             x:Name="txtBoxTitle"
-                            Margin="0,25,0,0"
-                            Header="Title:"
                             PlaceholderText="Type your information here"
                             Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                            <SymbolIcon Symbol="Page2" />
+                            <TextBlock Text="Notes:" VerticalAlignment="Center" Margin="5"/>
+                        </StackPanel>
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <TextBox
                                 x:Name="txtBoxDescription"
                                 Height="200"
-                                MaxHeight="400"
-                                Margin="0,15,0,0"
+                                MaxHeight="300"
+                                Margin="0,0,0,0"
                                 AcceptsReturn="True"
-                                Header="Description"
                                 MaxLength="100"
                                 PlaceholderText="Type your information here"
                                 Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
                         </ScrollViewer>
-                        <ComboBox
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                            <SymbolIcon Symbol="AllApps" />
+                            <TextBlock VerticalAlignment="Center" Margin="5">
+                                <Run Text="Category:" FontSize="14" />
+                            </TextBlock>
+                            <ComboBox
                             x:Name="comboBoxCategories"
-                            Margin="0,15,0,0"
-                            Header="Category:"
                             IsEditable="False"
+                            Margin="10"
                             ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
                             PlaceholderText="Choose One:" />
-                        <ComboBox
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Important"/>
+                            <TextBlock VerticalAlignment="Center" >
+                                <Run Text="Priority:" FontSize="14"/>
+                            </TextBlock>
+                            <ComboBox
                             x:Name="comboBoxColorKey"
-                            Margin="0,15,0,0"
-                            Header="Color Key:"
                             IsEditable="False"
+                            Margin="20 10 10 10"
                             ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
                             PlaceholderText="Choose One:"
                             Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                            <SymbolIcon Symbol="Tag" />
+                            <TextBlock Text="Tags:" Margin="5 5 5 5" FontSize="14"></TextBlock>
+                        </StackPanel>
                         <TextBox
                             x:Name="txtBoxTags"
-                            Margin="0,15,0,0"
-                            Header="Tags:"
                             KeyDown="TxtBoxTags_KeyDown"
                             PlaceholderText="Type and press enter to add a new tag" />
                         <ListView
@@ -393,6 +407,7 @@
                         <Button
                             x:Name="btnDeleteTags"
                             Click="BtnDeleteTags_Click"
+                            HorizontalAlignment="Center"
                             Content="Delete Selected Items" />
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
@@ -424,7 +439,7 @@
                         <AppBarButton
                             x:Name="btnDeleteTask"
                             Margin="22 17 20 20"
-                            Icon="Save"
+                            Icon="Delete"
                             Click="FlyoutBtnDelete_Click"
                             Label="Delete Task" />
                         <AppBarButton
