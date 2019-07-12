@@ -152,23 +152,5 @@ namespace KanbanBoardUWP.DataAccess
             }
         }
 
-        public static void UpdateColumnData(CustomKanbanModel selectedCardModel)
-        {
-            using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
-            {
-                db.Open();
-
-                // Update task column/category when dragged to new column/category
-                SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE MyTable SET Category=@category WHERE Id=@id", db);
-                updateCommand.Parameters.AddWithValue("@category", selectedCardModel.Category);
-                updateCommand.Parameters.AddWithValue("@id", selectedCardModel.ID);
-                updateCommand.ExecuteNonQuery();
-
-                db.Close();
-            }
-        }
-
     }
 }
