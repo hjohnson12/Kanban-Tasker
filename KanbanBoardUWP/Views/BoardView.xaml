@@ -17,7 +17,6 @@
                 Opacity="0.8"
                 TargetTheme="Light"
                 Color="AliceBlue" />
-            <!--  #383838  -->
             <AcrylicBrush
                 x:Key="PaneBackgroundAcrylicBrush"
                 BackgroundSource="HostBackdrop"
@@ -351,46 +350,108 @@
                             IsEnabled="False"
                             Text="{x:Bind ViewModel.ID, Mode=OneWay}"
                             Visibility="Collapsed" />
+                        <TextBlock
+                            Margin="0,20,0,8"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="Title" />
                         <TextBox
                             x:Name="txtBoxTitle"
-                            Margin="0,25,0,0"
-                            Header="Title:"
                             PlaceholderText="Type your information here"
+                            Style="{StaticResource TextBoxStyle1}"
                             Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
+                            <SymbolIcon Symbol="Page2" />
+                            <TextBlock
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                Text="Notes:" />
+                        </StackPanel>
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <TextBox
                                 x:Name="txtBoxDescription"
                                 Height="200"
-                                MaxHeight="400"
-                                Margin="0,15,0,0"
+                                MaxHeight="300"
                                 AcceptsReturn="True"
-                                Header="Description"
                                 MaxLength="100"
                                 PlaceholderText="Type your information here"
+                                Style="{StaticResource TextBoxStyle1}"
                                 Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
                         </ScrollViewer>
-                        <ComboBox
-                            x:Name="comboBoxCategories"
-                            Margin="0,15,0,0"
-                            Header="Category:"
-                            IsEditable="False"
-                            ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
-                            PlaceholderText="Choose One:" />
-                        <ComboBox
-                            x:Name="comboBoxColorKey"
-                            Margin="0,15,0,0"
-                            Header="Color Key:"
-                            IsEditable="False"
-                            ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
-                            PlaceholderText="Choose One:"
-                            Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
-                        <TextBox
-                            x:Name="txtBoxTags"
-                            Margin="0,15,0,0"
-                            Header="Tags:"
-                            KeyDown="TxtBoxTags_KeyDown"
-                            PlaceholderText="Type and press enter to add a new tag" />
+                        <Grid Margin="0,10,0,0" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <SymbolIcon Symbol="List" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="8,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="Category: " />
+                            <ComboBox
+                                x:Name="comboBoxCategories"
+                                Grid.Column="2"
+                                Margin="8,2,0,2"
+                                HorizontalAlignment="Stretch"
+                                BorderThickness="1"
+                                CornerRadius="3"
+                                ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
+                                PlaceholderText="Choose One:"
+                                Text="{x:Bind ViewModel.Category, Mode=OneWay}" />
+                            <SymbolIcon
+                                Grid.Row="1"
+                                Margin="0,10"
+                                Symbol="Important" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="8,10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="Priority: " />
+                            <ComboBox
+                                x:Name="comboBoxColorKey"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Margin="8,10,0,2"
+                                HorizontalAlignment="Stretch"
+                                BorderThickness="1"
+                                CornerRadius="3"
+                                ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
+                                PlaceholderText="Choose One:"
+                                Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
+                        </Grid>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <SymbolIcon Grid.Column="0" Symbol="Tag" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="8,0"
+                                VerticalAlignment="Center"
+                                Text="Tags:" />
+                            <TextBox
+                                x:Name="txtBoxTags"
+                                Grid.Column="2"
+                                Margin="36,10,0,0"
+                                HorizontalAlignment="Stretch"
+                                KeyDown="TxtBoxTags_KeyDown"
+                                PlaceholderText="Press enter to add tag"
+                                Style="{StaticResource TextBoxStyle1}" />
+                        </Grid>
+
                         <ListView
                             x:Name="lstViewTags"
                             MaxHeight="300"
@@ -401,6 +462,7 @@
                             SelectionMode="Multiple" />
                         <Button
                             x:Name="btnDeleteTags"
+                            HorizontalAlignment="Center"
                             Click="BtnDeleteTags_Click"
                             Content="Delete Selected Items" />
                         <!--  Later Implementation, choose pic  -->
@@ -409,7 +471,6 @@
                     Header="Image URL:"
                     IsEnabled="False"
                     Text="{x:Bind Model.ImageURL}" />-->
-
                     </StackPanel>
                 </ScrollViewer>
 
@@ -439,7 +500,7 @@
                             x:Name="btnDeleteTask"
                             Margin="22,17,20,20"
                             Click="FlyoutBtnDelete_Click"
-                            Icon="Save"
+                            Icon="Delete"
                             Label="Delete Task" />
                         <AppBarButton
                             x:Name="btnClosePane"
