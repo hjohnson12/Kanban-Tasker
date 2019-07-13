@@ -359,6 +359,7 @@
                         <TextBox
                             x:Name="txtBoxTitle"
                             PlaceholderText="Type your information here"
+                            Style="{StaticResource TextBoxStyle1}"
                             Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
                             <SymbolIcon Symbol="Page2" />
@@ -375,6 +376,7 @@
                                 AcceptsReturn="True"
                                 MaxLength="100"
                                 PlaceholderText="Type your information here"
+                                Style="{StaticResource TextBoxStyle1}"
                                 Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
                         </ScrollViewer>
@@ -400,6 +402,8 @@
                                 Grid.Column="2"
                                 Margin="8,2,0,2"
                                 HorizontalAlignment="Stretch"
+                                BorderThickness="1"
+                                CornerRadius="10"
                                 ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
                                 Text="{x:Bind ViewModel.Category, Mode=OneWay}" />
@@ -420,6 +424,8 @@
                                 Grid.Column="2"
                                 Margin="8,10,0,2"
                                 HorizontalAlignment="Stretch"
+                                BorderThickness="1"
+                                CornerRadius="10"
                                 ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
                                 Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
@@ -442,7 +448,8 @@
                                 Margin="36,10,0,0"
                                 HorizontalAlignment="Stretch"
                                 KeyDown="TxtBoxTags_KeyDown"
-                                PlaceholderText="Press enter to add tag" />
+                                PlaceholderText="Press enter to add tag"
+                                Style="{StaticResource TextBoxStyle1}" />
                         </Grid>
 
                         <ListView
