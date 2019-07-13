@@ -18,7 +18,6 @@
                 Opacity="0.8"
                 TargetTheme="Light"
                 Color="AliceBlue" />
-            <!--  #383838  -->
             <AcrylicBrush
                 x:Key="PaneBackgroundAcrylicBrush"
                 BackgroundSource="HostBackdrop"
@@ -419,27 +418,33 @@
                                 x:Name="comboBoxColorKey"
                                 Grid.Row="1"
                                 Grid.Column="2"
-                                Margin="8,10,0,10"
+                                Margin="8,10,0,2"
                                 HorizontalAlignment="Stretch"
                                 ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
                                 Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
                         </Grid>
-                        <Grid Margin="0,5,0,8">
+                        <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <SymbolIcon Grid.Column="0" Symbol="Tag" />
                             <TextBlock
                                 Grid.Column="1"
-                                Margin="10,0,0,0"
+                                Margin="8,0"
+                                VerticalAlignment="Center"
                                 Text="Tags:" />
+                            <TextBox
+                                x:Name="txtBoxTags"
+                                Grid.Column="2"
+                                Margin="36,10,0,0"
+                                HorizontalAlignment="Stretch"
+                                KeyDown="TxtBoxTags_KeyDown"
+                                PlaceholderText="Press enter to add tag" />
                         </Grid>
-                        <TextBox
-                            x:Name="txtBoxTags"
-                            KeyDown="TxtBoxTags_KeyDown"
-                            PlaceholderText="Type and press enter to add a tag" />
+
                         <ListView
                             x:Name="lstViewTags"
                             MaxHeight="300"
@@ -459,7 +464,6 @@
                     Header="Image URL:"
                     IsEnabled="False"
                     Text="{x:Bind Model.ImageURL}" />-->
-
                     </StackPanel>
                 </ScrollViewer>
 
