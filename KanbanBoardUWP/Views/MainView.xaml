@@ -31,6 +31,7 @@
                         Text="Pane Header" />
                 </Grid>
             </NavigationView.PaneHeader>
+
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Menu Item1" Tag="SamplePage1" />
                 <NavigationViewItem Content="Menu Item2" Tag="SamplePage2" />

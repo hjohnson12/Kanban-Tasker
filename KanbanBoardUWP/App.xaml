@@ -6,12 +6,14 @@
     RequestedTheme="Dark">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources\ThemeDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <!-- Added to override content dialog overlay background to transparent -->
+            <AcrylicBrush
+                x:Key="RegionBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="#1e2328"
+                TintColor="#1e2328"
+                TintOpacity="0.8" />
+            <!--  Added to override content dialog overlay background to transparent  -->
             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#00000000" />
         </ResourceDictionary>
-        
     </Application.Resources>
 </Application>
