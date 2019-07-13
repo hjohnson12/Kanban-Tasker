@@ -403,7 +403,7 @@
                                 Margin="8,2,0,2"
                                 HorizontalAlignment="Stretch"
                                 BorderThickness="1"
-                                CornerRadius="10"
+                                CornerRadius="3"
                                 ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
                                 Text="{x:Bind ViewModel.Category, Mode=OneWay}" />
@@ -425,7 +425,7 @@
                                 Margin="8,10,0,2"
                                 HorizontalAlignment="Stretch"
                                 BorderThickness="1"
-                                CornerRadius="10"
+                                CornerRadius="3"
                                 ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
                                 Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
