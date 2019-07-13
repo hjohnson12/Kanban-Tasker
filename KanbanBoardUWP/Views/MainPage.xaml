@@ -18,18 +18,24 @@
                 Opacity="0.8"
                 TargetTheme="Light"
                 Color="AliceBlue" />
-            <!-- #383838 -->
+            <!--  #383838  -->
             <AcrylicBrush
                 x:Key="PaneBackgroundAcrylicBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="#2c333a"
                 TintColor="#2c333a"
                 TintOpacity="0.7" />
-            <Rectangle x:Key="paneRect" IsHitTestVisible="False" Width="12" HorizontalAlignment="Left" Opacity="0.1" Margin="-12,0,0,0">
+            <Rectangle
+                x:Key="paneRect"
+                Width="12"
+                Margin="-12,0,0,0"
+                HorizontalAlignment="Left"
+                IsHitTestVisible="False"
+                Opacity="0.1">
                 <Rectangle.Fill>
-                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
-                        <GradientStop Offset="1"/>
-                        <GradientStop Color="Black" Offset="0"/>
+                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,0">
+                        <GradientStop Offset="1" />
+                        <GradientStop Offset="0" Color="Black" />
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
@@ -125,12 +131,12 @@
                         <Grid Grid.Row="1">
                             <Canvas HorizontalAlignment="Center">
                                 <TextBlock
-                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="White">
+                                    Foreground="White"
+                                    Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -303,9 +309,9 @@
                     <RowDefinition />
                     <RowDefinition Height="90" />
                 </Grid.RowDefinitions>
-                
-                <!-- Pane Header -->
-                <Grid Grid.Row="0" x:Name="paneHeaderGrid">
+
+                <!--  Pane Header  -->
+                <Grid x:Name="paneHeaderGrid" Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
@@ -323,17 +329,20 @@
                     <AppBarButton
                         x:Name="appBarBtnClosePane"
                         Grid.Column="2"
-                        Margin="5 5 20 5"
+                        Margin="5,5,20,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="appBarBtnClosePane_Click"
                         Icon="ClosePane"
                         Label="Close Pane" />
                 </Grid>
-                <!-- Border Separator -->
-                <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Width="280" />
-                
-                <!-- Pane Body-->
+                <!--  Border Separator  -->
+                <Border
+                    Width="280"
+                    BorderBrush="Gray"
+                    BorderThickness="0,0,0,1" />
+
+                <!--  Pane Body  -->
                 <ScrollViewer Grid.Row="1">
                     <StackPanel Margin="20,0,20,20">
                         <TextBox
@@ -342,60 +351,95 @@
                             IsEnabled="False"
                             Text="{x:Bind ViewModel.ID, Mode=OneWay}"
                             Visibility="Collapsed" />
-                        <TextBlock Text="Title" FontWeight="Bold" FontSize="15" Foreground="White" Margin="0 20 0 5"/>
+                        <TextBlock
+                            Margin="0,20,0,8"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="Title" />
                         <TextBox
                             x:Name="txtBoxTitle"
                             PlaceholderText="Type your information here"
                             Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                        <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
                             <SymbolIcon Symbol="Page2" />
-                            <TextBlock Text="Notes:" VerticalAlignment="Center" Margin="5"/>
+                            <TextBlock
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                Text="Notes:" />
                         </StackPanel>
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <TextBox
                                 x:Name="txtBoxDescription"
                                 Height="200"
                                 MaxHeight="300"
-                                Margin="0,0,0,0"
                                 AcceptsReturn="True"
                                 MaxLength="100"
                                 PlaceholderText="Type your information here"
                                 Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
                         </ScrollViewer>
-                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
-                            <SymbolIcon Symbol="AllApps" />
-                            <TextBlock VerticalAlignment="Center" Margin="5">
-                                <Run Text="Category:" FontSize="14" />
-                            </TextBlock>
+                        <Grid Margin="0,10,0,0" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <SymbolIcon Symbol="List" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="8,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="Category: " />
                             <ComboBox
-                            x:Name="comboBoxCategories"
-                            IsEditable="False"
-                            Margin="10"
-                            ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
-                            PlaceholderText="Choose One:" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Symbol="Important"/>
-                            <TextBlock VerticalAlignment="Center" >
-                                <Run Text="Priority:" FontSize="14"/>
-                            </TextBlock>
+                                x:Name="comboBoxCategories"
+                                Grid.Column="2"
+                                Margin="8,2,0,2"
+                                HorizontalAlignment="Stretch"
+                                ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
+                                PlaceholderText="Choose One:"
+                                Text="{x:Bind ViewModel.Category, Mode=OneWay}" />
+                            <SymbolIcon
+                                Grid.Row="1"
+                                Margin="0,10"
+                                Symbol="Important" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="8,10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="Priority: " />
                             <ComboBox
-                            x:Name="comboBoxColorKey"
-                            IsEditable="False"
-                            Margin="20 10 10 10"
-                            ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
-                            PlaceholderText="Choose One:"
-                            Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-                            <SymbolIcon Symbol="Tag" />
-                            <TextBlock Text="Tags:" Margin="5 5 5 5" FontSize="14"></TextBlock>
-                        </StackPanel>
+                                x:Name="comboBoxColorKey"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Margin="8,10,0,10"
+                                HorizontalAlignment="Stretch"
+                                ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
+                                PlaceholderText="Choose One:"
+                                Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
+                        </Grid>
+                        <Grid Margin="0,5,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <SymbolIcon Grid.Column="0" Symbol="Tag" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Text="Tags:" />
+                        </Grid>
                         <TextBox
                             x:Name="txtBoxTags"
                             KeyDown="TxtBoxTags_KeyDown"
-                            PlaceholderText="Type and press enter to add a new tag" />
+                            PlaceholderText="Type and press enter to add a tag" />
                         <ListView
                             x:Name="lstViewTags"
                             MaxHeight="300"
@@ -406,8 +450,8 @@
                             SelectionMode="Multiple" />
                         <Button
                             x:Name="btnDeleteTags"
-                            Click="BtnDeleteTags_Click"
                             HorizontalAlignment="Center"
+                            Click="BtnDeleteTags_Click"
                             Content="Delete Selected Items" />
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
@@ -418,33 +462,38 @@
 
                     </StackPanel>
                 </ScrollViewer>
-                
-                <!-- Splitview Pane Footer -->
-                <Grid Grid.Row="2" BorderBrush="Red" x:Name="paneFooterGrid">
+
+                <!--  Splitview Pane Footer  -->
+                <Grid
+                    x:Name="paneFooterGrid"
+                    Grid.Row="2"
+                    BorderBrush="Red">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <!-- Border Separator -->
-                    <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Width="280" Grid.Row="0"/>
-                    <StackPanel
-                        Grid.Row="1"
-                        Orientation="Horizontal">
+                    <!--  Border Separator  -->
+                    <Border
+                        Grid.Row="0"
+                        Width="280"
+                        BorderBrush="Gray"
+                        BorderThickness="0,0,0,1" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <AppBarButton
                             x:Name="btnSaveTask"
-                            Margin="20 17 20 20"
-                            Icon="Save"
+                            Margin="20,17,20,20"
                             Click="BtnSaveTask_Click"
+                            Icon="Save"
                             Label="Save Task" />
                         <AppBarButton
                             x:Name="btnDeleteTask"
-                            Margin="22 17 20 20"
-                            Icon="Delete"
+                            Margin="22,17,20,20"
                             Click="FlyoutBtnDelete_Click"
+                            Icon="Delete"
                             Label="Delete Task" />
                         <AppBarButton
                             x:Name="btnClosePane"
-                            Margin="14 17 20 20"
+                            Margin="14,17,20,20"
                             Click="BtnCancel_Click"
                             Icon="Cancel"
                             Label="Cancel" />
@@ -453,7 +502,7 @@
             </Grid>
         </SplitView.Pane>
 
-        <Grid x:Name="grid" Background="{ThemeResource RegionBrush}" >
+        <Grid x:Name="grid" Background="{ThemeResource RegionBrush}">
             <!--  KANBAN BOARD  -->
             <syncfusion:SfKanban
                 x:Name="kanbanBoard"
@@ -463,11 +512,12 @@
                 x:FieldModifier="Public"
                 AutoGenerateColumns="False"
                 Background="{ThemeResource RegionBrush}"
+                BorderBrush="{StaticResource RegionBrush}"
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
                 ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
-                MinColumnWidth="150" BorderBrush="{StaticResource RegionBrush}">
+                MinColumnWidth="150">
 
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
@@ -577,7 +627,7 @@
                         BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
                         BorderThickness=".1">
 
-                        -->
+                -->
                 <!--<CommandBar
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
@@ -674,15 +724,21 @@
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>
             </syncfusion:SfKanban>
-            <Rectangle IsHitTestVisible="False" Visibility="{x:Bind splitView.IsPaneOpen, Mode=OneWay}" Width="12" HorizontalAlignment="Right" Opacity="0.1" Margin="-12,0,0,0">
+            <Rectangle
+                Width="12"
+                Margin="-12,0,0,0"
+                HorizontalAlignment="Right"
+                IsHitTestVisible="False"
+                Opacity="0.1"
+                Visibility="{x:Bind splitView.IsPaneOpen, Mode=OneWay}">
                 <Rectangle.Fill>
-                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
-                        <GradientStop Offset="1"/>
-                        <GradientStop Color="Black" Offset="0"/>
+                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,0">
+                        <GradientStop Offset="1" />
+                        <GradientStop Offset="0" Color="Black" />
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
         </Grid>
     </SplitView>
-   
+
 </Page>
