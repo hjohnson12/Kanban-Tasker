@@ -15,7 +15,7 @@ namespace KanbanBoardUWP.DataAccess
         public static void InitializeDatabase()
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
 
@@ -45,7 +45,7 @@ namespace KanbanBoardUWP.DataAccess
         public static void AddTask(int id, string boardID, string title, string desc, string categ, string colorKey, string tags)
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
 
@@ -73,7 +73,7 @@ namespace KanbanBoardUWP.DataAccess
         {
             // Delete task from db
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
                 SqliteCommand deleteCommand = new SqliteCommand
@@ -94,7 +94,7 @@ namespace KanbanBoardUWP.DataAccess
 
             // Get tasks and return the collection
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
 
@@ -133,7 +133,7 @@ namespace KanbanBoardUWP.DataAccess
         public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
 
