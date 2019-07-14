@@ -332,7 +332,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="appBarBtnClosePane_Click"
-                        Icon="ClosePane"
+                        Icon="OpenPane"
                         Label="Close Pane" />
                 </Grid>
                 <!--  Border Separator  -->
