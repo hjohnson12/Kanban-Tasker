@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanBoardUWP", "KanbanBoardUWP\KanbanBoardUWP.csproj", "{B434996D-3E75-4AAA-A039-CBA4FFB4418A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanBoardUWP", "KanbanTasker\KanbanBoardUWP.csproj", "{B434996D-3E75-4AAA-A039-CBA4FFB4418A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
