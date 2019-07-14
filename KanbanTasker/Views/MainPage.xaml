@@ -1,14 +1,14 @@
 ﻿<Page
-    x:Class="KanbanBoardUWP.Views.MainPage"
+    x:Class="KanbanTasker.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:KanbanBoardUWP.Helpers"
-    xmlns:local="using:KanbanBoardUWP"
+    xmlns:helpers="using:KanbanTasker.Helpers"
+    xmlns:local="using:KanbanTasker"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Windows.UI.Xaml.Controls"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
-    xmlns:textconverters="using:KanbanBoardUWP.Converters.Text"
+    xmlns:textconverters="using:KanbanTasker.Converters.Text"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>

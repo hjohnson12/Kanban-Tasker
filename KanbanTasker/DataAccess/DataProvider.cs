@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KanbanBoardUWP.Model;
+using KanbanTasker.Model;
 using Microsoft.Data.Sqlite;
 using Syncfusion.UI.Xaml.Kanban;
 
-namespace KanbanBoardUWP.DataAccess
+namespace KanbanTasker.DataAccess
 {
     public static class DataProvider
     {

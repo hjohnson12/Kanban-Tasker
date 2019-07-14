@@ -14,7 +14,7 @@
   <mp:PhoneIdentity PhoneProductId="233382e2-3ebf-49ce-a5a0-ba5da7e72e7f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>KanbanBoardUWP</DisplayName>
+    <DisplayName>KanbanTasker</DisplayName>
     <PublisherDisplayName>Hunter</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -30,12 +30,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="KanbanBoardUWP.App">
+      EntryPoint="KanbanTasker.App">
       <uap:VisualElements
-        DisplayName="KanbanBoardUWP"
+        DisplayName="KanbanTasker"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="KanbanBoardUWP"
+        Description="KanbanTasker"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

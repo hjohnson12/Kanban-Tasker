@@ -1,4 +1,4 @@
-﻿using KanbanBoardUWP.Base;
+﻿using KanbanTasker.Base;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanBoardUWP.Model
+namespace KanbanTasker.Model
 {
     public class CustomKanbanModel : Observable, IKanbanModel
     {
