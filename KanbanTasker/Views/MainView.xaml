@@ -40,7 +40,7 @@
                     <!--  TEST  -->
                     <Image
                         Grid.Column="0"
-                        Margin="4 4 4 4"
+                        Margin="8 8 8 6"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png" />
@@ -82,14 +82,14 @@
                 </Grid>
             </NavigationView.PaneHeader>
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Menu Item1" Tag="SamplePage1" />
-                <NavigationViewItem Content="Menu Item2" Tag="SamplePage2" />
-                <NavigationViewItem Content="Menu Item3" Tag="SamplePage3" />
-                <NavigationViewItem Content="Menu Item4" Tag="SamplePage4" />
-                <NavigationViewItem Content="Menu Item1" Tag="SamplePage1" />
-                <NavigationViewItem Content="Menu Item2" Tag="SamplePage2" />
-                <NavigationViewItem Content="Menu Item3" Tag="SamplePage3" />
-                <NavigationViewItem Content="Menu Item4" Tag="SamplePage4" />
+                <NavigationViewItem Content="Board1" Tag="SamplePage1" />
+                <NavigationViewItem Content="Board2" Tag="SamplePage2" />
+                <NavigationViewItem Content="Board3" Tag="SamplePage3" />
+                <NavigationViewItem Content="Board4" Tag="SamplePage4" />
+                <NavigationViewItem Content="Board1" Tag="SamplePage1" />
+                <NavigationViewItem Content="Board2" Tag="SamplePage2" />
+                <NavigationViewItem Content="Board3" Tag="SamplePage3" />
+                <NavigationViewItem Content="Board4" Tag="SamplePage4" />
             </NavigationView.MenuItems>
             <Frame x:Name="contentFrame" />
         </NavigationView>

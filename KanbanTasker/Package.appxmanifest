@@ -38,7 +38,7 @@
         Description="KanbanTasker is a Windows 10 UWP Kanban Board application"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png"  BackgroundColor="#1e2328"/>
       </uap:VisualElements>
     </Application>
   </Applications>
