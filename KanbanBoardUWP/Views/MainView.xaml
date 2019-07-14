@@ -15,6 +15,7 @@
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <NavigationView
@@ -23,9 +24,6 @@
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             PaneDisplayMode="Top">
-            <NavigationView.PaneCustomContent>
-                <AppBarButton Icon="Add" />
-            </NavigationView.PaneCustomContent>
             <NavigationView.PaneHeader>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -39,10 +37,16 @@
                         VerticalAlignment="Center"
                         FontWeight="Bold"
                         Text="KanbanBoardUWP" />
+                    <!--  TEST  -->
+                    <!--<Image
+                        Grid.Column="0"
+                        Margin="10"
+                        Source="ms-appx:///MS.png" />-->
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Rectangle
                             Width="2"
+                            Height="25"
                             Margin="0,0,5,0"
                             HorizontalAlignment="Right"
                             IsHitTestVisible="False"
@@ -52,29 +56,18 @@
                                 <SolidColorBrush Color="White" />
                             </Rectangle.Fill>
                         </Rectangle>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock
-                                x:Name="optionssTxtBlock"
-                                Margin="5,6,5,5"
-                                VerticalAlignment="Center"
-                                Text="Board Options" />
-                            <Border
-                                Width="75"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom"
-                                BorderBrush="White"
-                                BorderThickness="0.6" />
-                        </StackPanel>
                         <AppBarButton
-                            Width="30"
+                            Width="40"
                             Icon="Add"
-                            ToolTipService.ToolTip="Add Task" />
+                            ToolTipService.ToolTip="Create Board" />
                         <AppBarButton
-                            Width="30"
+                            Width="40"
                             Icon="Delete"
                             ToolTipService.ToolTip="Delete Current Board" />
-                        <Rectangle
+
+                        <!--<Rectangle
                             Width="2"
+                            Height="25"
                             HorizontalAlignment="Right"
                             IsHitTestVisible="False"
                             Opacity="0.1"
@@ -82,7 +75,7 @@
                             <Rectangle.Fill>
                                 <SolidColorBrush Color="White" />
                             </Rectangle.Fill>
-                        </Rectangle>
+                        </Rectangle>-->
                     </StackPanel>
                 </Grid>
             </NavigationView.PaneHeader>
@@ -98,7 +91,21 @@
             </NavigationView.MenuItems>
             <Frame x:Name="contentFrame" />
         </NavigationView>
-
-        <kbcontrol:BoardView Grid.Row="1" />
+        <Grid Grid.Row="1" Background="{ThemeResource RegionBrush}">
+            <Rectangle
+                Height="8"
+                HorizontalAlignment="Stretch"
+                IsHitTestVisible="False"
+                Opacity="0.2"
+                Visibility="Visible">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="1" />
+                        <GradientStop Offset="0" Color="Black" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+        <kbcontrol:BoardView Grid.Row="2" />
     </Grid>
 </Page>
