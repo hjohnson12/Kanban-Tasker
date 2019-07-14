@@ -21,25 +21,76 @@
             x:Name="nvSample"
             Grid.Row="0"
             IsBackButtonVisible="Collapsed"
-            PaneDisplayMode="Top"
-            PaneTitle="TaskBoards">
+            IsSettingsVisible="False"
+            PaneDisplayMode="Top">
+            <NavigationView.PaneCustomContent>
+                <AppBarButton Icon="Add" />
+            </NavigationView.PaneCustomContent>
             <NavigationView.PaneHeader>
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                     <TextBlock
-                        Margin="15,0,0,0"
+                        Grid.Column="0"
+                        Margin="15,0,15,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontWeight="Bold"
-                        Text="Pane Header" />
+                        Text="KanbanBoardUWP" />
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Rectangle
+                            Width="2"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            IsHitTestVisible="False"
+                            Opacity="0.1"
+                            Visibility="Visible">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="White" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock
+                                x:Name="optionssTxtBlock"
+                                Margin="5,6,5,5"
+                                VerticalAlignment="Center"
+                                Text="Board Options" />
+                            <Border
+                                Width="75"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                BorderBrush="White"
+                                BorderThickness="0.6" />
+                        </StackPanel>
+                        <AppBarButton
+                            Width="30"
+                            Icon="Add"
+                            ToolTipService.ToolTip="Add Task" />
+                        <AppBarButton
+                            Width="30"
+                            Icon="Delete"
+                            ToolTipService.ToolTip="Delete Current Board" />
+                        <Rectangle
+                            Width="2"
+                            HorizontalAlignment="Right"
+                            IsHitTestVisible="False"
+                            Opacity="0.1"
+                            Visibility="Visible">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="White" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </StackPanel>
                 </Grid>
             </NavigationView.PaneHeader>
-            <NavigationView.PaneFooter>
-                <StackPanel Orientation="Horizontal">
-                    <AppBarButton Icon="Add" ToolTipService.ToolTip="New Board" />
-                    <AppBarButton Icon="Delete" ToolTipService.ToolTip="Delete Current Board" />
-                </StackPanel>
-            </NavigationView.PaneFooter>
             <NavigationView.MenuItems>
+                <NavigationViewItem Content="Menu Item1" Tag="SamplePage1" />
+                <NavigationViewItem Content="Menu Item2" Tag="SamplePage2" />
+                <NavigationViewItem Content="Menu Item3" Tag="SamplePage3" />
+                <NavigationViewItem Content="Menu Item4" Tag="SamplePage4" />
                 <NavigationViewItem Content="Menu Item1" Tag="SamplePage1" />
                 <NavigationViewItem Content="Menu Item2" Tag="SamplePage2" />
                 <NavigationViewItem Content="Menu Item3" Tag="SamplePage3" />
