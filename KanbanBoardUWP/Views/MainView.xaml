@@ -26,13 +26,19 @@
             <NavigationView.PaneHeader>
                 <Grid>
                     <TextBlock
+                        Margin="15,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontWeight="Bold"
                         Text="Pane Header" />
                 </Grid>
             </NavigationView.PaneHeader>
-
+            <NavigationView.PaneFooter>
+                <StackPanel Orientation="Horizontal">
+                    <AppBarButton Icon="Add" ToolTipService.ToolTip="New Board" />
+                    <AppBarButton Icon="Delete" ToolTipService.ToolTip="Delete Current Board" />
+                </StackPanel>
+            </NavigationView.PaneFooter>
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Menu Item1" Tag="SamplePage1" />
                 <NavigationViewItem Content="Menu Item2" Tag="SamplePage2" />
