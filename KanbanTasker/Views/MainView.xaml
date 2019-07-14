@@ -30,18 +30,20 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock
+                    <!--<TextBlock
                         Grid.Column="0"
                         Margin="15,0,15,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontWeight="Bold"
-                        Text="KanbanTasker" />
+                        Text="KanbanTasker" />-->
                     <!--  TEST  -->
-                    <!--<Image
+                    <Image
                         Grid.Column="0"
-                        Margin="10"
-                        Source="ms-appx:///MS.png" />-->
+                        Margin="4 4 4 4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png" />
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Rectangle
