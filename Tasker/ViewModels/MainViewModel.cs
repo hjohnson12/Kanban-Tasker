@@ -1,6 +1,6 @@
-﻿using KanbanBoardUWP.Base;
-using KanbanBoardUWP.DataAccess;
-using KanbanBoardUWP.Models;
+﻿using Tasker.Base;
+using Tasker.DataAccess;
+using Tasker.Models;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanBoardUWP.ViewModels
+namespace Tasker.ViewModels
 {
     public class MainViewModel : Observable
     {

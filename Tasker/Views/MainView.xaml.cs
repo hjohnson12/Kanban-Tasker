@@ -1,5 +1,5 @@
-﻿using KanbanBoardUWP.Models;
-using KanbanBoardUWP.ViewModels;
+﻿using Tasker.Models;
+using Tasker.ViewModels;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections;
@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace KanbanBoardUWP.Views
+namespace Tasker.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -35,9 +35,6 @@ namespace KanbanBoardUWP.Views
         public MainView()
         {
             this.InitializeComponent();
-
-        
         }
-
     }
 }

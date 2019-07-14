@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace KanbanBoardUWP.Converters.Text
+namespace Tasker.Converters.Text
 {
     public class StringToColorConverter : IValueConverter
     {
