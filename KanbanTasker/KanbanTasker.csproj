@@ -7,8 +7,8 @@
     <ProjectGuid>{B434996D-3E75-4AAA-A039-CBA4FFB4418A}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tasker</RootNamespace>
-    <AssemblyName>Tasker</AssemblyName>
+    <RootNamespace>KanbanTasker</RootNamespace>
+    <AssemblyName>KanbanTasker</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>

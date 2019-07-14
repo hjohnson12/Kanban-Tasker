@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
-namespace Tasker.Converters.Text
+namespace KanbanTasker.Converters.Text
 {
     public class CollapsedHeaderMargin : IValueConverter
     {

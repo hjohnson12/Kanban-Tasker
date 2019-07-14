@@ -1,13 +1,13 @@
 ﻿<UserControl
-    x:Class="Tasker.Views.BoardView"
+    x:Class="KanbanTasker.Views.BoardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Tasker.Helpers"
-    xmlns:local="using:Tasker.Views"
+    xmlns:helpers="using:KanbanTasker.Helpers"
+    xmlns:local="using:KanbanTasker.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
-    xmlns:textconverters="using:Tasker.Converters.Text"
+    xmlns:textconverters="using:KanbanTasker.Converters.Text"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>

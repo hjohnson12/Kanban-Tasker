@@ -1,5 +1,5 @@
-﻿using Tasker.Models;
-using Tasker.ViewModels;
+﻿using KanbanTasker.Models;
+using KanbanTasker.ViewModels;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections;
@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Tasker.Views
+namespace KanbanTasker.Views
 {
     public sealed partial class BoardView : UserControl
     {

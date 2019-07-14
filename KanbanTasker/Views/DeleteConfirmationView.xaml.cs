@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Tasker.Views
+namespace KanbanTasker.Views
 {
     public sealed partial class DeleteConfirmationView : ContentDialog
     {

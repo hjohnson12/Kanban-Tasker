@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tasker.Models;
+using KanbanTasker.Models;
 using Microsoft.Data.Sqlite;
 using Syncfusion.UI.Xaml.Kanban;
 
-namespace Tasker.DataAccess
+namespace KanbanTasker.DataAccess
 {
     public static class DataProvider
     {
