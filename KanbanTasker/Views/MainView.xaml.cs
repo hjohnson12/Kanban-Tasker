@@ -37,9 +37,12 @@ namespace KanbanTasker.Views
         {
             this.InitializeComponent();
 
-            // Hide default title bar.
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
+            // var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+            // Set the BackgroundElement instead of the entire Titlebar grid
+            // so that we can add clickable element in title bar.
+            Window.Current.SetTitleBar(AppTitleBar);
 
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             // Set active window colors

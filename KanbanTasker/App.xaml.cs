@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Xml;
 using KanbanTasker.Views;
 using KanbanTasker.DataAccess;
+using Windows.ApplicationModel.Core;
 
 namespace KanbanTasker
 {
@@ -89,6 +90,7 @@ namespace KanbanTasker
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
         }
 
         /// <summary>
