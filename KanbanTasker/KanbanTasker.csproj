@@ -126,6 +126,7 @@
     <Compile Include="Helpers\CustomKanbanColumn.cs" />
     <Compile Include="DataAccess\DataProvider.cs" />
     <Compile Include="Models\CustomKanbanModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
     </Compile>
