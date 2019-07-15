@@ -28,7 +28,7 @@ namespace KanbanTasker.Converters.Text
             {
                 return string.Empty;
             }
-
+          
             if (columnTag.Minimum > -1 && columnTag.Maximum > -1)
             {
                 return "  |  " + "Min:" + " " + columnTag.Minimum + " / "

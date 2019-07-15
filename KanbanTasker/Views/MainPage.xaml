@@ -451,7 +451,53 @@
                                 PlaceholderText="Press enter to add tag"
                                 Style="{StaticResource TextBoxStyle1}" />
                         </Grid>
+                        <GridView
+                            HorizontalAlignment="Center"
+                            CanDragItems="False"
+                            IsItemClickEnabled="False"
+                            IsSwipeEnabled="False"
+                            ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}"
+                            SelectionMode="Single">
+                            <GridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="BorderBrush" Value="{ThemeResource RegionBrush}" />
+                                    <Setter Property="MinHeight" Value="20" />
+                                    <Setter Property="Height" Value="35" />
+                                </Style>
+                            </GridView.ItemContainerStyle>
+                            <!--<GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="20" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                            Grid.ColumnSpan="2"
+                                            Background="#FFEDEDED"
+                                            CornerRadius="2">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock
+                                                    Margin="10,1,10,1"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="10"
+                                                    Foreground="#FF454545"
+                                                    Text="{Binding}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <AppBarButton
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="Black"
+                                                    Icon="Delete"
+                                                    LabelPosition="Collapsed" />
+                                            </StackPanel>
+                                        </Border>
 
+                                    </Grid>
+
+                                </DataTemplate>
+                            </GridView.ItemTemplate>-->
+                        </GridView>
                         <ListView
                             x:Name="lstViewTags"
                             MaxHeight="300"
@@ -459,12 +505,14 @@
                             CanDragItems="True"
                             CanReorderItems="True"
                             ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}"
-                            SelectionMode="Multiple" />
+                            SelectionMode="Multiple"
+                            Visibility="Collapsed" />
                         <Button
                             x:Name="btnDeleteTags"
                             HorizontalAlignment="Center"
                             Click="BtnDeleteTags_Click"
-                            Content="Delete Selected Items" />
+                            Content="Delete Selected Items"
+                            Visibility="Collapsed" />
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
                     x:Name="txtBoxImageUrl"
@@ -683,8 +731,7 @@
                     MinWidth="275"
                     Categories="Open"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="3">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -697,8 +744,7 @@
                     MinWidth="275"
                     Categories="Study"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="3">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -711,8 +757,7 @@
                     MinWidth="275"
                     Categories="In Progress"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="5">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -725,8 +770,7 @@
                     MinWidth="275"
                     Categories="Review,Done"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="3">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
