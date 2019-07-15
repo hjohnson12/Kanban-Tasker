@@ -13,23 +13,23 @@ Implemented with a Sqlite database to store the tasks and uses Create, Read, Upd
 
 ##### Basic design with tasks spread across the board:
 
-![Image of Program](KanbanBoardUWP/Images/KanbanBoard.PNG)
+![Image of Program](KanbanTasker/Images/KanbanBoard.PNG)
 
 ##### Allows multiple sections in a column and drag and drop between columns seamlessly:
 
-![Image of Program](KanbanBoardUWP/Images/KanbanBoard4.png)
+![Image of Program](KanbanTasker/Images/KanbanBoard4.png)
 
 ##### New Task Dialog:
 
 You can type in tags into the textbox and it will add them into a listview
 
-![Image of Program](KanbanBoardUWP/Images/KanbanBoard2.PNG)
+![Image of Program](KanbanTasker/Images/KanbanBoard2.PNG)
 
 ##### Edit Task Dialog, each task is assigned a unqiue id:
 
 Tags in the list view are shown
 
-![Image of Program](KanbanBoardUWP/Images/KanbanBoard3.PNG)
+![Image of Program](KanbanTasker/Images/KanbanBoard3.PNG)
 
 
 ## Getting Started
