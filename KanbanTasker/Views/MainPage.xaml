@@ -462,12 +462,13 @@
                                 <Style TargetType="GridViewItem">
                                     <Setter Property="BorderBrush" Value="{ThemeResource RegionBrush}" />
                                     <Setter Property="MinHeight" Value="20" />
-                                    <Setter Property="Height" Value="35" />
+                                    <Setter Property="Height" Value="30" />
+                                    <Setter Property="MaxWidth" Value="1000" />
                                 </Style>
                             </GridView.ItemContainerStyle>
-                            <!--<GridView.ItemTemplate>
+                            <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <!--<Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="20" />
@@ -483,7 +484,8 @@
                                                     FontSize="10"
                                                     Foreground="#FF454545"
                                                     Text="{Binding}"
-                                                    TextTrimming="CharacterEllipsis" />
+                                                    TextTrimming="None"
+                                                    TextWrapping="Wrap" />
                                                 <AppBarButton
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -493,10 +495,17 @@
                                             </StackPanel>
                                         </Border>
 
-                                    </Grid>
-
+                                    </Grid>-->
+                                    <Border Background="#FFEDEDED" CornerRadius="2">
+                                        <TextBlock
+                                            Margin="10,1,10,1"
+                                            FontSize="10"
+                                            Foreground="#FF454545"
+                                            Text="{Binding}"
+                                            TextTrimming="None" />
+                                    </Border>
                                 </DataTemplate>
-                            </GridView.ItemTemplate>-->
+                            </GridView.ItemTemplate>
                         </GridView>
                         <ListView
                             x:Name="lstViewTags"
