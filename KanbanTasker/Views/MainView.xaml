@@ -37,7 +37,7 @@
                         VerticalAlignment="Center"
                         FontWeight="Bold"
                         Text="KanbanTasker" />-->
-                    <!--  TEST  -->
+                      <!--  TEST  -->  
                     <Image
                         Grid.Column="0"
                         Margin="8 8 8 6"

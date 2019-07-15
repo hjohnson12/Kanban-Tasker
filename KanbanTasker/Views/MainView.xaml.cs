@@ -13,6 +13,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,6 +36,27 @@ namespace KanbanTasker.Views
         public MainView()
         {
             this.InitializeComponent();
+
+            // Hide default title bar.
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            // Set active window colors
+            titleBar.ForegroundColor = Windows.UI.Colors.White;
+            titleBar.BackgroundColor = Windows.UI.Colors.Transparent;
+            titleBar.ButtonForegroundColor = Windows.UI.Colors.White;
+            titleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
+            titleBar.ButtonHoverForegroundColor = Windows.UI.Colors.White;
+            titleBar.ButtonHoverBackgroundColor = Windows.UI.Colors.LightGray;
+            titleBar.ButtonPressedForegroundColor = Windows.UI.Colors.White;
+            titleBar.ButtonPressedBackgroundColor = Windows.UI.Colors.LightBlue;
+
+            // Set inactive window colors
+            titleBar.InactiveForegroundColor = Windows.UI.Colors.White;
+            titleBar.InactiveBackgroundColor = Windows.UI.Colors.Transparent;
+            titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
+            titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
 
             ViewModel = new BoardViewModel();
         }
