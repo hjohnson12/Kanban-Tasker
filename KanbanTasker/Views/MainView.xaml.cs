@@ -30,13 +30,13 @@ namespace KanbanTasker.Views
     /// </summary>
     public sealed partial class MainView : Page
     {
-        public MainViewModel ViewModel { get; set; }
+        public BoardViewModel ViewModel { get; set; }
 
         public MainView()
         {
             this.InitializeComponent();
 
-            ViewModel = new MainViewModel();
+            ViewModel = new BoardViewModel();
         }
     }
 }

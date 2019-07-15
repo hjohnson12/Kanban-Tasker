@@ -27,13 +27,13 @@ namespace KanbanTasker.Views
     public sealed partial class BoardView : UserControl
     {
 
-        public MainViewModel ViewModel { get; set; }
+        public BoardViewModel ViewModel { get; set; }
         public CustomKanbanModel SelectedModel { get; set; }
 
         public BoardView()
         {
             this.InitializeComponent();
-            ViewModel = new MainViewModel();
+            ViewModel = new BoardViewModel();
             // Add rounded corners to each card
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
         }
