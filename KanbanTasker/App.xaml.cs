@@ -18,6 +18,7 @@ using System.Xml;
 using KanbanTasker.Views;
 using KanbanTasker.DataAccess;
 using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
 
 namespace KanbanTasker
 {
@@ -87,10 +88,31 @@ namespace KanbanTasker
                     // parameter
                     rootFrame.Navigate(typeof(MainView), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
-            }
 
+                // Hide default title bar and extend your content into the title bar area
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+
+                // Set active window colors
+                titleBar.ForegroundColor = Windows.UI.Colors.White;
+                titleBar.BackgroundColor = Windows.UI.Colors.Transparent;
+                titleBar.ButtonForegroundColor = Windows.UI.Colors.White;
+                titleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
+                titleBar.ButtonHoverForegroundColor = Windows.UI.Colors.White;
+                titleBar.ButtonHoverBackgroundColor = Windows.UI.Colors.SlateGray;
+                titleBar.ButtonPressedForegroundColor = Windows.UI.Colors.White;
+                titleBar.ButtonPressedBackgroundColor = Windows.UI.Colors.DimGray;
+
+                // Set inactive window colors
+                titleBar.InactiveForegroundColor = Windows.UI.Colors.White;
+                titleBar.InactiveBackgroundColor = Windows.UI.Colors.Transparent;
+                titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
+                titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
+            }
         }
 
         /// <summary>

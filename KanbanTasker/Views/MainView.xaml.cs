@@ -37,30 +37,9 @@ namespace KanbanTasker.Views
         {
             this.InitializeComponent();
 
-            // var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            // Set the BackgroundElement instead of the entire Titlebar grid
-            // so that we can add clickable element in title bar.
+            // Set XAML element as a draggable region.
             Window.Current.SetTitleBar(AppTitleBar);
-
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            // Set active window colors
-            titleBar.ForegroundColor = Windows.UI.Colors.White;
-            titleBar.BackgroundColor = Windows.UI.Colors.Transparent;
-            titleBar.ButtonForegroundColor = Windows.UI.Colors.White;
-            titleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
-            titleBar.ButtonHoverForegroundColor = Windows.UI.Colors.White;
-            titleBar.ButtonHoverBackgroundColor = Windows.UI.Colors.LightGray;
-            titleBar.ButtonPressedForegroundColor = Windows.UI.Colors.White;
-            titleBar.ButtonPressedBackgroundColor = Windows.UI.Colors.LightBlue;
-
-            // Set inactive window colors
-            titleBar.InactiveForegroundColor = Windows.UI.Colors.White;
-            titleBar.InactiveBackgroundColor = Windows.UI.Colors.Transparent;
-            titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
-            titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
-
+            
             ViewModel = new BoardViewModel();
         }
     }
