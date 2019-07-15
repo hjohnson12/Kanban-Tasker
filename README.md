@@ -11,21 +11,21 @@ Implemented with a Sqlite database to store the tasks and uses Create, Read, Upd
 
 * Sqlite Browser should open automatically to your user profile. Navigate to View and select the checkbox to view ***Hidden Items*** so that App Data will show (if not showing already).
 
-##### Basic design with tasks spread across the board:
+##### Basic design with tasks spread across the board (Original Design, README will be updated soon):
 
 ![Image of Program](KanbanTasker/Images/KanbanBoard.PNG)
 
-##### Allows multiple sections in a column and drag and drop between columns seamlessly:
+##### Allows multiple sections in a column and drag and drop between columns seamlessly (Original Design, README will be updated soon):
 
 ![Image of Program](KanbanTasker/Images/KanbanBoard4.png)
 
-##### New Task Dialog:
+##### New Task Dialog (Original Design, README will be updated soon):
 
 You can type in tags into the textbox and it will add them into a listview
 
 ![Image of Program](KanbanTasker/Images/KanbanBoard2.PNG)
 
-##### Edit Task Dialog, each task is assigned a unqiue id:
+##### Edit Task Dialog, each task is assigned a unqiue id (Original Design, README will be updated soon):
 
 Tags in the list view are shown
 
