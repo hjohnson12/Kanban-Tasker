@@ -2,6 +2,7 @@
     x:Class="KanbanTasker.Views.BoardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:KanbanTasker.Helpers"
     xmlns:local="using:KanbanTasker.Views"
@@ -452,19 +453,71 @@
                                 Style="{StaticResource TextBoxStyle1}" />
                         </Grid>
 
-                        <ListView
-                            x:Name="lstViewTags"
-                            MaxHeight="300"
-                            AllowDrop="True"
-                            CanDragItems="True"
-                            CanReorderItems="True"
-                            ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}"
-                            SelectionMode="Multiple" />
-                        <Button
-                            x:Name="btnDeleteTags"
-                            HorizontalAlignment="Center"
-                            Click="BtnDeleteTags_Click"
-                            Content="Delete Selected Items" />
+                        <!--  Grid for WrapPanel  -->
+                        <Grid>
+                            <ListView
+                                x:Name="lstViewTags"
+                                IsItemClickEnabled="True"
+                                ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <controls:WrapPanel
+                                            Padding="0,0,0,0"
+                                            Orientation="Horizontal"
+                                            VerticalSpacing="0" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Height" Value="30" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewItem">
+                                                    <ListViewItemPresenter
+                                                        Margin="1"
+                                                        Padding="0"
+                                                        BorderThickness="0"
+                                                        ContentMargin="0" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#FFEDEDED" CornerRadius="4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    Margin="10,1,10,1"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="12"
+                                                    Foreground="#FF454545"
+                                                    Text="{Binding}"
+                                                    TextTrimming="None" />
+                                                <Button
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Right"
+                                                    Click="BtnDeleteTag_Click"
+                                                    Content="&#xE74D;"
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    Foreground="Black" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
                     x:Name="txtBoxImageUrl"

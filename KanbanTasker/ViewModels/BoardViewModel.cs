@@ -98,18 +98,18 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public string BoardID
+        public string BoardId
         {
             get
             {
-                if (Task.BoardID == null)
+                if (Task.BoardId == null)
                     return "";
                 else
-                    return Task.BoardID;
+                    return Task.BoardId;
             }
             set
             {
-                Task.BoardID = value;
+                Task.BoardId = value;
                 OnPropertyChanged();
             }
         }
@@ -304,7 +304,7 @@ namespace KanbanTasker.ViewModels
             var model = new CustomKanbanModel
             {
                 ID = nextId.ToString(),
-                BoardID = BoardID,
+                BoardId = BoardId,
                 Title = Title,
                 Description = Description,
                 Category = selectedCategory,
@@ -314,9 +314,14 @@ namespace KanbanTasker.ViewModels
             Tasks.Add(model);
 
             // Add task to database
-            DataProvider.AddTask(nextId, BoardID, Title,
+            DataProvider.AddTask(nextId, BoardId, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
+        }
+
+        public void DeleteTag(string tagName)
+        {
+            TagsCollection.Remove(tagName);
         }
     }
 }

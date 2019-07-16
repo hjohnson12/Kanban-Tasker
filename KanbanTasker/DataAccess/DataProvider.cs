@@ -115,7 +115,7 @@ namespace KanbanTasker.DataAccess
                     CustomKanbanModel row = new CustomKanbanModel()
                     {
                         ID = query.GetString(0),
-                        BoardID = query.GetString(1),
+                        BoardId = query.GetString(1),
                         Title = query.GetString(2),
                         Description = query.GetString(3),
                         Category = query.GetString(4),
