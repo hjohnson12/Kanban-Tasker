@@ -345,5 +345,12 @@ namespace KanbanTasker.Views
         {
             CoreApplication.Exit();
         }
+
+        private void BtnDeleteTag_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var tagName = btn.DataContext as string;
+            ViewModel.DeleteTag(tagName);
+        }
     }
 }

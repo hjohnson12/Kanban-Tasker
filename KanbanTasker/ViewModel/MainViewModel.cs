@@ -301,5 +301,10 @@ namespace KanbanTasker.ViewModel
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
         }
+
+        public void DeleteTag(string tagName)
+        {
+            TagsCollection.Remove(tagName);
+        }
     }
 }
