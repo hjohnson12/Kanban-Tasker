@@ -15,10 +15,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Xml;
-using KanbanBoardUWP.Views;
-using KanbanBoardUWP.DataAccess;
+using KanbanTasker.Views;
+using KanbanTasker.DataAccess;
 
-namespace KanbanBoardUWP
+namespace KanbanTasker
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
