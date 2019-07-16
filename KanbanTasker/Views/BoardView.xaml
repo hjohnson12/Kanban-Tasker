@@ -193,7 +193,8 @@
                                 Foreground="{Binding Tag.CardStyle.TitleColor, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                 Text="{Binding Title}"
                                 TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
+                                TextWrapping="Wrap"
+                                ToolTipService.ToolTip="{Binding Title}" />
 
                             <TextBlock
                                 x:Name="KANBAN_Description"
@@ -580,7 +581,7 @@
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}" >
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}">
 
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
@@ -680,44 +681,6 @@
                     </DataTemplate>
                 </syncfusion:SfKanban.ColumnHeaderTemplate>
 
-                <!--  KANBAN BOARD HEADER TEMPLATE  -->
-                <!--<syncfusion:SfKanban.Header>
-                    <Border
-                        Width="2000"
-                        Height="50"
-                        VerticalAlignment="Center"
-                        Background="DarkGray"
-                        BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
-                        BorderThickness=".1">
-
-                -->
-                <!--<CommandBar
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent"
-                        DefaultLabelPosition="Right"
-                        IsOpen="False">
-                        <AppBarButton Icon="Add" Label="New Task" />
-                        <AppBarButton Icon="ReShare" Label="Share" />
-                        <AppBarButton Icon="Edit" Label="Edit" />
-                    </CommandBar>-->
-                <!--
-                        <muxc:MenuBar Background="{ThemeResource RegionBrush}">
-                            <muxc:MenuBarItem Title="File" Foreground="Black">
-                                <MenuFlyoutItem
-                                    x:Name="mnuItemNewTask"
-                                    Click="MnuItemNewTask_Click"
-                                    Text="New Task" />
-
-                                <MenuFlyoutItem Text="Open..." />
-                                <MenuFlyoutItem Text="Save" />
-
-                                <MenuFlyoutItem Click="MnuItemExitApp_Click" Text="Exit" />
-                            </muxc:MenuBarItem>
-                        </muxc:MenuBar>
-                    </Border>
-                </syncfusion:SfKanban.Header>-->
-
                 <syncfusion:SfKanban.CardStyle>
                     <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
                 </syncfusion:SfKanban.CardStyle>
@@ -729,6 +692,21 @@
                     <syncfusion:ColorMapping Key="High" Color="Red" />
                 </syncfusion:SfKanban.IndicatorColorPalette>
 
+                <helpers:CustomKanbanColumn
+                    x:Name="Backlog"
+                    Title="Backlog"
+                    MinWidth="275"
+                    Categories="Backlog"
+                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                    MaximumLimit="10"
+                    MinimumLimit="3">
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
+                            MaxValidationColor="Red"
+                            MinValidationColor="Green"
+                            Color="Gray" />
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
                 <helpers:CustomKanbanColumn
                     x:Name="Open"
                     Title="To Do"
