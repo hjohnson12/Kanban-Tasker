@@ -11,25 +11,25 @@ Implemented with a Sqlite database to store the tasks and uses Create, Read, Upd
 
 * Sqlite Browser should open automatically to your user profile. Navigate to View and select the checkbox to view ***Hidden Items*** so that App Data will show (if not showing already).
 
-##### Basic design with tasks spread across the board:
+##### Basic design with tasks spread across the board (Original Design, README will be updated soon):
 
-![Image of Program](KanbanBoardUWP/Images/KanbanBoard.PNG)
+![Image of Program](KanbanTasker/Images/KanbanBoard.PNG)
 
-##### Allows multiple sections in a column and drag and drop between columns seamlessly:
+##### Allows multiple sections in a column and drag and drop between columns seamlessly (Original Design, README will be updated soon):
 
-![Image of Program](KanbanBoardUWP/Images/KanbanBoard4.png)
+![Image of Program](KanbanTasker/Images/KanbanBoard4.png)
 
-##### New Task Dialog:
+##### New Task Dialog (Original Design, README will be updated soon):
 
 You can type in tags into the textbox and it will add them into a listview
 
-![Image of Program](KanbanBoardUWP/Images/KanbanBoard2.PNG)
+![Image of Program](KanbanTasker/Images/KanbanBoard2.PNG)
 
-##### Edit Task Dialog, each task is assigned a unqiue id:
+##### Edit Task Dialog, each task is assigned a unqiue id (Original Design, README will be updated soon):
 
 Tags in the list view are shown
 
-![Image of Program](KanbanBoardUWP/Images/KanbanBoard3.PNG)
+![Image of Program](KanbanTasker/Images/KanbanBoard3.PNG)
 
 
 ## Getting Started
@@ -37,10 +37,6 @@ Tags in the list view are shown
 The program requires a license from Syncfusion since the Kanban Control is a control used by them, but they provide a free community license here: https://www.syncfusion.com/products/communitylicense
 
 Essentially, generate a key for the UWP controls and head to App.xaml.cs and add your key into the string "YOUR_API_KEY". 
-
-***Known Bugs***: 
-  * Currently in this view, there are no major bugs found. 
-    * To use the Swimlane view as you can see in the samples for Syncfusion UWP Kanban on their website, you'll need to add the *Assignee* property to each KanbanModel object. **Beware**, when updating the swimlane view card items, there is a bug where not all card items show. This bug has been reported with Syncfusion and is track to be patched in their late June 2019 update.
 
 ### Prerequisites
 
@@ -72,7 +68,7 @@ Target Version: Windows 10, Version 1903
 
 * **Hunter** - *Initial work* - [hjohnson012](https://github.com/hjohnson012)
 
-See also the list of [contributors](https://github.com/hjohnson12/KanbanBoardUWP/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/hjohnson12/KanbanTasker/graphs/contributors) who participated in this project.
 
 ## License
 
