@@ -452,6 +452,51 @@
                                 Style="{StaticResource TextBoxStyle1}" />
                         </Grid>
 
+
+                        <GridView
+                            CanDragItems="False"
+                            IsItemClickEnabled="False"
+                            IsSwipeEnabled="False"
+                            ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}"
+                            SelectionMode="Single">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Margin="4"
+                                        Background="#FFEDEDED"
+                                        CornerRadius="2">
+                                        <TextBlock
+                                            Margin="10,1,10,1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="#FF454545"
+                                            Text="{Binding}"
+                                            TextTrimming="None" />
+                                    </Border>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                            <GridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Width" Value="60" />
+                                    <Setter Property="Height" Value="20" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="GridViewItem">
+                                                <GridViewItemPresenter
+                                                    Margin="0"
+                                                    Padding="0"
+                                                    BorderThickness="0"
+                                                    ContentMargin="0" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GridView.ItemContainerStyle>
+                        </GridView>
                         <ListView
                             x:Name="lstViewTags"
                             MaxHeight="300"
@@ -459,12 +504,14 @@
                             CanDragItems="True"
                             CanReorderItems="True"
                             ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}"
-                            SelectionMode="Multiple" />
+                            SelectionMode="Multiple"
+                            Visibility="Collapsed" />
                         <Button
                             x:Name="btnDeleteTags"
                             HorizontalAlignment="Center"
                             Click="BtnDeleteTags_Click"
-                            Content="Delete Selected Items" />
+                            Content="Delete Selected Items"
+                            Visibility="Collapsed" />
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
                     x:Name="txtBoxImageUrl"
