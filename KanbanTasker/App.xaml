@@ -6,7 +6,6 @@
     RequestedTheme="Dark">
     <Application.Resources>
         <ResourceDictionary>
-            <!--  Brush used for region and pane  -->
             <AcrylicBrush
                 x:Key="RegionBrush"
                 BackgroundSource="HostBackdrop"
@@ -268,6 +267,5 @@
                 </Setter>
             </Style>
         </ResourceDictionary>
-
     </Application.Resources>
 </Application>

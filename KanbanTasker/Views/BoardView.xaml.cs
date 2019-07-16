@@ -1,5 +1,5 @@
-﻿using KanbanTasker.Model;
-using KanbanTasker.ViewModel;
+﻿using KanbanTasker.Models;
+using KanbanTasker.ViewModels;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections;
@@ -11,7 +11,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,28 +20,20 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace KanbanTasker.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class BoardView : UserControl
     {
-        //=====================================================================
-        // MAIN PAGE PROPERTIES
-        //=====================================================================
 
-        public MainViewModel ViewModel { get; set; }
+        public BoardViewModel ViewModel { get; set; }
         public CustomKanbanModel SelectedModel { get; set; }
 
-        public MainPage()
+        public BoardView()
         {
             this.InitializeComponent();
-
-            ViewModel = new MainViewModel();
-
+            ViewModel = new BoardViewModel();
             // Add rounded corners to each card
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
         }
@@ -190,7 +181,7 @@ namespace KanbanTasker.Views
             taskFlyout.Hide();
 
             // Create dialog and check button click result
-            var deleteDialog = new DeleteConfirmationDialog();
+            var deleteDialog = new DeleteConfirmationView();
             var result = await deleteDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
@@ -219,7 +210,7 @@ namespace KanbanTasker.Views
             List<string> lstCategories = new List<string>();
             foreach (var col in kanbanBoard.ActualColumns)
             {
-                if(col.Title.ToString() == currentColTitle)
+                if (col.Title.ToString() == currentColTitle)
                 {
                     // Fill categories list with the categories from the col
                     var strCategories = col.Categories;

@@ -1,6 +1,6 @@
 ﻿using KanbanTasker.Base;
 using KanbanTasker.DataAccess;
-using KanbanTasker.Model;
+using KanbanTasker.Models;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanTasker.ViewModel
+namespace KanbanTasker.ViewModels
 {
-    public class MainViewModel : Observable
+    public class BoardViewModel : Observable
     {
         //=====================================================================
         // VARIABLES & BACKING FIELDS
@@ -30,7 +30,7 @@ namespace KanbanTasker.ViewModel
         // CONSTRUCTOR
         //=====================================================================
 
-        public MainViewModel()
+        public BoardViewModel()
         {
             Tasks = DataProvider.GetData();
         }
@@ -48,7 +48,7 @@ namespace KanbanTasker.ViewModel
                 OnPropertyChanged();
             }
         }
-      
+
         public CustomKanbanModel CardModel
         {
             get { return _cardModel; }
@@ -77,7 +77,7 @@ namespace KanbanTasker.ViewModel
                     Category = _cardModel.Category.ToString();
                     ColorKey = _cardModel.ColorKey.ToString();
                     Tags = _cardModel.Tags;
-                    OnPropertyChanged("CardModel");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -94,6 +94,22 @@ namespace KanbanTasker.ViewModel
             set
             {
                 Task.ID = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string BoardId
+        {
+            get
+            {
+                if (Task.BoardId == null)
+                    return "";
+                else
+                    return Task.BoardId;
+            }
+            set
+            {
+                Task.BoardId = value;
                 OnPropertyChanged();
             }
         }
@@ -276,18 +292,19 @@ namespace KanbanTasker.ViewModel
             // Tags are stored as as string[] in CustomKanbanModel
             // Strip string into a sting[]
             string[] tagsArray = new string[] { };
-            if (tags != null) 
+            if (tags != null)
                 tagsArray = tags.Split(',');
             else
                 tags = ""; // No tags
 
             // Start ID at 1; if Task.Count = 0 then it will have an ID of 1, etc.
             int nextId = Tasks.Count + 1;
-           
+
             // Create model and add to Tasks collection
             var model = new CustomKanbanModel
             {
                 ID = nextId.ToString(),
+                BoardId = BoardId,
                 Title = Title,
                 Description = Description,
                 Category = selectedCategory,
@@ -297,7 +314,7 @@ namespace KanbanTasker.ViewModel
             Tasks.Add(model);
 
             // Add task to database
-            DataProvider.AddTask(nextId, Title,
+            DataProvider.AddTask(nextId, BoardId, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
         }

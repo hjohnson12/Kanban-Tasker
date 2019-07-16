@@ -1,17 +1,16 @@
-﻿<Page
-    x:Class="KanbanTasker.Views.MainPage"
+﻿<UserControl
+    x:Class="KanbanTasker.Views.BoardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:KanbanTasker.Helpers"
-    xmlns:local="using:KanbanTasker"
+    xmlns:local="using:KanbanTasker.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Windows.UI.Xaml.Controls"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     mc:Ignorable="d">
-    <Page.Resources>
+    <UserControl.Resources>
         <ResourceDictionary>
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
@@ -295,7 +294,8 @@
                 <ResourceDictionary Source="Resources\ThemeDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>-->
         </ResourceDictionary>
-    </Page.Resources>
+    </UserControl.Resources>
+
     <SplitView
         x:Name="splitView"
         DisplayMode="Inline"
@@ -333,7 +333,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="appBarBtnClosePane_Click"
-                        Icon="ClosePane"
+                        Icon="OpenPane"
                         Label="Close Pane" />
                 </Grid>
                 <!--  Border Separator  -->
@@ -449,7 +449,6 @@
                                 Margin="36,10,0,0"
                                 HorizontalAlignment="Stretch"
                                 KeyDown="TxtBoxTags_KeyDown"
-                                MaxLength="30"
                                 PlaceholderText="Press enter to add tag"
                                 Style="{StaticResource TextBoxStyle1}" />
                         </Grid>
@@ -681,6 +680,45 @@
                         </Grid>
                     </DataTemplate>
                 </syncfusion:SfKanban.ColumnHeaderTemplate>
+
+                <!--  KANBAN BOARD HEADER TEMPLATE  -->
+                <!--<syncfusion:SfKanban.Header>
+                    <Border
+                        Width="2000"
+                        Height="50"
+                        VerticalAlignment="Center"
+                        Background="DarkGray"
+                        BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
+                        BorderThickness=".1">
+
+                -->
+                <!--<CommandBar
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        DefaultLabelPosition="Right"
+                        IsOpen="False">
+                        <AppBarButton Icon="Add" Label="New Task" />
+                        <AppBarButton Icon="ReShare" Label="Share" />
+                        <AppBarButton Icon="Edit" Label="Edit" />
+                    </CommandBar>-->
+                <!--
+                        <muxc:MenuBar Background="{ThemeResource RegionBrush}">
+                            <muxc:MenuBarItem Title="File" Foreground="Black">
+                                <MenuFlyoutItem
+                                    x:Name="mnuItemNewTask"
+                                    Click="MnuItemNewTask_Click"
+                                    Text="New Task" />
+
+                                <MenuFlyoutItem Text="Open..." />
+                                <MenuFlyoutItem Text="Save" />
+
+                                <MenuFlyoutItem Click="MnuItemExitApp_Click" Text="Exit" />
+                            </muxc:MenuBarItem>
+                        </muxc:MenuBar>
+                    </Border>
+                </syncfusion:SfKanban.Header>-->
+
                 <syncfusion:SfKanban.CardStyle>
                     <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
                 </syncfusion:SfKanban.CardStyle>
@@ -766,5 +804,4 @@
             </Rectangle>
         </Grid>
     </SplitView>
-
-</Page>
+</UserControl>
