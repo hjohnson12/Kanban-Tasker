@@ -457,8 +457,7 @@
                         <!--  Grid for WrapPanel  -->
                         <Grid>
                             <ListView
-                                Name="WrapPanelContainer"
-                                HorizontalAlignment="Center"
+                                x:Name="lstViewTags"
                                 IsItemClickEnabled="True"
                                 ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}">
                                 <ItemsControl.ItemsPanel>
@@ -509,6 +508,7 @@
                                                 <Button
                                                     Grid.Column="1"
                                                     HorizontalAlignment="Right"
+                                                    Click="BtnDeleteTag_Click"
                                                     Content="&#xE74D;"
                                                     FontFamily="Segoe MDL2 Assets"
                                                     Foreground="Black" />
@@ -519,21 +519,6 @@
                             </ListView>
                         </Grid>
 
-                        <ListView
-                            x:Name="lstViewTags"
-                            MaxHeight="300"
-                            AllowDrop="True"
-                            CanDragItems="True"
-                            CanReorderItems="True"
-                            ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}"
-                            SelectionMode="Multiple"
-                            Visibility="Collapsed" />
-                        <Button
-                            x:Name="btnDeleteTags"
-                            HorizontalAlignment="Center"
-                            Click="BtnDeleteTags_Click"
-                            Content="Delete Selected Items"
-                            Visibility="Collapsed" />
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
                     x:Name="txtBoxImageUrl"
@@ -696,45 +681,6 @@
                         </Grid>
                     </DataTemplate>
                 </syncfusion:SfKanban.ColumnHeaderTemplate>
-
-                <!--  KANBAN BOARD HEADER TEMPLATE  -->
-                <!--<syncfusion:SfKanban.Header>
-                    <Border
-                        Width="2000"
-                        Height="50"
-                        VerticalAlignment="Center"
-                        Background="DarkGray"
-                        BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
-                        BorderThickness=".1">
-
-                -->
-                <!--<CommandBar
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent"
-                        DefaultLabelPosition="Right"
-                        IsOpen="False">
-                        <AppBarButton Icon="Add" Label="New Task" />
-                        <AppBarButton Icon="ReShare" Label="Share" />
-                        <AppBarButton Icon="Edit" Label="Edit" />
-                    </CommandBar>-->
-                <!--
-                        <muxc:MenuBar Background="{ThemeResource RegionBrush}">
-                            <muxc:MenuBarItem Title="File" Foreground="Black">
-                                <MenuFlyoutItem
-                                    x:Name="mnuItemNewTask"
-                                    Click="MnuItemNewTask_Click"
-                                    Text="New Task" />
-
-                                <MenuFlyoutItem Text="Open..." />
-                                <MenuFlyoutItem Text="Save" />
-
-                                <MenuFlyoutItem Click="MnuItemExitApp_Click" Text="Exit" />
-                            </muxc:MenuBarItem>
-                        </muxc:MenuBar>
-                    </Border>
-                </syncfusion:SfKanban.Header>-->
-
                 <syncfusion:SfKanban.CardStyle>
                     <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
                 </syncfusion:SfKanban.CardStyle>
