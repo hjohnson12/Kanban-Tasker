@@ -580,8 +580,7 @@
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
-                MinColumnWidth="150">
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}" >
 
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
