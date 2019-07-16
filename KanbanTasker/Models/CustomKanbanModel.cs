@@ -24,7 +24,7 @@ namespace KanbanTasker.Models
         //=====================================================================
 
         public string ID { get => _id; set { _id = value; OnPropertyChanged(); } }
-        public string BoardId { get => _boardId; set { _boardID = value; OnPropertyChanged(); } }
+        public string BoardId { get => _boardId; set { _id = value; OnPropertyChanged(); } }
         public string Title { get => _title; set { _title = value; OnPropertyChanged(); } }
         public string Description { get => _description; set { _description = value; OnPropertyChanged(); } }
         public string[] Tags { get => _tags; set { _tags = value; OnPropertyChanged(); } }
