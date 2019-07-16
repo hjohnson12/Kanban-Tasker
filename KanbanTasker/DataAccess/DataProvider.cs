@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KanbanTasker.Model;
+using KanbanTasker.Models;
 using Microsoft.Data.Sqlite;
 using Syncfusion.UI.Xaml.Kanban;
 
@@ -15,29 +15,37 @@ namespace KanbanTasker.DataAccess
         public static void InitializeDatabase()
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
 
-                string tableCommand = "CREATE TABLE IF NOT " +
-                    "EXISTS MyTable (" +
+                string tblTasksCommand = "CREATE TABLE IF NOT " +
+                    "EXISTS tblTasks (" +
                     "Id INTEGER PRIMARY KEY, " +
+                    "BoardID INTEGER NULL, " + 
                     "Title NVARCHAR(2048) NULL, " +
                     "Description NVARCHAR(2048) NULL, " +
                     "Category NVARCHAR(2048) NULL, " +
                     "ColorKey NVARCHAR(2048) NULL, " +
                     "Tags NVARCHAR(2048) NULL)";
 
-                SqliteCommand createTable = new SqliteCommand(tableCommand, db);
-                createTable.ExecuteReader();
+                string tblBoardsCommand = "CREATE TABLE IF NOT " +
+                    "EXISTS tblBoards (" +
+                    "Id INTEGER PRIMARY KEY, " +
+                    "Name NVARCHAR(2048) NULL)";
+
+                SqliteCommand createTblTasks = new SqliteCommand(tblTasksCommand, db);
+                SqliteCommand createTblBoards = new SqliteCommand(tblBoardsCommand, db);
+                createTblTasks.ExecuteReader();
+                createTblBoards.ExecuteReader();
                 db.Close();
             }
         }
 
-        public static void AddTask(int id, string title, string desc, string categ, string colorKey, string tags)
+        public static void AddTask(int id, string boardID, string title, string desc, string categ, string colorKey, string tags)
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
 
@@ -46,9 +54,10 @@ namespace KanbanTasker.DataAccess
                     Connection = db,
 
                     // Use parameterized query to prevent SQL injection attacks
-                    CommandText = "INSERT INTO MyTable VALUES (@id, @title, @desc, @categ, @colorKey, @tags);"
+                    CommandText = "INSERT INTO tblTasks VALUES (@id, @boardID, @title, @desc, @categ, @colorKey, @tags);"
                 };
                 insertCommand.Parameters.AddWithValue("@id", id);
+                insertCommand.Parameters.AddWithValue("@boardID", boardID);
                 insertCommand.Parameters.AddWithValue("@title", title);
                 insertCommand.Parameters.AddWithValue("@desc", desc);
                 insertCommand.Parameters.AddWithValue("@categ", categ);
@@ -64,11 +73,11 @@ namespace KanbanTasker.DataAccess
         {
             // Delete task from db
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
                 SqliteCommand deleteCommand = new SqliteCommand
-                    ("DELETE FROM MyTable WHERE Id=@id", db);
+                    ("DELETE FROM tblTasks WHERE Id=@id", db);
                 deleteCommand.Parameters.AddWithValue("id", id);
                 deleteCommand.ExecuteNonQuery();
 
@@ -85,12 +94,12 @@ namespace KanbanTasker.DataAccess
 
             // Get tasks and return the collection
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
 
                 SqliteCommand selectCommand = new SqliteCommand
-                    ("SELECT Id, Title, Description, Category, ColorKey, Tags from MyTable", db);
+                    ("SELECT Id, BoardID, Title, Description, Category, ColorKey, Tags from tblTasks", db);
 
                 SqliteDataReader query = selectCommand.ExecuteReader();
 
@@ -98,18 +107,19 @@ namespace KanbanTasker.DataAccess
                 while (query.Read())
                 {
                     string[] tags;
-                    if(query.GetString(5).ToString() == "")
+                    if(query.GetString(6).ToString() == "")
                         tags = new string[] { }; // Empty array if no tags are in the col
                     else
-                        tags = query.GetString(5).Split(","); // Turn string of tags into string array, fills listview
+                        tags = query.GetString(6).Split(","); // Turn string of tags into string array, fills listview
 
                     CustomKanbanModel row = new CustomKanbanModel()
                     {
                         ID = query.GetString(0),
-                        Title = query.GetString(1),
-                        Description = query.GetString(2),
-                        Category = query.GetString(3),
-                        ColorKey = query.GetString(4),
+                        BoardID = query.GetString(1),
+                        Title = query.GetString(2),
+                        Description = query.GetString(3),
+                        Category = query.GetString(4),
+                        ColorKey = query.GetString(5),
                         Tags = tags // Turn string of tags into string array, fills listview
                     };
   
@@ -123,13 +133,13 @@ namespace KanbanTasker.DataAccess
         public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=sqliteNewTest.db"))
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
                 db.Open();
 
                 // Update item
                 SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE MyTable SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
+                    ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
                 updateCommand.Parameters.AddWithValue("@title", title);
                 updateCommand.Parameters.AddWithValue("@desc", descr);
                 updateCommand.Parameters.AddWithValue("@categ", category);
