@@ -573,6 +573,7 @@
                 Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
+                MaxColumnWidth="800"
                 x:FieldModifier="Public"
                 AutoGenerateColumns="False"
                 Background="{ThemeResource RegionBrush}"
@@ -691,6 +692,20 @@
                     <syncfusion:ColorMapping Key="High" Color="Red" />
                 </syncfusion:SfKanban.IndicatorColorPalette>
 
+                <helpers:CustomKanbanColumn
+                    x:Name="Backlog"
+                    Title="Backlog"
+                    Categories="Backlog"
+                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                    MaximumLimit="10"
+                    MinimumLimit="3">
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
+                            MaxValidationColor="Red"
+                            MinValidationColor="Green"
+                            Color="Gray" />
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
                 <helpers:CustomKanbanColumn
                     x:Name="Open"
                     Title="To Do"
