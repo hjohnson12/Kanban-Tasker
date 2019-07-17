@@ -580,8 +580,7 @@
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
-                MinColumnWidth="150">
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}">
 
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
@@ -680,44 +679,6 @@
                         </Grid>
                     </DataTemplate>
                 </syncfusion:SfKanban.ColumnHeaderTemplate>
-
-                <!--  KANBAN BOARD HEADER TEMPLATE  -->
-                <!--<syncfusion:SfKanban.Header>
-                    <Border
-                        Width="2000"
-                        Height="50"
-                        VerticalAlignment="Center"
-                        Background="DarkGray"
-                        BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighRevealBorderBrush}"
-                        BorderThickness=".1">
-
-                -->
-                <!--<CommandBar
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent"
-                        DefaultLabelPosition="Right"
-                        IsOpen="False">
-                        <AppBarButton Icon="Add" Label="New Task" />
-                        <AppBarButton Icon="ReShare" Label="Share" />
-                        <AppBarButton Icon="Edit" Label="Edit" />
-                    </CommandBar>-->
-                <!--
-                        <muxc:MenuBar Background="{ThemeResource RegionBrush}">
-                            <muxc:MenuBarItem Title="File" Foreground="Black">
-                                <MenuFlyoutItem
-                                    x:Name="mnuItemNewTask"
-                                    Click="MnuItemNewTask_Click"
-                                    Text="New Task" />
-
-                                <MenuFlyoutItem Text="Open..." />
-                                <MenuFlyoutItem Text="Save" />
-
-                                <MenuFlyoutItem Click="MnuItemExitApp_Click" Text="Exit" />
-                            </muxc:MenuBarItem>
-                        </muxc:MenuBar>
-                    </Border>
-                </syncfusion:SfKanban.Header>-->
 
                 <syncfusion:SfKanban.CardStyle>
                     <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
