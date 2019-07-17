@@ -129,13 +129,14 @@
                         </Grid>
                         <Grid Grid.Row="1">
                             <Canvas HorizontalAlignment="Center">
+                                <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
+                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="White"
-                                    Text="{TemplateBinding Title}">
+                                    Foreground="White">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -199,6 +200,7 @@
                                 x:Name="KANBAN_Description"
                                 Grid.Row="1"
                                 Height="Auto"
+                                MaxHeight="100"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
@@ -374,7 +376,6 @@
                                 Height="200"
                                 MaxHeight="300"
                                 AcceptsReturn="True"
-                                MaxLength="100"
                                 PlaceholderText="Type your information here"
                                 Style="{StaticResource TextBoxStyle1}"
                                 Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
