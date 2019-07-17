@@ -192,8 +192,8 @@
                                 FontWeight="Bold"
                                 Foreground="{Binding Tag.CardStyle.TitleColor, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                 Text="{Binding Title}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
+                                TextWrapping="Wrap"
+                                ToolTipService.ToolTip="{Binding Title}" />
 
                             <TextBlock
                                 x:Name="KANBAN_Description"
@@ -573,7 +573,6 @@
                 Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                MaxColumnWidth="800"
                 x:FieldModifier="Public"
                 AutoGenerateColumns="False"
                 Background="{ThemeResource RegionBrush}"
@@ -581,7 +580,8 @@
                 CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}">
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
+                MaxColumnWidth="800">
 
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
