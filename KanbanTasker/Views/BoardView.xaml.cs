@@ -343,5 +343,15 @@ namespace KanbanTasker.Views
             var tagName = btn.DataContext as string;
             ViewModel.DeleteTag(tagName);
         }
+
+        private void KanbanBoard_CardDragEnd(object sender, KanbanDragEndEventArgs e)
+        {
+            // Change column and category of task when dragged to new column
+            // ObservableCollection Tasks already updated
+            var targetCategory = e.TargetKey.ToString();
+            var selectedCardModel = e.SelectedCard.Content as CustomKanbanModel;
+            ViewModel.UpdateCardColumn(targetCategory, selectedCardModel);
+        }
+
     }
 }
