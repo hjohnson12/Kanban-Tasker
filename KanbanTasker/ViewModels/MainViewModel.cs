@@ -12,19 +12,36 @@ namespace KanbanTasker.ViewModels
     {
         private ObservableCollection<BoardViewModel> _boardList;
         private BoardViewModel _current;
+        private ObservableCollection<string> _testList;
 
         public MainViewModel()
         {
             // Instantiate the list object.  You bind the XAML list to this in 'ItemSource'
-            BoardList = new ObservableCollection<BoardViewModel>();
+            //BoardList = new ObservableCollection<BoardViewModel>();
 
-            // Create board
-            BoardViewModel myBoard = new BoardViewModel();
-            
-            // Load Board
+            //// Create board
+            //BoardViewModel myBoard = new BoardViewModel();
 
-            // Add to list
-            BoardList.Add(myBoard);
+            //// Load Board
+
+            //// Add to list
+            //BoardList.Add(myBoard);
+
+            TestList = new ObservableCollection<string>();
+            TestList.Add("test");
+            TestList.Add("test");
+            TestList.Add("test");
+            TestList.Add("test");
+        }
+
+        public ObservableCollection<string> TestList
+        {
+            get { return _testList; }
+            set
+            {
+                _testList = value;
+                OnPropertyChanged();
+            }
         }
 
         public ObservableCollection<BoardViewModel> BoardList

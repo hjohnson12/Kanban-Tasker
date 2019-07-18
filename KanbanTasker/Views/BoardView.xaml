@@ -339,12 +339,13 @@
                 </Grid>
                 <!--  Border Separator  -->
                 <Border
+                    x:Name="paneHeaderSeparator"
                     Width="280"
                     BorderBrush="Gray"
                     BorderThickness="0,0,0,1" />
 
                 <!--  Pane Body  -->
-                <ScrollViewer Grid.Row="1">
+                <ScrollViewer x:Name="paneBody" Grid.Row="1">
                     <StackPanel Margin="20,0,20,20">
                         <TextBox
                             x:Name="txtBoxID"
@@ -509,8 +510,22 @@
                                                     HorizontalAlignment="Right"
                                                     Click="BtnDeleteTag_Click"
                                                     Content="&#xE74D;"
+                                                    CornerRadius="2"
                                                     FontFamily="Segoe MDL2 Assets"
-                                                    Foreground="Black" />
+                                                    Foreground="Black">
+                                                    <Button.Resources>
+                                                        <ResourceDictionary>
+                                                            <ResourceDictionary.ThemeDictionaries>
+                                                                <ResourceDictionary x:Key="Dark">
+                                                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#C0C0C0" />
+                                                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="Black" />
+                                                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#A9A9A9" />
+                                                                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="Black" />
+                                                                </ResourceDictionary>
+                                                            </ResourceDictionary.ThemeDictionaries>
+                                                        </ResourceDictionary>
+                                                    </Button.Resources>
+                                                </Button>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
