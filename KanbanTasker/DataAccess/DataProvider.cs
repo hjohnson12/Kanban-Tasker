@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KanbanTasker.Models;
+﻿using KanbanTasker.Models;
 using Microsoft.Data.Sqlite;
-using Syncfusion.UI.Xaml.Kanban;
+using System.Collections.ObjectModel;
 
 namespace KanbanTasker.DataAccess
 {
@@ -21,8 +15,8 @@ namespace KanbanTasker.DataAccess
 
                 string tblTasksCommand = "CREATE TABLE IF NOT " +
                     "EXISTS tblTasks (" +
-                    "Id INTEGER PRIMARY KEY, " +
-                    "BoardID INTEGER NULL, " + 
+                    "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "BoardID INTEGER NULL, " +
                     "Title NVARCHAR(2048) NULL, " +
                     "Description NVARCHAR(2048) NULL, " +
                     "Category NVARCHAR(2048) NULL, " +
@@ -31,7 +25,7 @@ namespace KanbanTasker.DataAccess
 
                 string tblBoardsCommand = "CREATE TABLE IF NOT " +
                     "EXISTS tblBoards (" +
-                    "Id INTEGER PRIMARY KEY, " +
+                    "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "Name NVARCHAR(2048) NULL)";
 
                 SqliteCommand createTblTasks = new SqliteCommand(tblTasksCommand, db);
@@ -42,8 +36,9 @@ namespace KanbanTasker.DataAccess
             }
         }
 
-        public static void AddTask(int id, string boardID, string title, string desc, string categ, string colorKey, string tags)
+        public static int AddTask(string boardID, string title, string desc, string categ, string colorKey, string tags)
         {
+            long pd = -1;
             using (SqliteConnection db =
                 new SqliteConnection("Filename=kanbanMultiboard.db"))
             {
@@ -54,19 +49,19 @@ namespace KanbanTasker.DataAccess
                     Connection = db,
 
                     // Use parameterized query to prevent SQL injection attacks
-                    CommandText = "INSERT INTO tblTasks VALUES (@id, @boardID, @title, @desc, @categ, @colorKey, @tags);"
+                    CommandText = "INSERT INTO tblTasks (BoardID,Title,Description,Category,ColorKey,Tags) VALUES (@boardID, @title, @desc, @categ, @colorKey, @tags); ; SELECT last_insert_rowid();"
                 };
-                insertCommand.Parameters.AddWithValue("@id", id);
                 insertCommand.Parameters.AddWithValue("@boardID", boardID);
                 insertCommand.Parameters.AddWithValue("@title", title);
                 insertCommand.Parameters.AddWithValue("@desc", desc);
                 insertCommand.Parameters.AddWithValue("@categ", categ);
                 insertCommand.Parameters.AddWithValue("@colorKey", colorKey);
                 insertCommand.Parameters.AddWithValue("@tags", tags);
-                insertCommand.ExecuteReader();
+                pd = (long)insertCommand.ExecuteScalar();
 
                 db.Close();
             }
+            return (int)pd;
         }
 
         public static void DeleteTask(string id)
@@ -107,7 +102,7 @@ namespace KanbanTasker.DataAccess
                 while (query.Read())
                 {
                     string[] tags;
-                    if(query.GetString(6).ToString() == "")
+                    if (query.GetString(6).ToString() == "")
                         tags = new string[] { }; // Empty array if no tags are in the col
                     else
                         tags = query.GetString(6).Split(","); // Turn string of tags into string array, fills listview
@@ -122,7 +117,7 @@ namespace KanbanTasker.DataAccess
                         ColorKey = query.GetString(5),
                         Tags = tags // Turn string of tags into string array, fills listview
                     };
-  
+
                     tasks.Add(row);
                 }
                 db.Close();
@@ -151,6 +146,5 @@ namespace KanbanTasker.DataAccess
                 db.Close();
             }
         }
-
     }
 }

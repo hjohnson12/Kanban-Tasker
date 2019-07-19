@@ -297,13 +297,9 @@ namespace KanbanTasker.ViewModels
             else
                 tags = ""; // No tags
 
-            // Start ID at 1; if Task.Count = 0 then it will have an ID of 1, etc.
-            int nextId = Tasks.Count + 1;
-
             // Create model and add to Tasks collection
             var model = new CustomKanbanModel
             {
-                ID = nextId.ToString(),
                 BoardId = BoardId,
                 Title = Title,
                 Description = Description,
@@ -311,12 +307,14 @@ namespace KanbanTasker.ViewModels
                 ColorKey = selectedColorKey,
                 Tags = tagsArray
             };
-            Tasks.Add(model);
 
             // Add task to database
-            DataProvider.AddTask(nextId, BoardId, Title,
+            int newTaskID = DataProvider.AddTask(BoardId, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
+
+            model.ID = newTaskID.ToString();
+            Tasks.Add(model);
         }
 
         public void DeleteTag(string tagName)
