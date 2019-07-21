@@ -272,11 +272,18 @@ namespace KanbanTasker.ViewModels
                 selectedColorKey.ToString(), tags);
         }
 
-        public void DeleteTask(CustomKanbanModel model)
+        public bool DeleteTask(CustomKanbanModel model)
         {
+            var previousCount = Tasks.Count;
             Tasks.Remove(model);
             DataProvider.DeleteTask(model.ID); // Delete from database
             CardModel = null;
+
+            // Determine if deletion was successful
+            if (Tasks.Count == (previousCount - 1))
+                return true;
+            else
+                return false;
         }
 
         public void NewTaskHelper(List<string> categories, List<string> colorKeys)

@@ -12,6 +12,9 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
                 FallbackColor="AliceBlue"
@@ -131,12 +134,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
-                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="White">
+                                    Foreground="White"
+                                    Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -793,6 +796,10 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
+            <controls:InAppNotification
+                x:Name="ExampleMSEdgeInAppNotification"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource MSEdgeNotificationStyle}" />
         </Grid>
     </SplitView>
 </UserControl>
