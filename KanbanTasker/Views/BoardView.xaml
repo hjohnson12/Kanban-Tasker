@@ -720,8 +720,7 @@
                     Title="Backlog"
                     Categories="Backlog"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="3">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -735,8 +734,7 @@
                     MinWidth="275"
                     Categories="Open"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="3">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -749,8 +747,7 @@
                     MinWidth="275"
                     Categories="Study"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="3">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -763,8 +760,7 @@
                     MinWidth="275"
                     Categories="In Progress"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="5">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -777,8 +773,7 @@
                     MinWidth="275"
                     Categories="Review,Done"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10"
-                    MinimumLimit="3">
+                    MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
