@@ -803,7 +803,10 @@
             </Rectangle>
             <controls:InAppNotification
                 x:Name="ExampleMSEdgeInAppNotification"
+                Width="550"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
+                BorderThickness="1"
                 Style="{StaticResource MSEdgeNotificationStyle}" />
         </Grid>
     </SplitView>

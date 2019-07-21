@@ -39,7 +39,7 @@
                         <Border
                             x:Name="TextBorder"
                             BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}"
-                            BorderThickness="10">
+                            BorderThickness="2">
                             <ContentPresenter
                                 x:Name="Text"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -183,10 +183,12 @@
     <Style x:Key="MSEdgeNotificationStyle" TargetType="controls:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+        <Setter Property="BorderBrush" Value="Red" />
         <Setter Property="Visibility" Value="Collapsed" />
-        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="3" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="CornerRadius" Value="3" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="MinHeight" Value="55" />
         <Setter Property="FontSize" Value="16" />

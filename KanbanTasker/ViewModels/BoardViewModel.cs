@@ -280,10 +280,7 @@ namespace KanbanTasker.ViewModels
             CardModel = null;
 
             // Determine if deletion was successful
-            if (Tasks.Count == (previousCount - 1))
-                return true;
-            else
-                return false;
+            return (Tasks.Count == (previousCount - 1)) ? true : false;
         }
 
         public void NewTaskHelper(List<string> categories, List<string> colorKeys)
@@ -294,7 +291,7 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "New Task";
         }
 
-        public void AddTask(string tags, object selectedCategory, object selectedColorKey)
+        public bool AddTask(string tags, object selectedCategory, object selectedColorKey)
         {
             // Tags are stored as as string[] in CustomKanbanModel
             // Strip string into a sting[]
@@ -315,13 +312,18 @@ namespace KanbanTasker.ViewModels
                 Tags = tagsArray
             };
 
+
             // Add task to database
             int newTaskID = DataProvider.AddTask(BoardId, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
 
+            var previousCount = Tasks.Count;
             model.ID = newTaskID.ToString();
             Tasks.Add(model);
+
+            // Determine if insertion was successful
+            return (Tasks.Count == (previousCount + 1)) ? true : false; 
         }
 
         public void DeleteTag(string tagName)

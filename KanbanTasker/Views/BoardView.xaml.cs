@@ -193,7 +193,7 @@ namespace KanbanTasker.Views
                 splitView.IsPaneOpen = false;
 
                 if(deleteSuccess)
-                    ExampleMSEdgeInAppNotification.Show("Task deleted successfully.", 3000);
+                    ExampleMSEdgeInAppNotification.Show("Task deleted from board successfully", 4000);
             }
             else
                 return; 
@@ -303,11 +303,14 @@ namespace KanbanTasker.Views
 
                 var selectedCategory = comboBoxCategories.SelectedItem;
                 var selectedColorKey = comboBoxColorKey.SelectedItem;
-                ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
+                var addSuccess = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
 
                 // Close pane when done
                 if (splitView.IsPaneOpen == true)
                     splitView.IsPaneOpen = false;
+
+                if (addSuccess)
+                    ExampleMSEdgeInAppNotification.Show("Task successfully added to the board", 4000);
             }
         }
 
