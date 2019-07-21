@@ -454,6 +454,7 @@
                                 HorizontalAlignment="Stretch"
                                 KeyDown="TxtBoxTags_KeyDown"
                                 PlaceholderText="Press enter to add tag"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                 Style="{StaticResource TextBoxStyle1}" />
                         </Grid>
 
@@ -476,8 +477,9 @@
                                         <Setter Property="Padding" Value="0" />
                                         <Setter Property="Margin" Value="0" />
                                         <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="MinWidth" Value="0" />
                                         <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="Height" Value="30" />
+                                        <Setter Property="Height" Value="Auto" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="ListViewItem">
@@ -501,13 +503,15 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Grid.Column="0"
-                                                    Margin="10,1,10,1"
-                                                    HorizontalAlignment="Left"
+                                                    MaxWidth="226"
+                                                    Margin="10,4,10,4"
+                                                    HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
                                                     FontSize="12"
                                                     Foreground="#FF454545"
                                                     Text="{Binding}"
-                                                    TextTrimming="None" />
+                                                    TextTrimming="None"
+                                                    TextWrapping="Wrap" />
                                                 <Button
                                                     Grid.Column="1"
                                                     HorizontalAlignment="Right"
