@@ -380,8 +380,9 @@
                                 Height="200"
                                 MaxHeight="300"
                                 AcceptsReturn="True"
+                                BorderThickness="1"
+                                CornerRadius="3"
                                 PlaceholderText="Type your information here"
-                                Style="{StaticResource TextBoxStyle1}"
                                 Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
                         </ScrollViewer>
