@@ -96,42 +96,47 @@
                 x:Name="RootGrid"
                 MaxWidth="{TemplateBinding MaxWidth}"
                 Margin="{TemplateBinding Margin}"
-                Padding="{TemplateBinding Padding}"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
                 RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
                 Visibility="{TemplateBinding Visibility}">
-
                 <Grid.RenderTransform>
                     <CompositeTransform />
                 </Grid.RenderTransform>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <ContentPresenter
-                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                <controls:DropShadowPanel
                     HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Center"
-                    TextWrapping="WrapWholeWords" />
+                    VerticalContentAlignment="Stretch"
+                    BlurRadius="8"
+                    OffsetX="0.2"
+                    OffsetY="0.2"
+                    ShadowOpacity="0.8">
+                    <Grid
+                        Padding="{TemplateBinding Padding}"
+                        Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="0"
+                        CornerRadius="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                <Button
-                    x:Name="PART_DismissButton"
-                    Grid.Column="1"
-                    Margin="24,0,0,0"
-                    AutomationProperties.Name="Dismiss"
-                    Content="&#xE894;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="16"
-                    Style="{StaticResource DismissTextBlockButtonStyle}">
-                    <Button.RenderTransform>
-                        <TranslateTransform x:Name="DismissButtonTransform" X="18" />
-                    </Button.RenderTransform>
-                </Button>
+                        <ContentPresenter
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Center"
+                            TextWrapping="WrapWholeWords" />
+
+                        <Button
+                            x:Name="PART_DismissButton"
+                            Grid.Column="1"
+                            AutomationProperties.Name="Dismiss"
+                            Content="&#xE894;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="16"
+                            Style="{StaticResource DismissTextBlockButtonStyle}" />
+                    </Grid>
+                </controls:DropShadowPanel>
             </Grid>
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="State">
@@ -180,12 +185,12 @@
         </Grid>
     </ControlTemplate>
 
-    <Style x:Key="MSEdgeNotificationStyle" TargetType="controls:InAppNotification">
+    <Style x:Key="CustomMSEdgeNotificationStyle" TargetType="controls:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="Red" />
+        <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="Visibility" Value="Collapsed" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="3" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="CornerRadius" Value="3" />
