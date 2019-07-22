@@ -31,7 +31,7 @@ namespace KanbanTasker.Views
     /// </summary>
     public sealed partial class MainView : Page
     {
-        //public BoardViewModel ViewModel { get; set; }
+        public BoardViewModel BoardVM { get; set; }
         public MainViewModel ViewModel { get; set; }
 
         public MainView()
@@ -43,11 +43,14 @@ namespace KanbanTasker.Views
 
             //ViewModel = new BoardViewModel();
             ViewModel = App.mainViewModel;
+
+            BoardVM = new BoardViewModel();
         }
 
         private void BtnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
         {
             tagFlyout.Hide();
         }
+
     }
 }

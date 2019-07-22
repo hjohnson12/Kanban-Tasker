@@ -25,7 +25,7 @@ namespace KanbanTasker.ViewModels
         private List<string> _categories;
         private List<string> _colorKeys;
         private string _paneTitle;
-        private string _boardTitle;
+        private string _boardName;
         private string _boardDescription;
         private string _boardNotes;
 
@@ -225,12 +225,12 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public string BoardTitle
+        public string BoardName
         {
-            get { return _boardTitle; }
+            get { return _boardName; }
             set
             {
-                _boardTitle = value;
+                _boardName = value;
                 OnPropertyChanged("BoardTitle");
             }
         }
@@ -324,10 +324,12 @@ namespace KanbanTasker.ViewModels
             else
                 tags = ""; // No tags
 
+            var boardId = App.mainViewModel.Current.BoardId.ToString();
+
             // Create model and add to Tasks collection
             var model = new CustomKanbanModel
             {
-                BoardId = BoardId,
+                BoardId = boardId,
                 Title = Title,
                 Description = Description,
                 Category = selectedCategory,
@@ -335,9 +337,8 @@ namespace KanbanTasker.ViewModels
                 Tags = tagsArray
             };
 
-
             // Add task to database
-            int newTaskID = DataProvider.AddTask(BoardId, Title,
+            int newTaskID = DataProvider.AddTask(boardId, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
 

@@ -1,4 +1,5 @@
 ﻿using KanbanTasker.Base;
+using KanbanTasker.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,8 @@ namespace KanbanTasker.ViewModels
     {
         private ObservableCollection<BoardViewModel> _boardList;
         private BoardViewModel _current;
+        private string _boardName;
+        private string _boardNotes;
 
         public MainViewModel()
         {
@@ -20,7 +23,7 @@ namespace KanbanTasker.ViewModels
 
             // Create board
             BoardViewModel myBoard = new BoardViewModel();
-            myBoard.BoardTitle = "Test - Initial Board from Constructor";
+            myBoard.BoardName = "Test - Initial Board from Constructor";
             
             // Add to list
             BoardList.Add(myBoard);
@@ -28,8 +31,23 @@ namespace KanbanTasker.ViewModels
 
             var anotherBoard = new BoardViewModel();
             BoardList.Add(anotherBoard);
-            anotherBoard.BoardTitle = "This is another board for testing";
+            anotherBoard.BoardName = "This is another board for testing";
             anotherBoard.BoardNotes = "We created it in the MainViewModel Constructor.";
+        }
+
+        public void CreateBoard()
+        {
+            // Create board
+            BoardViewModel newBoard = new BoardViewModel
+            {
+                BoardName = BoardName,
+                BoardNotes = BoardNotes
+            };
+
+            // Add board to db and collection
+            int newBoardId = DataProvider.AddBoard(BoardName, BoardNotes);
+            newBoard.BoardId = newBoardId.ToString();
+            BoardList.Add(newBoard);
         }
 
         public ObservableCollection<BoardViewModel> BoardList
@@ -57,6 +75,27 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged("Current"); // Let the UI know to update this binding.
             }
 
+        }
+
+        public string BoardName
+        {
+            get { return _boardName; }
+            set
+            {
+                _boardName = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public string BoardNotes
+        {
+            get { return _boardNotes; }
+            set
+            {
+                _boardNotes = value;
+                OnPropertyChanged();
+            }
         }
     }
 }

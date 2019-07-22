@@ -49,7 +49,7 @@
 
             <NavigationView.MenuItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding BoardTitle}" />
+                    <TextBlock Text="{Binding BoardName}" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
 
@@ -141,9 +141,9 @@
                                         Width="300"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind ViewModel.}"
                                         PlaceholderText="Type your information here"
-                                        Style="{StaticResource TextBoxStyle1}" />
+                                        Style="{StaticResource TextBoxStyle1}"
+                                        Text="{x:Bind ViewModel.BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
                                         <SymbolIcon Symbol="Page2" />
                                         <TextBlock
@@ -159,6 +159,7 @@
                                             BorderThickness="1"
                                             CornerRadius="3"
                                             PlaceholderText="Type your information here"
+                                            Text="{x:Bind ViewModel.BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             TextWrapping="Wrap" />
                                     </ScrollViewer>
                                 </StackPanel>
@@ -186,6 +187,7 @@
                                                 Margin="0,8,12,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
+                                                Click="{x:Bind ViewModel.CreateBoard}"
                                                 Icon="Save"
                                                 Label="Create" />
                                             <AppBarButton
