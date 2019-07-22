@@ -52,19 +52,6 @@
                     Icon="Delete"
                     ToolTipService.ToolTip="Delete Current Board" />
             </NavigationView.PaneFooter>
-            <!--
-            <NavigationView.MenuItems>
-                <NavigationViewItem Content="Board1" Tag="SamplePage1" />
-                <NavigationViewItem Content="Board2" Tag="SamplePage2" />
-                <NavigationViewItem Content="Board3" Tag="SamplePage3" />
-                <NavigationViewItem Content="Board4" Tag="SamplePage4" />
-                <NavigationViewItem Content="Board1" Tag="SamplePage1" />
-                <NavigationViewItem Content="Board2" Tag="SamplePage2" />
-                <NavigationViewItem Content="Board3" Tag="SamplePage3" />
-            </NavigationView.MenuItems>
-            -->
-
- 
             <NavigationView.PaneCustomContent>
                 <AppBarButton
                     Width="40"
