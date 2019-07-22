@@ -64,6 +64,8 @@
                 <Button
                     x:Name="btnOpenNewBoardFlyout"
                     Width="40"
+                    Height="30"
+                    VerticalAlignment="Center"
                     Background="Transparent"
                     BorderThickness="0"
                     ToolTipService.ToolTip="Create new board">
