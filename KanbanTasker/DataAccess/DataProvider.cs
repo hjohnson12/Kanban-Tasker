@@ -1,4 +1,5 @@
 ﻿using KanbanTasker.Models;
+using KanbanTasker.ViewModels;
 using Microsoft.Data.Sqlite;
 using System.Collections.ObjectModel;
 
@@ -65,7 +66,7 @@ namespace KanbanTasker.DataAccess
             return (int)pd;
         }
 
-        public static int AddBoard(string boardName = "New Board", string boardNotes = "")
+        public static int AddBoard(string boardName, string boardNotes)
         {
             long pd = -1;
             using (SqliteConnection db =
@@ -148,6 +149,37 @@ namespace KanbanTasker.DataAccess
                 db.Close();
             }
             return tasks;
+        }
+
+        public static ObservableCollection<BoardViewModel> GetBoards()
+        {
+            ObservableCollection<BoardViewModel> boards = new ObservableCollection<BoardViewModel>();
+
+            // Get tasks and return the collection
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
+            {
+                db.Open();
+
+                SqliteCommand selectCommand = new SqliteCommand
+                    ("SELECT Id,Name,Notes from tblBoards", db);
+
+                SqliteDataReader query = selectCommand.ExecuteReader();
+
+                // Query the db and get the tasks
+                while (query.Read())
+                {
+                    BoardViewModel row = new BoardViewModel()
+                    {
+                        BoardId = query.GetString(0),
+                        BoardName = query.GetString(1),
+                        BoardNotes = query.GetString(2),
+                    };
+                    boards.Add(row);
+                }
+                db.Close();
+            }
+            return boards;
         }
 
         public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
