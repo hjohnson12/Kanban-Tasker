@@ -276,12 +276,6 @@
             </DataTemplate>
             <CommandBarFlyout x:Name="taskFlyout" Placement="Right">
                 <AppBarButton
-                    x:Name="flyoutBtnEdit"
-                    Click="FlyoutBtnEdit_Click"
-                    Icon="Edit"
-                    Label="Edit Task"
-                    ToolTipService.ToolTip="Edit" />
-                <AppBarButton
                     x:Name="flyoutBtnDelete"
                     Click="FlyoutBtnDelete_Click"
                     Icon="Delete"

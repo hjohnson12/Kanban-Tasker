@@ -144,31 +144,6 @@ namespace KanbanTasker.Views
             txtBoxTitle.Focus(FocusState.Programmatic);
         }
 
-        private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
-        {
-            // Call helper from ViewModel to handle model-related data
-            ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
-                GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
-
-            // UI RELATED CODE
-
-            // Set selected items in combo box
-            comboBoxCategories.SelectedItem = SelectedModel.Category;
-            comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
-
-            // Hide flyout
-            taskFlyout.Hide();
-
-            // Open pane if closed
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-
-            // Give title textbox focus once pane opens
-            txtBoxTitle.Focus(FocusState.Programmatic);
-            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
-            txtBoxTitle.SelectionLength = 0;
-        }
-
         private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
         {
             // Hide flyout
