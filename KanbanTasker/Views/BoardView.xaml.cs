@@ -180,11 +180,11 @@ namespace KanbanTasker.Views
 
             if (result == ContentDialogResult.Primary)
             {
-                // Delete Task from collection and database
-                var deleteSuccess = ViewModel.DeleteTask(SelectedModel);
-
                 // Close pane when done
                 splitView.IsPaneOpen = false;
+
+                // Delete Task from collection and database
+                var deleteSuccess = ViewModel.DeleteTask(SelectedModel);
 
                 if(deleteSuccess)
                     ExampleMSEdgeInAppNotification.Show("Task deleted from board successfully", 4000);
