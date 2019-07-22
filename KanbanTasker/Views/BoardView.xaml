@@ -12,9 +12,6 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
                 FallbackColor="AliceBlue"
@@ -171,7 +168,9 @@
                     Background="{ThemeResource CardBackgroundRevealBrush}"
                     BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
                     BorderThickness="2"
-                    CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                    CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    RightTapped="Card_RightTapped"
+                    Tapped="Card_LeftTapped">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -294,9 +293,6 @@
                 <!--
             </CommandBarFlyout.SecondaryCommands>-->
             </CommandBarFlyout>
-            <!--<ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources\ThemeDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>-->
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -600,23 +596,10 @@
                 AutoGenerateColumns="False"
                 Background="{ThemeResource RegionBrush}"
                 BorderBrush="{StaticResource RegionBrush}"
-                CardTapped="KanbanBoard_CardTapped"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
                 ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
                 MaxColumnWidth="800">
-
-                <syncfusion:SfKanban.ContextFlyout>
-                    <CommandBarFlyout x:Name="kanbanFlyout">
-                        <CommandBarFlyout.SecondaryCommands>
-                            <AppBarButton
-                                x:Name="flyoutBtnNewTask"
-                                Click="BtnNewTask_Click"
-                                Icon="Add"
-                                Label="New Task" />
-                        </CommandBarFlyout.SecondaryCommands>
-                    </CommandBarFlyout>
-                </syncfusion:SfKanban.ContextFlyout>
 
                 <syncfusion:SfKanban.ColumnHeaderTemplate>
                     <DataTemplate>
@@ -629,6 +612,7 @@
                                 <RowDefinition Height="6*" />
                                 <RowDefinition Height="4*" />
                             </Grid.RowDefinitions>
+
                             <StackPanel
                                 Grid.Row="0"
                                 Grid.ColumnSpan="2"
@@ -656,6 +640,7 @@
                                     FontFamily="Segoe MDL2 Assets"
                                     ToolTipService.ToolTip="Add task to column" />
                             </StackPanel>
+
                             <StackPanel
                                 x:Name="WIPPanel"
                                 Grid.Row="1"
@@ -731,6 +716,7 @@
                             Color="Gray" />
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>
+
                 <helpers:CustomKanbanColumn
                     x:Name="Open"
                     Title="To Do"
@@ -745,6 +731,7 @@
                             Color="Gray" />
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>
+
                 <helpers:CustomKanbanColumn
                     Title="To Study"
                     MinWidth="275"
@@ -758,6 +745,7 @@
                             Color="Gray" />
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>
+
                 <helpers:CustomKanbanColumn
                     Title="Progress"
                     MinWidth="275"
@@ -771,6 +759,7 @@
                             Color="Gray" />
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>
+
                 <helpers:CustomKanbanColumn
                     Title="Done"
                     MinWidth="275"
@@ -785,6 +774,8 @@
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>
             </syncfusion:SfKanban>
+
+            <!--  Shadow on left side of pane  -->
             <Rectangle
                 Width="12"
                 Margin="-12,0,0,0"
@@ -799,13 +790,13 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
+
             <controls:InAppNotification
                 x:Name="ExampleMSEdgeInAppNotification"
                 Width="550"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                BorderThickness="1"
-                Style="{StaticResource MSEdgeNotificationStyle}" />
+                Style="{StaticResource CustomMSEdgeNotificationStyle}" />
         </Grid>
     </SplitView>
 </UserControl>

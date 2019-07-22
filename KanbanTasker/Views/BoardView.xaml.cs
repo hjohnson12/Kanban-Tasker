@@ -91,21 +91,33 @@ namespace KanbanTasker.Views
             return tagsCollection;
         }
 
-        public void ShowContextMenu(int currentCardindex, string currentCol)
+        public void ShowContextMenu(CustomKanbanModel selectedModel)
         {
             // Workaround to show context menu next to selected card model
             foreach (var col in kanbanBoard.ActualColumns)
             {
-                if (col.Title.ToString() == currentCol)
+                if (col.Categories.Contains(selectedModel.Category.ToString()))
                 {
-                    // Set flyout to selected card index
-                    for (int i = 0; i <= col.Cards.Count; i++)
+                    // Find card inside column
+                    foreach (var card in col.Cards)
                     {
-                        if (i == currentCardindex)
+                        int cardIndex = 0; 
+                        var cardModel = card.Content as CustomKanbanModel;
+                        if (cardModel.ID == selectedModel.ID)
                         {
-                            FlyoutShowOptions myOption = new FlyoutShowOptions();
-                            myOption.ShowMode = FlyoutShowMode.Transient;
-                            taskFlyout.ShowAt(col.Cards[i], myOption);
+                            // Get current index of card
+                            cardIndex = col.Cards.IndexOf(card);
+                        }
+
+                        // Set flyout to selected card index
+                        for (int i = 0; i <= col.Cards.Count; i++)
+                        {
+                            if (i == cardIndex)
+                            {
+                                FlyoutShowOptions myOption = new FlyoutShowOptions();
+                                myOption.ShowMode = FlyoutShowMode.Transient;
+                                taskFlyout.ShowAt(col.Cards[i], myOption);
+                            }
                         }
                     }
                 }
@@ -116,21 +128,6 @@ namespace KanbanTasker.Views
         // UI Events
         //=====================================================================
 
-        private void KanbanBoard_CardTapped(object sender, KanbanTappedEventArgs e)
-        {
-            // Pre: Get information to pass to the dialog for displaying
-            //      Set corresponding properties in TaskDialog
-            // Post: Information passed, dialog opened
-
-            // Always show in standard mode
-            // Get selected card
-            var currentCol = e.SelectedColumn.Title.ToString();
-            var selectedCardIndex = e.SelectedCardIndex;
-            SelectedModel = e.SelectedCard.Content as CustomKanbanModel;
-            // Show context menu next to selected card
-            ShowContextMenu(selectedCardIndex, currentCol);
-        }
-
         private void BtnNewTask_Click(object sender, RoutedEventArgs e)
         {
 
@@ -138,10 +135,6 @@ namespace KanbanTasker.Views
             ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
 
             // UI RELATED CODE 
-
-            // Hide kanban flyout if used to create new task
-            if (kanbanFlyout.IsOpen)
-                kanbanFlyout.Hide();
 
             // Open pane if not already
             if (splitView.IsPaneOpen == false)
@@ -230,9 +223,7 @@ namespace KanbanTasker.Views
                 }
             }
 
-            // Hide flyout
-            kanbanFlyout.Hide();
-
+           
             // Null card for new task
             ViewModel.NewTaskHelper(lstCategories, GetColorKeys(kanbanBoard));
 
@@ -349,6 +340,46 @@ namespace KanbanTasker.Views
             var btn = sender as Button;
             var tagName = btn.DataContext as string;
             ViewModel.DeleteTag(tagName);
+        }
+
+        private void Card_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            // Pre: Get information to pass to the dialog for displaying
+            //      Set corresponding properties in TaskDialog
+            // Post: Information passed, dialog opened
+
+            // Always show in standard mode
+            var originalSource = e.OriginalSource as Border;
+            SelectedModel = originalSource.DataContext as CustomKanbanModel;
+            ShowContextMenu(SelectedModel);
+        }
+
+        private void Card_LeftTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var originalSource = e.OriginalSource as Border;
+            SelectedModel = originalSource.DataContext as CustomKanbanModel;
+
+            // Call helper from ViewModel to handle model-related data
+            ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
+                GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
+
+            // UI RELATED CODE
+
+            // Set selected items in combo box
+            comboBoxCategories.SelectedItem = SelectedModel.Category;
+            comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
+
+            // Hide flyout
+            taskFlyout.Hide();
+
+            // Open pane if closed
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
+
+            // Give title textbox focus once pane opens
+            txtBoxTitle.Focus(FocusState.Programmatic);
+            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
+            txtBoxTitle.SelectionLength = 0;
         }
     }
 }
