@@ -37,14 +37,21 @@
                 VerticalAlignment="Center"
                 Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png" />
         </Grid>
+
         <NavigationView
             x:Name="nvSample"
             Grid.Row="1"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
-            PaneDisplayMode="Top"
             MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"
+            PaneDisplayMode="Top"
             SelectedItem="{x:Bind ViewModel.Current, Mode=TwoWay}">
+
+            <NavigationView.MenuItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding BoardTitle}" />
+                </DataTemplate>
+            </NavigationView.MenuItemTemplate>
 
             <NavigationView.PaneFooter>
                 <AppBarButton
@@ -52,11 +59,148 @@
                     Icon="Delete"
                     ToolTipService.ToolTip="Delete Current Board" />
             </NavigationView.PaneFooter>
+
             <NavigationView.PaneCustomContent>
-                <AppBarButton
+                <Button
+                    x:Name="btnOpenNewBoardFlyout"
                     Width="40"
-                    Icon="Add"
-                    ToolTipService.ToolTip="Create Board" />
+                    Background="Transparent"
+                    BorderThickness="0"
+                    ToolTipService.ToolTip="Create new board">
+                    <SymbolIcon Symbol="Add" />
+                    <Button.Flyout>
+                        <Flyout x:Name="tagFlyout" Placement="Bottom">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="CornerRadius" Value="3" />
+                                    <Setter Property="Background" Value="{ThemeResource RegionBrush}" />
+                                    <Setter Property="MinWidth" Value="0" />
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <!--  Flyout Header  -->
+                                <StackPanel Grid.Row="0" Orientation="Vertical">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="25"
+                                            FontWeight="Bold"
+                                            Text="New Board" />
+                                        <Button
+                                            x:Name="btnCloseNewBoardFlyout"
+                                            Grid.Column="1"
+                                            Margin="0,8,0,0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Click="BtnCloseNewBoardFlyout_Click">
+                                            <SymbolIcon Symbol="Cancel" />
+                                        </Button>
+                                    </Grid>
+                                    <Border
+                                        Width="Auto"
+                                        Margin="0,16,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        BorderBrush="Gray"
+                                        BorderThickness="0.5" />
+                                </StackPanel>
+
+                                <!--  Flyout Body  -->
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Margin="0,16,0,12"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical">
+                                    <TextBlock
+                                        Margin="0,0,8,2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Text="Board Name:" />
+                                    <TextBox
+                                        x:Name="txtBoxBoardName"
+                                        Grid.Row="0"
+                                        Width="300"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        PlaceholderText="Type your information here"
+                                        Style="{StaticResource TextBoxStyle1}" />
+                                    <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Page2" />
+                                        <TextBlock
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Text="Board Notes:" />
+                                    </StackPanel>
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <TextBox
+                                            Height="200"
+                                            MaxHeight="150"
+                                            AcceptsReturn="True"
+                                            BorderThickness="1"
+                                            CornerRadius="3"
+                                            PlaceholderText="Type your information here"
+                                            TextWrapping="Wrap" />
+                                    </ScrollViewer>
+                                </StackPanel>
+
+                                <!--  Flyout Footer  -->
+                                <Grid Grid.Row="2" Margin="0,12,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Border
+                                        Grid.Row="0"
+                                        HorizontalAlignment="Stretch"
+                                        BorderBrush="Gray"
+                                        BorderThickness="0.5" />
+                                    <Grid Grid.Row="1">
+                                        <StackPanel
+                                            Margin="0,4,0,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <AppBarButton
+                                                x:Name="btnCreateNewBoard"
+                                                Grid.Column="0"
+                                                Margin="0,8,12,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Icon="Save"
+                                                Label="Create" />
+                                            <AppBarButton
+                                                Grid.Column="2"
+                                                Margin="12,8,0,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Click="BtnCloseNewBoardFlyout_Click"
+                                                Icon="Cancel"
+                                                Label="Cancel" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+
             </NavigationView.PaneCustomContent>
             <Frame x:Name="contentFrame" />
         </NavigationView>

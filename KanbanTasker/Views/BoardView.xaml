@@ -134,12 +134,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
+                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="White"
-                                    Text="{TemplateBinding Title}">
+                                    Foreground="White">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -597,7 +597,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 x:FieldModifier="Public"
-                AutoGenerateColumns="False"                 
+                AutoGenerateColumns="False"
                 Background="{ThemeResource RegionBrush}"
                 BorderBrush="{StaticResource RegionBrush}"
                 CardTapped="KanbanBoard_CardTapped"
@@ -606,13 +606,6 @@
                 ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
                 MaxColumnWidth="800">
 
-                <syncfusion:SfKanban.Header>
-                    <StackPanel>
-                        <TextBlock Text="asdfsdfsf"/>
-                        <TextBlock Text="{x:Bind ViewModel.Title, Mode=OneWay}"/>
-                    </StackPanel>
-                </syncfusion:SfKanban.Header>
-                
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
                         <CommandBarFlyout.SecondaryCommands>
@@ -624,6 +617,7 @@
                         </CommandBarFlyout.SecondaryCommands>
                     </CommandBarFlyout>
                 </syncfusion:SfKanban.ContextFlyout>
+
                 <syncfusion:SfKanban.ColumnHeaderTemplate>
                     <DataTemplate>
                         <Grid>

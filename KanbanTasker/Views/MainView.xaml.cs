@@ -44,5 +44,10 @@ namespace KanbanTasker.Views
             //ViewModel = new BoardViewModel();
             ViewModel = App.mainViewModel;
         }
+
+        private void BtnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
+        {
+            tagFlyout.Hide();
+        }
     }
 }
