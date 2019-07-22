@@ -27,6 +27,7 @@ namespace KanbanTasker.ViewModels
         private string _paneTitle;
         private string _boardTitle;
         private string _boardDescription;
+        private string _boardNotes;
 
         //=====================================================================
         // CONSTRUCTOR
@@ -234,12 +235,12 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public string BoardDescription
+        public string BoardNotes
         {
-            get { return _boardDescription; }
+            get { return _boardNotes; }
             set
             {
-                _boardDescription = value;
+                _boardNotes = value;
                 OnPropertyChanged("BoardDescription");
             }
         }

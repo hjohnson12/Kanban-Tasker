@@ -22,8 +22,6 @@ namespace KanbanTasker.ViewModels
             BoardViewModel myBoard = new BoardViewModel();
             myBoard.BoardTitle = "Test - Initial Board from Constructor";
             
-            // Load Board
-
             // Add to list
             BoardList.Add(myBoard);
             Current = myBoard;
@@ -31,7 +29,7 @@ namespace KanbanTasker.ViewModels
             var anotherBoard = new BoardViewModel();
             BoardList.Add(anotherBoard);
             anotherBoard.BoardTitle = "This is another board for testing";
-            anotherBoard.BoardDescription = "We created it in the MainViewModel Constructor.";
+            anotherBoard.BoardNotes = "We created it in the MainViewModel Constructor.";
         }
 
         public ObservableCollection<BoardViewModel> BoardList
