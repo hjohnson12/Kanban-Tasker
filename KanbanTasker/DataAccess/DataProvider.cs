@@ -26,7 +26,8 @@ namespace KanbanTasker.DataAccess
                 string tblBoardsCommand = "CREATE TABLE IF NOT " +
                     "EXISTS tblBoards (" +
                     "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "Name NVARCHAR(2048) NULL)";
+                    "Name NVARCHAR(2048) NULL, " +
+                    "Notes NVARCHAR(2048) NULL)";
 
                 SqliteCommand createTblTasks = new SqliteCommand(tblTasksCommand, db);
                 SqliteCommand createTblBoards = new SqliteCommand(tblBoardsCommand, db);
@@ -57,6 +58,30 @@ namespace KanbanTasker.DataAccess
                 insertCommand.Parameters.AddWithValue("@categ", categ);
                 insertCommand.Parameters.AddWithValue("@colorKey", colorKey);
                 insertCommand.Parameters.AddWithValue("@tags", tags);
+                pd = (long)insertCommand.ExecuteScalar();
+
+                db.Close();
+            }
+            return (int)pd;
+        }
+
+        public static int AddBoard(string boardName = "New Board", string boardNotes = "")
+        {
+            long pd = -1;
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
+            {
+                db.Open();
+
+                SqliteCommand insertCommand = new SqliteCommand
+                {
+                    Connection = db,
+
+                    // Use parameterized query to prevent SQL injection attacks
+                    CommandText = "INSERT INTO tblBoards (Name,Notes) VALUES (@boardName, @boardNotes); ; SELECT last_insert_rowid();"
+                };
+                insertCommand.Parameters.AddWithValue("@boardName", boardName);
+                insertCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
                 pd = (long)insertCommand.ExecuteScalar();
 
                 db.Close();
