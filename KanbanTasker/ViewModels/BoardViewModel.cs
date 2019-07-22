@@ -35,7 +35,7 @@ namespace KanbanTasker.ViewModels
 
         public BoardViewModel()
         {
-            Tasks = DataProvider.GetData();
+            Tasks = new ObservableCollection<CustomKanbanModel>();
         }
 
         //=====================================================================

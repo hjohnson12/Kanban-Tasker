@@ -1,5 +1,6 @@
 ﻿using KanbanTasker.Base;
 using KanbanTasker.DataAccess;
+using KanbanTasker.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,24 +16,42 @@ namespace KanbanTasker.ViewModels
         private BoardViewModel _current;
         private string _boardName;
         private string _boardNotes;
+        private ObservableCollection<CustomKanbanModel> allTasks;
 
         public MainViewModel()
         {
-            // Instantiate the list object.  You bind the XAML list to this in 'ItemSource'
-            BoardList = new ObservableCollection<BoardViewModel>();
+            // Instantiate the collection object
+            BoardList = DataProvider.GetBoards();
 
-            // Create board
-            BoardViewModel myBoard = new BoardViewModel();
-            myBoard.BoardName = "Test - Initial Board from Constructor";
-            
-            // Add to list
-            BoardList.Add(myBoard);
-            Current = myBoard;
+            if (BoardList.Count == 0)
+            {
+                // Create board
+                BoardViewModel newBoard = new BoardViewModel
+                {
+                    BoardName = "New Board"
+                };
 
-            var anotherBoard = new BoardViewModel();
-            BoardList.Add(anotherBoard);
-            anotherBoard.BoardName = "This is another board for testing";
-            anotherBoard.BoardNotes = "We created it in the MainViewModel Constructor.";
+                // Add to collection and db
+                int newBoardId = DataProvider.AddBoard("New Board", "");
+                newBoard.BoardId = newBoardId.ToString();
+                newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
+                BoardList.Add(newBoard);
+                Current = newBoard;
+            }
+            else
+            {
+                allTasks = DataProvider.GetData();
+                foreach (var board in BoardList)
+                {
+                    foreach (var task in allTasks)
+                    {
+                        if (task.BoardId == board.BoardId)
+                            board.Tasks.Add(task);
+                    }
+                }
+               
+                Current = BoardList[0];
+            }
         }
 
         public void CreateBoard()
@@ -47,6 +66,10 @@ namespace KanbanTasker.ViewModels
             // Add board to db and collection
             int newBoardId = DataProvider.AddBoard(BoardName, BoardNotes);
             newBoard.BoardId = newBoardId.ToString();
+            newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
+            foreach (var task in allTasks)
+                if (task.BoardId == newBoardId.ToString())
+                    newBoard.Tasks.Add(task);
             BoardList.Add(newBoard);
         }
 
