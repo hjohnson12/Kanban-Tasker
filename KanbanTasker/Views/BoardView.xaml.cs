@@ -33,7 +33,8 @@ namespace KanbanTasker.Views
         public BoardView()
         {
             this.InitializeComponent();
-            ViewModel = new BoardViewModel();
+            //ViewModel = new BoardViewModel();
+            ViewModel = App.mainViewModel.Current;
             // Add rounded corners to each card
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
         }

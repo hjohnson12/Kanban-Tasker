@@ -10,6 +10,7 @@
     xmlns:muxc="using:Windows.UI.Xaml.Controls"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
+    xmlns:viewmodels="using:KanbanTasker.ViewModels"
     mc:Ignorable="d">
     <Page.Resources />
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
@@ -41,7 +42,9 @@
             Grid.Row="1"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
-            PaneDisplayMode="Top">
+            PaneDisplayMode="Top"
+            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.Current, Mode=TwoWay}">
 
             <NavigationView.PaneFooter>
                 <AppBarButton
@@ -49,6 +52,7 @@
                     Icon="Delete"
                     ToolTipService.ToolTip="Delete Current Board" />
             </NavigationView.PaneFooter>
+            <!--
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Board1" Tag="SamplePage1" />
                 <NavigationViewItem Content="Board2" Tag="SamplePage2" />
@@ -58,6 +62,9 @@
                 <NavigationViewItem Content="Board2" Tag="SamplePage2" />
                 <NavigationViewItem Content="Board3" Tag="SamplePage3" />
             </NavigationView.MenuItems>
+            -->
+
+ 
             <NavigationView.PaneCustomContent>
                 <AppBarButton
                     Width="40"

@@ -126,7 +126,7 @@ namespace KanbanTasker.ViewModels
             set
             {
                 Task.Title = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Title");
             }
         }
 
@@ -142,7 +142,7 @@ namespace KanbanTasker.ViewModels
             set
             {
                 Task.Description = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Description");
             }
         }
 

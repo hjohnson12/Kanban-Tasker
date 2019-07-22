@@ -19,6 +19,7 @@ using KanbanTasker.Views;
 using KanbanTasker.DataAccess;
 using Windows.ApplicationModel.Core;
 using Windows.UI.ViewManagement;
+using KanbanTasker.ViewModels;
 
 namespace KanbanTasker
 {
@@ -31,6 +32,9 @@ namespace KanbanTasker
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
+        /// 
+        private static MainViewModel _mainViewModel;
+
         public App()
         {
             // Register SyncfusionLicense
@@ -50,6 +54,16 @@ namespace KanbanTasker
             this.Suspending += OnSuspending;
 
             DataProvider.InitializeDatabase();
+
+            _mainViewModel = new MainViewModel();
+        }
+
+        public static MainViewModel mainViewModel
+        {
+            get
+            {
+                return _mainViewModel;
+            }
         }
 
         /// <summary>

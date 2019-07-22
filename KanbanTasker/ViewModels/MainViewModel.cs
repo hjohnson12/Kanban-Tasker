@@ -25,6 +25,14 @@ namespace KanbanTasker.ViewModels
 
             // Add to list
             BoardList.Add(myBoard);
+            Current = myBoard;
+
+
+            var anotherBoard = new BoardViewModel();
+            BoardList.Add(anotherBoard);
+            anotherBoard.Title = "This is another board for testing";
+            anotherBoard.Description = "We created it in the MainViewModel Constructor.";
+
         }
 
         public ObservableCollection<BoardViewModel> BoardList
@@ -35,12 +43,12 @@ namespace KanbanTasker.ViewModels
             }
             set
             {
-                BoardList = value;
+                _boardList = value;
                 OnPropertyChanged("BoardList");
             }
         }
 
-        public BoardViewModel Current
+        public BoardViewModel Current 
         {
             get
             {

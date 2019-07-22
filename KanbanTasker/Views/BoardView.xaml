@@ -574,7 +574,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 x:FieldModifier="Public"
-                AutoGenerateColumns="False"
+                AutoGenerateColumns="False"                 
                 Background="{ThemeResource RegionBrush}"
                 BorderBrush="{StaticResource RegionBrush}"
                 CardTapped="KanbanBoard_CardTapped"
@@ -583,6 +583,13 @@
                 ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
                 MaxColumnWidth="800">
 
+                <syncfusion:SfKanban.Header>
+                    <StackPanel>
+                        <TextBlock Text="asdfsdfsf"/>
+                        <TextBlock Text="{x:Bind ViewModel.Title, Mode=OneWay}"/>
+                    </StackPanel>
+                </syncfusion:SfKanban.Header>
+                
                 <syncfusion:SfKanban.ContextFlyout>
                     <CommandBarFlyout x:Name="kanbanFlyout">
                         <CommandBarFlyout.SecondaryCommands>
