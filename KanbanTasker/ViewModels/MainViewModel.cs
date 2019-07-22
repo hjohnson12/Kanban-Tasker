@@ -12,36 +12,27 @@ namespace KanbanTasker.ViewModels
     {
         private ObservableCollection<BoardViewModel> _boardList;
         private BoardViewModel _current;
-        private ObservableCollection<string> _testList;
 
         public MainViewModel()
         {
             // Instantiate the list object.  You bind the XAML list to this in 'ItemSource'
-            //BoardList = new ObservableCollection<BoardViewModel>();
+            BoardList = new ObservableCollection<BoardViewModel>();
 
-            //// Create board
-            //BoardViewModel myBoard = new BoardViewModel();
+            // Create board
+            BoardViewModel myBoard = new BoardViewModel();
+            
+            // Load Board
 
-            //// Load Board
+            // Add to list
+            BoardList.Add(myBoard);
+            Current = myBoard;
 
-            //// Add to list
-            //BoardList.Add(myBoard);
 
-            TestList = new ObservableCollection<string>();
-            TestList.Add("test");
-            TestList.Add("test");
-            TestList.Add("test");
-            TestList.Add("test");
-        }
+            var anotherBoard = new BoardViewModel();
+            BoardList.Add(anotherBoard);
+            anotherBoard.Title = "This is another board for testing";
+            anotherBoard.Description = "We created it in the MainViewModel Constructor.";
 
-        public ObservableCollection<string> TestList
-        {
-            get { return _testList; }
-            set
-            {
-                _testList = value;
-                OnPropertyChanged();
-            }
         }
 
         public ObservableCollection<BoardViewModel> BoardList
@@ -52,12 +43,12 @@ namespace KanbanTasker.ViewModels
             }
             set
             {
-                BoardList = value;
+                _boardList = value;
                 OnPropertyChanged("BoardList");
             }
         }
 
-        public BoardViewModel Current
+        public BoardViewModel Current 
         {
             get
             {
