@@ -40,6 +40,7 @@ namespace KanbanTasker.ViewModels
             }
             else
             {
+                allTasks = new ObservableCollection<CustomKanbanModel>();
                 allTasks = DataProvider.GetData();
                 foreach (var board in BoardList)
                 {

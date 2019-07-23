@@ -159,9 +159,9 @@ namespace KanbanTasker.Views
                 splitView.IsPaneOpen = false;
 
                 // Delete Task from collection and database
-                var deleteSuccess = ViewModel.DeleteTask(SelectedModel);
+                var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
 
-                if(deleteSuccess)
+                if (deleteSuccess)
                     ExampleMSEdgeInAppNotification.Show("Task deleted from board successfully", 4000);
             }
             else
