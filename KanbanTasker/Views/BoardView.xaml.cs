@@ -324,14 +324,14 @@ namespace KanbanTasker.Views
             // Post: Information passed, dialog opened
 
             // Always show in standard mode
-            var originalSource = e.OriginalSource as Border;
+            var originalSource = (FrameworkElement)sender;
             SelectedModel = originalSource.DataContext as CustomKanbanModel;
             ShowContextMenu(SelectedModel);
         }
 
         private void Card_LeftTapped(object sender, TappedRoutedEventArgs e)
         {
-            var originalSource = e.OriginalSource as Border;
+            var originalSource = (FrameworkElement)sender;
             SelectedModel = originalSource.DataContext as CustomKanbanModel;
 
             // Call helper from ViewModel to handle model-related data

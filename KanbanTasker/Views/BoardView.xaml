@@ -160,7 +160,10 @@
             </DataTemplate>
             <!--  FOR BACKGROUND, KEEP: {Binding Tag.CardStyle.Background, RelativeSource={RelativeSource Mode=TemplatedParent}}  -->
             <DataTemplate x:Key="KanbanCardTemplate">
-                <Border
+                <StackPanel Orientation="Vertical" 
+                    RightTapped="Card_RightTapped"
+                    Tapped="Card_LeftTapped">
+                    <Border
                     Height="Auto"
                     MinHeight="100"
                     MaxHeight="300"
@@ -168,25 +171,23 @@
                     Background="{ThemeResource CardBackgroundRevealBrush}"
                     BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
                     BorderThickness="2"
-                    CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                    RightTapped="Card_RightTapped"
-                    Tapped="Card_LeftTapped">
+                    CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid
                             Grid.Column="0"
                             Grid.ColumnSpan="1"
                             Margin="8,5,2,2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="3*" />
-                                <RowDefinition Height="4*" />
-                                <RowDefinition Height="3*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="4*" />
+                                    <RowDefinition Height="3*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
                                 x:Name="KANBAN_Title"
                                 Grid.Row="0"
                                 HorizontalAlignment="{Binding Tag.CardStyle.TitleHorizontalAlignment, RelativeSource={RelativeSource Mode=TemplatedParent}}"
@@ -198,7 +199,7 @@
                                 TextWrapping="Wrap"
                                 ToolTipService.ToolTip="{Binding Title}" />
 
-                            <TextBlock
+                                <TextBlock
                                 x:Name="KANBAN_Description"
                                 Grid.Row="1"
                                 Height="Auto"
@@ -210,7 +211,7 @@
                                 Text="{Binding Description}"
                                 TextWrapping="Wrap" />
 
-                            <ScrollViewer
+                                <ScrollViewer
                                 Grid.Row="2"
                                 Grid.ColumnSpan="1"
                                 Margin="0,4,0,2"
@@ -219,24 +220,24 @@
                                 VerticalScrollBarVisibility="Disabled"
                                 Visibility="{Binding Tag.CardStyle.TagVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
 
-                                <syncfusion:TagsStackPanel
+                                    <syncfusion:TagsStackPanel
                                     x:Name="KANBAN_TagsPanel"
                                     Height="Auto"
                                     ContentTemplate="{StaticResource TagsTemplate}"
                                     DataContext="{Binding}"
                                     Orientation="Horizontal"
                                     TagsCollection="{Binding Tags}" />
-                            </ScrollViewer>
-                        </Grid>
+                                </ScrollViewer>
+                            </Grid>
 
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="3*" />
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
 
-                            <Border
+                                <Border
                                 x:Name="KANBAN_ProfileIcon"
                                 Grid.Row="1"
                                 Width="50"
@@ -247,12 +248,12 @@
                                 BorderThickness="1.5"
                                 CornerRadius="50"
                                 Visibility="{Binding Tag.CardStyle.IconVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="{Binding ImageURL}" Stretch="Fill" />
-                                </Border.Background>
-                            </Border>
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding ImageURL}" Stretch="Fill" />
+                                    </Border.Background>
+                                </Border>
 
-                            <Border
+                                <Border
                                 Grid.Row="2"
                                 Width="30"
                                 Height="30"
@@ -263,16 +264,17 @@
                                 CornerRadius="0,0,6,0"
                                 DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                 Visibility="{Binding Tag.CardStyle.IndicatorVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Offset="0.5" Color="Transparent" />
-                                        <GradientStop Offset="0.5" Color="{Binding Tag.IndicatorColor}" />
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                            </Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Offset="0.5" Color="Transparent" />
+                                            <GradientStop Offset="0.5" Color="{Binding Tag.IndicatorColor}" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Border>
+                    </Border>
+                </StackPanel>
             </DataTemplate>
             <CommandBarFlyout x:Name="taskFlyout" Placement="Right">
                 <AppBarButton
