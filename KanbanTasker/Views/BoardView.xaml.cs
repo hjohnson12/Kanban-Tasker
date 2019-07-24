@@ -311,6 +311,8 @@ namespace KanbanTasker.Views
 
                 if (addSuccess)
                     KanbanInAppNotification.Show("Task successfully added to the board", 4000);
+                else
+                    KanbanInAppNotification.Show("Task could not be created", 4000);
             }
         }
 
@@ -350,7 +352,12 @@ namespace KanbanTasker.Views
         {
             var btn = sender as Button;
             var tagName = btn.DataContext as string;
-            ViewModel.DeleteTag(tagName);
+            var deleteSuccess = ViewModel.DeleteTag(tagName);
+
+            if (deleteSuccess)
+                KanbanInAppNotification.Show("Tag deleted successfully", 3000);
+            else
+                KanbanInAppNotification.Show("Tag could not be deleted", 3000);
         }
     }
 }

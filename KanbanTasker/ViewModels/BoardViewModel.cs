@@ -326,9 +326,11 @@ namespace KanbanTasker.ViewModels
             return (Tasks.Count == (previousCount + 1)) ? true : false; 
         }
 
-        public void DeleteTag(string tagName)
+        public bool DeleteTag(string tagName)
         {
+            var originalCount = TagsCollection.Count;
             TagsCollection.Remove(tagName);
+            return (TagsCollection.Count == (originalCount - 1)) ? true : false;
         }
     }
 }
