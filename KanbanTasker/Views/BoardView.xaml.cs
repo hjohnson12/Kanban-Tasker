@@ -324,7 +324,10 @@ namespace KanbanTasker.Views
                     return;
                 else
                 {
-                    ViewModel.AddTagToCollection(tagsTextBox.Text);
+                    if (ViewModel.TagsCollection.Contains(tagsTextBox.Text))
+                        ExampleMSEdgeInAppNotification.Show("Tag already exists", 3000);
+                    else
+                        ViewModel.AddTagToCollection(tagsTextBox.Text);
                     tagsTextBox.Text = "";
                 }
             }
