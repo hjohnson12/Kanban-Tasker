@@ -193,7 +193,7 @@ namespace KanbanTasker.Views
                 splitView.IsPaneOpen = false;
 
                 if(deleteSuccess)
-                    ExampleMSEdgeInAppNotification.Show("Task deleted from board successfully", 4000);
+                    KanbanInAppNotification.Show("Task deleted from board successfully", 4000);
             }
             else
                 return; 
@@ -310,7 +310,7 @@ namespace KanbanTasker.Views
                     splitView.IsPaneOpen = false;
 
                 if (addSuccess)
-                    ExampleMSEdgeInAppNotification.Show("Task successfully added to the board", 4000);
+                    KanbanInAppNotification.Show("Task successfully added to the board", 4000);
             }
         }
 
@@ -325,7 +325,7 @@ namespace KanbanTasker.Views
                 else
                 {
                     if (ViewModel.TagsCollection.Contains(tagsTextBox.Text))
-                        ExampleMSEdgeInAppNotification.Show("Tag already exists", 3000);
+                        KanbanInAppNotification.Show("Tag already exists", 3000);
                     else
                         ViewModel.AddTagToCollection(tagsTextBox.Text);
                     tagsTextBox.Text = "";

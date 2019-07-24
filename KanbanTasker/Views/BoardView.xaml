@@ -797,7 +797,7 @@
                 </Rectangle.Fill>
             </Rectangle>
             <controls:InAppNotification
-                x:Name="ExampleMSEdgeInAppNotification"
+                x:Name="KanbanInAppNotification"
                 Width="550"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
