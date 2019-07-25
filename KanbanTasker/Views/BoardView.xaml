@@ -539,7 +539,7 @@
                             </ListView>
                         </Grid>
 
-                        <Grid Margin="0 15 0 0 ">
+                        <Grid Margin="0 15 0 0 " Visibility="{x:Bind ViewModel.IsEditingTask, Mode=OneWay}">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition/>
@@ -557,7 +557,7 @@
                                 <Grid>
                                     <StackPanel Margin="10" HorizontalAlignment="Center" Orientation="Vertical">
                                         <TextBlock Margin="4 0 0 0" HorizontalAlignment="Center" FontWeight="Bold" Text="Date Created:" />
-                                        <TextBlock Margin="4" HorizontalAlignment="Center" Text="{x:Bind ViewModel.DateCreated, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsEditingTask, Mode=OneWay}" />
+                                        <TextBlock Margin="4" HorizontalAlignment="Center" Text="{x:Bind ViewModel.DateCreated, Mode=OneWay}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
