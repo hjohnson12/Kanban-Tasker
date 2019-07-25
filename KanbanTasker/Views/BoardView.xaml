@@ -12,9 +12,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
                 FallbackColor="AliceBlue"
@@ -539,6 +537,30 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
+                        </Grid>
+
+                        <Grid Margin="0 15 0 0 ">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                                <SymbolIcon Symbol="Calendar" />
+                                <TextBlock Margin="4 0 0 0" Text="Date/Time Information" />
+                            </StackPanel>
+                            <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0 8 0 0" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource RegionBrush}" BorderThickness="1" CornerRadius="2" >
+                                <Grid>
+                                    <StackPanel Margin="10" HorizontalAlignment="Center" Orientation="Vertical">
+                                        <TextBlock Margin="4 0 0 0" HorizontalAlignment="Center" FontWeight="Bold" Text="Date Created:" />
+                                        <TextBlock Margin="4" HorizontalAlignment="Center" Text="{x:Bind ViewModel.DateCreated, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsEditingTask, Mode=OneWay}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
                         </Grid>
 
                         <!--  Later Implementation, choose pic  -->

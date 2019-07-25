@@ -25,6 +25,7 @@ namespace KanbanTasker.ViewModels
         private List<string> _categories;
         private List<string> _colorKeys;
         private string _paneTitle;
+        private bool _isEditingTask;
 
         //=====================================================================
         // CONSTRUCTOR
@@ -222,6 +223,28 @@ namespace KanbanTasker.ViewModels
             }
         }
 
+        public string DateCreated
+        {
+            get
+            {
+                if (Task.DateCreated == null)
+                    return "";
+                else
+                    return Task.DateCreated;
+            }
+            set
+            {
+                Task.DateCreated = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsEditingTask
+        {
+            get { return _isEditingTask; }
+            set { _isEditingTask = value; OnPropertyChanged(); }
+        }
+
         public CustomKanbanModel OriginalCardModel
         {
             get;
@@ -241,6 +264,7 @@ namespace KanbanTasker.ViewModels
         {
             // Get content ready to show in splitview pane
             OriginalCardModel = selectedModel;
+            IsEditingTask = true;
             CardModel = selectedModel;
             Categories = categories;
             ColorKeys = colorKeys;
@@ -286,6 +310,7 @@ namespace KanbanTasker.ViewModels
         public void NewTaskHelper(List<string> categories, List<string> colorKeys)
         {
             CardModel = null; // Null card for new task
+            IsEditingTask = false;
             Categories = categories;
             ColorKeys = colorKeys;
             PaneTitle = "New Task";
