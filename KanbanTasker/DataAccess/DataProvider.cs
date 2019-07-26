@@ -10,7 +10,7 @@ namespace KanbanTasker.DataAccess
         public static void InitializeDatabase()
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=kanbanMultiboard.db"))
+                new SqliteConnection("Filename=kanbantaskerdb.db"))
             {
                 db.Open();
 
@@ -42,7 +42,7 @@ namespace KanbanTasker.DataAccess
         {
             long pd = -1;
             using (SqliteConnection db =
-                new SqliteConnection("Filename=kanbanMultiboard.db"))
+                new SqliteConnection("Filename=kanbantaskerdb.db"))
             {
                 db.Open();
 
@@ -70,7 +70,7 @@ namespace KanbanTasker.DataAccess
         {
             long pd = -1;
             using (SqliteConnection db =
-                new SqliteConnection("Filename=kanbanMultiboard.db"))
+                new SqliteConnection("Filename=kanbantaskerdb.db"))
             {
                 db.Open();
 
@@ -94,7 +94,7 @@ namespace KanbanTasker.DataAccess
         {
             // Delete task from db
             using (SqliteConnection db =
-                new SqliteConnection("Filename=kanbanMultiboard.db"))
+                new SqliteConnection("Filename=kanbantaskerdb.db"))
             {
                 db.Open();
                 SqliteCommand deleteCommand = new SqliteCommand
@@ -115,7 +115,7 @@ namespace KanbanTasker.DataAccess
 
             // Get tasks and return the collection
             using (SqliteConnection db =
-                new SqliteConnection("Filename=kanbanMultiboard.db"))
+                new SqliteConnection("Filename=kanbantaskerdb.db"))
             {
                 db.Open();
 
@@ -157,7 +157,7 @@ namespace KanbanTasker.DataAccess
 
             // Get tasks and return the collection
             using (SqliteConnection db =
-                new SqliteConnection("Filename=kanbanMultiboard.db"))
+                new SqliteConnection("Filename=kanbantaskerdb.db"))
             {
                 db.Open();
 
@@ -185,7 +185,7 @@ namespace KanbanTasker.DataAccess
         public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=kanbanMultiboard.db"))
+                new SqliteConnection("Filename=kanbantaskerdb.db"))
             {
                 db.Open();
 
