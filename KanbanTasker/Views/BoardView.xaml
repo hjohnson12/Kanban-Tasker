@@ -173,7 +173,7 @@
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Grid
@@ -209,23 +209,70 @@
                                 Text="{Binding Description}"
                                 TextWrapping="Wrap" />
 
-                            <ScrollViewer
+                            <!--  Card Tags - Custom way  -->
+                            <ListView
                                 Grid.Row="2"
                                 Grid.ColumnSpan="1"
-                                Margin="0,4,0,2"
                                 VerticalAlignment="Bottom"
-                                HorizontalScrollBarVisibility="Hidden"
-                                VerticalScrollBarVisibility="Disabled"
-                                Visibility="{Binding Tag.CardStyle.TagVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                IsItemClickEnabled="True"
+                                ItemsSource="{Binding Tags}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <controls:WrapPanel
+                                            Padding="0,0,0,0"
+                                            Orientation="Horizontal"
+                                            VerticalSpacing="0" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="MinWidth" Value="0" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Height" Value="Auto" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewItem">
+                                                    <ListViewItemPresenter
+                                                        Margin="1"
+                                                        Padding="0"
+                                                        BorderThickness="0"
+                                                        ContentMargin="0" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#FFEDEDED" CornerRadius="4">
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                MaxWidth="226"
+                                                Margin="10,2,10,2"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                FontSize="12"
+                                                Foreground="#FF454545"
+                                                Text="{Binding}"
+                                                TextTrimming="None"
+                                                TextWrapping="Wrap" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
 
-                                <syncfusion:TagsStackPanel
+                            <!--<syncfusion:TagsStackPanel
                                     x:Name="KANBAN_TagsPanel"
                                     Height="Auto"
                                     ContentTemplate="{StaticResource TagsTemplate}"
                                     DataContext="{Binding}"
                                     Orientation="Horizontal"
-                                    TagsCollection="{Binding Tags}" />
-                            </ScrollViewer>
+                                    TagsCollection="{Binding Tags}" />-->
+                            <!--
+                            </ScrollViewer>-->
                         </Grid>
 
                         <Grid Grid.Column="1">
