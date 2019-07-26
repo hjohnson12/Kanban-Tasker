@@ -800,7 +800,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 BorderThickness="1"
-                Style="{StaticResource MSEdgeNotificationStyle}" />
+                Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
         </Grid>
     </SplitView>
 </UserControl>
