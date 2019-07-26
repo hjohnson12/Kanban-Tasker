@@ -12,9 +12,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
                 FallbackColor="AliceBlue"
