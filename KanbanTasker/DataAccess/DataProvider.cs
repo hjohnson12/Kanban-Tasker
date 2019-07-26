@@ -1,4 +1,5 @@
 ﻿using KanbanTasker.Models;
+using KanbanTasker.ViewModels;
 using Microsoft.Data.Sqlite;
 using System.Collections.ObjectModel;
 
@@ -26,7 +27,8 @@ namespace KanbanTasker.DataAccess
                 string tblBoardsCommand = "CREATE TABLE IF NOT " +
                     "EXISTS tblBoards (" +
                     "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "Name NVARCHAR(2048) NULL)";
+                    "Name NVARCHAR(2048) NULL, " +
+                    "Notes NVARCHAR(2048) NULL)";
 
                 SqliteCommand createTblTasks = new SqliteCommand(tblTasksCommand, db);
                 SqliteCommand createTblBoards = new SqliteCommand(tblBoardsCommand, db);
@@ -57,6 +59,30 @@ namespace KanbanTasker.DataAccess
                 insertCommand.Parameters.AddWithValue("@categ", categ);
                 insertCommand.Parameters.AddWithValue("@colorKey", colorKey);
                 insertCommand.Parameters.AddWithValue("@tags", tags);
+                pd = (long)insertCommand.ExecuteScalar();
+
+                db.Close();
+            }
+            return (int)pd;
+        }
+
+        public static int AddBoard(string boardName, string boardNotes)
+        {
+            long pd = -1;
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
+            {
+                db.Open();
+
+                SqliteCommand insertCommand = new SqliteCommand
+                {
+                    Connection = db,
+
+                    // Use parameterized query to prevent SQL injection attacks
+                    CommandText = "INSERT INTO tblBoards (Name,Notes) VALUES (@boardName, @boardNotes); ; SELECT last_insert_rowid();"
+                };
+                insertCommand.Parameters.AddWithValue("@boardName", boardName);
+                insertCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
                 pd = (long)insertCommand.ExecuteScalar();
 
                 db.Close();
@@ -123,6 +149,37 @@ namespace KanbanTasker.DataAccess
                 db.Close();
             }
             return tasks;
+        }
+
+        public static ObservableCollection<BoardViewModel> GetBoards()
+        {
+            ObservableCollection<BoardViewModel> boards = new ObservableCollection<BoardViewModel>();
+
+            // Get tasks and return the collection
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=kanbanMultiboard.db"))
+            {
+                db.Open();
+
+                SqliteCommand selectCommand = new SqliteCommand
+                    ("SELECT Id,Name,Notes from tblBoards", db);
+
+                SqliteDataReader query = selectCommand.ExecuteReader();
+
+                // Query the db and get the tasks
+                while (query.Read())
+                {
+                    BoardViewModel row = new BoardViewModel()
+                    {
+                        BoardId = query.GetString(0),
+                        BoardName = query.GetString(1),
+                        BoardNotes = query.GetString(2),
+                    };
+                    boards.Add(row);
+                }
+                db.Close();
+            }
+            return boards;
         }
 
         public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)

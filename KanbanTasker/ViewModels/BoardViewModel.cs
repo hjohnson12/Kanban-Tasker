@@ -25,6 +25,9 @@ namespace KanbanTasker.ViewModels
         private List<string> _categories;
         private List<string> _colorKeys;
         private string _paneTitle;
+        private string _boardName;
+        private string _boardDescription;
+        private string _boardNotes;
 
         //=====================================================================
         // CONSTRUCTOR
@@ -32,7 +35,7 @@ namespace KanbanTasker.ViewModels
 
         public BoardViewModel()
         {
-            Tasks = DataProvider.GetData();
+            Tasks = new ObservableCollection<CustomKanbanModel>();
         }
 
         //=====================================================================
@@ -126,7 +129,7 @@ namespace KanbanTasker.ViewModels
             set
             {
                 Task.Title = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Title");
             }
         }
 
@@ -142,7 +145,7 @@ namespace KanbanTasker.ViewModels
             set
             {
                 Task.Description = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Description");
             }
         }
 
@@ -219,6 +222,26 @@ namespace KanbanTasker.ViewModels
             {
                 _paneTitle = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public string BoardName
+        {
+            get { return _boardName; }
+            set
+            {
+                _boardName = value;
+                OnPropertyChanged("BoardTitle");
+            }
+        }
+
+        public string BoardNotes
+        {
+            get { return _boardNotes; }
+            set
+            {
+                _boardNotes = value;
+                OnPropertyChanged("BoardDescription");
             }
         }
 
@@ -301,10 +324,12 @@ namespace KanbanTasker.ViewModels
             else
                 tags = ""; // No tags
 
+            var boardId = App.mainViewModel.Current.BoardId.ToString();
+
             // Create model and add to Tasks collection
             var model = new CustomKanbanModel
             {
-                BoardId = BoardId,
+                BoardId = boardId,
                 Title = Title,
                 Description = Description,
                 Category = selectedCategory,
@@ -312,9 +337,8 @@ namespace KanbanTasker.ViewModels
                 Tags = tagsArray
             };
 
-
             // Add task to database
-            int newTaskID = DataProvider.AddTask(BoardId, Title,
+            int newTaskID = DataProvider.AddTask(boardId, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
 

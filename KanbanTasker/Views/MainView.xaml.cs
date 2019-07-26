@@ -31,6 +31,7 @@ namespace KanbanTasker.Views
     /// </summary>
     public sealed partial class MainView : Page
     {
+        public BoardViewModel BoardVM { get; set; }
         public MainViewModel ViewModel { get; set; }
 
         public MainView()
@@ -40,7 +41,16 @@ namespace KanbanTasker.Views
             // Set XAML element as a draggable region.
             Window.Current.SetTitleBar(AppTitleBar);
 
-            ViewModel = new MainViewModel();
+            //ViewModel = new BoardViewModel();
+            ViewModel = App.mainViewModel;
+
+            BoardVM = new BoardViewModel();
         }
+
+        private void BtnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
+        {
+            tagFlyout.Hide();
+        }
+
     }
 }

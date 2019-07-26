@@ -2,18 +2,31 @@
     x:Class="KanbanTasker.Views.DeleteConfirmationView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:KanbanTasker.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:KanbanTasker.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Title="Delete Confirmation Dialog"
+    Title="Delete Confirmation"
+    Background="{ThemeResource RegionBrush}"
+    BorderBrush="Transparent"
+    CornerRadius="3"
     PrimaryButtonText="Yes"
     SecondaryButtonText="No"
-    Background="{ThemeResource RegionBrush}" >
-
+    mc:Ignorable="d">
+    <ContentDialog.Resources>
+        <Style TargetType="ContentDialog">
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+    </ContentDialog.Resources>
+    <ContentDialog.TitleTemplate>
+        <DataTemplate>
+            <Grid>
+                <TextBlock Text="{Binding}" />
+            </Grid>
+        </DataTemplate>
+    </ContentDialog.TitleTemplate>
     <Grid>
-        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-            <TextBlock Text="Are you sure you wish to delete this task?"/>
-         </StackPanel>
+        <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+            <TextBlock Text="Are you sure you wish to delete this task?" />
+        </StackPanel>
     </Grid>
 </ContentDialog>
