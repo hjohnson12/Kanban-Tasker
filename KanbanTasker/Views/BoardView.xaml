@@ -167,7 +167,7 @@
                     Margin="0,6,0,6"
                     Background="{ThemeResource CardBackgroundRevealBrush}"
                     BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
-                    BorderThickness="2"
+                    BorderThickness="0,0,0,3"
                     CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
 
                     <Grid>
@@ -226,6 +226,7 @@
                                 <TextBlock
                                     x:Name="KANBAN_Description"
                                     Height="Auto"
+                                    Margin="0,8,0,8"
                                     VerticalAlignment="Center"
                                     FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     Foreground="{Binding Tag.CardStyle.Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}}"
