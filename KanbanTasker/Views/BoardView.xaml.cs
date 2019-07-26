@@ -169,6 +169,59 @@ namespace KanbanTasker.Views
             txtBoxTitle.SelectionLength = 0;
         }
 
+        private void CardBtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var originalSource = (FrameworkElement)sender;
+            SelectedModel = originalSource.DataContext as CustomKanbanModel;
+
+            // Call helper from ViewModel to handle model-related data
+            ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
+                GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
+
+            // UI RELATED CODE
+
+            // Set selected items in combo box
+            comboBoxCategories.SelectedItem = SelectedModel.Category;
+            comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
+
+            // Hide flyout
+            taskFlyout.Hide();
+
+            // Open pane if closed
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
+
+            // Give title textbox focus once pane opens
+            txtBoxTitle.Focus(FocusState.Programmatic);
+            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
+            txtBoxTitle.SelectionLength = 0;
+        }
+
+
+        private async void CardBtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var originalSource = (FrameworkElement)sender;
+            SelectedModel = originalSource.DataContext as CustomKanbanModel;
+
+            // Create dialog and check button click result
+            var deleteDialog = new DeleteConfirmationView();
+            var result = await deleteDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                // Close pane when done
+                splitView.IsPaneOpen = false;
+
+                // Delete Task from collection and database
+                var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
+
+                if (deleteSuccess)
+                    KanbanInAppNotification.Show("Task deleted from board successfully", 4000);
+            }
+            else
+                return;
+        }
+
 
         private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -365,32 +418,33 @@ namespace KanbanTasker.Views
             ShowContextMenu(SelectedModel);
         }
 
-        private void Card_LeftTapped(object sender, TappedRoutedEventArgs e)
-        {
-            var originalSource = (FrameworkElement)sender;
-            SelectedModel = originalSource.DataContext as CustomKanbanModel;
+        //private void Card_LeftTapped(object sender, TappedRoutedEventArgs e)
+        //{
+        //    var originalSource = (FrameworkElement)sender;
+        //    SelectedModel = originalSource.DataContext as CustomKanbanModel;
 
-            // Call helper from ViewModel to handle model-related data
-            ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
-                GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
+        //    // Call helper from ViewModel to handle model-related data
+        //    ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
+        //        GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
 
-            // UI RELATED CODE
+        //    // UI RELATED CODE
 
-            // Set selected items in combo box
-            comboBoxCategories.SelectedItem = SelectedModel.Category;
-            comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
+        //    // Set selected items in combo box
+        //    comboBoxCategories.SelectedItem = SelectedModel.Category;
+        //    comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
 
-            // Hide flyout
-            taskFlyout.Hide();
+        //    // Hide flyout
+        //    taskFlyout.Hide();
 
-            // Open pane if closed
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
+        //    // Open pane if closed
+        //    if (splitView.IsPaneOpen == false)
+        //        splitView.IsPaneOpen = true;
 
-            // Give title textbox focus once pane opens
-            txtBoxTitle.Focus(FocusState.Programmatic);
-            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
-            txtBoxTitle.SelectionLength = 0;
-        }
+        //    // Give title textbox focus once pane opens
+        //    txtBoxTitle.Focus(FocusState.Programmatic);
+        //    txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
+        //    txtBoxTitle.SelectionLength = 0;
+        //}
+
     }
 }

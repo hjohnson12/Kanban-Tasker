@@ -28,6 +28,7 @@ namespace KanbanTasker.ViewModels
         private string _boardName;
         private string _boardDescription;
         private string _boardNotes;
+        private bool _isPointerEntered = false;
 
         //=====================================================================
         // CONSTRUCTOR
@@ -221,6 +222,17 @@ namespace KanbanTasker.ViewModels
             set
             {
                 _paneTitle = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsPointerEntered
+        {
+            // Enter on task card
+            get { return _isPointerEntered; }
+            set
+            {
+                _isPointerEntered = value;
                 OnPropertyChanged();
             }
         }
