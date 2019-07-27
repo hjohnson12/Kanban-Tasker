@@ -230,29 +230,32 @@
                                         ToolTipService.ToolTip="{Binding Title}" />
                                     <Viewbox
                                         Grid.Column="1"
-                                        Width="60"
                                         Margin="0,0,0,0"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top"
                                         Stretch="Uniform"
                                         StretchDirection="Both">
                                         <StackPanel Orientation="Horizontal">
-                                            <Button
+                                            <HyperlinkButton
                                                 x:Name="BtnEdit"
-                                                Background="Transparent"
+                                                Margin="4"
                                                 Click="CardBtnEdit_Click"
-                                                CornerRadius="3"
                                                 Visibility="Collapsed">
-                                                <SymbolIcon Foreground="Black" Symbol="Edit" />
-                                            </Button>
-                                            <Button
+                                                <FontIcon
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    FontSize="16"
+                                                    Glyph="&#xE104;" />
+                                            </HyperlinkButton>
+                                            <HyperlinkButton
                                                 x:Name="BtnDelete"
-                                                Background="Transparent"
+                                                Margin="4"
                                                 Click="CardBtnDelete_Click"
-                                                CornerRadius="3"
                                                 Visibility="Collapsed">
-                                                <SymbolIcon Foreground="Black" Symbol="Delete" />
-                                            </Button>
+                                                <FontIcon
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    FontSize="16"
+                                                    Glyph="&#xE74D;" />
+                                            </HyperlinkButton>
                                         </StackPanel>
                                     </Viewbox>
                                 </Grid>
