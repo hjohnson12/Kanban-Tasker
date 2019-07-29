@@ -2,6 +2,8 @@
 
 This Universal Windows Platform (UWP) application uses a Kanban Board to create a workflow for a specific task or multiple tasks. Still a work in progress, more features coming!
 
+***UPDATE 7/29/2019***: Work on this project will be possibly coming to a pause. I've discovered two major bugs within Syncfusions SfKanban control which prevents some essential functionality to kanban boards. The bugs are reported, and scheduled for patches, but I've been waiting on one for a while that has not been able to be fixed yet. Looking into creating my own control, but looking at the time frame before college starts back up.
+
 My initial purpose of this application was to track a single programming project and keep track of where I'm at on certain tasks 
 for that project.  
 
