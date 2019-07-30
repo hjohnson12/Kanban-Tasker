@@ -19,7 +19,7 @@ Uses a kanban UI control created by [Syncfusion](https://www.syncfusion.com). Al
  * Quick access to pane comes from hovering over the task and selecting the edit icon
    * **Note:** Tablet users need to touch and hold the task for a context menu to show (Right-click is enabled for desktop/laptop users too)
  * Tags in the pane can range in width and height. If the tag is longer than the width of the pane, it will wrap to a new row and  increase the height
-![Image of Program](KanbanTasker/Images/KanbanTasker01.PNG)
+![Image of Program](KanbanTasker/Images/KanbanTasker01.png)
 
 ##### Card design for tasks
   * Hover over a task to view the edit and delete buttons
@@ -32,20 +32,20 @@ Uses a kanban UI control created by [Syncfusion](https://www.syncfusion.com). Al
 ##### Support for multiple boards to make different uses out of each board:
   * Additional features planned
 
-![Image of Program](KanbanTasker/Images/KanbanTasker02.PNG)
+![Image of Program](KanbanTasker/Images/KanbanTasker02.png)
 
 ##### Ability to collapse columns
   * Support to collapse columns added so you're able to focus on the important tasks at hand
   * Includes in app notifications to indicate whether your insertion, deletion, or update was successfull or not
 
-![Image of Program](KanbanTasker/Images/KanbanTasker03.PNG)
+![Image of Program](KanbanTasker/Images/KanbanTasker03.png)
 
 ##### Ability to drag cards across columns for easy workflow structure
   * **Note:** Both major bugs reported to Syncfusion resides in the events in their source code for dragging to columns (Read below for more details)
   * Columns support multiple categories per column. For instance, the 'Done' column has categories *Review* and *Done*, which you will see when dragging to a column that has multiple categories 
     * Able to see the categories for the current column in the pane too
 
-![Image of Program](KanbanTasker/Images/KanbanTasker04.PNG)
+![Image of Program](KanbanTasker/Images/KanbanTasker04.png)
 
 
 
