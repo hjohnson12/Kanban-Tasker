@@ -237,7 +237,7 @@
                                             x:Name="BtnEdit"
                                             Margin="4,0,4,0"
                                             Click="CardBtnEdit_Click"
-                                            Visibility="Visible">
+                                            Visibility="Collapsed">
                                             <FontIcon
                                                 FontFamily="Segoe MDL2 Assets"
                                                 FontSize="16"
@@ -247,7 +247,7 @@
                                             x:Name="BtnDelete"
                                             Margin="4,0,4,0"
                                             Click="CardBtnDelete_Click"
-                                            Visibility="Visible">
+                                            Visibility="Collapsed">
                                             <FontIcon
                                                 FontFamily="Segoe MDL2 Assets"
                                                 FontSize="16"
