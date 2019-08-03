@@ -16,6 +16,7 @@ namespace KanbanTasker.Models
         private object _category;
         private string[] _tags;
         private string _description;
+        private string _dateCreated;
         private string _id;
         private string _boardId;
 
@@ -31,5 +32,7 @@ namespace KanbanTasker.Models
         public object Category { get => _category; set { _category = value; OnPropertyChanged(); } }
         public Uri ImageURL { get => _imageUrl; set { _imageUrl = value; OnPropertyChanged(); } }
         public object ColorKey { get => _colorKey; set { _colorKey = value; OnPropertyChanged(); } }
+
+        public string DateCreated { get => _dateCreated; set { _dateCreated = value; OnPropertyChanged(); } } 
     }
 }

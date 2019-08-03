@@ -29,6 +29,7 @@ namespace KanbanTasker.ViewModels
         private string _boardDescription;
         private string _boardNotes;
         private bool _isPointerEntered = false;
+        private bool _isEditingTask;
 
         //=====================================================================
         // CONSTRUCTOR
@@ -65,6 +66,7 @@ namespace KanbanTasker.ViewModels
                 if (_cardModel == null) // New Task
                 {
                     ID = null;
+                    DateCreated = null;
                     Title = null;
                     Description = null;
                     Category = null;
@@ -76,6 +78,7 @@ namespace KanbanTasker.ViewModels
                 else // Edit Task
                 {
                     ID = _cardModel.ID;
+                    DateCreated = _cardModel.DateCreated;
                     Title = _cardModel.Title;
                     Description = _cardModel.Description;
                     Category = _cardModel.Category.ToString();
@@ -237,6 +240,28 @@ namespace KanbanTasker.ViewModels
             }
         }
 
+        public string DateCreated
+        {
+            get
+            {
+                if (Task.DateCreated == null)
+                    return "";
+                else
+                    return Task.DateCreated;
+            }
+            set
+            {
+                Task.DateCreated = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsEditingTask
+        {
+            get { return _isEditingTask; }
+            set { _isEditingTask = value; OnPropertyChanged(); }
+        }
+
         public string BoardName
         {
             get { return _boardName; }
@@ -276,6 +301,7 @@ namespace KanbanTasker.ViewModels
         {
             // Get content ready to show in splitview pane
             OriginalCardModel = selectedModel;
+            IsEditingTask = true;
             CardModel = selectedModel;
             Categories = categories;
             ColorKeys = colorKeys;
@@ -321,6 +347,7 @@ namespace KanbanTasker.ViewModels
         public void NewTaskHelper(List<string> categories, List<string> colorKeys)
         {
             CardModel = null; // Null card for new task
+            IsEditingTask = false;
             Categories = categories;
             ColorKeys = colorKeys;
             PaneTitle = "New Task";
@@ -338,10 +365,13 @@ namespace KanbanTasker.ViewModels
 
             var boardId = App.mainViewModel.Current.BoardId.ToString();
 
+            var currentDateTime = DateTimeOffset.Now.ToString();
+
             // Create model and add to Tasks collection
             var model = new CustomKanbanModel
             {
                 BoardId = boardId,
+                DateCreated = currentDateTime,
                 Title = Title,
                 Description = Description,
                 Category = selectedCategory,
@@ -350,7 +380,7 @@ namespace KanbanTasker.ViewModels
             };
 
             // Add task to database
-            int newTaskID = DataProvider.AddTask(boardId, Title,
+            int newTaskID = DataProvider.AddTask(boardId, currentDateTime, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
 
