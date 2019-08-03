@@ -66,6 +66,7 @@ namespace KanbanTasker.ViewModels
                 if (_cardModel == null) // New Task
                 {
                     ID = null;
+                    DateCreated = null;
                     Title = null;
                     Description = null;
                     Category = null;
@@ -77,6 +78,7 @@ namespace KanbanTasker.ViewModels
                 else // Edit Task
                 {
                     ID = _cardModel.ID;
+                    DateCreated = _cardModel.DateCreated;
                     Title = _cardModel.Title;
                     Description = _cardModel.Description;
                     Category = _cardModel.Category.ToString();
@@ -363,10 +365,13 @@ namespace KanbanTasker.ViewModels
 
             var boardId = App.mainViewModel.Current.BoardId.ToString();
 
+            var currentDateTime = DateTimeOffset.Now.ToString();
+
             // Create model and add to Tasks collection
             var model = new CustomKanbanModel
             {
                 BoardId = boardId,
+                DateCreated = currentDateTime,
                 Title = Title,
                 Description = Description,
                 Category = selectedCategory,
@@ -375,7 +380,7 @@ namespace KanbanTasker.ViewModels
             };
 
             // Add task to database
-            int newTaskID = DataProvider.AddTask(boardId, Title,
+            int newTaskID = DataProvider.AddTask(boardId, currentDateTime, Title,
                 Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
 
