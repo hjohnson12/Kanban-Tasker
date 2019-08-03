@@ -39,7 +39,7 @@
         </Grid>
 
         <NavigationView
-            x:Name="nvSample"
+            x:Name="kanbanNavView"
             Grid.Row="1"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
