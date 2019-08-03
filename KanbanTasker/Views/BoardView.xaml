@@ -200,12 +200,14 @@
                         CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
 
                         <Grid>
-                            <Grid Grid.ColumnSpan="1" Margin="8,5,2,2">
+                            <Grid Margin="8,5,2,2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="3*" />
                                     <RowDefinition Height="4*" />
                                     <RowDefinition Height="3*" />
                                 </Grid.RowDefinitions>
+
+                                <!--  Card Title & Buttons Row  -->
                                 <Grid Grid.Row="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
@@ -228,38 +230,33 @@
                                         Text="{Binding Title}"
                                         TextWrapping="Wrap"
                                         ToolTipService.ToolTip="{Binding Title}" />
-                                    <Viewbox
-                                        Grid.Column="1"
-                                        Margin="0,0,0,0"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Stretch="Uniform"
-                                        StretchDirection="Both">
-                                        <StackPanel Orientation="Horizontal">
-                                            <HyperlinkButton
-                                                x:Name="BtnEdit"
-                                                Margin="4"
-                                                Click="CardBtnEdit_Click"
-                                                Visibility="Collapsed">
-                                                <FontIcon
-                                                    FontFamily="Segoe MDL2 Assets"
-                                                    FontSize="16"
-                                                    Glyph="&#xE104;" />
-                                            </HyperlinkButton>
-                                            <HyperlinkButton
-                                                x:Name="BtnDelete"
-                                                Margin="4"
-                                                Click="CardBtnDelete_Click"
-                                                Visibility="Collapsed">
-                                                <FontIcon
-                                                    FontFamily="Segoe MDL2 Assets"
-                                                    FontSize="16"
-                                                    Glyph="&#xE74D;" />
-                                            </HyperlinkButton>
-                                        </StackPanel>
-                                    </Viewbox>
+
+                                    <!--  Card Buttons  -->
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <HyperlinkButton
+                                            x:Name="BtnEdit"
+                                            Margin="4,0,4,0"
+                                            Click="CardBtnEdit_Click"
+                                            Visibility="Visible">
+                                            <FontIcon
+                                                FontFamily="Segoe MDL2 Assets"
+                                                FontSize="16"
+                                                Glyph="&#xE104;" />
+                                        </HyperlinkButton>
+                                        <HyperlinkButton
+                                            x:Name="BtnDelete"
+                                            Margin="4,0,4,0"
+                                            Click="CardBtnDelete_Click"
+                                            Visibility="Visible">
+                                            <FontIcon
+                                                FontFamily="Segoe MDL2 Assets"
+                                                FontSize="16"
+                                                Glyph="&#xE74D;" />
+                                        </HyperlinkButton>
+                                    </StackPanel>
                                 </Grid>
 
+                                <!--  Card Description Row  -->
                                 <Grid Grid.Row="1">
                                     <TextBlock
                                         x:Name="KANBAN_Description"
@@ -272,11 +269,13 @@
                                         TextWrapping="Wrap" />
                                 </Grid>
 
+                                <!--  Card Tags & Indicator Row  -->
                                 <Grid Grid.Row="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
+
                                     <!--  Card Tags - Custom way  -->
                                     <ListView
                                         Grid.Column="0"
@@ -331,6 +330,7 @@
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </ListView>
+
                                     <Border
                                         Grid.Column="1"
                                         Width="30"
@@ -351,58 +351,6 @@
                                     </Border>
                                 </Grid>
 
-                                <!--<syncfusion:TagsStackPanel
-                                    x:Name="KANBAN_TagsPanel"
-                                    Height="Auto"
-                                    ContentTemplate="{StaticResource TagsTemplate}"
-                                    DataContext="{Binding}"
-                                    Orientation="Horizontal"
-                                    TagsCollection="{Binding Tags}" />-->
-                                <!--
-                            </ScrollViewer>-->
-                            </Grid>
-                            <Grid>
-                                <!--<Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="3*" />
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>-->
-
-                                <Border
-                                    x:Name="KANBAN_ProfileIcon"
-                                    Grid.Row="1"
-                                    Width="50"
-                                    Height="50"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    BorderBrush="#FFE4E5E6"
-                                    BorderThickness="1.5"
-                                    CornerRadius="50"
-                                    Visibility="{Binding Tag.CardStyle.IconVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                    <Border.Background>
-                                        <ImageBrush ImageSource="{Binding ImageURL}" Stretch="Fill" />
-                                    </Border.Background>
-                                </Border>
-
-                                <Border
-                                    Grid.Row="2"
-                                    Width="30"
-                                    Height="30"
-                                    Margin="0,0,-1,-1"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"
-                                    BorderThickness="0"
-                                    CornerRadius="0,0,6,0"
-                                    DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                    Visibility="{Binding Tag.CardStyle.IndicatorVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                            <GradientStop Offset="0.5" Color="Transparent" />
-                                            <GradientStop Offset="0.5" Color="{Binding Tag.IndicatorColor}" />
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                </Border>
                             </Grid>
                         </Grid>
                     </Border>
