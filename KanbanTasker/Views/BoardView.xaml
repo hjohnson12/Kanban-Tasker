@@ -232,7 +232,11 @@
                                         ToolTipService.ToolTip="{Binding Title}" />
 
                                     <!--  Card Buttons  -->
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Orientation="Horizontal">
                                         <HyperlinkButton
                                             x:Name="BtnEdit"
                                             Margin="4,0,4,0"
