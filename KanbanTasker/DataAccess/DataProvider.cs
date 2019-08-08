@@ -36,7 +36,7 @@ namespace KanbanTasker.DataAccess
             }
         }
 
-        public static void UpdateColumnData(CustomKanbanModel selectedCardModel)
+        public static void UpdateColumnData(CustomKanbanModel selectedCardModel, string targetCategory)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=ktdatabase.db"))
@@ -46,7 +46,7 @@ namespace KanbanTasker.DataAccess
                 // Update task column/category when dragged to new column/category
                 SqliteCommand updateCommand = new SqliteCommand
                     ("UPDATE tblTasks SET Category=@category WHERE Id=@id", db);
-                updateCommand.Parameters.AddWithValue("@category", selectedCardModel.Category);
+                updateCommand.Parameters.AddWithValue("@category", targetCategory);
                 updateCommand.Parameters.AddWithValue("@id", selectedCardModel.ID);
                 updateCommand.ExecuteNonQuery();
 

@@ -331,8 +331,8 @@ namespace KanbanTasker.ViewModels
             //    item.Category = targetCategory;
             //}
 
-            selectedCardModel.Category = targetCategory;
-            DataProvider.UpdateColumnData(selectedCardModel);
+            //selectedCardModel.Category = targetCategory;
+            DataProvider.UpdateColumnData(selectedCardModel, targetCategory);
         }
     }
 }

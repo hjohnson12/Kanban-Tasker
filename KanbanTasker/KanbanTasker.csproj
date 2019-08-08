@@ -188,7 +188,7 @@
       <Version>1.1.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.SfKanban.UWP">
-      <Version>17.1.0.50</Version>
+      <Version>17.2.0.40</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
