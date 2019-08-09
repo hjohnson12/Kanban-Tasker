@@ -57,21 +57,28 @@ namespace KanbanTasker.ViewModels
 
         public void CreateBoard()
         {
-            // Create board
-            BoardViewModel newBoard = new BoardViewModel
+            if (BoardName == null || BoardNotes == null)
             {
-                BoardName = BoardName,
-                BoardNotes = BoardNotes
-            };
+                return;
+            }
+            else if (BoardName != null && BoardNotes != null)
+            {
+                // Create board
+                BoardViewModel newBoard = new BoardViewModel
+                {
+                    BoardName = BoardName,
+                    BoardNotes = BoardNotes
+                };
 
-            // Add board to db and collection
-            int newBoardId = DataProvider.AddBoard(BoardName, BoardNotes);
-            newBoard.BoardId = newBoardId.ToString();
-            newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
-            foreach (var task in allTasks)
-                if (task.BoardId == newBoardId.ToString())
-                    newBoard.Tasks.Add(task);
-            BoardList.Add(newBoard);
+                // Add board to db and collection
+                int newBoardId = DataProvider.AddBoard(BoardName, BoardNotes);
+                newBoard.BoardId = newBoardId.ToString();
+                newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
+                foreach (var task in allTasks)
+                    if (task.BoardId == newBoardId.ToString())
+                        newBoard.Tasks.Add(task);
+                BoardList.Add(newBoard);
+            }
         }
 
         public ObservableCollection<BoardViewModel> BoardList

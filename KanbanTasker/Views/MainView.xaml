@@ -69,10 +69,16 @@
             </NavigationView.MenuItemTemplate>
 
             <NavigationView.PaneFooter>
-                <AppBarButton
-                    Width="40"
-                    Icon="Delete"
-                    ToolTipService.ToolTip="Delete Current Board" />
+                <StackPanel Orientation="Horizontal">
+                    <AppBarButton
+                        Width="40"
+                        Icon="Edit"
+                        ToolTipService.ToolTip="Edit Current Board" />
+                    <AppBarButton
+                        Width="40"
+                        Icon="Delete"
+                        ToolTipService.ToolTip="Delete Current Board" />
+                </StackPanel>
             </NavigationView.PaneFooter>
 
             <NavigationView.PaneCustomContent>
