@@ -398,5 +398,18 @@ namespace KanbanTasker.ViewModels
             TagsCollection.Remove(tagName);
             return (TagsCollection.Count == (originalCount - 1)) ? true : false;
         }
+
+        public void UpdateCardColumn(string targetCategory, CustomKanbanModel selectedCardModel)
+        {
+            // Update card category when dragged to new column, and update in database
+            //var item = Tasks.FirstOrDefault(i => i.ID == selectedCardModel.ID);
+            //if (item != null)
+            //{
+            //    item.Category = targetCategory;
+            //}
+
+            //selectedCardModel.Category = targetCategory;
+            DataProvider.UpdateColumnData(selectedCardModel, targetCategory);
+        }
     }
 }
