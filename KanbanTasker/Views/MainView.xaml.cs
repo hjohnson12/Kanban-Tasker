@@ -52,5 +52,9 @@ namespace KanbanTasker.Views
             tagFlyout.Hide();
         }
 
+        private void BtnCloseEditBoardFlyout_Click(object sender, RoutedEventArgs e)
+        {
+            editBoardFlyout.Hide();
+        }
     }
 }
