@@ -715,8 +715,7 @@
                 BorderBrush="{StaticResource RegionBrush}"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
-                MaxColumnWidth="800">
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}" CardDragEnd="KanbanBoard_CardDragEnd">
 
                 <syncfusion:SfKanban.ColumnHeaderTemplate>
                     <DataTemplate>
