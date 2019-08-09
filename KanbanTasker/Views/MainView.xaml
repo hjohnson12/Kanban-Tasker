@@ -17,7 +17,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid
@@ -371,21 +370,6 @@
             </NavigationView.PaneCustomContent>
             <Frame x:Name="contentFrame" />
         </NavigationView>
-        <Grid Grid.Row="2" Background="{ThemeResource RegionBrush}">
-            <Rectangle
-                Height="8"
-                HorizontalAlignment="Stretch"
-                IsHitTestVisible="False"
-                Opacity="0.2"
-                Visibility="Visible">
-                <Rectangle.Fill>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Offset="1" />
-                        <GradientStop Offset="0" Color="Black" />
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-            </Rectangle>
-        </Grid>
-        <kbcontrol:BoardView Grid.Row="3" />
+        <kbcontrol:BoardView Grid.Row="2" />
     </Grid>
 </Page>

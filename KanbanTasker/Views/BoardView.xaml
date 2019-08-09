@@ -703,9 +703,28 @@
         </SplitView.Pane>
 
         <Grid x:Name="grid" Background="{ThemeResource RegionBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Rectangle
+                Grid.Row="0"
+                Height="9"
+                HorizontalAlignment="Stretch"
+                IsHitTestVisible="False"
+                Opacity="0.3"
+                Visibility="Visible">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="1" />
+                        <GradientStop Offset="0" Color="Black" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
             <!--  KANBAN BOARD  -->
             <syncfusion:SfKanban
                 x:Name="kanbanBoard"
+                Grid.Row="1"
                 Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -713,9 +732,10 @@
                 AutoGenerateColumns="False"
                 Background="{ThemeResource RegionBrush}"
                 BorderBrush="{StaticResource RegionBrush}"
+                CardDragEnd="KanbanBoard_CardDragEnd"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}" CardDragEnd="KanbanBoard_CardDragEnd">
+                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}">
 
                 <syncfusion:SfKanban.ColumnHeaderTemplate>
                     <DataTemplate>
