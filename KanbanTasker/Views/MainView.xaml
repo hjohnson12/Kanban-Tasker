@@ -227,6 +227,7 @@
                     x:Name="btnOpenNewBoardFlyout"
                     Width="40"
                     VerticalAlignment="Center"
+                    AllowFocusOnInteraction="True"
                     Icon="Add"
                     Style="{ThemeResource AppBarButtonCustomStyle}"
                     ToolTipService.ToolTip="Create new board">
