@@ -223,16 +223,14 @@
             </NavigationView.PaneFooter>
 
             <NavigationView.PaneCustomContent>
-                <Button
+                <AppBarButton
                     x:Name="btnOpenNewBoardFlyout"
                     Width="40"
-                    Height="30"
                     VerticalAlignment="Center"
-                    Background="Transparent"
-                    BorderThickness="0"
+                    Icon="Add"
+                    Style="{ThemeResource AppBarButtonCustomStyle}"
                     ToolTipService.ToolTip="Create new board">
-                    <SymbolIcon Symbol="Add" />
-                    <Button.Flyout>
+                    <AppBarButton.Flyout>
                         <Flyout x:Name="tagFlyout" Placement="Bottom">
                             <Flyout.FlyoutPresenterStyle>
                                 <Style TargetType="FlyoutPresenter">
@@ -364,8 +362,8 @@
                                 </Grid>
                             </Grid>
                         </Flyout>
-                    </Button.Flyout>
-                </Button>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
 
             </NavigationView.PaneCustomContent>
             <Frame x:Name="contentFrame" />
