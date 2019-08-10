@@ -49,12 +49,29 @@ namespace KanbanTasker.Views
 
         private void BtnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
         {
-            tagFlyout.Hide();
+            newBoardFlyout.Hide();
         }
 
         private void BtnCloseEditBoardFlyout_Click(object sender, RoutedEventArgs e)
         {
             editBoardFlyout.Hide();
+        }
+
+        private void FlyoutBtnCreateNewBoard_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CreateBoard();
+            newBoardFlyout.Hide();
+        }
+
+        private void NewBoardFlyout_Opening(object sender, object e)
+        {
+            ResetNewBoardFlyout();
+        }
+
+        private void ResetNewBoardFlyout()
+        {
+            ViewModel.BoardName = "";
+            ViewModel.BoardNotes = "";
         }
     }
 }

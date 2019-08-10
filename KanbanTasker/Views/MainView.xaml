@@ -232,7 +232,10 @@
                     Style="{ThemeResource AppBarButtonCustomStyle}"
                     ToolTipService.ToolTip="Create new board">
                     <AppBarButton.Flyout>
-                        <Flyout x:Name="tagFlyout" Placement="Bottom">
+                        <Flyout
+                            x:Name="newBoardFlyout"
+                            Opening="NewBoardFlyout_Opening"
+                            Placement="Bottom">
                             <Flyout.FlyoutPresenterStyle>
                                 <Style TargetType="FlyoutPresenter">
                                     <Setter Property="CornerRadius" Value="3" />
@@ -297,6 +300,7 @@
                                         FontWeight="Bold"
                                         Text="Board Name:" />
                                     <TextBox
+                                        x:Name="txtBoxNewBoardName"
                                         Grid.Row="0"
                                         Width="300"
                                         HorizontalAlignment="Center"
@@ -313,6 +317,7 @@
                                     </StackPanel>
                                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                                         <TextBox
+                                            x:Name="txtBoxNewBoardNotes"
                                             Height="200"
                                             MaxHeight="150"
                                             AcceptsReturn="True"
@@ -342,12 +347,12 @@
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal">
                                             <AppBarButton
-                                                x:Name="btnCreateNewBoard"
+                                                x:Name="flyoutBtnCreateNewBoard"
                                                 Grid.Column="0"
                                                 Margin="0,8,12,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Click="{x:Bind ViewModel.CreateBoard}"
+                                                Click="FlyoutBtnCreateNewBoard_Click"
                                                 Icon="Save"
                                                 Label="Create" />
                                             <AppBarButton
