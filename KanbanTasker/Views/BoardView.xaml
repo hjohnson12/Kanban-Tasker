@@ -339,7 +339,7 @@
                                         Grid.Column="1"
                                         Width="30"
                                         Height="30"
-                                        Margin="0,0,-2,-2"
+                                        Margin="0,0,-3,-3"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Bottom"
                                         BorderThickness="0"
