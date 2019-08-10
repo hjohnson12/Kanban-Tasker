@@ -704,13 +704,14 @@
 
         <Grid x:Name="grid" Background="{ThemeResource RegionBrush}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="9" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Rectangle
                 Grid.Row="0"
                 Height="9"
                 HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
                 IsHitTestVisible="False"
                 Opacity="0.3"
                 Visibility="Visible">
@@ -913,11 +914,12 @@
 
             <!--  Shadow on left side of pane  -->
             <Rectangle
+                Grid.RowSpan="2"
                 Width="12"
                 Margin="-12,0,0,0"
                 HorizontalAlignment="Right"
                 IsHitTestVisible="False"
-                Opacity="0.1"
+                Opacity="0.2"
                 Visibility="{x:Bind splitView.IsPaneOpen, Mode=OneWay}">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="1,0" EndPoint="0,0">
@@ -929,11 +931,13 @@
 
             <controls:InAppNotification
                 x:Name="KanbanInAppNotification"
+                Grid.Row="1"
                 Width="550"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 BorderThickness="1"
-                Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
+                Style="{StaticResource CustomKanbanInAppNotificationStyle}"
+                Visibility="Visible" />
         </Grid>
     </SplitView>
 </UserControl>
