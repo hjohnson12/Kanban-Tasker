@@ -44,12 +44,6 @@
                 FontWeight="Bold"
                 Foreground="Gray"
                 Text="{x:Bind ViewModel.Current.BoardName, Mode=OneWay}" />
-            <!--<Image
-                Grid.Column="1"
-                Margin="8,8,8,2"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png" />-->
         </Grid>
 
         <NavigationView
@@ -91,7 +85,7 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
 
-                                    <!--  Flyout Header  -->
+                                    <!--  Edit Board Flyout Header  -->
                                     <StackPanel Grid.Row="0" Orientation="Vertical">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -127,7 +121,7 @@
                                             BorderThickness="0.5" />
                                     </StackPanel>
 
-                                    <!--  Flyout Body  -->
+                                    <!--  Edit Board Flyout Body  -->
                                     <StackPanel
                                         Grid.Row="1"
                                         Margin="0,16,0,12"
@@ -167,7 +161,7 @@
                                         </ScrollViewer>
                                     </StackPanel>
 
-                                    <!--  Flyout Footer  -->
+                                    <!--  Edit Board Flyout Footer  -->
                                     <Grid Grid.Row="2" Margin="0,12,0,0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
@@ -250,7 +244,7 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
 
-                                <!--  Flyout Header  -->
+                                <!--  New Board Flyout Header  -->
                                 <StackPanel Grid.Row="0" Orientation="Vertical">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -286,7 +280,7 @@
                                         BorderThickness="0.5" />
                                 </StackPanel>
 
-                                <!--  Flyout Body  -->
+                                <!--  New Board Flyout Body  -->
                                 <StackPanel
                                     Grid.Row="1"
                                     Margin="0,16,0,12"
@@ -329,7 +323,7 @@
                                     </ScrollViewer>
                                 </StackPanel>
 
-                                <!--  Flyout Footer  -->
+                                <!--  New Board Flyout Footer  -->
                                 <Grid Grid.Row="2" Margin="0,12,0,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
