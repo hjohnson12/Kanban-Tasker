@@ -212,8 +212,11 @@
                         Width="40"
                         Icon="Delete"
                         ToolTipService.ToolTip="Delete Current Board" />
+                    <AppBarSeparator />
                     <AppBarButton
+                        x:Name="btnSettings"
                         Width="40"
+                        Click="BtnSettings_Click"
                         Icon="Setting"
                         ToolTipService.ToolTip="Settings" />
                 </StackPanel>

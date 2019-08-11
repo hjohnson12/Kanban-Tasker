@@ -73,5 +73,11 @@ namespace KanbanTasker.Views
             ViewModel.BoardName = "";
             ViewModel.BoardNotes = "";
         }
+
+        private async void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SettingsView();
+            var result = await dialog.ShowAsync();
+        }
     }
 }

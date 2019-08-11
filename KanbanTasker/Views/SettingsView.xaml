@@ -1,0 +1,99 @@
+﻿<ContentDialog
+    x:Class="KanbanTasker.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:KanbanTasker.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Settings"
+    Background="{ThemeResource RegionBrush}"
+    BorderThickness="1"
+    CornerRadius="3"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    mc:Ignorable="d">
+    <ContentDialog.TitleTemplate>
+        <DataTemplate>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding}" />
+                <Button
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="BtnCloseSettings_Click"
+                    CornerRadius="3">
+                    <SymbolIcon Symbol="Cancel" />
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </ContentDialog.TitleTemplate>
+    <Grid>
+        <Pivot>
+            <PivotItem Header="About">
+                <Grid>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                        <Image
+                            Height="55"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png"
+                            Stretch="Uniform" />
+                        <TextBlock
+                            Margin="0,5,0,5"
+                            HorizontalAlignment="Center"
+                            Text="Developed by Hunter Johnson" />
+
+                        <HyperlinkButton
+                            Margin="0,5,0,5"
+                            HorizontalAlignment="Center"
+                            Content="Contribute to Kanban Tasker's source code"
+                            NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
+                            Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                        <HyperlinkButton
+                            Margin="0,5,0,5"
+                            HorizontalAlignment="Center"
+                            Content="Feedback"
+                            NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
+                            Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                        <HyperlinkButton
+                            Margin="0,5,0,5"
+                            HorizontalAlignment="Center"
+                            Content="Rate and Review"
+                            NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
+                            Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                    </StackPanel>
+                </Grid>
+            </PivotItem>
+            <!--<PivotItem Header="Options">
+                <TextBlock Text="unread emails go here." />
+            </PivotItem>-->
+        </Pivot>
+        <!--<Grid>
+            <StackPanel
+                Margin="10"
+                HorizontalAlignment="Center"
+                Orientation="Vertical">
+                <Image
+                    Height="70"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png"
+                    Stretch="Uniform" />
+                <TextBlock
+                    Margin="0,5,0,5"
+                    HorizontalAlignment="Center"
+                    Text="Developed by Hunter Johnson" />
+                <HyperlinkButton
+                    Margin="0,5,0,5"
+                    HorizontalAlignment="Center"
+                    Content="Contribute to Kanban Tasker's source code"
+                    Foreground="White"
+                    NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP" />
+            </StackPanel>
+        </Grid>-->
+    </Grid>
+</ContentDialog>

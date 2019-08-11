@@ -241,6 +241,7 @@
                                             x:Name="BtnEdit"
                                             Margin="4,0,4,0"
                                             Click="CardBtnEdit_Click"
+                                            Style="{ThemeResource CardHyperlinkButtonStyle}"
                                             Visibility="Collapsed">
                                             <FontIcon
                                                 FontFamily="Segoe MDL2 Assets"
@@ -251,6 +252,7 @@
                                             x:Name="BtnDelete"
                                             Margin="4,0,4,0"
                                             Click="CardBtnDelete_Click"
+                                            Style="{ThemeResource CardHyperlinkButtonStyle}"
                                             Visibility="Collapsed">
                                             <FontIcon
                                                 FontFamily="Segoe MDL2 Assets"

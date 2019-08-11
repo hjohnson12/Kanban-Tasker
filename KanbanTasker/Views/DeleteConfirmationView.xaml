@@ -7,15 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Delete Confirmation"
     Background="{ThemeResource RegionBrush}"
+    BorderThickness="1"
     CornerRadius="3"
     PrimaryButtonText="Yes"
     SecondaryButtonText="No"
     mc:Ignorable="d">
-    <ContentDialog.Resources>
-        <Style TargetType="ContentDialog">
-            <Setter Property="BorderThickness" Value="1" />
-        </Style>
-    </ContentDialog.Resources>
     <ContentDialog.TitleTemplate>
         <DataTemplate>
             <Grid>
