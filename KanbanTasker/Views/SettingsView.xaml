@@ -8,8 +8,11 @@
     Title="Settings"
     Background="{ThemeResource RegionBrush}"
     BorderThickness="1"
+    CloseButtonText="Close"
     CornerRadius="3"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonText="Ok"
+    Style="{ThemeResource SettingsDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.TitleTemplate>
         <DataTemplate>
@@ -21,6 +24,7 @@
                 <TextBlock Grid.Column="0" Text="{Binding}" />
                 <Button
                     Grid.Column="1"
+                    Margin="0,4,0,0"
                     HorizontalAlignment="Right"
                     Background="Transparent"
                     BorderThickness="0"
@@ -31,7 +35,7 @@
             </Grid>
         </DataTemplate>
     </ContentDialog.TitleTemplate>
-    <Grid>
+    <Grid Margin="0,4,0,0">
         <Pivot>
             <PivotItem Header="About">
                 <Grid>
@@ -43,24 +47,24 @@
                             Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png"
                             Stretch="Uniform" />
                         <TextBlock
-                            Margin="0,5,0,5"
+                            Margin="0,4,0,4"
                             HorizontalAlignment="Center"
                             Text="Developed by Hunter Johnson" />
 
                         <HyperlinkButton
-                            Margin="0,5,0,5"
+                            Margin="0,4,0,4"
                             HorizontalAlignment="Center"
                             Content="Contribute to Kanban Tasker's source code"
                             NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                         <HyperlinkButton
-                            Margin="0,5,0,5"
+                            Margin="0,4,0,4"
                             HorizontalAlignment="Center"
                             Content="Feedback"
                             NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                         <HyperlinkButton
-                            Margin="0,5,0,5"
+                            Margin="0,4,0,0"
                             HorizontalAlignment="Center"
                             Content="Rate and Review"
                             NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
