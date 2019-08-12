@@ -76,6 +76,7 @@
                 <Grid Margin="0,8,0,0">
                     <StackPanel Orientation="Vertical">
                         <TextBlock FontWeight="Bold" Text="THEME" />
+                        <TextBlock Text="(App requires restart)" />
                         <RadioButton x:Name="LightThemeRadioButton" Content="Light Theme" />
                         <RadioButton x:Name="DarkThemeRadioButton" Content="Dark Theme" />
                     </StackPanel>
