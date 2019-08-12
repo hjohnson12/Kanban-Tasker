@@ -10,13 +10,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources\CustomMSEdgeNotificationStyle.xaml" />
                 <ResourceDictionary Source="Resources\SettingsDialogCustomStyle.xaml" />
+                <ResourceDictionary Source="Resources\KanbanThemeDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <AcrylicBrush
+            <!--<AcrylicBrush
                 x:Key="RegionBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="#1e2328"
                 TintColor="#1e2328"
-                TintOpacity="0.8" />
+                TintOpacity="0.8" />-->
 
             <!--  Added to override content dialog overlay background  -->
             <SolidColorBrush
