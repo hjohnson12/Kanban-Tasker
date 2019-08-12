@@ -35,7 +35,7 @@
             </Grid>
         </DataTemplate>
     </ContentDialog.TitleTemplate>
-    <Grid Margin="0,4,0,0">
+    <Grid Margin="0,8,0,0">
         <Pivot>
             <PivotItem Header="About">
                 <Grid>
@@ -72,32 +72,16 @@
                     </StackPanel>
                 </Grid>
             </PivotItem>
-            <!--<PivotItem Header="Options">
-                <TextBlock Text="unread emails go here." />
-            </PivotItem>-->
+            <PivotItem Header="General">
+                <Grid Margin="0,8,0,0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontWeight="Bold" Text="THEME" />
+                        <RadioButton x:Name="LightThemeRadioButton" Content="Light Theme" />
+                        <RadioButton x:Name="DarkThemeRadioButton" Content="Dark Theme" />
+                    </StackPanel>
+                </Grid>
+            </PivotItem>
         </Pivot>
-        <!--<Grid>
-            <StackPanel
-                Margin="10"
-                HorizontalAlignment="Center"
-                Orientation="Vertical">
-                <Image
-                    Height="70"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png"
-                    Stretch="Uniform" />
-                <TextBlock
-                    Margin="0,5,0,5"
-                    HorizontalAlignment="Center"
-                    Text="Developed by Hunter Johnson" />
-                <HyperlinkButton
-                    Margin="0,5,0,5"
-                    HorizontalAlignment="Center"
-                    Content="Contribute to Kanban Tasker's source code"
-                    Foreground="White"
-                    NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP" />
-            </StackPanel>
-        </Grid>-->
+
     </Grid>
 </ContentDialog>
