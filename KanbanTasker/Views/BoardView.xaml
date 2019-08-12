@@ -715,7 +715,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
                 IsHitTestVisible="False"
-                Opacity="0.3"
+                Opacity="0.2"
                 Visibility="Visible">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
