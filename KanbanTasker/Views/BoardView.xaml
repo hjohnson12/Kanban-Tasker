@@ -22,12 +22,12 @@
                 Opacity="0.8"
                 TargetTheme="Light"
                 Color="AliceBlue" />
-            <AcrylicBrush
+            <!--<AcrylicBrush
                 x:Key="PaneBackgroundAcrylicBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="#2c333a"
                 TintColor="#2c333a"
-                TintOpacity="0.7" />
+                TintOpacity="0.7" />-->
             <Rectangle
                 x:Key="paneRect"
                 Width="12"
@@ -56,10 +56,11 @@
                     <Line
                         Grid.Column="0"
                         HorizontalAlignment="Left"
+                        Opacity="0.7"
                         Stretch="Fill"
-                        Stroke="{TemplateBinding BorderBrush}"
+                        Stroke="{ThemeResource DefaultTextForegroundThemeBrush}"
                         StrokeDashOffset="1"
-                        StrokeThickness="1.5"
+                        StrokeThickness="1.0"
                         X1="0"
                         X2="0"
                         Y1="0"
@@ -67,10 +68,11 @@
                     <Line
                         Grid.Column="2"
                         HorizontalAlignment="Right"
+                        Opacity="0.7"
                         Stretch="Fill"
-                        Stroke="{TemplateBinding BorderBrush}"
+                        Stroke="{ThemeResource DefaultTextForegroundThemeBrush}"
                         StrokeDashOffset="1"
-                        StrokeThickness="1.5"
+                        StrokeThickness="1.0"
                         X1="0"
                         X2="0"
                         Y1="0"
@@ -111,7 +113,7 @@
                                     Data="M129.843,187.893 L141.871,195.519 L130.236,203.308"
                                     IsHitTestVisible="False"
                                     Stretch="Fill"
-                                    Stroke="White"
+                                    Stroke="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     StrokeLineJoin="Miter"
                                     StrokeThickness="1.5"
                                     UseLayoutRounding="False" />
@@ -124,7 +126,7 @@
                                 VerticalAlignment="Top"
                                 FontSize="13"
                                 FontWeight="Normal"
-                                Foreground="White"
+                                Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                 Text="{Binding Cards.Count, Converter={StaticResource HeaderConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
@@ -139,7 +141,7 @@
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="White"
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
@@ -444,7 +446,7 @@
                             Margin="0,20,0,8"
                             FontSize="15"
                             FontWeight="Bold"
-                            Foreground="White"
+                            Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                             Text="Title" />
                         <TextBox
                             x:Name="txtBoxTitle"
@@ -764,7 +766,7 @@
                                     VerticalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="White"
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     Text="{Binding Header}"
                                     TextWrapping="NoWrap" />
                                 <Button
@@ -789,21 +791,21 @@
                                     Margin="0,2,0,5"
                                     VerticalAlignment="Center"
                                     FontSize="14"
-                                    Foreground="White"
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     Text="{Binding [ItemsCount]}"
                                     TextWrapping="WrapWholeWords" />
                                 <TextBlock
                                     Margin="5,2,0,5"
                                     VerticalAlignment="Center"
                                     FontSize="14"
-                                    Foreground="White"
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     Text="{Binding CardCount}"
                                     TextWrapping="WrapWholeWords" />
                                 <TextBlock
                                     Margin="0,2,0,5"
                                     VerticalAlignment="Center"
                                     FontSize="14"
-                                    Foreground="White"
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, ConverterParameter=MinMaxLimit, Converter={StaticResource cardCountConverter}}"
                                     TextWrapping="WrapWholeWords" />
                             </StackPanel>
@@ -818,7 +820,7 @@
                                     HorizontalAlignment="Right"
                                     Data="M172.444,310.778 L158.444,317.111 L171.222,324.222"
                                     Stretch="Fill"
-                                    Stroke="White"
+                                    Stroke="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     StrokeLineJoin="Miter"
                                     StrokeThickness="2"
                                     UseLayoutRounding="False">
