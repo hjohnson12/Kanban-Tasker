@@ -89,12 +89,12 @@
                     <Color x:Key="SystemChromeAltHighColor">#FFFFFFFF</Color>
                     <Color x:Key="SystemRevealListLowColor">#FFE6E6E6</Color>
                     <Color x:Key="SystemRevealListMediumColor">#FFCCCCCC</Color>
-                    <!--<AcrylicBrush
+                    <AcrylicBrush
                         x:Key="PaneBackgroundAcrylicBrush"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="#2c333a"
-                        TintColor="#2c333a"
-                        TintOpacity="0.7" />-->
+                        FallbackColor="#D6D6D6"
+                        TintColor="#D6D6D6"
+                        TintOpacity="0.7" />
                     <RevealBackgroundBrush
                         x:Key="SystemControlHighlightListLowRevealBackgroundBrush"
                         FallbackColor="{StaticResource SystemListMediumColor}"
@@ -104,8 +104,8 @@
                     <AcrylicBrush
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="#D6DBD5"
-                        TintColor="#D6DBD5"
+                        FallbackColor="#D1D1D1"
+                        TintColor="#D1D1D1"
                         TintOpacity="0.8" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
