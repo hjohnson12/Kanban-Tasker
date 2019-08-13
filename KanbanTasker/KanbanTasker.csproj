@@ -210,7 +210,7 @@
       <Version>1.1.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.SfKanban.UWP">
-      <Version>17.2.0.40</Version>
+      <Version>17.2.0.41</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
