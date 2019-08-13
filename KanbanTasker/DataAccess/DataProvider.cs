@@ -207,7 +207,7 @@ namespace KanbanTasker.DataAccess
             return boards;
         }
 
-        public static void UpdateTask(string id, string title, string descr, string category, string columnIndex, string colorKey, string tags)
+        public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=ktdatabase.db"))
@@ -216,7 +216,7 @@ namespace KanbanTasker.DataAccess
 
                 // Update item
                 SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColumnIndex=@columnIndex, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
+                    ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
                 updateCommand.Parameters.AddWithValue("@title", title);
                 updateCommand.Parameters.AddWithValue("@desc", descr);
                 updateCommand.Parameters.AddWithValue("@categ", category);

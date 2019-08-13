@@ -330,7 +330,7 @@ namespace KanbanTasker.ViewModels
 
             // Update item in database
             DataProvider.UpdateTask(ID, Title,
-                Description, selectedCategory.ToString(), "",
+                Description, selectedCategory.ToString(), 
                 selectedColorKey.ToString(), tags);
         }
 
