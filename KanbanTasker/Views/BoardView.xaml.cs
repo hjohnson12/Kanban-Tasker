@@ -349,7 +349,30 @@ namespace KanbanTasker.Views
 
                 var selectedCategory = comboBoxCategories.SelectedItem;
                 var selectedColorKey = comboBoxColorKey.SelectedItem;
-                var addSuccess = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
+
+                // Returns a tuple (bool addSuccess, int id)
+                var returnValues = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
+                var addSuccess = returnValues.Item1;
+                var newTaskId = returnValues.Item2;
+               // var addSuccess = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
+           
+                // Get column index of card just added
+                foreach (var col in kanbanBoard.ActualColumns)
+                {
+                    foreach (var card in col.Cards)
+                    {
+                        var currentModel = card.Content as CustomKanbanModel;
+                        if(currentModel.ID == newTaskId.ToString())
+                        {
+                            // Get column index
+                            var currentCardIndex = col.Cards.IndexOf(card);
+                            currentModel.ColumnIndex = currentCardIndex.ToString();
+
+                            // Add the column index to the database entry
+                            ViewModel.UpdateCardIndex(currentModel.ID, currentCardIndex);
+                        }
+                    }
+                }
 
                 // Close pane when done
                 if (splitView.IsPaneOpen == true)
@@ -453,8 +476,8 @@ namespace KanbanTasker.Views
             // ObservableCollection Tasks already updated
             var targetCategory = e.TargetKey.ToString();
             var selectedCardModel = e.SelectedCard.Content as CustomKanbanModel;
-            ViewModel.UpdateCardColumn(targetCategory, selectedCardModel);
+            var targetCardIndex = e.TargetCardIndex.ToString();
+            ViewModel.UpdateCardColumn(targetCategory, selectedCardModel, targetCardIndex);
         }
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using KanbanTasker.Models;
 using KanbanTasker.ViewModels;
 using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.ObjectModel;
 
 namespace KanbanTasker.DataAccess
@@ -22,6 +23,7 @@ namespace KanbanTasker.DataAccess
                     "Title NVARCHAR(2048) NULL, " +
                     "Description NVARCHAR(2048) NULL, " +
                     "Category NVARCHAR(2048) NULL, " +
+                    "ColumnIndex INTEGER NULL, " + 
                     "ColorKey NVARCHAR(2048) NULL, " +
                     "Tags NVARCHAR(2048) NULL)";
 
@@ -39,7 +41,7 @@ namespace KanbanTasker.DataAccess
             }
         }
 
-        public static void UpdateColumnData(CustomKanbanModel selectedCardModel, string targetCategory)
+        public static void UpdateColumnData(CustomKanbanModel selectedCardModel, string targetCategory, string targetIndex)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=ktdatabase.db"))
@@ -48,8 +50,9 @@ namespace KanbanTasker.DataAccess
 
                 // Update task column/category when dragged to new column/category
                 SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE tblTasks SET Category=@category WHERE Id=@id", db);
+                    ("UPDATE tblTasks SET Category=@category, ColumnIndex=@columnIndex WHERE Id=@id", db);
                 updateCommand.Parameters.AddWithValue("@category", targetCategory);
+                updateCommand.Parameters.AddWithValue("@columnIndex", targetIndex);
                 updateCommand.Parameters.AddWithValue("@id", selectedCardModel.ID);
                 updateCommand.ExecuteNonQuery();
 
@@ -140,7 +143,7 @@ namespace KanbanTasker.DataAccess
                 db.Open();
 
                 SqliteCommand selectCommand = new SqliteCommand
-                    ("SELECT Id, BoardID, DateCreated, Title, Description, Category, ColorKey, Tags from tblTasks", db);
+                    ("SELECT Id, BoardID, DateCreated, Title, Description, Category, ColumnIndex, ColorKey, Tags from tblTasks", db);
 
                 SqliteDataReader query = selectCommand.ExecuteReader();
 
@@ -148,10 +151,10 @@ namespace KanbanTasker.DataAccess
                 while (query.Read())
                 {
                     string[] tags;
-                    if (query.GetString(7).ToString() == "")
+                    if (query.GetString(8).ToString() == "")
                         tags = new string[] { }; // Empty array if no tags are in the col
                     else
-                        tags = query.GetString(7).Split(","); // Turn string of tags into string array, fills listview
+                        tags = query.GetString(8).Split(","); // Turn string of tags into string array, fills listview
 
                     CustomKanbanModel row = new CustomKanbanModel()
                     {
@@ -161,7 +164,8 @@ namespace KanbanTasker.DataAccess
                         Title = query.GetString(3),
                         Description = query.GetString(4),
                         Category = query.GetString(5),
-                        ColorKey = query.GetString(6),
+                        ColumnIndex = query.GetString(6),
+                        ColorKey = query.GetString(7),
                         Tags = tags // Turn string of tags into string array, fills listview
                     };
 
@@ -203,7 +207,7 @@ namespace KanbanTasker.DataAccess
             return boards;
         }
 
-        public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
+        public static void UpdateTask(string id, string title, string descr, string category, string columnIndex, string colorKey, string tags)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=ktdatabase.db"))
@@ -212,13 +216,32 @@ namespace KanbanTasker.DataAccess
 
                 // Update item
                 SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
+                    ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColumnIndex=@columnIndex, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
                 updateCommand.Parameters.AddWithValue("@title", title);
                 updateCommand.Parameters.AddWithValue("@desc", descr);
                 updateCommand.Parameters.AddWithValue("@categ", category);
                 updateCommand.Parameters.AddWithValue("@colorKey", colorKey);
                 updateCommand.Parameters.AddWithValue("@tags", tags);
                 updateCommand.Parameters.AddWithValue("@id", id);
+                updateCommand.ExecuteNonQuery();
+
+                db.Close();
+            }
+        }
+
+        internal static void UpdateCardIndex(string iD, int currentCardIndex)
+        {
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase.db"))
+            {
+                db.Open();
+
+                // Update item
+                SqliteCommand updateCommand = new SqliteCommand
+                    ("UPDATE tblTasks SET ColumnIndex=@columnIndex WHERE Id=@id", db);
+          
+                updateCommand.Parameters.AddWithValue("@id", iD);
+                updateCommand.Parameters.AddWithValue("@columnIndex", currentCardIndex);
                 updateCommand.ExecuteNonQuery();
 
                 db.Close();

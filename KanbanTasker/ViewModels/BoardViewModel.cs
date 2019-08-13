@@ -321,6 +321,7 @@ namespace KanbanTasker.ViewModels
 
             // Update model
             var selectedModel = selectedCard;
+            selectedModel.ColumnIndex = "";
             selectedModel.Title = Title;
             selectedModel.Description = Description;
             selectedModel.Category = selectedCategory;
@@ -329,7 +330,7 @@ namespace KanbanTasker.ViewModels
 
             // Update item in database
             DataProvider.UpdateTask(ID, Title,
-                Description, selectedCategory.ToString(),
+                Description, selectedCategory.ToString(), "",
                 selectedColorKey.ToString(), tags);
         }
 
@@ -353,7 +354,7 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "New Task";
         }
 
-        public bool AddTask(string tags, object selectedCategory, object selectedColorKey)
+        public (bool, int) AddTask(string tags, object selectedCategory, object selectedColorKey)
         {
             // Tags are stored as as string[] in CustomKanbanModel
             // Strip string into a sting[]
@@ -388,8 +389,10 @@ namespace KanbanTasker.ViewModels
             model.ID = newTaskID.ToString();
             Tasks.Add(model);
 
+            var success = (Tasks.Count == (previousCount + 1)) ? true : false; ;
+
             // Determine if insertion was successful
-            return (Tasks.Count == (previousCount + 1)) ? true : false; 
+            return (success, newTaskID);
         }
 
         public bool DeleteTag(string tagName)
@@ -399,7 +402,7 @@ namespace KanbanTasker.ViewModels
             return (TagsCollection.Count == (originalCount - 1)) ? true : false;
         }
 
-        public void UpdateCardColumn(string targetCategory, CustomKanbanModel selectedCardModel)
+        public void UpdateCardColumn(string targetCategory, CustomKanbanModel selectedCardModel, string targetIndex)
         {
             // Update card category when dragged to new column, and update in database
             //var item = Tasks.FirstOrDefault(i => i.ID == selectedCardModel.ID);
@@ -409,7 +412,12 @@ namespace KanbanTasker.ViewModels
             //}
 
             //selectedCardModel.Category = targetCategory;
-            DataProvider.UpdateColumnData(selectedCardModel, targetCategory);
+            DataProvider.UpdateColumnData(selectedCardModel, targetCategory, targetIndex);
+        }
+
+        internal void UpdateCardIndex(string iD, int currentCardIndex)
+        {
+            DataProvider.UpdateCardIndex(iD, currentCardIndex);
         }
     }
 }
