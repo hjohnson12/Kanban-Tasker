@@ -45,23 +45,29 @@ namespace KanbanTasker.Views
 
         public List<string> GetCategories(SfKanban kanban)
         {
-            // Add column categories to a list
-            // Displayed in a combobox in TaskDialog for the user to choose
-            // which column for the task to be in
+            // Pre: SelectedModel, used to get current category of task.
+            //      kanbanBoard, used to check the categories of each column and
+            //      compare with the selected models category to get current col
+            // Post: List of categories for the current column
+            // To-do: Find efficient method to avoid looping through each col
+
             List<string> lstCategories = new List<string>();
-            foreach (var col in kanban.ActualColumns)
+            foreach (var col in kanbanBoard.ActualColumns)
             {
-                // Fill categories list with the categories from the col
-                var strCategories = col.Categories;
-                if (strCategories.Contains(","))
+                // Compare to selected models category to get current column
+                if (col.Categories.Contains(SelectedModel.Category.ToString()))
                 {
-                    // >1 sections in col, split into separate sections
-                    var tokens = strCategories.Split(",");
-                    foreach (var token in tokens)
-                        lstCategories.Add(token);
+                    var strCategories = col.Categories;
+                    if (strCategories.Contains(","))
+                    {
+                        // >1 sections in col, split into separate sections
+                        var tokens = strCategories.Split(",");
+                        foreach (var token in tokens)
+                            lstCategories.Add(token);
+                    }
+                    else // 1 section in column
+                        lstCategories.Add(strCategories);
                 }
-                else // 1 section in column
-                    lstCategories.Add(strCategories);
             }
             return lstCategories;
         }
@@ -173,6 +179,8 @@ namespace KanbanTasker.Views
         {
             var originalSource = (FrameworkElement)sender;
             SelectedModel = originalSource.DataContext as CustomKanbanModel;
+
+          
 
             // Call helper from ViewModel to handle model-related data
             ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
@@ -350,13 +358,14 @@ namespace KanbanTasker.Views
                 var selectedCategory = comboBoxCategories.SelectedItem;
                 var selectedColorKey = comboBoxColorKey.SelectedItem;
 
-                // Returns a tuple (bool addSuccess, int id)
-                var returnValues = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
-                var addSuccess = returnValues.Item1;
-                var newTaskId = returnValues.Item2;
-               // var addSuccess = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
+                // Returns a tuple (bool addSuccess, int id) for success validation and 
+                // compare the created cards ID to the 
+                var returnedTuple = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
+                var addSuccess = returnedTuple.Item1;
+                var newTaskId = returnedTuple.Item2;
            
                 // Get column index of card just added
+                // To-do: Efficient implementation once functionality is working
                 foreach (var col in kanbanBoard.ActualColumns)
                 {
                     foreach (var card in col.Cards)
