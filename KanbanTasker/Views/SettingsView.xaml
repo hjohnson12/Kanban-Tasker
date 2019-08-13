@@ -61,7 +61,7 @@
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"
                             Content="Feedback"
-                            NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
+                            NavigateUri="https://feedback.userreport.com/7d4ef159-95d2-4cf0-a068-b50adbe514a6/#ideas/popular"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                         <HyperlinkButton
                             Margin="0,4,0,0"
