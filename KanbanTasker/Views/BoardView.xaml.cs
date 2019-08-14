@@ -476,43 +476,59 @@ namespace KanbanTasker.Views
             ShowContextMenu(SelectedModel);
         }
 
-        //private void Card_LeftTapped(object sender, TappedRoutedEventArgs e)
-        //{
-        //    var originalSource = (FrameworkElement)sender;
-        //    SelectedModel = originalSource.DataContext as CustomKanbanModel;
-
-        //    // Call helper from ViewModel to handle model-related data
-        //    ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
-        //        GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
-
-        //    // UI RELATED CODE
-
-        //    // Set selected items in combo box
-        //    comboBoxCategories.SelectedItem = SelectedModel.Category;
-        //    comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
-
-        //    // Hide flyout
-        //    taskFlyout.Hide();
-
-        //    // Open pane if closed
-        //    if (splitView.IsPaneOpen == false)
-        //        splitView.IsPaneOpen = true;
-
-        //    // Give title textbox focus once pane opens
-        //    txtBoxTitle.Focus(FocusState.Programmatic);
-        //    txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
-        //    txtBoxTitle.SelectionLength = 0;
-        //}
-
-
         private void KanbanBoard_CardDragEnd(object sender, KanbanDragEndEventArgs e)
         {
             // Change column and category of task when dragged to new column
             // ObservableCollection Tasks already updated
             var targetCategory = e.TargetKey.ToString();
             var selectedCardModel = e.SelectedCard.Content as CustomKanbanModel;
-            var targetCardIndex = e.TargetCardIndex.ToString();
-            ViewModel.UpdateCardColumn(targetCategory, selectedCardModel, targetCardIndex);
+            int sourceCardIndex = e.SelectedCardIndex;
+            int targetCardIndex = e.TargetCardIndex;
+            ViewModel.UpdateCardColumn(targetCategory, selectedCardModel, targetCardIndex.ToString());
+
+            // Reorder cards when dragging to & from same column
+            if (e.TargetColumn.Title.ToString() == e.SelectedColumn.Title.ToString())
+            {
+                // Update every card index in the column after rearrange
+                foreach (var card in e.TargetColumn.Cards)
+                {
+                    int currentIndex = e.TargetColumn.Cards.IndexOf(card);
+                    if (currentIndex != Convert.ToInt32(targetCardIndex))
+                    {
+                        var currentModel = card.Content as CustomKanbanModel;
+                        ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
+                    }
+                }
+            }
+            // Reorder cards when dragging from one column to another 
+            else
+            {
+                // Reorder target col after drop
+                // Only items below the targetCardIndex need to be updated
+                if (e.TargetColumn.Cards.Count != 0)
+                {
+                    foreach (var card in e.TargetColumn.Cards)
+                    {
+                        int currentIndex = e.TargetColumn.Cards.IndexOf(card);
+                        if (currentIndex > Convert.ToInt32(targetCardIndex))
+                        {
+                            var currentModel = card.Content as CustomKanbanModel;
+                            ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
+                        }
+                    }
+                }
+
+                // Reorder source column after dragged card is removed
+                if (e.SelectedColumn.Cards.Count != 0)
+                {
+                    foreach (var card in e.SelectedColumn.Cards)
+                    {
+                        int currentIndex = e.SelectedColumn.Cards.IndexOf(card);
+                        var currentModel = card.Content as CustomKanbanModel;
+                        ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
+                    }
+                }
+            }
         }
     }
 }
