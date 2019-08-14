@@ -15,19 +15,12 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
                 FallbackColor="AliceBlue"
                 Opacity="0.8"
                 TargetTheme="Light"
                 Color="AliceBlue" />
-            <!--<AcrylicBrush
-                x:Key="PaneBackgroundAcrylicBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="#2c333a"
-                TintColor="#2c333a"
-                TintOpacity="0.7" />-->
             <Rectangle
                 x:Key="paneRect"
                 Width="12"

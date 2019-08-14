@@ -47,6 +47,12 @@
                         TintColor="#2c333a"
                         TintOpacity="0.7" />
                     <AcrylicBrush
+                        x:Key="FlyoutBackgroundBrush"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="#2c333a"
+                        TintColor="#2c333a"
+                        TintOpacity="0.7" />
+                    <AcrylicBrush
                         x:Key="RegionBrush"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource RegionColor}"

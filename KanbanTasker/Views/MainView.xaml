@@ -73,7 +73,7 @@
                                 <Flyout.FlyoutPresenterStyle>
                                     <Style TargetType="FlyoutPresenter">
                                         <Setter Property="CornerRadius" Value="3" />
-                                        <Setter Property="Background" Value="{ThemeResource RegionBrush}" />
+                                        <Setter Property="Background" Value="{ThemeResource FlyoutBackgroundBrush}" />
                                         <Setter Property="MinWidth" Value="0" />
                                     </Style>
                                 </Flyout.FlyoutPresenterStyle>
@@ -152,6 +152,7 @@
                                                 Height="200"
                                                 MaxHeight="150"
                                                 AcceptsReturn="True"
+                                                Background="{ThemeResource RegionBrush}"
                                                 BorderThickness="1"
                                                 CornerRadius="3"
                                                 PlaceholderText="Type your information here"
@@ -239,7 +240,7 @@
                             <Flyout.FlyoutPresenterStyle>
                                 <Style TargetType="FlyoutPresenter">
                                     <Setter Property="CornerRadius" Value="3" />
-                                    <Setter Property="Background" Value="{ThemeResource RegionBrush}" />
+                                    <Setter Property="Background" Value="{ThemeResource FlyoutBackgroundBrush}" />
                                     <Setter Property="MinWidth" Value="0" />
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
@@ -321,6 +322,7 @@
                                             Height="200"
                                             MaxHeight="150"
                                             AcceptsReturn="True"
+                                            Background="{ThemeResource RegionBrush}"
                                             BorderThickness="1"
                                             CornerRadius="3"
                                             PlaceholderText="Type your information here"
