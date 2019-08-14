@@ -280,7 +280,7 @@
                                     <!--  Card Tags - Custom way  -->
                                     <ListView
                                         Grid.Column="0"
-                                        Margin="0,5,0,0"
+                                        Margin="0,4,0,4"
                                         VerticalAlignment="Bottom"
                                         IsItemClickEnabled="True"
                                         ItemsSource="{Binding Tags}">
@@ -872,6 +872,7 @@
                 <helpers:CustomKanbanColumn
                     Title="To Study"
                     MinWidth="275"
+                    Padding="0,0,50,0"
                     Categories="Study"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
