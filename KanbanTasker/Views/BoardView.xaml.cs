@@ -97,6 +97,28 @@ namespace KanbanTasker.Views
             return tagsCollection;
         }
 
+        private void UpdateCardIndexes()
+        {
+            // Look at every card in the current column and update their indexes in the db
+            foreach (var col in kanbanBoard.ActualColumns)
+            {
+                // Compare to selected models category to determine current column
+                if (col.Categories.Contains(SelectedModel.Category.ToString()))
+                {
+                    if (col.Cards.Count != 0)
+                    {
+                        foreach (var card in col.Cards)
+                        {
+                            var currentModel = card.Content as CustomKanbanModel;
+                            var currentCardIndex = col.Cards.IndexOf(card);
+                            ViewModel.UpdateCardIndex(currentModel.ID, currentCardIndex);
+                        }
+                    }
+                }
+            }
+        }
+
+
         public void ShowContextMenu(CustomKanbanModel selectedModel)
         {
             // Workaround to show context menu next to selected card model
@@ -223,6 +245,8 @@ namespace KanbanTasker.Views
                 // Delete Task from collection and database
                 var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
 
+                UpdateCardIndexes();
+
                 if (deleteSuccess)
                     KanbanInAppNotification.Show("Task deleted from board successfully", 4000);
             }
@@ -247,6 +271,8 @@ namespace KanbanTasker.Views
 
                 // Delete Task from collection and database
                 var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
+
+                UpdateCardIndexes();
 
                 if (deleteSuccess)
                     KanbanInAppNotification.Show("Task deleted from board successfully", 4000);

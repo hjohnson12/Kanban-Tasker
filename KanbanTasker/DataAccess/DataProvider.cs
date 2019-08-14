@@ -236,7 +236,7 @@ namespace KanbanTasker.DataAccess
             {
                 db.Open();
 
-                // Update item
+                // Update card  index
                 SqliteCommand updateCommand = new SqliteCommand
                     ("UPDATE tblTasks SET ColumnIndex=@columnIndex WHERE Id=@id", db);
           
