@@ -870,23 +870,9 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="To Study"
+                    Title="In Progress"
                     MinWidth="275"
                     Padding="0,0,50,0"
-                    Categories="Study"
-                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="10">
-                    <helpers:CustomKanbanColumn.ErrorBarSettings>
-                        <syncfusion:ErrorBarSettings
-                            MaxValidationColor="Red"
-                            MinValidationColor="Green"
-                            Color="Gray" />
-                    </helpers:CustomKanbanColumn.ErrorBarSettings>
-                </helpers:CustomKanbanColumn>
-
-                <helpers:CustomKanbanColumn
-                    Title="Progress"
-                    MinWidth="275"
                     Categories="In Progress"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
@@ -899,9 +885,23 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="Done"
+                    Title="Review"
                     MinWidth="275"
-                    Categories="Review,Done"
+                    Categories="Review"
+                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                    MaximumLimit="10">
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
+                            MaxValidationColor="Red"
+                            MinValidationColor="Green"
+                            Color="Gray" />
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
+
+                <helpers:CustomKanbanColumn
+                    Title="Completed"
+                    MinWidth="275"
+                    Categories="Completed"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
