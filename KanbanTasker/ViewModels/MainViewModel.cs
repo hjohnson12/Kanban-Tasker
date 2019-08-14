@@ -42,9 +42,14 @@ namespace KanbanTasker.ViewModels
             {
                 allTasks = new ObservableCollection<CustomKanbanModel>();
                 allTasks = DataProvider.GetData();
+
+                // Sort according to ColumnIndex that way tasks are loaded 
+                // in the correct places
+                var sortedCollection = allTasks.OrderBy(x => x.ColumnIndex);
+
                 foreach (var board in BoardList)
                 {
-                    foreach (var task in allTasks)
+                    foreach (var task in sortedCollection)
                     {
                         if (task.BoardId == board.BoardId)
                             board.Tasks.Add(task);
