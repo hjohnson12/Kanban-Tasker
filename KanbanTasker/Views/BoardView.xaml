@@ -857,7 +857,7 @@
                 <helpers:CustomKanbanColumn
                     x:Name="Open"
                     Title="To Do"
-                    Categories="Open"
+                    Categories="To do"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
