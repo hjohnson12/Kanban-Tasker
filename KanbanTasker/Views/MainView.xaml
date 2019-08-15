@@ -8,6 +8,7 @@
     xmlns:local="using:KanbanTasker"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Windows.UI.Xaml.Controls"
+    xmlns:muxc1="using:Microsoft.UI.Xaml.Controls"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
@@ -308,7 +309,23 @@
                                         VerticalAlignment="Center"
                                         PlaceholderText="Type your information here"
                                         Style="{StaticResource TextBoxStyle1}"
-                                        Text="{x:Bind ViewModel.BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ViewModel.BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <TextBox.Resources>
+                                            <muxc1:TeachingTip
+                                                x:Name="ChooseBoardNameTeachingTip"
+                                                Title="Add board name"
+                                                Background="{ThemeResource RegionBrush}"
+                                                CornerRadius="3"
+                                                IsLightDismissEnabled="True"
+                                                PreferredPlacement="Right"
+                                                Subtitle="Please fill out a name for your board to continue."
+                                                Target="{x:Bind txtBoxNewBoardName}">
+                                                <muxc1:TeachingTip.IconSource>
+                                                    <muxc1:SymbolIconSource Symbol="Important" />
+                                                </muxc1:TeachingTip.IconSource>
+                                            </muxc1:TeachingTip>
+                                        </TextBox.Resources>
+                                    </TextBox>
                                     <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
                                         <SymbolIcon Symbol="Page2" />
                                         <TextBlock

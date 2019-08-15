@@ -59,8 +59,13 @@ namespace KanbanTasker.Views
 
         private void FlyoutBtnCreateNewBoard_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.CreateBoard();
-            newBoardFlyout.Hide();
+            if (txtBoxNewBoardName.Text == "")
+                ChooseBoardNameTeachingTip.IsOpen = true;
+            else
+            {
+                ViewModel.CreateBoard();
+                newBoardFlyout.Hide();
+            }
         }
 
         private void NewBoardFlyout_Opening(object sender, object e)
