@@ -24,7 +24,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace KanbanTasker.Views
 {
-    public sealed partial class BoardView : UserControl
+    public sealed partial class BoardView : Page
     {
 
         public BoardViewModel ViewModel { get; set; }
