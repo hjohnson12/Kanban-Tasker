@@ -535,7 +535,11 @@
                                         CornerRadius="3"
                                         IsLightDismissEnabled="True"
                                         Subtitle="Please fill out a priority indicator for your task to continue."
-                                        Target="{x:Bind comboBoxColorKey}" />
+                                        Target="{x:Bind comboBoxColorKey}">
+                                        <muxc:TeachingTip.IconSource>
+                                            <muxc:SymbolIconSource Symbol="Important" />
+                                        </muxc:TeachingTip.IconSource>
+                                    </muxc:TeachingTip>
                                 </ComboBox.Resources>
                             </ComboBox>
 
