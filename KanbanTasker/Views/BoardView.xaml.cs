@@ -43,35 +43,6 @@ namespace KanbanTasker.Views
         // HELPER FUNCTIONS
         //=====================================================================
 
-        public List<string> GetCategories(SfKanban kanban)
-        {
-            // Pre: SelectedModel, used to get current category of task.
-            //      kanbanBoard, used to check the categories of each column and
-            //      compare with the selected models category to get current col
-            // Post: List of categories for the current column
-            // To-do: Find efficient method to avoid looping through each col
-
-            List<string> lstCategories = new List<string>();
-            foreach (var col in kanbanBoard.ActualColumns)
-            {
-                // Compare to selected models category to get current column
-                if (col.Categories.Contains(SelectedModel.Category.ToString()))
-                {
-                    var strCategories = col.Categories;
-                    if (strCategories.Contains(","))
-                    {
-                        // >1 sections in col, split into separate sections
-                        var tokens = strCategories.Split(",");
-                        foreach (var token in tokens)
-                            lstCategories.Add(token);
-                    }
-                    else // 1 section in column
-                        lstCategories.Add(strCategories);
-                }
-            }
-            return lstCategories;
-        }
-
         public List<string> GetColorKeys(SfKanban kanban)
         {
             // Add color keys to a list
@@ -156,32 +127,16 @@ namespace KanbanTasker.Views
         // UI Events
         //=====================================================================
 
-        private void BtnNewTask_Click(object sender, RoutedEventArgs e)
-        {
-
-            // Null card for new task
-            ViewModel.NewTaskHelper(GetCategories(kanbanBoard), GetColorKeys(kanbanBoard));
-
-            // UI RELATED CODE 
-
-            // Open pane if not already
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-
-            // Give title textbox focus when pane opens
-            txtBoxTitle.Focus(FocusState.Programmatic);
-        }
-
         private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
         {
             // Call helper from ViewModel to handle model-related data
-            ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
+            ViewModel.EditTaskHelper(SelectedModel,
                 GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
 
             // UI RELATED CODE
 
             // Set selected items in combo box
-            comboBoxCategories.SelectedItem = SelectedModel.Category;
+            ViewModel.CurrentCategory = SelectedModel.Category.ToString();
             comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
 
             // Hide flyout
@@ -202,16 +157,14 @@ namespace KanbanTasker.Views
             var originalSource = (FrameworkElement)sender;
             SelectedModel = originalSource.DataContext as CustomKanbanModel;
 
-          
-
             // Call helper from ViewModel to handle model-related data
-            ViewModel.EditTaskHelper(SelectedModel, GetCategories(kanbanBoard),
+            ViewModel.EditTaskHelper(SelectedModel,
                 GetColorKeys(kanbanBoard), GetTagCollection(SelectedModel));
 
             // UI RELATED CODE
 
-            // Set selected items in combo box
-            comboBoxCategories.SelectedItem = SelectedModel.Category;
+            // Set selected item in combo box
+            ViewModel.CurrentCategory = SelectedModel.Category.ToString();
             comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
 
             // Hide flyout
@@ -226,7 +179,6 @@ namespace KanbanTasker.Views
             txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
             txtBoxTitle.SelectionLength = 0;
         }
-
 
         private async void CardBtnDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -289,31 +241,8 @@ namespace KanbanTasker.Views
             var context = btn.DataContext as ColumnTag;
             var currentColTitle = context.Header.ToString();
 
-            // Add current column categories to a list
-            // Displayed in a combobox in TaskDialog for the user to
-            // choose which category to put the task in the current column
-            List<string> lstCategories = new List<string>();
-            foreach (var col in kanbanBoard.ActualColumns)
-            {
-                if (col.Title.ToString() == currentColTitle)
-                {
-                    // Fill categories list with the categories from the col
-                    var strCategories = col.Categories;
-                    if (strCategories.Contains(","))
-                    {
-                        // >1 sections in col, split into separate sections
-                        var tokens = strCategories.Split(",");
-                        foreach (var token in tokens)
-                            lstCategories.Add(token);
-                    }
-                    else // 1 section in column
-                        lstCategories.Add(strCategories);
-                }
-            }
-
-           
             // Null card for new task
-            ViewModel.NewTaskHelper(lstCategories, GetColorKeys(kanbanBoard));
+            ViewModel.NewTaskHelper(currentColTitle, GetColorKeys(kanbanBoard));
 
             // Open pane if not already
             if (splitView.IsPaneOpen == false)
@@ -357,7 +286,7 @@ namespace KanbanTasker.Views
                 var tags = string.Join(',', tagsList); // Convert to a csv string to store in database cell
 
                 // Use view model to operate on model-related data
-                var selectedCategory = comboBoxCategories.SelectedItem;
+                var selectedCategory = ViewModel.CurrentCategory;
                 var selectedColorKey = comboBoxColorKey.SelectedItem;
                 ViewModel.SaveTask(tags, selectedCategory, selectedColorKey, SelectedModel);
 
@@ -375,13 +304,13 @@ namespace KanbanTasker.Views
                     tags = null;
 
                 // To allow a draft task, require user to have category and colorkey chosen
-                if (comboBoxCategories.SelectedItem == null || comboBoxColorKey.SelectedItem == null)
+                if (comboBoxColorKey.SelectedItem == null)
                 {
                     var messageDialog = new MessageDialog("NOTE: You must fill out a category and color key to be able to create a draft task", "ERROR");
                     await messageDialog.ShowAsync();
                 }
 
-                var selectedCategory = comboBoxCategories.SelectedItem;
+                var selectedCategory = ViewModel.CurrentCategory;
                 var selectedColorKey = comboBoxColorKey.SelectedItem;
 
                 // Returns a tuple (bool addSuccess, int id) for success validation and 
@@ -394,19 +323,23 @@ namespace KanbanTasker.Views
                 // To-do: Efficient implementation once functionality is working
                 foreach (var col in kanbanBoard.ActualColumns)
                 {
-                    foreach (var card in col.Cards)
+                    if (col.Title.ToString() == selectedCategory)
                     {
-                        var currentModel = card.Content as CustomKanbanModel;
-                        if(currentModel.ID == newTaskId.ToString())
+                        foreach (var card in col.Cards)
                         {
-                            // Get column index
-                            var currentCardIndex = col.Cards.IndexOf(card);
-                            currentModel.ColumnIndex = currentCardIndex.ToString();
+                            var currentModel = card.Content as CustomKanbanModel;
+                            if (currentModel.ID == newTaskId.ToString())
+                            {
+                                // Get column index
+                                var currentCardIndex = col.Cards.IndexOf(card);
+                                currentModel.ColumnIndex = currentCardIndex.ToString();
 
-                            // Add the column index to the database entry
-                            ViewModel.UpdateCardIndex(currentModel.ID, currentCardIndex);
+                                // Add the column index to the database entry
+                                ViewModel.UpdateCardIndex(currentModel.ID, currentCardIndex);
+                            }
                         }
                     }
+                    
                 }
 
                 // Close pane when done

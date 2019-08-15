@@ -477,13 +477,22 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <SymbolIcon Symbol="List" />
+
+
                             <TextBlock
                                 Grid.Column="1"
                                 Margin="8,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Text="Category: " />
-                            <ComboBox
+                            <TextBlock
+                                Grid.Column="2"
+                                Margin="8,2,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                Text="{x:Bind ViewModel.CurrentCategory, Mode=OneWay}" />
+                            <!--<ComboBox
                                 x:Name="comboBoxCategories"
                                 Grid.Column="2"
                                 Margin="8,2,0,2"
@@ -493,7 +502,7 @@
                                 CornerRadius="3"
                                 ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
-                                Text="{x:Bind ViewModel.Category, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.Category, Mode=OneWay}" />-->
                             <SymbolIcon
                                 Grid.Row="1"
                                 Margin="0,10"
@@ -855,9 +864,8 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    x:Name="Open"
                     Title="To Do"
-                    Categories="To do"
+                    Categories="To Do"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>

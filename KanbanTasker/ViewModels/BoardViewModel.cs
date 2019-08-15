@@ -30,6 +30,7 @@ namespace KanbanTasker.ViewModels
         private string _boardNotes;
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
+        private string _currentCategory;
 
         //=====================================================================
         // CONSTRUCTOR
@@ -282,6 +283,16 @@ namespace KanbanTasker.ViewModels
             }
         }
 
+        public string CurrentCategory
+        {
+            get { return _currentCategory; }
+            set
+            {
+                _currentCategory = value;
+                OnPropertyChanged();
+            }
+        }
+
         public CustomKanbanModel OriginalCardModel
         {
             get;
@@ -297,13 +308,12 @@ namespace KanbanTasker.ViewModels
             TagsCollection.Add(tag);
         }
 
-        public void EditTaskHelper(CustomKanbanModel selectedModel, List<string> categories, List<string> colorKeys, ObservableCollection<string> tags)
+        public void EditTaskHelper(CustomKanbanModel selectedModel, List<string> colorKeys, ObservableCollection<string> tags)
         {
             // Get content ready to show in splitview pane
             OriginalCardModel = selectedModel;
             IsEditingTask = true;
             CardModel = selectedModel;
-            Categories = categories;
             ColorKeys = colorKeys;
             TagsCollection = tags;
             PaneTitle = "Edit Task";
@@ -345,11 +355,11 @@ namespace KanbanTasker.ViewModels
             return (Tasks.Count == (previousCount - 1)) ? true : false;
         }
 
-        public void NewTaskHelper(List<string> categories, List<string> colorKeys)
+        public void NewTaskHelper(string currentCategory, List<string> colorKeys)
         {
             CardModel = null; // Null card for new task
             IsEditingTask = false;
-            Categories = categories;
+            CurrentCategory = currentCategory;
             ColorKeys = colorKeys;
             PaneTitle = "New Task";
         }
