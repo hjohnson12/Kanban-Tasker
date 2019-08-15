@@ -84,5 +84,17 @@ namespace KanbanTasker.Views
             var dialog = new SettingsView();
             var result = await dialog.ShowAsync();
         }
+
+        private void KanbanNavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            var selectedBoard = args.InvokedItem as BoardViewModel;
+            contentFrame.Navigate(typeof(BoardView), selectedBoard);
+        }
+
+        private void KanbanNavView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // TO-DO: Check for when there are no boards on the screen
+            kanbanNavView.SelectedItem = ViewModel.BoardList[0];
+        }
     }
 }

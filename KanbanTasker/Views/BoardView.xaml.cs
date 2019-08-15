@@ -126,6 +126,11 @@ namespace KanbanTasker.Views
         //=====================================================================
         // UI Events
         //=====================================================================
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var selectedBoard = e.Parameter as BoardViewModel;
+            ViewModel = selectedBoard;
+        }
 
         private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
         {

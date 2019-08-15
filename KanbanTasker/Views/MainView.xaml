@@ -17,8 +17,7 @@
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid
             x:Name="AppTitleBar"
@@ -49,7 +48,9 @@
         <NavigationView
             x:Name="kanbanNavView"
             Grid.Row="1"
+            ItemInvoked="KanbanNavView_ItemInvoked"
             IsBackButtonVisible="Collapsed"
+            Loaded="KanbanNavView_Loaded"
             IsSettingsVisible="False"
             MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"
             PaneDisplayMode="Top"
@@ -391,8 +392,7 @@
                 </AppBarButton>
 
             </NavigationView.PaneCustomContent>
-            <Frame x:Name="contentFrame" />
+            <Frame x:Name="contentFrame" VerticalAlignment="Stretch" Background="{ThemeResource RegionBrush}" />
         </NavigationView>
-        <kbcontrol:BoardView Grid.Row="2" />
     </Grid>
 </Page>
