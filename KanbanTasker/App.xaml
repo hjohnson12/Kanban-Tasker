@@ -6,11 +6,14 @@
     xmlns:local="using:KanbanTasker"
     RequestedTheme="Dark">
     <Application.Resources>
+
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources\CustomMSEdgeNotificationStyle.xaml" />
                 <ResourceDictionary Source="Resources\SettingsDialogCustomStyle.xaml" />
                 <ResourceDictionary Source="Resources\KanbanThemeDictionary.xaml" />
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
             <!--<AcrylicBrush
                 x:Key="RegionBrush"
@@ -18,7 +21,6 @@
                 FallbackColor="#1e2328"
                 TintColor="#1e2328"
                 TintOpacity="0.8" />-->
-
             <!--  Added to override content dialog overlay background  -->
             <SolidColorBrush
                 x:Key="SystemControlPageBackgroundMediumAltMediumBrush"

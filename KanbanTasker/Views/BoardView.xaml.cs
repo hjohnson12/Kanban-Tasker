@@ -306,50 +306,51 @@ namespace KanbanTasker.Views
                 // To allow a draft task, require user to have category and colorkey chosen
                 if (comboBoxColorKey.SelectedItem == null)
                 {
-                    var messageDialog = new MessageDialog("NOTE: You must fill out a category and color key to be able to create a draft task", "ERROR");
-                    await messageDialog.ShowAsync();
+                    ChoosePriorityInidcatorTeachingTip.IsOpen = true;
                 }
-
-                var selectedCategory = ViewModel.CurrentCategory;
-                var selectedColorKey = comboBoxColorKey.SelectedItem;
-
-                // Returns a tuple (bool addSuccess, int id) for success validation and 
-                // compare the created cards ID to the 
-                var returnedTuple = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
-                var addSuccess = returnedTuple.Item1;
-                var newTaskId = returnedTuple.Item2;
-           
-                // Get column index of card just added
-                // To-do: Efficient implementation once functionality is working
-                foreach (var col in kanbanBoard.ActualColumns)
+                else
                 {
-                    if (col.Title.ToString() == selectedCategory)
-                    {
-                        foreach (var card in col.Cards)
-                        {
-                            var currentModel = card.Content as CustomKanbanModel;
-                            if (currentModel.ID == newTaskId.ToString())
-                            {
-                                // Get column index
-                                var currentCardIndex = col.Cards.IndexOf(card);
-                                currentModel.ColumnIndex = currentCardIndex.ToString();
+                    var selectedCategory = ViewModel.CurrentCategory;
+                    var selectedColorKey = comboBoxColorKey.SelectedItem;
 
-                                // Add the column index to the database entry
-                                ViewModel.UpdateCardIndex(currentModel.ID, currentCardIndex);
+                    // Returns a tuple (bool addSuccess, int id) for success validation and 
+                    // compare the created cards ID to the 
+                    var returnedTuple = ViewModel.AddTask(tags, selectedCategory, selectedColorKey);
+                    var addSuccess = returnedTuple.Item1;
+                    var newTaskId = returnedTuple.Item2;
+
+                    // Get column index of card just added
+                    // To-do: Efficient implementation once functionality is working
+                    foreach (var col in kanbanBoard.ActualColumns)
+                    {
+                        if (col.Title.ToString() == selectedCategory)
+                        {
+                            foreach (var card in col.Cards)
+                            {
+                                var currentModel = card.Content as CustomKanbanModel;
+                                if (currentModel.ID == newTaskId.ToString())
+                                {
+                                    // Get column index
+                                    var currentCardIndex = col.Cards.IndexOf(card);
+                                    currentModel.ColumnIndex = currentCardIndex.ToString();
+
+                                    // Add the column index to the database entry
+                                    ViewModel.UpdateCardIndex(currentModel.ID, currentCardIndex);
+                                }
                             }
                         }
+
                     }
-                    
+
+                    // Close pane when done
+                    if (splitView.IsPaneOpen == true)
+                        splitView.IsPaneOpen = false;
+
+                    if (addSuccess)
+                        KanbanInAppNotification.Show("Task successfully added to the board", 4000);
+                    else
+                        KanbanInAppNotification.Show("Task could not be created", 4000);
                 }
-
-                // Close pane when done
-                if (splitView.IsPaneOpen == true)
-                    splitView.IsPaneOpen = false;
-
-                if (addSuccess)
-                    KanbanInAppNotification.Show("Task successfully added to the board", 4000);
-                else
-                    KanbanInAppNotification.Show("Task could not be created", 4000);
             }
         }
 

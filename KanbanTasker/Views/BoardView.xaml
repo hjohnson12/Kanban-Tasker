@@ -9,6 +9,7 @@
     xmlns:helpers="using:KanbanTasker.Helpers"
     xmlns:local="using:KanbanTasker.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
@@ -525,7 +526,19 @@
                                 CornerRadius="3"
                                 ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
-                                Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}">
+                                <ComboBox.Resources>
+                                    <muxc:TeachingTip
+                                        x:Name="ChoosePriorityInidcatorTeachingTip"
+                                        Title="Choose indicator"
+                                        Background="{ThemeResource RegionBrush}"
+                                        CornerRadius="3"
+                                        IsLightDismissEnabled="True"
+                                        Subtitle="Please fill out a priority indicator for your task to continue."
+                                        Target="{x:Bind comboBoxColorKey}" />
+                                </ComboBox.Resources>
+                            </ComboBox>
+
                         </Grid>
                         <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
