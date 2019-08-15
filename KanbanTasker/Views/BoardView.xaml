@@ -857,7 +857,6 @@
                 <helpers:CustomKanbanColumn
                     x:Name="Open"
                     Title="To Do"
-                    MinWidth="275"
                     Categories="Open"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
@@ -871,8 +870,6 @@
 
                 <helpers:CustomKanbanColumn
                     Title="In Progress"
-                    MinWidth="275"
-                    Padding="0,0,50,0"
                     Categories="In Progress"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
@@ -886,7 +883,6 @@
 
                 <helpers:CustomKanbanColumn
                     Title="Review"
-                    MinWidth="275"
                     Categories="Review"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
@@ -900,7 +896,6 @@
 
                 <helpers:CustomKanbanColumn
                     Title="Completed"
-                    MinWidth="275"
                     Categories="Completed"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
