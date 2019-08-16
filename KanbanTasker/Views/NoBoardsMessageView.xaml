@@ -9,7 +9,27 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Rectangle
+            Grid.Row="0"
+            Height="9"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            IsHitTestVisible="False"
+            Opacity="0.2"
+            Visibility="Visible">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="1" />
+                    <GradientStop Offset="0" Color="Black" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <TextBlock
+            Grid.Row="1"
             Width="600"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
