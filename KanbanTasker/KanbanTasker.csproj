@@ -138,6 +138,9 @@
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\NoBoardsMessageView.xaml.cs">
+      <DependentUpon>NoBoardsMessageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,10 @@
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NoBoardsMessageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>

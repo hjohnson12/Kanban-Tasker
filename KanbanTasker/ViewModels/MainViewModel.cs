@@ -18,6 +18,19 @@ namespace KanbanTasker.ViewModels
         private string _boardNotes;
         private ObservableCollection<CustomKanbanModel> allTasks;
 
+        public BoardViewModel CreateDefaultBoard()
+        {
+            // Create default board
+            BoardViewModel newBoard = new BoardViewModel
+            {
+                BoardName = "Default Board"
+            };
+            // Add to collection and db
+            int newBoardId = DataProvider.AddBoard("New Board", "This is a default board added when there are none");
+            newBoard.BoardId = newBoardId.ToString();
+            newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
+            return newBoard;
+        }
         public MainViewModel()
         {
             // Instantiate the collection object
@@ -32,7 +45,7 @@ namespace KanbanTasker.ViewModels
                 };
 
                 // Add to collection and db
-                int newBoardId = DataProvider.AddBoard("New Board", "");
+                int newBoardId = DataProvider.AddBoard("New Board", "This is a default board added when there are none");
                 newBoard.BoardId = newBoardId.ToString();
                 newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
                 BoardList.Add(newBoard);
@@ -60,30 +73,35 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public void CreateBoard()
+        public BoardViewModel CreateBoard()
         {
-            if (BoardName == null || BoardNotes == null)
+            // Create board
+            BoardViewModel newBoard = new BoardViewModel
             {
-                return;
-            }
-            else if (BoardName != null && BoardNotes != null)
-            {
-                // Create board
-                BoardViewModel newBoard = new BoardViewModel
-                {
-                    BoardName = BoardName,
-                    BoardNotes = BoardNotes
-                };
+                BoardName = BoardName,
+                BoardNotes = BoardNotes
+            };
 
-                // Add board to db and collection
-                int newBoardId = DataProvider.AddBoard(BoardName, BoardNotes);
-                newBoard.BoardId = newBoardId.ToString();
-                newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
-                foreach (var task in allTasks)
-                    if (task.BoardId == newBoardId.ToString())
-                        newBoard.Tasks.Add(task);
-                BoardList.Add(newBoard);
-            }
+            // Add board to db and collection
+            int newBoardId = DataProvider.AddBoard(BoardName, BoardNotes);
+            newBoard.BoardId = newBoardId.ToString();
+            newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
+            foreach (var task in allTasks)
+                if (task.BoardId == newBoardId.ToString())
+                    newBoard.Tasks.Add(task);
+            BoardList.Add(newBoard);
+            //Current = BoardList[BoardList.IndexOf(newBoard)];
+            return newBoard;
+        }
+
+        internal bool DeleteBoard(BoardViewModel currentBoard)
+        {
+            // Clear tasks collection and remove board from board list
+            // Remove tasks from tblTasks and board from tblBoards in DataProvider
+            currentBoard.Tasks.Clear();
+            BoardList.Remove(currentBoard);
+            Current.BoardName = ""; // Clear current board posted in the title bar
+            return DataProvider.DeleteBoard(currentBoard.BoardId);
         }
 
         public ObservableCollection<BoardViewModel> BoardList

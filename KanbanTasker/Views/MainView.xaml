@@ -35,23 +35,23 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png" />
-            <TextBlock
+            <!--<TextBlock
                 Grid.Column="1"
                 Margin="0,10,45,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 Foreground="Gray"
-                Text="{x:Bind ViewModel.Current.BoardName, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.BoardName, Mode=OneWay}" />-->
         </Grid>
 
         <NavigationView
             x:Name="kanbanNavView"
             Grid.Row="1"
-            ItemInvoked="KanbanNavView_ItemInvoked"
             IsBackButtonVisible="Collapsed"
-            Loaded="KanbanNavView_Loaded"
             IsSettingsVisible="False"
+            ItemInvoked="KanbanNavView_ItemInvoked"
+            Loaded="KanbanNavView_Loaded"
             MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"
             PaneDisplayMode="Top"
             SelectedItem="{x:Bind ViewModel.Current, Mode=TwoWay}">
@@ -194,6 +194,7 @@
                                                     Margin="8,8,12,0"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
+                                                    Click="FlyoutBtnDeleteBoard_Click"
                                                     Icon="Delete"
                                                     Label="Delete" />
                                                 <AppBarButton
@@ -212,7 +213,9 @@
                         </AppBarButton.Flyout>
                     </AppBarButton>
                     <AppBarButton
+                        x:Name="navViewBtnDeleteBoard"
                         Width="40"
+                        Click="NavViewBtnDeleteBoard_Click"
                         Icon="Delete"
                         ToolTipService.ToolTip="Delete Current Board" />
                     <AppBarSeparator />
@@ -392,7 +395,10 @@
                 </AppBarButton>
 
             </NavigationView.PaneCustomContent>
-            <Frame x:Name="contentFrame" VerticalAlignment="Stretch" Background="{ThemeResource RegionBrush}" />
+            <Frame
+                x:Name="contentFrame"
+                VerticalAlignment="Stretch"
+                Background="{ThemeResource RegionBrush}" />
         </NavigationView>
     </Grid>
 </Page>

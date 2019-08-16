@@ -56,15 +56,25 @@ namespace KanbanTasker.Views
         {
             editBoardFlyout.Hide();
         }
-
+        
         private void FlyoutBtnCreateNewBoard_Click(object sender, RoutedEventArgs e)
         {
             if (txtBoxNewBoardName.Text == "")
                 ChooseBoardNameTeachingTip.IsOpen = true;
             else
             {
-                ViewModel.CreateBoard();
-                newBoardFlyout.Hide();
+
+                if (ViewModel.BoardList.Count == 0)
+                {
+                    var newBoard = ViewModel.CreateBoard();
+                   // kanbanNavView.SelectedItem = newBoard as BoardViewModel;
+                }
+                else if (ViewModel.BoardList.Count > 0)
+                {
+                    var newBoard = ViewModel.CreateBoard();
+                    newBoardFlyout.Hide();
+                }
+                
             }
         }
 
@@ -96,6 +106,49 @@ namespace KanbanTasker.Views
             // TO-DO: Check for when there are no boards on the screen
             kanbanNavView.SelectedItem = ViewModel.BoardList[0];
             contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[0]);
+        }
+
+        private void FlyoutBtnDeleteBoard_Click(object sender, RoutedEventArgs e)
+        {
+            var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
+            var currentBoardId = currentBoard.BoardId;
+            var oldIndex = kanbanNavView.MenuItems.IndexOf(kanbanNavView.SelectedItem);
+            if (oldIndex > 0)
+            {
+                // Delete board from BoardList and then the database
+                var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
+                kanbanNavView.SelectedItem = kanbanNavView.MenuItems[oldIndex - 1] as BoardViewModel;
+                contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[0]);
+            }
+            else
+            {
+
+                // Navigate to a page saying that there are no boards 
+            }
+        }
+
+        private void NavViewBtnDeleteBoard_Click(object sender, RoutedEventArgs e)
+        {
+            var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
+            var currentBoardId = currentBoard.BoardId;
+            var oldIndex = ViewModel.BoardList.IndexOf(currentBoard);
+            if (oldIndex > 0)
+            {
+                kanbanNavView.SelectedItem = ViewModel.BoardList[oldIndex - 1];
+
+                // Deletes both the board and corresponding tasks, then sets new view
+                var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
+                var newBoard = ViewModel.BoardList[oldIndex - 1];
+                contentFrame.Navigate(typeof(BoardView), newBoard);
+            }
+            else
+            {
+                var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
+               
+                contentFrame.Navigate(typeof(BoardView), ViewModel.CreateDefaultBoard());
+
+                // Navigate to a page saying that there are no boards 
+            }
         }
     }
 }
