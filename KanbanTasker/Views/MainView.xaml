@@ -71,7 +71,7 @@
                         <AppBarButton.Resources>
                             <muxc1:TeachingTip
                                 x:Name="UnableToEditBoardTeachingTip"
-                                Title="No boards selected"
+                                Title="No board selected"
                                 Background="{ThemeResource RegionBrush}"
                                 CornerRadius="3"
                                 IsLightDismissEnabled="True"

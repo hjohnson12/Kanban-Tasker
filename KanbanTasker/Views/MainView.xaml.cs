@@ -65,13 +65,14 @@ namespace KanbanTasker.Views
 
         private void FlyoutBtnCreateNewBoard_Click(object sender, RoutedEventArgs e)
         {
-            kanbanNavView.SelectedItem = null;
             if (txtBoxNewBoardName.Text == "")
             {
                 ChooseBoardNameTeachingTip.IsOpen = true;
             }
             else
             {
+                kanbanNavView.SelectedItem = null;
+
                 ViewModel.CreateBoard();
 
                 kanbanNavView.MenuItems.Add(ViewModel.BoardList[ViewModel.BoardList.Count - 1]);

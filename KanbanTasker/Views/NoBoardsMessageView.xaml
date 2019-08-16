@@ -14,7 +14,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="24"
-            Text="There are currently no boards. Press the + icon on the top navigation menu to create a new project board."
+            Text="There are currently no boards, you must be bored! Press the + icon on the navigation menu to create a new board."
             TextAlignment="Center"
             TextWrapping="Wrap" />
     </Grid>
