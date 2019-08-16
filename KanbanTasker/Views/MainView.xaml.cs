@@ -120,19 +120,22 @@ namespace KanbanTasker.Views
         private void BtnDeleteCurrentBoard_Click(object sender, RoutedEventArgs e)
         {
             var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
-            var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
-            if (deleteBoardSuccess)
+            if (currentBoard != null)
             {
-                kanbanNavView.SelectedItem = null;
-                kanbanNavView.MenuItems.Remove(currentBoard);
-                if (ViewModel.BoardList.Count == 0)
+                var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
+                if (deleteBoardSuccess)
                 {
-                    contentFrame.Navigate(typeof(NoBoardsMessageView));
-                }
-                else
-                {
-                    kanbanNavView.SelectedItem = ViewModel.BoardList[ViewModel.BoardList.Count - 1];
-                    contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[0]);
+                    kanbanNavView.SelectedItem = null;
+                    kanbanNavView.MenuItems.Remove(currentBoard);
+                    if (ViewModel.BoardList.Count == 0)
+                    {
+                        contentFrame.Navigate(typeof(NoBoardsMessageView));
+                    }
+                    else
+                    {
+                        kanbanNavView.SelectedItem = ViewModel.BoardList[ViewModel.BoardList.Count - 1];
+                        contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[0]);
+                    }
                 }
             }
         }
@@ -142,22 +145,28 @@ namespace KanbanTasker.Views
             var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
             var currentIndex = kanbanNavView.MenuItems.IndexOf(currentBoard);
             var updateBoardSuccess = ViewModel.UpdateBoard(currentBoard, currentIndex);
-
+            editBoardFlyout.Hide();
             if (updateBoardSuccess)
             {
                 // Already updated in db, now update navview
                 currentBoard.BoardName = ViewModel.BoardName;
                 currentBoard.BoardNotes = ViewModel.BoardNotes;
                 kanbanNavView.MenuItems[currentIndex] = currentBoard;
-                // navigate frame again? 
-              //  contentFrame.Navigate(typeof(BoardView), currentBoard);
             }
         }
 
         private void EditBoardFlyout_Opening(object sender, object e)
         {
-            ViewModel.BoardName = (kanbanNavView.SelectedItem as BoardViewModel).BoardName;
-            ViewModel.BoardNotes = (kanbanNavView.SelectedItem as BoardViewModel).BoardNotes;
+            if(kanbanNavView.SelectedItem != null)
+            {
+                ViewModel.BoardName = (kanbanNavView.SelectedItem as BoardViewModel).BoardName;
+                ViewModel.BoardNotes = (kanbanNavView.SelectedItem as BoardViewModel).BoardNotes;
+            }
+            else
+            {
+                var flyout = sender as Flyout;
+                flyout.Hide();
+            }
         }
     }
 
