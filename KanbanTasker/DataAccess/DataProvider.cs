@@ -194,7 +194,7 @@ namespace KanbanTasker.DataAccess
             {
                 db.Open();
                 SqliteCommand deleteCommand = new SqliteCommand
-                    ("DELETE FROM tblTest WHERE Id=@id", db);
+                    ("DELETE FROM tblTasks WHERE Id=@id", db);
                 deleteCommand.Parameters.AddWithValue("id", id);
                 deleteCommand.ExecuteNonQuery();
                 db.Close();
