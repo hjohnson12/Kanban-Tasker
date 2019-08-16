@@ -73,7 +73,7 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public BoardViewModel CreateBoard()
+        public void CreateBoard()
         {
             // Create board
             BoardViewModel newBoard = new BoardViewModel
@@ -91,7 +91,7 @@ namespace KanbanTasker.ViewModels
                     newBoard.Tasks.Add(task);
             BoardList.Add(newBoard);
             //Current = BoardList[BoardList.IndexOf(newBoard)];
-            return newBoard;
+            //return newBoard;
         }
 
         internal bool DeleteBoard(BoardViewModel currentBoard)

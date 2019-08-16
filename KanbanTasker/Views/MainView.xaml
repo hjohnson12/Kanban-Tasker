@@ -44,15 +44,15 @@
                 Foreground="Gray"
                 Text="{x:Bind ViewModel.BoardName, Mode=OneWay}" />-->
         </Grid>
-
-        <NavigationView
+      <!--MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"-->
+      <NavigationView
             x:Name="kanbanNavView"
             Grid.Row="1"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             ItemInvoked="KanbanNavView_ItemInvoked"
             Loaded="KanbanNavView_Loaded"
-            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"
+            
             PaneDisplayMode="Top"
             SelectedItem="{x:Bind ViewModel.Current, Mode=TwoWay}">
 

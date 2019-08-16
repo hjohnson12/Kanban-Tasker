@@ -45,6 +45,8 @@ namespace KanbanTasker.Views
             ViewModel = App.mainViewModel;
 
             BoardVM = new BoardViewModel();
+
+            kanbanNavView.MenuItemsSource = ViewModel.BoardList;
         }
 
         private void BtnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
@@ -63,18 +65,13 @@ namespace KanbanTasker.Views
                 ChooseBoardNameTeachingTip.IsOpen = true;
             else
             {
-
                 if (ViewModel.BoardList.Count == 0)
                 {
-                    var newBoard = ViewModel.CreateBoard();
-                   // kanbanNavView.SelectedItem = newBoard as BoardViewModel;
+                    ViewModel.CreateBoard();
+                    Bindings.Update();
                 }
-                else if (ViewModel.BoardList.Count > 0)
-                {
-                    var newBoard = ViewModel.CreateBoard();
-                    newBoardFlyout.Hide();
-                }
-                
+                kanbanNavView.SelectedItem = ViewModel.BoardList[0];
+                newBoardFlyout.Hide();
             }
         }
 
@@ -144,8 +141,10 @@ namespace KanbanTasker.Views
             else
             {
                 var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
-               
-                contentFrame.Navigate(typeof(BoardView), ViewModel.CreateDefaultBoard());
+
+                // To show no boards page
+                contentFrame.Navigate(typeof(NoBoardsMessageView));
+               // contentFrame.Navigate(typeof(BoardView), ViewModel.CreateDefaultBoard());
 
                 // Navigate to a page saying that there are no boards 
             }
