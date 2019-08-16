@@ -95,6 +95,7 @@ namespace KanbanTasker.Views
         {
             // TO-DO: Check for when there are no boards on the screen
             kanbanNavView.SelectedItem = ViewModel.BoardList[0];
+            contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[0]);
         }
     }
 }
