@@ -36,8 +36,8 @@
                 VerticalAlignment="Center"
                 Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png" />
             <TextBlock
-                Grid.Column="1"
                 x:Name="TitleBarCurrentBoardTextblock"
+                Grid.Column="1"
                 Margin="0,10,45,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -57,7 +57,10 @@
             SelectionChanged="KanbanNavView_SelectionChanged">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding BoardName}" />
+                    <TextBlock
+                        Text="{Binding BoardName}"
+                        ToolTipService.Placement="Bottom"
+                        ToolTipService.ToolTip="{Binding BoardNotes}" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
 
