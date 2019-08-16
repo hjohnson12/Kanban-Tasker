@@ -305,7 +305,7 @@
                                                     <Setter.Value>
                                                         <ControlTemplate TargetType="ListViewItem">
                                                             <ListViewItemPresenter
-                                                                Margin="1 1 2 2"
+                                                                Margin="1,1,2,2"
                                                                 Padding="0"
                                                                 BorderThickness="0"
                                                                 ContentMargin="0" />
