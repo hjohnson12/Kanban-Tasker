@@ -142,6 +142,11 @@ namespace KanbanTasker.DataAccess
             }
         }
 
+        internal static void UpdateBoard(string boardId)
+        {
+            throw new NotImplementedException();
+        }
+
         public static int AddBoard(string boardName, string boardNotes)
         {
             long pd = -1;

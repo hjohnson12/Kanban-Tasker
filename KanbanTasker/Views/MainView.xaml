@@ -44,18 +44,15 @@
                 Foreground="Gray"
                 Text="{x:Bind ViewModel.BoardName, Mode=OneWay}" />-->
         </Grid>
-      <!--MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"-->
-      <NavigationView
+        <!--  MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"  -->
+        <NavigationView
             x:Name="kanbanNavView"
             Grid.Row="1"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             ItemInvoked="KanbanNavView_ItemInvoked"
             Loaded="KanbanNavView_Loaded"
-            
-            PaneDisplayMode="Top"
-            SelectedItem="{x:Bind ViewModel.Current, Mode=TwoWay}">
-
+            PaneDisplayMode="Top">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding BoardName}" />
@@ -71,7 +68,10 @@
                         Style="{StaticResource AppBarButtonCustomStyle}"
                         ToolTipService.ToolTip="Edit Current Board">
                         <AppBarButton.Flyout>
-                            <Flyout x:Name="editBoardFlyout" Placement="Bottom">
+                            <Flyout
+                                x:Name="editBoardFlyout"
+                                Opening="EditBoardFlyout_Opening"
+                                Placement="Bottom">
                                 <Flyout.FlyoutPresenterStyle>
                                     <Style TargetType="FlyoutPresenter">
                                         <Setter Property="CornerRadius" Value="3" />
@@ -136,12 +136,13 @@
                                             FontWeight="Bold"
                                             Text="Board Name:" />
                                         <TextBox
+                                            x:Name="txtBoxEditBoardName"
                                             Width="300"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             PlaceholderText="Type your information here"
                                             Style="{StaticResource TextBoxStyle1}"
-                                            Text="{x:Bind ViewModel.Current.BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            Text="{x:Bind ViewModel.BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
                                             <SymbolIcon Symbol="Page2" />
                                             <TextBlock
@@ -158,7 +159,7 @@
                                                 BorderThickness="1"
                                                 CornerRadius="3"
                                                 PlaceholderText="Type your information here"
-                                                Text="{x:Bind ViewModel.Current.BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                Text="{x:Bind ViewModel.BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 TextWrapping="Wrap" />
                                         </ScrollViewer>
                                     </StackPanel>
@@ -186,17 +187,9 @@
                                                     Margin="0,8,12,0"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
+                                                    Click="FlyoutBtnUpdateBoard_Click"
                                                     Icon="Save"
                                                     Label="Update" />
-                                                <AppBarButton
-                                                    x:Name="flyoutBtnDeleteBoard"
-                                                    Grid.Column="0"
-                                                    Margin="8,8,12,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Click="FlyoutBtnDeleteBoard_Click"
-                                                    Icon="Delete"
-                                                    Label="Delete" />
                                                 <AppBarButton
                                                     Grid.Column="2"
                                                     Margin="8,8,0,0"
@@ -215,7 +208,7 @@
                     <AppBarButton
                         x:Name="navViewBtnDeleteBoard"
                         Width="40"
-                        Click="NavViewBtnDeleteBoard_Click"
+                        Click="BtnDeleteCurrentBoard_Click"
                         Icon="Delete"
                         ToolTipService.ToolTip="Delete Current Board" />
                     <AppBarSeparator />

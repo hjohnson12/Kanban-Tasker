@@ -374,7 +374,7 @@ namespace KanbanTasker.ViewModels
             else
                 tags = ""; // No tags
 
-            var boardId = App.mainViewModel.Current.BoardId.ToString();
+            var boardId = this.BoardId.ToString();
 
             var currentDateTime = DateTimeOffset.Now.ToString();
 

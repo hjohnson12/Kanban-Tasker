@@ -35,42 +35,58 @@ namespace KanbanTasker.ViewModels
         {
             // Instantiate the collection object
             BoardList = DataProvider.GetBoards();
+            allTasks = new ObservableCollection<CustomKanbanModel>();
+            allTasks = DataProvider.GetData();
 
-            if (BoardList.Count == 0)
+            // Sort according to ColumnIndex that way tasks are loaded 
+            // in the correct places
+            var sortedCollection = allTasks.OrderBy(x => x.ColumnIndex);
+
+            foreach (var board in BoardList)
             {
-                // Create board
-                BoardViewModel newBoard = new BoardViewModel
+                foreach (var task in sortedCollection)
                 {
-                    BoardName = "New Board"
-                };
-
-                // Add to collection and db
-                int newBoardId = DataProvider.AddBoard("New Board", "This is a default board added when there are none");
-                newBoard.BoardId = newBoardId.ToString();
-                newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
-                BoardList.Add(newBoard);
-                Current = newBoard;
-            }
-            else
-            {
-                allTasks = new ObservableCollection<CustomKanbanModel>();
-                allTasks = DataProvider.GetData();
-
-                // Sort according to ColumnIndex that way tasks are loaded 
-                // in the correct places
-                var sortedCollection = allTasks.OrderBy(x => x.ColumnIndex);
-
-                foreach (var board in BoardList)
-                {
-                    foreach (var task in sortedCollection)
-                    {
-                        if (task.BoardId == board.BoardId)
-                            board.Tasks.Add(task);
-                    }
+                    if (task.BoardId == board.BoardId)
+                        board.Tasks.Add(task);
                 }
-               
-                Current = BoardList[0];
             }
+            //if (BoardList.Count == 0)
+            //{
+            //    // Create board
+            //    BoardViewModel newBoard = new BoardViewModel
+            //    {
+            //        BoardName = "New Board"
+            //    };
+
+            //    // Add to collection and db
+            //    int newBoardId = DataProvider.AddBoard("New Board", "This is a default board added when there are none");
+            //    newBoard.BoardId = newBoardId.ToString();
+            //    newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
+            //    BoardList.Add(newBoard);
+            //    Current = newBoard;
+
+                
+            //}
+            //else
+            //{
+            //    allTasks = new ObservableCollection<CustomKanbanModel>();
+            //    allTasks = DataProvider.GetData();
+
+            //    // Sort according to ColumnIndex that way tasks are loaded 
+            //    // in the correct places
+            //    var sortedCollection = allTasks.OrderBy(x => x.ColumnIndex);
+
+            //    foreach (var board in BoardList)
+            //    {
+            //        foreach (var task in sortedCollection)
+            //        {
+            //            if (task.BoardId == board.BoardId)
+            //                board.Tasks.Add(task);
+            //        }
+            //    }
+               
+            // //   Current = BoardList[0];
+            //}
         }
 
         public void CreateBoard()
@@ -86,11 +102,8 @@ namespace KanbanTasker.ViewModels
             int newBoardId = DataProvider.AddBoard(BoardName, BoardNotes);
             newBoard.BoardId = newBoardId.ToString();
             newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
-            foreach (var task in allTasks)
-                if (task.BoardId == newBoardId.ToString())
-                    newBoard.Tasks.Add(task);
             BoardList.Add(newBoard);
-            //Current = BoardList[BoardList.IndexOf(newBoard)];
+            //Current = newBoard;
             //return newBoard;
         }
 
@@ -100,7 +113,6 @@ namespace KanbanTasker.ViewModels
             // Remove tasks from tblTasks and board from tblBoards in DataProvider
             currentBoard.Tasks.Clear();
             BoardList.Remove(currentBoard);
-            Current.BoardName = ""; // Clear current board posted in the title bar
             return DataProvider.DeleteBoard(currentBoard.BoardId);
         }
 
@@ -129,6 +141,13 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged("Current"); // Let the UI know to update this binding.
             }
 
+        }
+
+        internal void UpdateBoard(BoardViewModel currentBoard)
+        {
+            var oldBoardName = currentBoard.BoardName;
+            var newBoardName = BoardName;
+            DataProvider.UpdateBoard(currentBoard.BoardId);
         }
 
         public string BoardName
