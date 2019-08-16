@@ -51,8 +51,6 @@ namespace KanbanTasker.Views
             }
         }
 
-        
-
         private void BtnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
         {
             newBoardFlyout.Hide();
@@ -130,6 +128,7 @@ namespace KanbanTasker.Views
                     kanbanNavView.MenuItems.Remove(currentBoard);
                     if (ViewModel.BoardList.Count == 0)
                     {
+                        TitleBarCurrentBoardTextblock.Text = ""; // Clear heading on title bar
                         contentFrame.Navigate(typeof(NoBoardsMessageView));
                     }
                     else
@@ -172,7 +171,10 @@ namespace KanbanTasker.Views
                 UnableToEditBoardTeachingTip.IsOpen = true;
             }
         }
+
+        private void KanbanNavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            ViewModel.Current = args.SelectedItem as BoardViewModel;
+        }
     }
-
-
 }
