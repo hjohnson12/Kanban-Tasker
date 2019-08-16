@@ -138,6 +138,8 @@ namespace KanbanTasker.Views
                     }
                 }
             }
+            else
+                UnableToDeleteBoardTeachingTip.IsOpen = true;
         }
 
         private void FlyoutBtnUpdateBoard_Click(object sender, RoutedEventArgs e)
@@ -166,6 +168,7 @@ namespace KanbanTasker.Views
             {
                 var flyout = sender as Flyout;
                 flyout.Hide();
+                UnableToEditBoardTeachingTip.IsOpen = true;
             }
         }
     }

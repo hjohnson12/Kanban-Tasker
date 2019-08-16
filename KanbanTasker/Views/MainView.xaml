@@ -62,11 +62,27 @@
             <NavigationView.PaneFooter>
                 <StackPanel Orientation="Horizontal">
                     <AppBarButton
+                        x:Name="NavViewBtnEditBoard"
                         Width="40"
                         AllowFocusOnInteraction="True"
                         Icon="Edit"
                         Style="{StaticResource AppBarButtonCustomStyle}"
                         ToolTipService.ToolTip="Edit Current Board">
+                        <AppBarButton.Resources>
+                            <muxc1:TeachingTip
+                                x:Name="UnableToEditBoardTeachingTip"
+                                Title="No boards selected"
+                                Background="{ThemeResource RegionBrush}"
+                                CornerRadius="3"
+                                IsLightDismissEnabled="True"
+                                PreferredPlacement="Left"
+                                Subtitle="Please create or select a board to be edited"
+                                Target="{x:Bind NavViewBtnEditBoard}">
+                                <muxc1:TeachingTip.IconSource>
+                                    <muxc1:SymbolIconSource Symbol="Important" />
+                                </muxc1:TeachingTip.IconSource>
+                            </muxc1:TeachingTip>
+                        </AppBarButton.Resources>
                         <AppBarButton.Flyout>
                             <Flyout
                                 x:Name="editBoardFlyout"
@@ -210,7 +226,23 @@
                         Width="40"
                         Click="BtnDeleteCurrentBoard_Click"
                         Icon="Delete"
-                        ToolTipService.ToolTip="Delete Current Board" />
+                        ToolTipService.ToolTip="Delete Current Board">
+                        <AppBarButton.Resources>
+                            <muxc1:TeachingTip
+                                x:Name="UnableToDeleteBoardTeachingTip"
+                                Title="No board selected"
+                                Background="{ThemeResource RegionBrush}"
+                                CornerRadius="3"
+                                IsLightDismissEnabled="True"
+                                PreferredPlacement="Left"
+                                Subtitle="Please create or select a board to be deleted"
+                                Target="{x:Bind navViewBtnDeleteBoard}">
+                                <muxc1:TeachingTip.IconSource>
+                                    <muxc1:SymbolIconSource Symbol="Important" />
+                                </muxc1:TeachingTip.IconSource>
+                            </muxc1:TeachingTip>
+                        </AppBarButton.Resources>
+                    </AppBarButton>
                     <AppBarSeparator />
                     <AppBarButton
                         x:Name="btnSettings"
