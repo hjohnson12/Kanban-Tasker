@@ -142,9 +142,24 @@ namespace KanbanTasker.DataAccess
             }
         }
 
-        internal static void UpdateBoard(string boardId)
+        internal static bool UpdateBoard(string boardId, string boardName, string boardNotes)
         {
-            throw new NotImplementedException();
+            using (SqliteConnection db =
+               new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+
+                // Update card  index
+                SqliteCommand updateCommand = new SqliteCommand
+                    ("UPDATE tblBoards SET Name=@boardName,Notes=@boardNotes WHERE Id=@boardId", db);
+
+                updateCommand.Parameters.AddWithValue("@boardId", boardId);
+                updateCommand.Parameters.AddWithValue("@boardName", boardName);
+                updateCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
+                updateCommand.ExecuteNonQuery();
+                return true;
+                db.Close();
+            }
         }
 
         public static int AddBoard(string boardName, string boardNotes)
