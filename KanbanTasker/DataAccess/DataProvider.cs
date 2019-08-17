@@ -11,7 +11,7 @@ namespace KanbanTasker.DataAccess
         public static void InitializeDatabase()
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 
@@ -44,7 +44,7 @@ namespace KanbanTasker.DataAccess
         public static void UpdateColumnData(CustomKanbanModel selectedCardModel, string targetCategory, string targetIndex)
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 
@@ -64,7 +64,7 @@ namespace KanbanTasker.DataAccess
         {
             long pd = -1;
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 
@@ -89,11 +89,84 @@ namespace KanbanTasker.DataAccess
             return (int)pd;
         }
 
+        internal static bool DeleteBoardTasks(string boardId)
+        {
+            // Delete task from db
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+                try
+                {
+                    SqliteCommand deleteCommand = new SqliteCommand
+                   ("DELETE FROM tblTasks WHERE BoardID=@boardId", db);
+                    deleteCommand.Parameters.AddWithValue("boardId", boardId);
+                    deleteCommand.ExecuteNonQuery();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                finally { db.Close(); }
+            }
+        }
+
+        internal static bool DeleteBoard(string boardId)
+        {
+            // Delete task from db
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+                try
+                {
+                    SqliteCommand deleteCommand = new SqliteCommand
+                   ("DELETE FROM tblTasks WHERE BoardID=@boardId", db);
+                    deleteCommand.Parameters.AddWithValue("boardId", boardId);
+                    deleteCommand.ExecuteNonQuery();
+
+                    deleteCommand = new SqliteCommand
+                   ("DELETE FROM tblBoards WHERE Id=@id", db);
+                    deleteCommand.Parameters.AddWithValue("id", boardId);
+                    deleteCommand.ExecuteNonQuery();
+
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    return false;
+                }
+                finally { db.Close(); }
+            }
+        }
+
+        internal static bool UpdateBoard(string boardId, string boardName, string boardNotes)
+        {
+            using (SqliteConnection db =
+               new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+
+                // Update card  index
+                SqliteCommand updateCommand = new SqliteCommand
+                    ("UPDATE tblBoards SET Name=@boardName,Notes=@boardNotes WHERE Id=@boardId", db);
+
+                updateCommand.Parameters.AddWithValue("@boardId", boardId);
+                updateCommand.Parameters.AddWithValue("@boardName", boardName);
+                updateCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
+                updateCommand.ExecuteNonQuery();
+                return true;
+                db.Close();
+            }
+        }
+
         public static int AddBoard(string boardName, string boardNotes)
         {
             long pd = -1;
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 
@@ -117,14 +190,13 @@ namespace KanbanTasker.DataAccess
         {
             // Delete task from db
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
                 SqliteCommand deleteCommand = new SqliteCommand
                     ("DELETE FROM tblTasks WHERE Id=@id", db);
                 deleteCommand.Parameters.AddWithValue("id", id);
                 deleteCommand.ExecuteNonQuery();
-
                 db.Close();
             }
         }
@@ -138,7 +210,7 @@ namespace KanbanTasker.DataAccess
 
             // Get tasks and return the collection
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 
@@ -182,7 +254,7 @@ namespace KanbanTasker.DataAccess
 
             // Get tasks and return the collection
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 
@@ -210,7 +282,7 @@ namespace KanbanTasker.DataAccess
         public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 
@@ -232,7 +304,7 @@ namespace KanbanTasker.DataAccess
         internal static void UpdateCardIndex(string iD, int currentCardIndex)
         {
             using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase.db"))
+                new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 

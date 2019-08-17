@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<Page
     x:Class="KanbanTasker.Views.BoardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,7 +14,7 @@
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
     mc:Ignorable="d">
-    <UserControl.Resources>
+    <Page.Resources>
         <ResourceDictionary>
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
@@ -305,7 +305,7 @@
                                                     <Setter.Value>
                                                         <ControlTemplate TargetType="ListViewItem">
                                                             <ListViewItemPresenter
-                                                                Margin="1 1 2 2"
+                                                                Margin="1,1,2,2"
                                                                 Padding="0"
                                                                 BorderThickness="0"
                                                                 ContentMargin="0" />
@@ -378,7 +378,7 @@
             </CommandBarFlyout.SecondaryCommands>-->
             </CommandBarFlyout>
         </ResourceDictionary>
-    </UserControl.Resources>
+    </Page.Resources>
 
     <SplitView
         x:Name="splitView"
@@ -960,4 +960,4 @@
                 Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
         </Grid>
     </SplitView>
-</UserControl>
+</Page>

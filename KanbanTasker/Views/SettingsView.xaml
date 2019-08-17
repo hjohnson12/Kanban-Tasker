@@ -49,8 +49,7 @@
                         <TextBlock
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"
-                            Text="Developed by Hunter Johnson" />
-
+                            Text="Developed by and logo design by Hunter Johnson" />
                         <HyperlinkButton
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"

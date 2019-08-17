@@ -45,6 +45,10 @@ namespace KanbanTasker.Views
             ViewModel = App.mainViewModel;
 
             BoardVM = new BoardViewModel();
+            foreach (BoardViewModel boardViewModel in ViewModel.BoardList)
+            {
+                kanbanNavView.MenuItems.Add(boardViewModel);
+            }
         }
 
         private void BtnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
@@ -60,10 +64,19 @@ namespace KanbanTasker.Views
         private void FlyoutBtnCreateNewBoard_Click(object sender, RoutedEventArgs e)
         {
             if (txtBoxNewBoardName.Text == "")
+            {
                 ChooseBoardNameTeachingTip.IsOpen = true;
+            }
             else
             {
+                kanbanNavView.SelectedItem = null;
+
                 ViewModel.CreateBoard();
+
+                kanbanNavView.MenuItems.Add(ViewModel.BoardList[ViewModel.BoardList.Count - 1]);
+                kanbanNavView.SelectedItem = ViewModel.BoardList[ViewModel.BoardList.Count - 1];
+                contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[ViewModel.BoardList.Count - 1]);
+
                 newBoardFlyout.Hide();
             }
         }
@@ -83,6 +96,85 @@ namespace KanbanTasker.Views
         {
             var dialog = new SettingsView();
             var result = await dialog.ShowAsync();
+        }
+
+        private void KanbanNavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            var selectedBoard = args.InvokedItem as BoardViewModel;
+            contentFrame.Navigate(typeof(BoardView), selectedBoard);
+        }
+
+        private void KanbanNavView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // TO-DO: Check for when there are no boards on the screen
+            if (ViewModel.BoardList.Count == 0)
+                contentFrame.Navigate(typeof(NoBoardsMessageView));
+            else
+            {
+                kanbanNavView.SelectedItem = ViewModel.BoardList[0];
+                contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[0]);
+            }
+        }
+
+        private void BtnDeleteCurrentBoard_Click(object sender, RoutedEventArgs e)
+        {
+            var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
+            if (currentBoard != null)
+            {
+                var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
+                if (deleteBoardSuccess)
+                {
+                    kanbanNavView.SelectedItem = null;
+                    kanbanNavView.MenuItems.Remove(currentBoard);
+                    if (ViewModel.BoardList.Count == 0)
+                    {
+                        TitleBarCurrentBoardTextblock.Text = ""; // Clear heading on title bar
+                        contentFrame.Navigate(typeof(NoBoardsMessageView));
+                    }
+                    else
+                    {
+                        kanbanNavView.SelectedItem = ViewModel.BoardList[ViewModel.BoardList.Count - 1];
+                        contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[0]);
+                    }
+                }
+            }
+            else
+                UnableToDeleteBoardTeachingTip.IsOpen = true;
+        }
+
+        private void FlyoutBtnUpdateBoard_Click(object sender, RoutedEventArgs e)
+        {
+            var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
+            var currentIndex = kanbanNavView.MenuItems.IndexOf(currentBoard);
+            var updateBoardSuccess = ViewModel.UpdateBoard(currentBoard, currentIndex);
+            editBoardFlyout.Hide();
+            if (updateBoardSuccess)
+            {
+                // Already updated in db, now update navview
+                currentBoard.BoardName = ViewModel.BoardName;
+                currentBoard.BoardNotes = ViewModel.BoardNotes;
+                kanbanNavView.MenuItems[currentIndex] = currentBoard;
+            }
+        }
+
+        private void EditBoardFlyout_Opening(object sender, object e)
+        {
+            if(kanbanNavView.SelectedItem != null)
+            {
+                ViewModel.BoardName = (kanbanNavView.SelectedItem as BoardViewModel).BoardName;
+                ViewModel.BoardNotes = (kanbanNavView.SelectedItem as BoardViewModel).BoardNotes;
+            }
+            else
+            {
+                var flyout = sender as Flyout;
+                flyout.Hide();
+                UnableToEditBoardTeachingTip.IsOpen = true;
+            }
+        }
+
+        private void KanbanNavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            ViewModel.Current = args.SelectedItem as BoardViewModel;
         }
     }
 }

@@ -24,7 +24,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace KanbanTasker.Views
 {
-    public sealed partial class BoardView : UserControl
+    public sealed partial class BoardView : Page
     {
 
         public BoardViewModel ViewModel { get; set; }
@@ -126,6 +126,11 @@ namespace KanbanTasker.Views
         //=====================================================================
         // UI Events
         //=====================================================================
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var selectedBoard = e.Parameter as BoardViewModel;
+            ViewModel = selectedBoard;
+        }
 
         private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
         {
