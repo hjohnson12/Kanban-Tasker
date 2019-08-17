@@ -71,7 +71,8 @@
                     </StackPanel>
                 </Grid>
             </PivotItem>
-            <PivotItem Header="General">
+            <!--  TO-DO: Finish implementation after first release  -->
+            <!--<PivotItem Header="General">
                 <Grid Margin="0,8,0,0">
                     <StackPanel Orientation="Vertical">
                         <TextBlock FontWeight="Bold" Text="THEME" />
@@ -86,7 +87,7 @@
                             IsEnabled="False" />
                     </StackPanel>
                 </Grid>
-            </PivotItem>
+            </PivotItem>-->
         </Pivot>
 
     </Grid>
