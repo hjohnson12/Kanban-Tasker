@@ -56,11 +56,11 @@
             PaneDisplayMode="Top"
             SelectionChanged="KanbanNavView_SelectionChanged">
             <NavigationView.MenuItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="viewmodels:BoardViewModel">
                     <TextBlock
                         Text="{Binding BoardName}"
                         ToolTipService.Placement="Bottom"
-                        ToolTipService.ToolTip="{Binding BoardNotes}" />
+                        ToolTipService.ToolTip="{x:Bind BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
 
