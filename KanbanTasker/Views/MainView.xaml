@@ -58,7 +58,7 @@
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="viewmodels:BoardViewModel">
                     <TextBlock
-                        Text="{Binding BoardName}"
+                        Text="{x:Bind BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="{x:Bind BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </DataTemplate>
@@ -378,7 +378,23 @@
                                             CornerRadius="3"
                                             PlaceholderText="Type your information here"
                                             Text="{x:Bind ViewModel.BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            TextWrapping="Wrap" />
+                                            TextWrapping="Wrap">
+                                            <TextBox.Resources>
+                                                <muxc1:TeachingTip
+                                                    x:Name="AddBoardNotesTeachingTip"
+                                                    Title="Add board notes"
+                                                    Background="{ThemeResource RegionBrush}"
+                                                    CornerRadius="3"
+                                                    IsLightDismissEnabled="True"
+                                                    PreferredPlacement="Right"
+                                                    Subtitle="Please fill out notes for your board to continue."
+                                                    Target="{x:Bind txtBoxNewBoardNotes}">
+                                                    <muxc1:TeachingTip.IconSource>
+                                                        <muxc1:SymbolIconSource Symbol="Important" />
+                                                    </muxc1:TeachingTip.IconSource>
+                                                </muxc1:TeachingTip>
+                                            </TextBox.Resources>
+                                        </TextBox>
                                     </ScrollViewer>
                                 </StackPanel>
 

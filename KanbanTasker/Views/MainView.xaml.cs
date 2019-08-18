@@ -47,6 +47,10 @@ namespace KanbanTasker.Views
             {
                 ChooseBoardNameTeachingTip.IsOpen = true;
             }
+            if (txtBoxNewBoardNotes.Text == "")
+            {
+                AddBoardNotesTeachingTip.IsOpen = true;
+            }
             else
             {
                 kanbanNavView.SelectedItem = null;
