@@ -31,7 +31,7 @@ namespace KanbanTasker.Views
             ViewModel = App.mainViewModel.Current;
 
             // Add rounded corners to each card
-            kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
+            kanbanBoard.CardStyle.CornerRadius = new CornerRadius(3);
         }
 
         #region Methods
