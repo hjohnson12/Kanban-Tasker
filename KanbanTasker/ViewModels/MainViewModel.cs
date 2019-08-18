@@ -86,7 +86,6 @@ namespace KanbanTasker.ViewModels
             return DataProvider.UpdateBoard(currentBoard.BoardId, BoardName, BoardNotes);
         }
 
-
         public ObservableCollection<BoardViewModel> BoardList
         {
             get
