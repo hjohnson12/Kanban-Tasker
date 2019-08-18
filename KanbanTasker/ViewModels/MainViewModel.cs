@@ -120,7 +120,7 @@ namespace KanbanTasker.ViewModels
             set
             {
                 _current = value;
-                OnPropertyChanged(); 
+                OnPropertyChanged();
             }
 
         }

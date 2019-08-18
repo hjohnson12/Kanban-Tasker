@@ -27,15 +27,14 @@ namespace KanbanTasker.Views
         public BoardView()
         {
             this.InitializeComponent();
-            //ViewModel = new BoardViewModel();
+
             ViewModel = App.mainViewModel.Current;
+
             // Add rounded corners to each card
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(10.0);
         }
 
-        //=====================================================================
-        // HELPER FUNCTIONS
-        //=====================================================================
+        #region Methods
 
         public List<string> GetColorKeys(SfKanban kanban)
         {
@@ -116,10 +115,10 @@ namespace KanbanTasker.Views
                 }
             }
         }
+        #endregion Methods
 
-        //=====================================================================
-        // UI Events
-        //=====================================================================
+        #region UIEvents
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var selectedBoard = e.Parameter as BoardViewModel;
@@ -166,10 +165,8 @@ namespace KanbanTasker.Views
             ViewModel.CurrentCategory = SelectedModel.Category.ToString();
             comboBoxColorKey.SelectedItem = SelectedModel.ColorKey;
 
-            // Hide flyout
             taskFlyout.Hide();
 
-            // Open pane if closed
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
 
@@ -468,5 +465,6 @@ namespace KanbanTasker.Views
                 }
             }
         }
+        #endregion UIEvents
     }
 }
