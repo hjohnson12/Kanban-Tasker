@@ -14,8 +14,8 @@
   <mp:PhoneIdentity PhoneProductId="233382e2-3ebf-49ce-a5a0-ba5da7e72e7f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>KanbanTasker</DisplayName>
-    <PublisherDisplayName>Hunter</PublisherDisplayName>
+    <DisplayName>Kanban Tasker</DisplayName>
+    <PublisherDisplayName>Hunter Johnson</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -35,7 +35,7 @@
         DisplayName="Kanban Tasker"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="KanbanTasker is a Windows 10 UWP Kanban Board application"
+        Description="KanbanTasker is a Windows 10 UWP Kanban Board application to manage tasks for each board created."
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="Kanban Tasker">
           <uap:ShowNameOnTiles>
