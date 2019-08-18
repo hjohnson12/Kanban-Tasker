@@ -50,20 +50,22 @@
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"
                             Text="Developed by Hunter Johnson" />
+                        <TextBlock
+                            Margin="0,2,0,0"
+                            HorizontalAlignment="Center"
+                            Text="Icon design by Joshua Askharoun" />
                         <HyperlinkButton
-                            Margin="0,4,0,4"
+                            Margin="0,12,0,0"
                             HorizontalAlignment="Center"
                             Content="Contribute to Kanban Tasker's source code"
                             NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                         <HyperlinkButton
-                            Margin="0,4,0,4"
                             HorizontalAlignment="Center"
                             Content="Feedback"
                             NavigateUri="https://feedback.userreport.com/7d4ef159-95d2-4cf0-a068-b50adbe514a6/#ideas/popular"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                         <HyperlinkButton
-                            Margin="0,4,0,0"
                             HorizontalAlignment="Center"
                             Content="Rate and Review"
                             NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"

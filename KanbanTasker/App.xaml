@@ -723,7 +723,7 @@
                         <ControlTemplate TargetType="HyperlinkButton">
                             <ContentPresenter
                                 x:Name="ContentPresenter"
-                                Padding="{TemplateBinding Padding}"
+                                Padding="4"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                 AutomationProperties.AccessibilityView="Raw"
