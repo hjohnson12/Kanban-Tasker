@@ -176,33 +176,21 @@ namespace KanbanTasker.Views
             txtBoxTitle.SelectionLength = 0;
         }
 
-        private async void CardBtnDelete_Click(object sender, RoutedEventArgs e)
+        private void CardBtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var originalSource = (FrameworkElement)sender;
             SelectedModel = originalSource.DataContext as CustomKanbanModel;
 
-            // Create dialog and check button click result
-            var deleteDialog = new DeleteConfirmationView();
-            var result = await deleteDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                // Close pane when done
-                splitView.IsPaneOpen = false;
-
-                // Delete Task from collection and database
-                var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
-
-                UpdateCardIndexes();
-
-                if (deleteSuccess)
-                    KanbanInAppNotification.Show("Task deleted from board successfully", 3000);
-            }
-            else
-                return;
+            // Show flyout attached to button
+            // Delete task if "Yes" button is clicked inside flyout
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
 
-
+        /// <summary>
+        /// Used for touch screen users, but works for PC users too
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
         {
             // Hide flyout
@@ -291,7 +279,11 @@ namespace KanbanTasker.Views
                     splitView.IsPaneOpen = false;
 
                 if (updateSuccess)
+                {
+                    SelectedModel.ColorKey = selectedColorKey;
                     KanbanInAppNotification.Show("Task successfully updated", 3000);
+
+                }
                 else
                     KanbanInAppNotification.Show("Task could not be updated", 3000);
             }
@@ -465,6 +457,27 @@ namespace KanbanTasker.Views
                 }
             }
         }
+
+        private void FlyoutDeleteCardBtnYes_Click(object sender, RoutedEventArgs e)
+        {
+           // Close pane when done
+            splitView.IsPaneOpen = false;
+
+            // Delete Task from collection and database
+            var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
+
+            UpdateCardIndexes();
+
+            if (deleteSuccess)
+                KanbanInAppNotification.Show("Task deleted from board successfully", 3000);
+        }
+
+        private void FlyoutDeleteCardBtnNo_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
         #endregion UIEvents
+
+    
     }
 }

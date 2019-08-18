@@ -16,7 +16,6 @@ namespace KanbanTasker.ViewModels
         private CustomKanbanModel _cardModel;
         private ObservableCollection<string> _tagsCollection;
         private ObservableCollection<CustomKanbanModel> _tasks;
-        private List<string> _categories;
         private List<string> _colorKeys;
         private string _paneTitle;
         private string _boardName;

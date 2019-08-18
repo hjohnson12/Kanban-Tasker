@@ -250,6 +250,32 @@
                                             Click="CardBtnDelete_Click"
                                             Style="{ThemeResource CardHyperlinkButtonStyle}"
                                             Visibility="Collapsed">
+                                            <FlyoutBase.AttachedFlyout>
+                                                <Flyout
+                                                    x:Name="flyoutDeleteCard"
+                                                    PickerFlyoutBase.Title="Delete Confirmation"
+                                                    Placement="Right">
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock
+                                                            FontSize="16"
+                                                            FontWeight="Bold"
+                                                            Text="Delete Confirmation"
+                                                            TextAlignment="Left" />
+                                                        <TextBlock
+                                                            Margin="0,4,0,0"
+                                                            Text="Are you sure you wish to delete this task?"
+                                                            TextAlignment="Left" />
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Button
+                                                                x:Name="flyoutBtnDeleteCardYes"
+                                                                Margin="0,8,8,0"
+                                                                Click="FlyoutDeleteCardBtnYes_Click"
+                                                                Content="Yes, delete this task"
+                                                                CornerRadius="3" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </FlyoutBase.AttachedFlyout>
                                             <FontIcon
                                                 FontFamily="Segoe MDL2 Assets"
                                                 FontSize="16"
@@ -347,7 +373,7 @@
                                         <Border.Background>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                                 <GradientStop Offset="0.5" Color="Transparent" />
-                                                <GradientStop Offset="0.5" Color="{Binding Tag.IndicatorColor}" />
+                                                <GradientStop Offset="0.5" Color="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}" />
                                             </LinearGradientBrush>
                                         </Border.Background>
                                     </Border>-->
