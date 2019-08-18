@@ -205,7 +205,7 @@ namespace KanbanTasker.Views
                 UpdateCardIndexes();
 
                 if (deleteSuccess)
-                    KanbanInAppNotification.Show("Task deleted from board successfully", 4000);
+                    KanbanInAppNotification.Show("Task deleted from board successfully", 3000);
             }
             else
                 return;
@@ -226,13 +226,13 @@ namespace KanbanTasker.Views
                 // Close pane when done
                 splitView.IsPaneOpen = false;
 
-                // Delete Task from collection and database
+                // Delete Task from collection and databaseIn
                 var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
 
                 UpdateCardIndexes();
 
                 if (deleteSuccess)
-                    KanbanInAppNotification.Show("Task deleted from board successfully", 4000);
+                    KanbanInAppNotification.Show("Task deleted from board successfully", 3000);
             }
             else
                 return; 
@@ -352,9 +352,9 @@ namespace KanbanTasker.Views
                         splitView.IsPaneOpen = false;
 
                     if (addSuccess)
-                        KanbanInAppNotification.Show("Task successfully added to the board", 4000);
+                        KanbanInAppNotification.Show("Task successfully added to the board", 3000);
                     else
-                        KanbanInAppNotification.Show("Task could not be created", 4000);
+                        KanbanInAppNotification.Show("Task could not be created", 3000);
                 }
             }
         }
