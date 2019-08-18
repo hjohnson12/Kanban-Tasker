@@ -229,9 +229,37 @@
                     <AppBarButton
                         x:Name="navViewBtnDeleteBoard"
                         Width="40"
-                        Click="BtnDeleteCurrentBoard_Click"
+                        AllowFocusOnInteraction="True"
                         Icon="Delete"
+                        Style="{ThemeResource AppBarButtonCustomStyle}"
                         ToolTipService.ToolTip="Delete Current Board">
+                        <AppBarButton.Flyout>
+                            <Flyout
+                                x:Name="deleteBoardFlyout"
+                                PickerFlyoutBase.Title="Delete Board Confirmation"
+                                Opening="DeleteBoardFlyout_Opening"
+                                Placement="Bottom">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Text="Delete Board Confirmation"
+                                        TextAlignment="Left" />
+                                    <TextBlock
+                                        Margin="0,4,0,0"
+                                        Text="Are you sure you wish to delete this board?"
+                                        TextAlignment="Left" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
+                                            x:Name="flyoutBtnDeleteCardYes"
+                                            Margin="0,8,8,0"
+                                            Click="BtnDeleteCurrentBoard_Click"
+                                            Content="Yes, delete this board"
+                                            CornerRadius="3" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Flyout>
+                        </AppBarButton.Flyout>
                         <AppBarButton.Resources>
                             <muxc1:TeachingTip
                                 x:Name="UnableToDeleteBoardTeachingTip"

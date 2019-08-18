@@ -103,6 +103,7 @@ namespace KanbanTasker.Views
         private void BtnDeleteCurrentBoard_Click(object sender, RoutedEventArgs e)
         {
             var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
+            deleteBoardFlyout.Hide();
             if (currentBoard != null)
             {
                 var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
@@ -159,6 +160,16 @@ namespace KanbanTasker.Views
         private void KanbanNavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             ViewModel.Current = args.SelectedItem as BoardViewModel;
+        }
+
+        private void DeleteBoardFlyout_Opening(object sender, object e)
+        {
+            if (kanbanNavView.SelectedItem == null)
+            {
+                var flyout = sender as Flyout;
+                flyout.Hide();
+                UnableToEditBoardTeachingTip.IsOpen = true;
+            }
         }
     }
 }
