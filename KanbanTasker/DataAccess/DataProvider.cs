@@ -149,16 +149,20 @@ namespace KanbanTasker.DataAccess
             {
                 db.Open();
 
-                // Update card  index
-                SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE tblBoards SET Name=@boardName,Notes=@boardNotes WHERE Id=@boardId", db);
+                try
+                {
+                    // Update card  index
+                    SqliteCommand updateCommand = new SqliteCommand
+                        ("UPDATE tblBoards SET Name=@boardName,Notes=@boardNotes WHERE Id=@boardId", db);
 
-                updateCommand.Parameters.AddWithValue("@boardId", boardId);
-                updateCommand.Parameters.AddWithValue("@boardName", boardName);
-                updateCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
-                updateCommand.ExecuteNonQuery();
-                return true;
-                db.Close();
+                    updateCommand.Parameters.AddWithValue("@boardId", boardId);
+                    updateCommand.Parameters.AddWithValue("@boardName", boardName);
+                    updateCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
+                    updateCommand.ExecuteNonQuery();
+                    return true;
+                }
+                catch(Exception ex) { return false; }
+                finally { db.Close(); }
             }
         }
 
@@ -279,25 +283,29 @@ namespace KanbanTasker.DataAccess
             return boards;
         }
 
-        public static void UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
+        public static bool UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
                 new SqliteConnection("Filename=ktdatabase2.db"))
             {
                 db.Open();
 
-                // Update item
-                SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
-                updateCommand.Parameters.AddWithValue("@title", title);
-                updateCommand.Parameters.AddWithValue("@desc", descr);
-                updateCommand.Parameters.AddWithValue("@categ", category);
-                updateCommand.Parameters.AddWithValue("@colorKey", colorKey);
-                updateCommand.Parameters.AddWithValue("@tags", tags);
-                updateCommand.Parameters.AddWithValue("@id", id);
-                updateCommand.ExecuteNonQuery();
-
-                db.Close();
+                try
+                {
+                    // Update item
+                    SqliteCommand updateCommand = new SqliteCommand
+                        ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
+                    updateCommand.Parameters.AddWithValue("@title", title);
+                    updateCommand.Parameters.AddWithValue("@desc", descr);
+                    updateCommand.Parameters.AddWithValue("@categ", category);
+                    updateCommand.Parameters.AddWithValue("@colorKey", colorKey);
+                    updateCommand.Parameters.AddWithValue("@tags", tags);
+                    updateCommand.Parameters.AddWithValue("@id", id);
+                    updateCommand.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception ex) { return false; }
+                finally { db.Close(); }
             }
         }
 

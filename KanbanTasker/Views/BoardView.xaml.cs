@@ -293,11 +293,16 @@ namespace KanbanTasker.Views
                 // Use view model to operate on model-related data
                 var selectedCategory = ViewModel.CurrentCategory;
                 var selectedColorKey = comboBoxColorKey.SelectedItem;
-                ViewModel.SaveTask(tags, selectedCategory, selectedColorKey, SelectedModel);
+                var updateSuccess = ViewModel.SaveTask(tags, selectedCategory, selectedColorKey, SelectedModel);
 
                 // Close pane when done
                 if (splitView.IsPaneOpen == true)
                     splitView.IsPaneOpen = false;
+
+                if (updateSuccess)
+                    KanbanInAppNotification.Show("Task successfully updated", 3000);
+                else
+                    KanbanInAppNotification.Show("Task could not be updated", 3000);
             }
             else if (ViewModel.CardModel == null) // Creating a Task
             {

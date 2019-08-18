@@ -319,7 +319,7 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "Edit Task";
         }
 
-        public void SaveTask(string tags, object selectedCategory, object selectedColorKey, CustomKanbanModel selectedCard)
+        public bool SaveTask(string tags, object selectedCategory, object selectedColorKey, CustomKanbanModel selectedCard)
         {
             // Tags are stroed as string[] in CustomKanbanModel
             // Strip string into a string[]
@@ -339,7 +339,7 @@ namespace KanbanTasker.ViewModels
             selectedModel.Tags = tagsArray;
 
             // Update item in database
-            DataProvider.UpdateTask(ID, Title,
+            return DataProvider.UpdateTask(ID, Title,
                 Description, selectedCategory.ToString(), 
                 selectedColorKey.ToString(), tags);
         }
