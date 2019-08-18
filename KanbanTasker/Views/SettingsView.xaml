@@ -49,10 +49,12 @@
                         <TextBlock
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"
+                            FontSize="15"
                             Text="Developed by Hunter Johnson" />
                         <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Center"
+                            FontSize="15"
                             Text="Icon design by Joshua Askharoun" />
                         <HyperlinkButton
                             Margin="0,12,0,0"
