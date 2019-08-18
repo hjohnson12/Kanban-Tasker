@@ -8,6 +8,9 @@ namespace KanbanTasker.ViewModels
 {
     public class MainViewModel : Observable
     {
+        /// <summary>
+        /// Backing fields
+        /// </summary>
         private ObservableCollection<BoardViewModel> _boardList;
         private BoardViewModel _current;
         private string _boardName;
@@ -41,7 +44,8 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
-        /// Create a new board
+        /// Creates a new board with BoardName and BoardNotes. Adds
+        /// it to the database and collection
         /// </summary>
         public void CreateBoard()
         {
@@ -72,7 +76,7 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
-        /// Updates the current boards name/notes and
+        /// Updates the current boards name and notes,
         /// then updates the list and database
         /// </summary>
         /// <param name="currentBoard"></param>
@@ -146,6 +150,6 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged();
             }
         }
-        #endregion
+        #endregion Properties
     }
 }
