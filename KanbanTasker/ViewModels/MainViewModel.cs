@@ -14,22 +14,13 @@ namespace KanbanTasker.ViewModels
         private string _boardNotes;
         private ObservableCollection<CustomKanbanModel> allTasks;
 
-        public BoardViewModel CreateDefaultBoard()
-        {
-            // Create default board
-            BoardViewModel newBoard = new BoardViewModel
-            {
-                BoardName = "Default Board"
-            };
-            // Add to collection and db
-            int newBoardId = DataProvider.AddBoard("New Board", "This is a default board added when there are none");
-            newBoard.BoardId = newBoardId.ToString();
-            newBoard.Tasks = new ObservableCollection<CustomKanbanModel>();
-            return newBoard;
-        }
+        /// <summary>
+        ///  Constructor / Initiliazation of boards and tasks.
+        ///  Sorts the tasks by column index so that they are
+        ///  loaded in as they were left when the app closed
+        /// </summary>
         public MainViewModel()
         {
-            // Instantiate the collection object
             BoardList = DataProvider.GetBoards();
             allTasks = new ObservableCollection<CustomKanbanModel>();
             allTasks = DataProvider.GetData();
@@ -49,9 +40,11 @@ namespace KanbanTasker.ViewModels
 
         }
 
+        /// <summary>
+        /// Create a new board
+        /// </summary>
         public void CreateBoard()
         {
-            // Create board
             BoardViewModel newBoard = new BoardViewModel
             {
                 BoardName = BoardName,
@@ -65,15 +58,26 @@ namespace KanbanTasker.ViewModels
             BoardList.Add(newBoard);
         }
 
+        /// <summary>
+        /// Clears tasks collection and removes board from list.
+        /// Then deletes the board and its tasks from the database
+        /// </summary>
+        /// <param name="currentBoard"></param>
+        /// <returns>If deletion was successful</returns>
         internal bool DeleteBoard(BoardViewModel currentBoard)
         {
-            // Clear tasks collection and remove board from board list
-            // Remove tasks from tblTasks and board from tblBoards in DataProvider
             currentBoard.Tasks.Clear();
             BoardList.Remove(currentBoard);
             return DataProvider.DeleteBoard(currentBoard.BoardId);
         }
 
+        /// <summary>
+        /// Updates the current boards name/notes and
+        /// then updates the list and database
+        /// </summary>
+        /// <param name="currentBoard"></param>
+        /// <param name="currentIndex"></param>
+        /// <returns>If updating was successful</returns>
         internal bool UpdateBoard(BoardViewModel currentBoard, int currentIndex)
         {
             currentBoard.BoardName = BoardName;
@@ -82,6 +86,11 @@ namespace KanbanTasker.ViewModels
             return DataProvider.UpdateBoard(currentBoard.BoardId, BoardName, BoardNotes);
         }
 
+        #region Properties
+
+        /// <summary>
+        /// List of all boards
+        /// </summary>
         public ObservableCollection<BoardViewModel> BoardList
         {
             get
@@ -91,10 +100,13 @@ namespace KanbanTasker.ViewModels
             set
             {
                 _boardList = value;
-                OnPropertyChanged("BoardList");
+                OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// Currently selected board
+        /// </summary>
         public BoardViewModel Current
         {
             get
@@ -104,12 +116,14 @@ namespace KanbanTasker.ViewModels
             set
             {
                 _current = value;
-                OnPropertyChanged("Current"); // Let the UI know to update this binding.
+                OnPropertyChanged(); 
             }
 
         }
 
-
+        /// <summary>
+        /// Currently selected BoardName
+        /// </summary>
         public string BoardName
         {
             get { return _boardName; }
@@ -120,7 +134,9 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Currently selected BoardNotes
+        /// </summary>
         public string BoardNotes
         {
             get { return _boardNotes; }
@@ -130,5 +146,6 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged();
             }
         }
+        #endregion
     }
 }

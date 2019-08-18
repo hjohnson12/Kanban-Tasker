@@ -22,7 +22,6 @@ namespace KanbanTasker.Views
             // Set XAML element as a draggable region.
             Window.Current.SetTitleBar(AppTitleBar);
 
-            //ViewModel = new BoardViewModel();
             ViewModel = App.mainViewModel;
 
             BoardVM = new BoardViewModel();
