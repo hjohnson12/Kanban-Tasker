@@ -41,173 +41,6 @@ namespace KanbanTasker.DataAccess
             }
         }
 
-        public static void UpdateColumnData(CustomKanbanModel selectedCardModel, string targetCategory, string targetIndex)
-        {
-            using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase2.db"))
-            {
-                db.Open();
-
-                // Update task column/category when dragged to new column/category
-                SqliteCommand updateCommand = new SqliteCommand
-                    ("UPDATE tblTasks SET Category=@category, ColumnIndex=@columnIndex WHERE Id=@id", db);
-                updateCommand.Parameters.AddWithValue("@category", targetCategory);
-                updateCommand.Parameters.AddWithValue("@columnIndex", targetIndex);
-                updateCommand.Parameters.AddWithValue("@id", selectedCardModel.ID);
-                updateCommand.ExecuteNonQuery();
-
-                db.Close();
-            }
-        }
-
-        public static int AddTask(string boardID, string dateCreated, string title, string desc, string categ, string colorKey, string tags)
-        {
-            long pd = -1;
-            using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase2.db"))
-            {
-                db.Open();
-
-                SqliteCommand insertCommand = new SqliteCommand
-                {
-                    Connection = db,
-
-                    // Use parameterized query to prevent SQL injection attacks
-                    CommandText = "INSERT INTO tblTasks (BoardID,DateCreated,Title,Description,Category,ColorKey,Tags) VALUES (@boardID, @dateCreated, @title, @desc, @categ, @colorKey, @tags); ; SELECT last_insert_rowid();"
-                };
-                insertCommand.Parameters.AddWithValue("@boardID", boardID);
-                insertCommand.Parameters.AddWithValue("@dateCreated", dateCreated);
-                insertCommand.Parameters.AddWithValue("@title", title);
-                insertCommand.Parameters.AddWithValue("@desc", desc);
-                insertCommand.Parameters.AddWithValue("@categ", categ);
-                insertCommand.Parameters.AddWithValue("@colorKey", colorKey);
-                insertCommand.Parameters.AddWithValue("@tags", tags);
-                pd = (long)insertCommand.ExecuteScalar();
-
-                db.Close();
-            }
-            return (int)pd;
-        }
-
-        internal static bool DeleteBoardTasks(string boardId)
-        {
-            // Delete task from db
-            using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase2.db"))
-            {
-                db.Open();
-                try
-                {
-                    SqliteCommand deleteCommand = new SqliteCommand
-                   ("DELETE FROM tblTasks WHERE BoardID=@boardId", db);
-                    deleteCommand.Parameters.AddWithValue("boardId", boardId);
-                    deleteCommand.ExecuteNonQuery();
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
-                finally { db.Close(); }
-            }
-        }
-
-        internal static bool DeleteBoard(string boardId)
-        {
-            // Delete task from db
-            using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase2.db"))
-            {
-                db.Open();
-                try
-                {
-                    SqliteCommand deleteCommand = new SqliteCommand
-                   ("DELETE FROM tblTasks WHERE BoardID=@boardId", db);
-                    deleteCommand.Parameters.AddWithValue("boardId", boardId);
-                    deleteCommand.ExecuteNonQuery();
-
-                    deleteCommand = new SqliteCommand
-                   ("DELETE FROM tblBoards WHERE Id=@id", db);
-                    deleteCommand.Parameters.AddWithValue("id", boardId);
-                    deleteCommand.ExecuteNonQuery();
-
-                    return true;
-                }
-                catch(Exception ex)
-                {
-                    return false;
-                }
-                finally { db.Close(); }
-            }
-        }
-
-        internal static bool UpdateBoard(string boardId, string boardName, string boardNotes)
-        {
-            using (SqliteConnection db =
-               new SqliteConnection("Filename=ktdatabase2.db"))
-            {
-                db.Open();
-
-                try
-                {
-                    // Update card  index
-                    SqliteCommand updateCommand = new SqliteCommand
-                        ("UPDATE tblBoards SET Name=@boardName,Notes=@boardNotes WHERE Id=@boardId", db);
-
-                    updateCommand.Parameters.AddWithValue("@boardId", boardId);
-                    updateCommand.Parameters.AddWithValue("@boardName", boardName);
-                    updateCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
-                    updateCommand.ExecuteNonQuery();
-                    return true;
-                }
-                catch(Exception ex) { return false; }
-                finally { db.Close(); }
-            }
-        }
-
-        public static int AddBoard(string boardName, string boardNotes)
-        {
-            long pd = -1;
-            using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase2.db"))
-            {
-                db.Open();
-
-                SqliteCommand insertCommand = new SqliteCommand
-                {
-                    Connection = db,
-
-                    // Use parameterized query to prevent SQL injection attacks
-                    CommandText = "INSERT INTO tblBoards (Name,Notes) VALUES (@boardName, @boardNotes); ; SELECT last_insert_rowid();"
-                };
-                insertCommand.Parameters.AddWithValue("@boardName", boardName);
-                insertCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
-                pd = (long)insertCommand.ExecuteScalar();
-
-                db.Close();
-            }
-            return (int)pd;
-        }
-
-        public static void DeleteTask(string id)
-        {
-            // Delete task from db
-            using (SqliteConnection db =
-                new SqliteConnection("Filename=ktdatabase2.db"))
-            {
-                db.Open();
-                SqliteCommand deleteCommand = new SqliteCommand
-                    ("DELETE FROM tblTasks WHERE Id=@id", db);
-                deleteCommand.Parameters.AddWithValue("id", id);
-                deleteCommand.ExecuteNonQuery();
-                db.Close();
-            }
-        }
-
-        //=====================================================================
-        // FUNCTIONS & EVENTS FOR EDITING A TASK
-        //=====================================================================
         public static ObservableCollection<CustomKanbanModel> GetData()
         {
             ObservableCollection<CustomKanbanModel> tasks = new ObservableCollection<CustomKanbanModel>();
@@ -283,6 +116,127 @@ namespace KanbanTasker.DataAccess
             return boards;
         }
 
+        public static int AddBoard(string boardName, string boardNotes)
+        {
+            long pd = -1;
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+
+                SqliteCommand insertCommand = new SqliteCommand
+                {
+                    Connection = db,
+
+                    // Use parameterized query to prevent SQL injection attacks
+                    CommandText = "INSERT INTO tblBoards (Name,Notes) VALUES (@boardName, @boardNotes); ; SELECT last_insert_rowid();"
+                };
+                insertCommand.Parameters.AddWithValue("@boardName", boardName);
+                insertCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
+                pd = (long)insertCommand.ExecuteScalar();
+
+                db.Close();
+            }
+            return (int)pd;
+        }
+
+        public static int AddTask(string boardID, string dateCreated, string title, string desc, string categ, string colorKey, string tags)
+        {
+            long pd = -1;
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+
+                SqliteCommand insertCommand = new SqliteCommand
+                {
+                    Connection = db,
+
+                    // Use parameterized query to prevent SQL injection attacks
+                    CommandText = "INSERT INTO tblTasks (BoardID,DateCreated,Title,Description,Category,ColorKey,Tags) VALUES (@boardID, @dateCreated, @title, @desc, @categ, @colorKey, @tags); ; SELECT last_insert_rowid();"
+                };
+                insertCommand.Parameters.AddWithValue("@boardID", boardID);
+                insertCommand.Parameters.AddWithValue("@dateCreated", dateCreated);
+                insertCommand.Parameters.AddWithValue("@title", title);
+                insertCommand.Parameters.AddWithValue("@desc", desc);
+                insertCommand.Parameters.AddWithValue("@categ", categ);
+                insertCommand.Parameters.AddWithValue("@colorKey", colorKey);
+                insertCommand.Parameters.AddWithValue("@tags", tags);
+                pd = (long)insertCommand.ExecuteScalar();
+
+                db.Close();
+            }
+            return (int)pd;
+        }
+
+        internal static bool DeleteBoard(string boardId)
+        {
+            // Delete task from db
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+                try
+                {
+                    SqliteCommand deleteCommand = new SqliteCommand
+                   ("DELETE FROM tblTasks WHERE BoardID=@boardId", db);
+                    deleteCommand.Parameters.AddWithValue("boardId", boardId);
+                    deleteCommand.ExecuteNonQuery();
+
+                    deleteCommand = new SqliteCommand
+                   ("DELETE FROM tblBoards WHERE Id=@id", db);
+                    deleteCommand.Parameters.AddWithValue("id", boardId);
+                    deleteCommand.ExecuteNonQuery();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                finally { db.Close(); }
+            }
+        }
+
+        public static void DeleteTask(string id)
+        {
+            // Delete task from db
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+                SqliteCommand deleteCommand = new SqliteCommand
+                    ("DELETE FROM tblTasks WHERE Id=@id", db);
+                deleteCommand.Parameters.AddWithValue("id", id);
+                deleteCommand.ExecuteNonQuery();
+                db.Close();
+            }
+        }
+
+        internal static bool DeleteBoardTasks(string boardId)
+        {
+            // Delete task from db
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+                try
+                {
+                    SqliteCommand deleteCommand = new SqliteCommand
+                   ("DELETE FROM tblTasks WHERE BoardID=@boardId", db);
+                    deleteCommand.Parameters.AddWithValue("boardId", boardId);
+                    deleteCommand.ExecuteNonQuery();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                finally { db.Close(); }
+            }
+        }
+
         public static bool UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
         {
             using (SqliteConnection db =
@@ -309,6 +263,25 @@ namespace KanbanTasker.DataAccess
             }
         }
 
+        public static void UpdateColumnData(CustomKanbanModel selectedCardModel, string targetCategory, string targetIndex)
+        {
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+
+                // Update task column/category when dragged to new column/category
+                SqliteCommand updateCommand = new SqliteCommand
+                    ("UPDATE tblTasks SET Category=@category, ColumnIndex=@columnIndex WHERE Id=@id", db);
+                updateCommand.Parameters.AddWithValue("@category", targetCategory);
+                updateCommand.Parameters.AddWithValue("@columnIndex", targetIndex);
+                updateCommand.Parameters.AddWithValue("@id", selectedCardModel.ID);
+                updateCommand.ExecuteNonQuery();
+
+                db.Close();
+            }
+        }
+
         internal static void UpdateCardIndex(string iD, int currentCardIndex)
         {
             using (SqliteConnection db =
@@ -319,12 +292,36 @@ namespace KanbanTasker.DataAccess
                 // Update card  index
                 SqliteCommand updateCommand = new SqliteCommand
                     ("UPDATE tblTasks SET ColumnIndex=@columnIndex WHERE Id=@id", db);
-          
+
                 updateCommand.Parameters.AddWithValue("@id", iD);
                 updateCommand.Parameters.AddWithValue("@columnIndex", currentCardIndex);
                 updateCommand.ExecuteNonQuery();
 
                 db.Close();
+            }
+        }
+
+        internal static bool UpdateBoard(string boardId, string boardName, string boardNotes)
+        {
+            using (SqliteConnection db =
+               new SqliteConnection("Filename=ktdatabase2.db"))
+            {
+                db.Open();
+
+                try
+                {
+                    // Update card  index
+                    SqliteCommand updateCommand = new SqliteCommand
+                        ("UPDATE tblBoards SET Name=@boardName,Notes=@boardNotes WHERE Id=@boardId", db);
+
+                    updateCommand.Parameters.AddWithValue("@boardId", boardId);
+                    updateCommand.Parameters.AddWithValue("@boardName", boardName);
+                    updateCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
+                    updateCommand.ExecuteNonQuery();
+                    return true;
+                }
+                catch(Exception ex) { return false; }
+                finally { db.Close(); }
             }
         }
     }
