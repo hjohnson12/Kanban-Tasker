@@ -11,7 +11,7 @@
     CloseButtonText="Close"
     CornerRadius="3"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="Ok"
+    PrimaryButtonText="Okay"
     Style="{ThemeResource SettingsDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.TitleTemplate>
@@ -49,7 +49,7 @@
                         <TextBlock
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"
-                            Text="Developed by and logo design by Hunter Johnson" />
+                            Text="Developed by Hunter Johnson" />
                         <HyperlinkButton
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"
