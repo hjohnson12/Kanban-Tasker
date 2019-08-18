@@ -1,26 +1,7 @@
-﻿using KanbanTasker.Models;
-using KanbanTasker.ViewModels;
-using Syncfusion.UI.Xaml.Kanban;
+﻿using KanbanTasker.ViewModels;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -159,7 +140,7 @@ namespace KanbanTasker.Views
 
         private void EditBoardFlyout_Opening(object sender, object e)
         {
-            if(kanbanNavView.SelectedItem != null)
+            if (kanbanNavView.SelectedItem != null)
             {
                 ViewModel.BoardName = (kanbanNavView.SelectedItem as BoardViewModel).BoardName;
                 ViewModel.BoardNotes = (kanbanNavView.SelectedItem as BoardViewModel).BoardNotes;

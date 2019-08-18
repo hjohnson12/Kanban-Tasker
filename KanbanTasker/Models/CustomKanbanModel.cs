@@ -1,10 +1,6 @@
 ﻿using KanbanTasker.Base;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KanbanTasker.Models
 {
@@ -35,6 +31,6 @@ namespace KanbanTasker.Models
         public Uri ImageURL { get => _imageUrl; set { _imageUrl = value; OnPropertyChanged(); } }
         public object ColorKey { get => _colorKey; set { _colorKey = value; OnPropertyChanged(); } }
 
-        public string DateCreated { get => _dateCreated; set { _dateCreated = value; OnPropertyChanged(); } } 
+        public string DateCreated { get => _dateCreated; set { _dateCreated = value; OnPropertyChanged(); } }
     }
 }

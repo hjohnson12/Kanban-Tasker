@@ -1,12 +1,8 @@
 ﻿using KanbanTasker.Base;
 using KanbanTasker.DataAccess;
 using KanbanTasker.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KanbanTasker.ViewModels
 {
@@ -50,7 +46,7 @@ namespace KanbanTasker.ViewModels
                         board.Tasks.Add(task);
                 }
             }
-          
+
         }
 
         public void CreateBoard()
@@ -99,7 +95,7 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public BoardViewModel Current 
+        public BoardViewModel Current
         {
             get
             {
@@ -113,7 +109,7 @@ namespace KanbanTasker.ViewModels
 
         }
 
-      
+
         public string BoardName
         {
             get { return _boardName; }

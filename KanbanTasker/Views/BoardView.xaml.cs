@@ -5,19 +5,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -100,7 +94,7 @@ namespace KanbanTasker.Views
                     // Find card inside column
                     foreach (var card in col.Cards)
                     {
-                        int cardIndex = 0; 
+                        int cardIndex = 0;
                         var cardModel = card.Content as CustomKanbanModel;
                         if (cardModel.ID == selectedModel.ID)
                         {
@@ -235,7 +229,7 @@ namespace KanbanTasker.Views
                     KanbanInAppNotification.Show("Task deleted from board successfully", 3000);
             }
             else
-                return; 
+                return;
         }
 
         private void BtnNewTaskCurrentColumn_Click(object sender, RoutedEventArgs e)
@@ -278,7 +272,7 @@ namespace KanbanTasker.Views
             ViewModel.CardModel = null; // Reset selected card property
         }
 
-        private async void BtnSaveTask_Click(object sender, RoutedEventArgs e)
+        private void BtnSaveTask_Click(object sender, RoutedEventArgs e)
         {
             if (ViewModel.CardModel != null) // Editing a Task
             {

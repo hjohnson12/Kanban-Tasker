@@ -23,7 +23,7 @@ namespace KanbanTasker.DataAccess
                     "Title NVARCHAR(2048) NULL, " +
                     "Description NVARCHAR(2048) NULL, " +
                     "Category NVARCHAR(2048) NULL, " +
-                    "ColumnIndex INTEGER NULL, " + 
+                    "ColumnIndex INTEGER NULL, " +
                     "ColorKey NVARCHAR(2048) NULL, " +
                     "Tags NVARCHAR(2048) NULL)";
 
@@ -320,7 +320,7 @@ namespace KanbanTasker.DataAccess
                     updateCommand.ExecuteNonQuery();
                     return true;
                 }
-                catch(Exception ex) { return false; }
+                catch (Exception ex) { return false; }
                 finally { db.Close(); }
             }
         }

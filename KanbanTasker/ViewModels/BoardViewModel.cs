@@ -1,13 +1,9 @@
 ﻿using KanbanTasker.Base;
 using KanbanTasker.DataAccess;
 using KanbanTasker.Models;
-using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KanbanTasker.ViewModels
 {
@@ -18,7 +14,6 @@ namespace KanbanTasker.ViewModels
         //=====================================================================
 
         public CustomKanbanModel Task = new CustomKanbanModel();
-        private CustomKanbanModel _originalCardModel;
         private CustomKanbanModel _cardModel;
         private ObservableCollection<string> _tagsCollection;
         private ObservableCollection<CustomKanbanModel> _tasks;
@@ -26,7 +21,6 @@ namespace KanbanTasker.ViewModels
         private List<string> _colorKeys;
         private string _paneTitle;
         private string _boardName;
-        private string _boardDescription;
         private string _boardNotes;
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
@@ -340,7 +334,7 @@ namespace KanbanTasker.ViewModels
 
             // Update item in database
             return DataProvider.UpdateTask(ID, Title,
-                Description, selectedCategory.ToString(), 
+                Description, selectedCategory.ToString(),
                 selectedColorKey.ToString(), tags);
         }
 
