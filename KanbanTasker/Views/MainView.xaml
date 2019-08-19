@@ -12,6 +12,7 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
     <Page.Resources />
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
@@ -469,10 +470,20 @@
                 </AppBarButton>
 
             </NavigationView.PaneCustomContent>
-            <Frame
+            <Grid>
+                <Frame
                 x:Name="contentFrame"
                 VerticalAlignment="Stretch"
                 Background="{ThemeResource RegionBrush}" />
+                <controls:InAppNotification
+                x:Name="KanbanInAppNotification"
+                Grid.Row="1"
+                Width="550"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                BorderThickness="1"
+                Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
+            </Grid>
         </NavigationView>
     </Grid>
 </Page>

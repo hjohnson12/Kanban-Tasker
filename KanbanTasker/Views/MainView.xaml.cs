@@ -106,21 +106,30 @@ namespace KanbanTasker.Views
             deleteBoardFlyout.Hide();
             if (currentBoard != null)
             {
-                var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
-                if (deleteBoardSuccess)
+                try
                 {
-                    kanbanNavView.SelectedItem = null;
-                    kanbanNavView.MenuItems.Remove(currentBoard);
-                    if (ViewModel.BoardList.Count == 0)
+                    var deleteBoardSuccess = ViewModel.DeleteBoard(currentBoard);
+                    if (deleteBoardSuccess)
                     {
-                        TitleBarCurrentBoardTextblock.Text = ""; // Clear heading on title bar
-                        contentFrame.Navigate(typeof(NoBoardsMessageView));
+                        kanbanNavView.SelectedItem = null;
+                        var index = kanbanNavView.MenuItems.IndexOf(currentBoard);
+                        kanbanNavView.MenuItems.Remove(currentBoard);
+                        if (ViewModel.BoardList.Count == 0)
+                        {
+                            TitleBarCurrentBoardTextblock.Text = ""; // Clear heading on title bar
+                            contentFrame.Navigate(typeof(NoBoardsMessageView));
+                        }
+                        else
+                        {
+                            kanbanNavView.SelectedItem = ViewModel.BoardList[index - 1];
+                            contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[index - 1]);
+                        }
                     }
-                    else
-                    {
-                        kanbanNavView.SelectedItem = ViewModel.BoardList[ViewModel.BoardList.Count - 1];
-                        contentFrame.Navigate(typeof(BoardView), ViewModel.BoardList[0]);
-                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    KanbanInAppNotification.Show("Unable to delete board. Try again or restart the application and then try.", 3000);
                 }
             }
             else
@@ -129,16 +138,25 @@ namespace KanbanTasker.Views
 
         private void FlyoutBtnUpdateBoard_Click(object sender, RoutedEventArgs e)
         {
-            var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
-            var currentIndex = kanbanNavView.MenuItems.IndexOf(currentBoard);
-            var updateBoardSuccess = ViewModel.UpdateBoard(currentBoard, currentIndex);
-            editBoardFlyout.Hide();
-            if (updateBoardSuccess)
+            try
             {
-                // Already updated in db, now update navview
-                currentBoard.BoardName = ViewModel.BoardName;
-                currentBoard.BoardNotes = ViewModel.BoardNotes;
-                kanbanNavView.MenuItems[currentIndex] = currentBoard;
+                var currentBoard = kanbanNavView.SelectedItem as BoardViewModel;
+                var currentIndex = kanbanNavView.MenuItems.IndexOf(currentBoard);
+                var updateBoardSuccess = ViewModel.UpdateBoard(currentBoard, currentIndex);
+                editBoardFlyout.Hide();
+                if (updateBoardSuccess)
+                {
+                    // Already updated in db, now update navview
+                    currentBoard.BoardName = ViewModel.BoardName;
+                    currentBoard.BoardNotes = ViewModel.BoardNotes;
+                    kanbanNavView.MenuItems[currentIndex] = currentBoard;
+                    ViewModel.Current = currentBoard;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                KanbanInAppNotification.Show("Unable to update board. Try again or restart the application and then try.", 3000);
             }
         }
 
