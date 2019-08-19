@@ -1,43 +1,53 @@
 # Kanban Tasker
 
-This Windows 10 Universal Windows Platform (UWP) application uses a kanban board to manage your various tasks and includes dragging across columns to create an easy and simple workflow
+This Windows 10 Universal Windows Platform (UWP) application uses a kanban board to manage your work and includes dragging across columns to create an easy and simple workflow in each board created.
 
 ## Kanban Tasker Details
 
-Created with C#/XAML and the Universal Windows Platform. The UI is created with Extensible Application Markup Language (XAML) and backend is using C#
+Created with C#/XAML and the Universal Windows Platform. The UI is created with Extensible Application Markup Language (XAML) and backend is using C#. (Note: Old designs from the start of the app can be found in the *Images* folder)
 
 Uses a kanban UI control created by [Syncfusion](https://www.syncfusion.com) but fully customized to Kanban Taskers style (see corresponding data templates in *BoardView.xaml, and App.xaml*). Also implemented with a Sqlite database to store the tasks/boards and uses create, read, update, and delete (CRUD) operations against the data (For information on viewing the database created by sqlite, look at [Getting Started](#getting-started))
 
-Old designs from the start of the app can be found in the *Images* folder
+## Kanban Tasker Features
+
+#### A clean, modern UI
+![Image of Program](KanbanTasker/Images/KT_00.png)
 
 #### Simple design with a popout pane to edit and create your tasks
  * Quick access to pane comes from hovering over the task and selecting the edit icon
    * **Note:** Tablet users need to touch and hold the task for a context menu to show (Right-click is enabled for desktop/laptop users too)
  * Tags in the pane can range in width and height. If the tag is longer than the width of the pane, it will wrap to a new row and  increase the height
-![Image of Program](KanbanTasker/Images/KanbanTasker01.png)
+![Image of Program](KanbanTasker/Images/KT_01.png)
 
-#### Card design for tasks
+#### Adaptable Fluent Design Background and Card design
+  * Background acrylic brush adapts to colors
   * Hover over a task to view the edit and delete buttons
   * Priority indicator has three options as of now: Low (Green), Medium (Yellow), High (Red)
   * Mouse reveal effect added to the bottom priority indicator border
   * Cards can vary in width and height. Wrapping added to card tags as well 
 
-![Image of Program](KanbanTasker/Images/KanbanTasker00.png)
+![Image of Program](KanbanTasker/Images/KT_02.png)
 
-#### Support for multiple boards to make different uses out of each board:
-  * Additional features planned
+#### Support for multiple boards and input validation throughout the application:
+  * Ability to edit board name and board notes
+  * Create as many boards as you need to manage your workflows
+  * The work in progress limit is 10 and the error bar indicator will turn red when you reach max items
+  * Quickly delete a board and its respective tasks using the button on the navigation menu
 
-![Image of Program](KanbanTasker/Images/KanbanTasker02.png)
+![Image of Program](KanbanTasker/Images/KT_03.png)
 
 #### Ability to collapse columns
   * Support to collapse columns added so you're able to focus on the important tasks at hand
-  * Includes in app notifications to indicate whether your insertion, deletion, or update was successfull or not
+![Image of Program](KanbanTasker/Images/KT_04.png)
 
-![Image of Program](KanbanTasker/Images/KanbanTasker03.png)
+#### Ability to drag cards across columns for easy workflow organization
+![Image of Program](KanbanTasker/Images/KT_05.png)
 
-#### Ability to drag cards across columns for easy workflow structure
+#### Quick preview of board notes when hovering over board name
+![Image of Program](KanbanTasker/Images/KT_06.png)
 
-![Image of Program](KanbanTasker/Images/KanbanTasker04.png)
+#### Scrollbar added to column when the tasks exceed the height of the application
+![Image of Program](KanbanTasker/Images/KT_07.png)
 
 
 ## Getting Started
@@ -81,13 +91,9 @@ Target Version: Windows 10, Version 1903
 * [Syncfusion for UWP Kanban Board](https://www.syncfusion.com/uwp-ui-controls/kanban-board) - UI Kanban Board used
 * [Sqlite - Started with tutorial by Microsoft](https://docs.microsoft.com/en-us/windows/uwp/data-access/sqlite-databases) - Database Framework 
 
-## Contributing
-
-[Coming Soon]
-
 ## Authors
 
-* **Hunter** - *Initial work* - [hjohnson012](https://github.com/hjohnson012)
+* **Hunter** - *Initial work* - [hjohnson012](https://github.com/hjohnson12)
 
 See also the list of [contributors](https://github.com/hjohnson12/KanbanTasker/graphs/contributors) who participated in this project.
 
