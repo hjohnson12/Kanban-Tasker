@@ -186,7 +186,7 @@ namespace KanbanTasker.Views
             {
                 var flyout = sender as Flyout;
                 flyout.Hide();
-                UnableToEditBoardTeachingTip.IsOpen = true;
+                UnableToDeleteBoardTeachingTip.IsOpen = true;
             }
         }
     }
