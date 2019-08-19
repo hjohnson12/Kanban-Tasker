@@ -28,16 +28,19 @@ namespace KanbanTasker
         {
             // Register SyncfusionLicense
             // Check to see if API KEY is in your Environment Variables
-            if (Environment.GetEnvironmentVariable("SYNCFUSION_API_KEY") == null)
-            {
-                // If key is not available, use free community license here: https://www.syncfusion.com/products/communitylicense
-                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR API KEY");
-            }
-            else
-            {
-                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
-                    Environment.GetEnvironmentVariable("SYNCFUSION_API_KEY"));
-            }
+            //if (Environment.GetEnvironmentVariable("SYNCFUSION_API_KEY") == null)
+            //{
+            //    // If key is not available, use free community license here: https://www.syncfusion.com/products/communitylicense
+            //    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTMwNjE1QDMxMzcyZTMyMmUzMEFlSlpZMDNRQVFhUy9pOHQ4dzlObVNNbGNsQ3I2bE15NE50U2dzQ1lYK1k9");
+            //}
+            //else
+            //{
+            //    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
+            //        Environment.GetEnvironmentVariable("SYNCFUSION_API_KEY"));
+            //}
+
+            // Added because was still prompting users from the store
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTMwNjE1QDMxMzcyZTMyMmUzMEFlSlpZMDNRQVFhUy9pOHQ4dzlObVNNbGNsQ3I2bE15NE50U2dzQ1lYK1k9");
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
