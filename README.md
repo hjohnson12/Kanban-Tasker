@@ -47,7 +47,7 @@ Uses a kanban UI control created by [Syncfusion](https://www.syncfusion.com) but
 ![Image of Program](KanbanTasker/Images/KT_06.png)
 
 #### Scrollbar added to column when the tasks exceed the height of the application
-![Image of Program](KanbanTasker/Images/KT_06.png)
+![Image of Program](KanbanTasker/Images/KT_07.png)
 
 
 ## Getting Started
