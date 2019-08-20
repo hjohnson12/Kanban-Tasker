@@ -740,9 +740,37 @@
                         <AppBarButton
                             x:Name="btnDeleteTask"
                             Margin="22,17,20,20"
-                            Click="FlyoutBtnDelete_Click"
+                            AllowFocusOnInteraction="True"
+                            Style="{ThemeResource AppBarButtonCustomStyle}"
                             Icon="Delete"
-                            Label="Delete Task" />
+                            Label="Delete Task">
+                            <AppBarButton.Flyout>
+                                <Flyout
+                                x:Name="PaneBtnDeleteTaskConfirmationFlyout"
+                                PickerFlyoutBase.Title="Delete Board Confirmation"
+                                Placement="Top">
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Text="Delete Task Confirmation"
+                                        TextAlignment="Left" />
+                                        <TextBlock
+                                        Margin="0,4,0,0"
+                                        Text="Are you sure you want to delete this task?"
+                                        TextAlignment="Left" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button
+                                            x:Name="flyoutBtnDeleteCardYes"
+                                            Margin="0,8,8,0"
+                                            Click="PaneBtnDeleteTaskYes_Click"
+                                            Content="Yes, delete this this"
+                                            CornerRadius="3" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Flyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
                         <AppBarButton
                             x:Name="btnClosePane"
                             Margin="14,17,20,20"

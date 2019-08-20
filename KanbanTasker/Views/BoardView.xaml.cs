@@ -195,7 +195,7 @@ namespace KanbanTasker.Views
         {
             // Hide flyout
             taskFlyout.Hide();
-
+            
             // Create dialog and check button click result
             var deleteDialog = new DeleteConfirmationView();
             var result = await deleteDialog.ShowAsync();
@@ -208,10 +208,14 @@ namespace KanbanTasker.Views
                 // Delete Task from collection and databaseIn
                 var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
 
-                UpdateCardIndexes();
 
                 if (deleteSuccess)
+                {
+                    UpdateCardIndexes();
                     KanbanInAppNotification.Show("Task deleted from board successfully", 3000);
+                }
+                else
+                    KanbanInAppNotification.Show("Task failed to be deleted. Please try again or restart the application.", 3000);
             }
             else
                 return;
@@ -466,18 +470,33 @@ namespace KanbanTasker.Views
             // Delete Task from collection and database
             var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
 
-            UpdateCardIndexes();
-
             if (deleteSuccess)
+            {
+                UpdateCardIndexes();
                 KanbanInAppNotification.Show("Task deleted from board successfully", 3000);
+            }
+            else
+                KanbanInAppNotification.Show("Task failed to be deleted. Please try again or restart the application.", 3000);
         }
 
-        private void FlyoutDeleteCardBtnNo_Click(object sender, RoutedEventArgs e)
+        private void PaneBtnDeleteTaskYes_Click(object sender, RoutedEventArgs e)
         {
+            // Close pane when done
+            splitView.IsPaneOpen = false;
+            PaneBtnDeleteTaskConfirmationFlyout.Hide();
+
+            // Delete Task from collection and databaseIn
+            var deleteSuccess = (SelectedModel != null) ? ViewModel.DeleteTask(SelectedModel) : false;
+
+            if (deleteSuccess)
+            {
+                UpdateCardIndexes();
+                KanbanInAppNotification.Show("Task deleted from board successfully", 3000);
+            }
+            else
+                KanbanInAppNotification.Show("Task failed to be deleted. Please try again or restart the application.", 3000);
         }
 
         #endregion UIEvents
-
-    
     }
 }
