@@ -107,8 +107,9 @@
                                             Margin="0,0,2,0"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
+                                            ToolTipService.ToolTip="Coming Soon"
                                             Content="{TemplateBinding PrimaryButtonText}"
-                                            CornerRadius="3"
+                                            CornerRadius="1"
                                             ElementSoundMode="FocusOnly"
                                             IsEnabled="{TemplateBinding IsPrimaryButtonEnabled}"
                                             Style="{TemplateBinding PrimaryButtonStyle}" />
@@ -120,7 +121,7 @@
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
                                             Content="{TemplateBinding SecondaryButtonText}"
-                                            CornerRadius="3"
+                                            CornerRadius="1"
                                             ElementSoundMode="FocusOnly"
                                             IsEnabled="{TemplateBinding IsSecondaryButtonEnabled}"
                                             Style="{TemplateBinding SecondaryButtonStyle}" />
@@ -131,7 +132,7 @@
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
                                             Content="{TemplateBinding CloseButtonText}"
-                                            CornerRadius="3"
+                                            CornerRadius="1"
                                             ElementSoundMode="FocusOnly"
                                             Style="{TemplateBinding CloseButtonStyle}" />
                                     </Grid>

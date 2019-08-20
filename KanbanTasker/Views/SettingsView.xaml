@@ -9,9 +9,10 @@
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     BorderThickness="1"
     CloseButtonText="Close"
-    CornerRadius="3"
+    CornerRadius="2"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="Okay"
+    PrimaryButtonText="Save"
+    IsPrimaryButtonEnabled="False"
     Style="{ThemeResource SettingsDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.TitleTemplate>
@@ -39,13 +40,20 @@
         <Pivot>
             <PivotItem Header="About">
                 <Grid>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <Image
-                            Height="55"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png"
+                            Height="75"
+                            HorizontalAlignment="Right"
+                            Source="ms-appx:///Assets/StoreLogo.scale-400.png"
                             Stretch="Uniform" />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
+                       
                         <TextBlock
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"
@@ -55,7 +63,7 @@
                             HorizontalAlignment="Center"
                             Text="Icon design by Joshua Askharoun" />
                         <HyperlinkButton
-                            Margin="0,12,0,0"
+                            Margin="0,8,0,0"
                             HorizontalAlignment="Center"
                             Content="Contribute to Kanban Tasker's source code"
                             NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
