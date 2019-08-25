@@ -1,5 +1,4 @@
-﻿using KanbanTasker.DataAccess;
-using KanbanTasker.ViewModels;
+﻿using KanbanTasker.ViewModels;
 using KanbanTasker.Views;
 using System;
 using Windows.ApplicationModel;
@@ -9,6 +8,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Autofac;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace KanbanTasker
 {
@@ -22,7 +23,7 @@ namespace KanbanTasker
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         /// 
-        private static MainViewModel _mainViewModel;
+        private static IContainer container;
 
         public App()
         {
@@ -45,17 +46,17 @@ namespace KanbanTasker
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            DataProvider.InitializeDatabase();
-
-            _mainViewModel = new MainViewModel();
+            // build the Autofac container
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterModule(new AutofacModule());
+            builder.RegisterModule(new Services.AutofacModule());
+            container = builder.Build();
+            
         }
 
-        public static MainViewModel mainViewModel
+        public static MainViewModel GetViewModel(Frame frame, InAppNotification messagePump)
         {
-            get
-            {
-                return _mainViewModel;
-            }
+            return container.Resolve<MainViewModel>(new TypedParameter(typeof(Frame), frame), new TypedParameter(typeof(InAppNotification), messagePump));
         }
 
         /// <summary>

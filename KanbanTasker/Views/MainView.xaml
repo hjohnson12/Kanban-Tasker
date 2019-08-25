@@ -14,7 +14,178 @@
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
-    <Page.Resources />
+    <Page.Resources>
+        <ResourceDictionary>
+        <!--This flyout is used for both creating a new board and editing an existing one.-->
+        <Flyout x:Name="EditBoardFlyout" Placement="Bottom">
+            <Flyout.FlyoutPresenterStyle>
+                <Style TargetType="FlyoutPresenter">
+                    <Setter Property="CornerRadius" Value="3" />
+                    <Setter Property="Background" Value="{ThemeResource FlyoutBackgroundBrush}" />
+                    <Setter Property="MinWidth" Value="0" />
+                </Style>
+            </Flyout.FlyoutPresenterStyle>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--  New Board Flyout Header  -->
+                <StackPanel Grid.Row="0" Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="25"
+                            FontWeight="Bold"
+                            Text="{x:Bind ViewModel.BoardEditorTitle}" />
+                        <Button
+                            x:Name="btnCloseNewBoardFlyout" 
+                            Grid.Column="1"
+                            Margin="0,8,0,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="HideFlyout">
+                            <SymbolIcon Symbol="Cancel" />
+                        </Button>
+                    </Grid>
+                    <Border
+                        Width="Auto"
+                        Margin="0,16,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        BorderBrush="Gray"
+                        BorderThickness="0.5" />
+                </StackPanel>
+
+                <!--  New Board Flyout Body  -->
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="0,16,0,12"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        Margin="0,0,8,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Board Name:" />
+                    <TextBox
+                        x:Name="txtBoxNewBoardName"
+                        Grid.Row="0"
+                        Width="300"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        PlaceholderText="Type your information here"
+                        Style="{StaticResource TextBoxStyle1}"
+                        Text="{x:Bind ViewModel.CurrentBoard.Board.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Resources>
+                            <muxc1:TeachingTip
+                                x:Name="ChooseBoardNameTeachingTip"
+                                Title="Add board name"
+                                Background="{ThemeResource RegionBrush}"
+                                CornerRadius="3"
+                                IsLightDismissEnabled="True"
+                                PreferredPlacement="Right"
+                                Subtitle="Please fill out a name for your board to continue."
+                                Target="{x:Bind txtBoxNewBoardName}">
+                                <muxc1:TeachingTip.IconSource>
+                                    <muxc1:SymbolIconSource Symbol="Important" />
+                                </muxc1:TeachingTip.IconSource>
+                            </muxc1:TeachingTip>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
+                        <SymbolIcon Symbol="Page2" />
+                        <TextBlock
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            Text="Board Notes:" />
+                    </StackPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBox
+                            x:Name="txtBoxNewBoardNotes"
+                            Height="200"
+                            MaxHeight="150"
+                            AcceptsReturn="True"
+                            Background="{ThemeResource RegionBrush}"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            PlaceholderText="Type your information here"
+                            Text="{x:Bind ViewModel.CurrentBoard.Board.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap">
+                            <TextBox.Resources>
+                                <muxc1:TeachingTip
+                                    x:Name="AddBoardNotesTeachingTip"
+                                    Title="Add board notes"
+                                    Background="{ThemeResource RegionBrush}"
+                                    CornerRadius="3"
+                                    IsLightDismissEnabled="True"
+                                    PreferredPlacement="Right"
+                                    Subtitle="Please fill out notes for your board to continue."
+                                    Target="{x:Bind txtBoxNewBoardNotes}">
+                                    <muxc1:TeachingTip.IconSource>
+                                        <muxc1:SymbolIconSource Symbol="Important" />
+                                    </muxc1:TeachingTip.IconSource>
+                                </muxc1:TeachingTip>
+                            </TextBox.Resources>
+                        </TextBox>
+                    </ScrollViewer>
+                </StackPanel>
+
+                <!--  New Board Flyout Footer  -->
+                <Grid Grid.Row="2" Margin="0,12,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        BorderBrush="Gray"
+                        BorderThickness="0.5" />
+                    <Grid Grid.Row="1">
+                        <StackPanel
+                            Margin="0,4,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <AppBarButton
+                                x:Name="flyoutBtnCreateNewBoard"
+                                Grid.Column="0"
+                                Margin="0,8,12,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Click="HideFlyout" 
+                                Command="{x:Bind ViewModel.SaveBoardCommand}"
+                                Icon="Save"
+                                Label="Save" />
+                            <AppBarButton
+                                Grid.Column="2"
+                                Margin="12,8,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Click="HideFlyout"
+                                Icon="Cancel"
+                                Label="Cancel" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Flyout>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -44,24 +215,24 @@
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 Foreground="Gray"
-                Text="{x:Bind ViewModel.Current.BoardName, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.CurrentBoard.Board.Name, Mode=OneWay}" />
         </Grid>
         <!--  MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=OneWay}"  -->
         <NavigationView
             x:Name="kanbanNavView"
             Grid.Row="1"
-            IsBackButtonVisible="Collapsed"
+            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=TwoWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoard, Mode=TwoWay}"
+            IsBackButtonVisible="Collapsed" 
             IsSettingsVisible="False"
-            ItemInvoked="KanbanNavView_ItemInvoked"
-            Loaded="KanbanNavView_Loaded"
-            PaneDisplayMode="Top"
-            SelectionChanged="KanbanNavView_SelectionChanged">
+            PaneDisplayMode="Left">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="viewmodels:BoardViewModel">
                     <TextBlock
-                        Text="{x:Bind BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{x:Bind Board.Name , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         ToolTipService.Placement="Bottom"
-                        ToolTipService.ToolTip="{x:Bind BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        ToolTipService.ToolTip="{x:Bind Board.Notes, Mode=OneWay }"
+                        />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
 
@@ -73,7 +244,10 @@
                         AllowFocusOnInteraction="True"
                         Icon="Edit"
                         Style="{StaticResource AppBarButtonCustomStyle}"
-                        ToolTipService.ToolTip="Edit Current Board">
+                        ToolTipService.ToolTip="Edit Current Board" 
+                        Click="ShowFlyout" 
+                        Command="{x:Bind ViewModel.EditBoardCommand}"
+                        FlyoutBase.AttachedFlyout="{StaticResource EditBoardFlyout}">
                         <AppBarButton.Resources>
                             <muxc1:TeachingTip
                                 x:Name="UnableToEditBoardTeachingTip"
@@ -89,143 +263,7 @@
                                 </muxc1:TeachingTip.IconSource>
                             </muxc1:TeachingTip>
                         </AppBarButton.Resources>
-                        <AppBarButton.Flyout>
-                            <Flyout
-                                x:Name="editBoardFlyout"
-                                Opening="EditBoardFlyout_Opening"
-                                Placement="Bottom">
-                                <Flyout.FlyoutPresenterStyle>
-                                    <Style TargetType="FlyoutPresenter">
-                                        <Setter Property="CornerRadius" Value="3" />
-                                        <Setter Property="Background" Value="{ThemeResource FlyoutBackgroundBrush}" />
-                                        <Setter Property="MinWidth" Value="0" />
-                                    </Style>
-                                </Flyout.FlyoutPresenterStyle>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
 
-                                    <!--  Edit Board Flyout Header  -->
-                                    <StackPanel Grid.Row="0" Orientation="Vertical">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                FontSize="25"
-                                                FontWeight="Bold"
-                                                Text="Edit Board" />
-                                            <Button
-                                                x:Name="btnCloseEditBoardFlyout"
-                                                Grid.Column="1"
-                                                Margin="0,8,0,0"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                Click="BtnCloseEditBoardFlyout_Click">
-                                                <SymbolIcon Symbol="Cancel" />
-                                            </Button>
-                                        </Grid>
-                                        <Border
-                                            Width="Auto"
-                                            Margin="0,16,0,0"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Center"
-                                            BorderBrush="Gray"
-                                            BorderThickness="0.5" />
-                                    </StackPanel>
-
-                                    <!--  Edit Board Flyout Body  -->
-                                    <StackPanel
-                                        Grid.Row="1"
-                                        Margin="0,16,0,12"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Orientation="Vertical">
-                                        <TextBlock
-                                            Margin="0,0,8,2"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            FontWeight="Bold"
-                                            Text="Board Name:" />
-                                        <TextBox
-                                            x:Name="txtBoxEditBoardName"
-                                            Width="300"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            PlaceholderText="Type your information here"
-                                            Style="{StaticResource TextBoxStyle1}"
-                                            Text="{x:Bind ViewModel.BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                        <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
-                                            <SymbolIcon Symbol="Page2" />
-                                            <TextBlock
-                                                Margin="5"
-                                                VerticalAlignment="Center"
-                                                Text="Board Notes:" />
-                                        </StackPanel>
-                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                            <TextBox
-                                                Height="200"
-                                                MaxHeight="150"
-                                                AcceptsReturn="True"
-                                                Background="{ThemeResource RegionBrush}"
-                                                BorderThickness="1"
-                                                CornerRadius="3"
-                                                PlaceholderText="Type your information here"
-                                                Text="{x:Bind ViewModel.BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                TextWrapping="Wrap" />
-                                        </ScrollViewer>
-                                    </StackPanel>
-
-                                    <!--  Edit Board Flyout Footer  -->
-                                    <Grid Grid.Row="2" Margin="0,12,0,0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Border
-                                            Grid.Row="0"
-                                            HorizontalAlignment="Stretch"
-                                            BorderBrush="Gray"
-                                            BorderThickness="0.5" />
-                                        <Grid Grid.Row="1">
-                                            <StackPanel
-                                                Margin="0,4,0,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal">
-                                                <AppBarButton
-                                                    x:Name="flyoutBtnUpdateBoard"
-                                                    Grid.Column="0"
-                                                    Margin="0,8,12,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Click="FlyoutBtnUpdateBoard_Click"
-                                                    Icon="Save"
-                                                    Label="Update" />
-                                                <AppBarButton
-                                                    Grid.Column="2"
-                                                    Margin="8,8,0,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Click="BtnCloseEditBoardFlyout_Click"
-                                                    Icon="Cancel"
-                                                    Label="Cancel" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </Flyout>
-                        </AppBarButton.Flyout>
                     </AppBarButton>
                     <AppBarButton
                         x:Name="navViewBtnDeleteBoard"
@@ -233,12 +271,11 @@
                         AllowFocusOnInteraction="True"
                         Icon="Delete"
                         Style="{ThemeResource AppBarButtonCustomStyle}"
-                        ToolTipService.ToolTip="Delete Current Board">
-                        <AppBarButton.Flyout>
+                        ToolTipService.ToolTip="Delete Current Board" Click="ShowFlyout">
+                        <FlyoutBase.AttachedFlyout>
                             <Flyout
                                 x:Name="deleteBoardFlyout"
                                 PickerFlyoutBase.Title="Delete Board Confirmation"
-                                Opening="DeleteBoardFlyout_Opening"
                                 Placement="Bottom">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock
@@ -254,13 +291,14 @@
                                         <Button
                                             x:Name="flyoutBtnDeleteCardYes"
                                             Margin="0,8,8,0"
-                                            Click="BtnDeleteCurrentBoard_Click"
+                                            Click="HideFlyout"
+                                            Command="{x:Bind ViewModel.DeleteBoardCommand}"
                                             Content="Yes, delete this board"
                                             CornerRadius="3" />
                                     </StackPanel>
                                 </StackPanel>
                             </Flyout>
-                        </AppBarButton.Flyout>
+                        </FlyoutBase.AttachedFlyout>
                         <AppBarButton.Resources>
                             <muxc1:TeachingTip
                                 x:Name="UnableToDeleteBoardTeachingTip"
@@ -295,178 +333,8 @@
                     AllowFocusOnInteraction="True"
                     Icon="Add"
                     Style="{ThemeResource AppBarButtonCustomStyle}"
-                    ToolTipService.ToolTip="Create new board">
-                    <AppBarButton.Flyout>
-                        <Flyout
-                            x:Name="newBoardFlyout"
-                            Opening="NewBoardFlyout_Opening"
-                            Placement="Bottom">
-                            <Flyout.FlyoutPresenterStyle>
-                                <Style TargetType="FlyoutPresenter">
-                                    <Setter Property="CornerRadius" Value="3" />
-                                    <Setter Property="Background" Value="{ThemeResource FlyoutBackgroundBrush}" />
-                                    <Setter Property="MinWidth" Value="0" />
-                                </Style>
-                            </Flyout.FlyoutPresenterStyle>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-
-                                <!--  New Board Flyout Header  -->
-                                <StackPanel Grid.Row="0" Orientation="Vertical">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            FontSize="25"
-                                            FontWeight="Bold"
-                                            Text="New Board" />
-                                        <Button
-                                            x:Name="btnCloseNewBoardFlyout"
-                                            Grid.Column="1"
-                                            Margin="0,8,0,0"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            Background="Transparent"
-                                            BorderThickness="0"
-                                            Click="BtnCloseNewBoardFlyout_Click">
-                                            <SymbolIcon Symbol="Cancel" />
-                                        </Button>
-                                    </Grid>
-                                    <Border
-                                        Width="Auto"
-                                        Margin="0,16,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        BorderBrush="Gray"
-                                        BorderThickness="0.5" />
-                                </StackPanel>
-
-                                <!--  New Board Flyout Body  -->
-                                <StackPanel
-                                    Grid.Row="1"
-                                    Margin="0,16,0,12"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Orientation="Vertical">
-                                    <TextBlock
-                                        Margin="0,0,8,2"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        FontWeight="Bold"
-                                        Text="Board Name:" />
-                                    <TextBox
-                                        x:Name="txtBoxNewBoardName"
-                                        Grid.Row="0"
-                                        Width="300"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        PlaceholderText="Type your information here"
-                                        Style="{StaticResource TextBoxStyle1}"
-                                        Text="{x:Bind ViewModel.BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                        <TextBox.Resources>
-                                            <muxc1:TeachingTip
-                                                x:Name="ChooseBoardNameTeachingTip"
-                                                Title="Add board name"
-                                                Background="{ThemeResource RegionBrush}"
-                                                CornerRadius="3"
-                                                IsLightDismissEnabled="True"
-                                                PreferredPlacement="Right"
-                                                Subtitle="Please fill out a name for your board to continue."
-                                                Target="{x:Bind txtBoxNewBoardName}">
-                                                <muxc1:TeachingTip.IconSource>
-                                                    <muxc1:SymbolIconSource Symbol="Important" />
-                                                </muxc1:TeachingTip.IconSource>
-                                            </muxc1:TeachingTip>
-                                        </TextBox.Resources>
-                                    </TextBox>
-                                    <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
-                                        <SymbolIcon Symbol="Page2" />
-                                        <TextBlock
-                                            Margin="5"
-                                            VerticalAlignment="Center"
-                                            Text="Board Notes:" />
-                                    </StackPanel>
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                        <TextBox
-                                            x:Name="txtBoxNewBoardNotes"
-                                            Height="200"
-                                            MaxHeight="150"
-                                            AcceptsReturn="True"
-                                            Background="{ThemeResource RegionBrush}"
-                                            BorderThickness="1"
-                                            CornerRadius="3"
-                                            PlaceholderText="Type your information here"
-                                            Text="{x:Bind ViewModel.BoardNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            TextWrapping="Wrap">
-                                            <TextBox.Resources>
-                                                <muxc1:TeachingTip
-                                                    x:Name="AddBoardNotesTeachingTip"
-                                                    Title="Add board notes"
-                                                    Background="{ThemeResource RegionBrush}"
-                                                    CornerRadius="3"
-                                                    IsLightDismissEnabled="True"
-                                                    PreferredPlacement="Right"
-                                                    Subtitle="Please fill out notes for your board to continue."
-                                                    Target="{x:Bind txtBoxNewBoardNotes}">
-                                                    <muxc1:TeachingTip.IconSource>
-                                                        <muxc1:SymbolIconSource Symbol="Important" />
-                                                    </muxc1:TeachingTip.IconSource>
-                                                </muxc1:TeachingTip>
-                                            </TextBox.Resources>
-                                        </TextBox>
-                                    </ScrollViewer>
-                                </StackPanel>
-
-                                <!--  New Board Flyout Footer  -->
-                                <Grid Grid.Row="2" Margin="0,12,0,0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Border
-                                        Grid.Row="0"
-                                        HorizontalAlignment="Stretch"
-                                        BorderBrush="Gray"
-                                        BorderThickness="0.5" />
-                                    <Grid Grid.Row="1">
-                                        <StackPanel
-                                            Margin="0,4,0,0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                            <AppBarButton
-                                                x:Name="flyoutBtnCreateNewBoard"
-                                                Grid.Column="0"
-                                                Margin="0,8,12,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Click="FlyoutBtnCreateNewBoard_Click"
-                                                Icon="Save"
-                                                Label="Create" />
-                                            <AppBarButton
-                                                Grid.Column="2"
-                                                Margin="12,8,0,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Click="BtnCloseNewBoardFlyout_Click"
-                                                Icon="Cancel"
-                                                Label="Cancel" />
-                                        </StackPanel>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Flyout>
-                    </AppBarButton.Flyout>
+                    Command="{x:Bind ViewModel.NewBoardCommand}" 
+                    ToolTipService.ToolTip="Create new board" Click="ShowFlyout" FlyoutBase.AttachedFlyout="{StaticResource EditBoardFlyout}">
                 </AppBarButton>
 
             </NavigationView.PaneCustomContent>
@@ -485,5 +353,6 @@
                 Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
             </Grid>
         </NavigationView>
+        
     </Grid>
 </Page>

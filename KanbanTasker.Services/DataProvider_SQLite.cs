@@ -1,19 +1,26 @@
-﻿using KanbanTasker.Models;
-using KanbanTasker.ViewModels;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using KanbanTasker.Model;
+using System.Linq;
 
-namespace KanbanTasker.DataAccess
+namespace KanbanTasker.Services
 {
-    public static class DataProvider
+    public class DataProvider_SQLite : IKanbanTaskerService
     {
         private const string DBName = "Filename=ktdatabase.db";
 
+        public DataProvider_SQLite()
+        {
+
+        }
+
         /// <summary>
+        /// Static so it executes only once
         /// Initialize database tables on application startup
         /// </summary>
-        public static void InitializeDatabase()
+        static DataProvider_SQLite()
         {
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
@@ -51,9 +58,9 @@ namespace KanbanTasker.DataAccess
         /// adds them into a collection to fill a boards tasks
         /// </summary>
         /// <returns>Collection of tasks, of type CustomKanbanModel</returns>
-        public static ObservableCollection<CustomKanbanModel> GetData()
+        public List<TaskDTO> GetTasks()
         {
-            ObservableCollection<CustomKanbanModel> tasks = new ObservableCollection<CustomKanbanModel>();
+            List<TaskDTO> tasks = new List<TaskDTO>();
 
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
@@ -61,30 +68,30 @@ namespace KanbanTasker.DataAccess
                 db.Open();
 
                 SqliteCommand selectCommand = new SqliteCommand
-                    ("SELECT Id, BoardID, DateCreated, Title, Description, Category, ColumnIndex, ColorKey, Tags from tblTasks", db);
+                    ("SELECT Id, BoardID, DateCreated, Title, Description, Category, ColumnIndex, ColorKey, Tags from tblTasks order by ColumnIndex", db);
 
                 SqliteDataReader query = selectCommand.ExecuteReader();
 
                 // Query the db and get the tasks
                 while (query.Read())
                 {
-                    string[] tags;
-                    if (query.GetString(8).ToString() == "")
-                        tags = new string[] { }; // Empty array if no tags are in the col
-                    else
-                        tags = query.GetString(8).Split(","); // Turn string of tags into string array, fills listview
+                    //string[] tags;
+                    //if (query.GetString(8).ToString() == "")
+                    //    tags = new string[] { }; // Empty array if no tags are in the col
+                    //else
+                    //    tags = query.GetString(8).Split(','); // Turn string of tags into string array, fills listview
 
-                    CustomKanbanModel row = new CustomKanbanModel()
+                    TaskDTO row = new TaskDTO()
                     {
-                        ID = query.GetString(0),
-                        BoardId = query.GetString(1),
+                        Id = Convert.ToInt32(query.GetString(0)),
+                        BoardId = new Nullable<int>(Convert.ToInt32(query.GetString(1))),
                         DateCreated = query.GetString(2),
                         Title = query.GetString(3),
                         Description = query.GetString(4),
                         Category = query.GetString(5),
-                        ColumnIndex = query.GetString(6),
+                        ColumnIndex = new Nullable<int>(Convert.ToInt32(query.GetValue(6) == DBNull.Value ? "0" : query.GetString(6))),
                         ColorKey = query.GetString(7),
-                        Tags = tags // Turn string of tags into string array, fills listview
+                        Tags = query.GetString(8) 
                     };
 
                     tasks.Add(row);
@@ -99,9 +106,10 @@ namespace KanbanTasker.DataAccess
         /// and returns a collection of boards
         /// </summary>
         /// <returns>Collection of boards, of type BoardViewModel</returns>
-        public static ObservableCollection<BoardViewModel> GetBoards()
+        public List<BoardDTO> GetBoards()
         {
-            ObservableCollection<BoardViewModel> boards = new ObservableCollection<BoardViewModel>();
+            List<BoardDTO> boards = new List<BoardDTO>();
+            List<TaskDTO> tasks = GetTasks();
 
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
@@ -115,16 +123,21 @@ namespace KanbanTasker.DataAccess
 
                 while (query.Read())
                 {
-                    BoardViewModel row = new BoardViewModel()
+                    BoardDTO row = new BoardDTO()
                     {
-                        BoardId = query.GetString(0),
-                        BoardName = query.GetString(1),
-                        BoardNotes = query.GetString(2),
+                        Id = Convert.ToInt32(query.GetString(0)),
+                        Name = query.GetString(1),
+                        Notes = query.GetString(2),
                     };
                     boards.Add(row);
                 }
                 db.Close();
             }
+
+            // populate tasks for each board
+            foreach (BoardDTO board in boards)
+                board.Tasks = tasks.Where(x => x.BoardId == board.Id).ToList();
+
             return boards;
         }
 
@@ -136,7 +149,7 @@ namespace KanbanTasker.DataAccess
         /// <param name="boardName"></param>
         /// <param name="boardNotes"></param>
         /// <returns>int, the newest board id in the sequence</returns>
-        public static int AddBoard(string boardName, string boardNotes)
+        public int AddBoard(BoardDTO board)
         {
             long pd = -1;
             using (SqliteConnection db =
@@ -149,8 +162,8 @@ namespace KanbanTasker.DataAccess
                     Connection = db,
                     CommandText = "INSERT INTO tblBoards (Name,Notes) VALUES (@boardName, @boardNotes); ; SELECT last_insert_rowid();"
                 };
-                insertCommand.Parameters.AddWithValue("@boardName", boardName);
-                insertCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
+                insertCommand.Parameters.AddWithValue("@boardName", board.Name);
+                insertCommand.Parameters.AddWithValue("@boardNotes", board.Notes);
                 pd = (long)insertCommand.ExecuteScalar();
 
                 db.Close();
@@ -170,7 +183,7 @@ namespace KanbanTasker.DataAccess
         /// <param name="colorKey"></param>
         /// <param name="tags"></param>
         /// <returns>int, the newest task id in the sequence </returns>
-        public static (int, bool) AddTask(string boardID, string dateCreated, string title, string desc, string categ, string colorKey, string tags)
+        public (int, bool) AddTask(TaskDTO task)
         {
             long pd = -1;
             var success = true;
@@ -187,13 +200,13 @@ namespace KanbanTasker.DataAccess
                         // Use parameterized query to prevent SQL injection attacks
                         CommandText = "INSERT INTO tblTasks (BoardID,DateCreated,Title,Description,Category,ColorKey,Tags) VALUES (@boardID, @dateCreated, @title, @desc, @categ, @colorKey, @tags); ; SELECT last_insert_rowid();"
                     };
-                    insertCommand.Parameters.AddWithValue("@boardID", boardID);
-                    insertCommand.Parameters.AddWithValue("@dateCreated", dateCreated);
-                    insertCommand.Parameters.AddWithValue("@title", title);
-                    insertCommand.Parameters.AddWithValue("@desc", desc);
-                    insertCommand.Parameters.AddWithValue("@categ", categ);
-                    insertCommand.Parameters.AddWithValue("@colorKey", colorKey);
-                    insertCommand.Parameters.AddWithValue("@tags", tags);
+                    insertCommand.Parameters.AddWithValue("@boardID", task.BoardId);
+                    insertCommand.Parameters.AddWithValue("@dateCreated", task.DateCreated);
+                    insertCommand.Parameters.AddWithValue("@title", task.Title);
+                    insertCommand.Parameters.AddWithValue("@desc", task.Description);
+                    insertCommand.Parameters.AddWithValue("@categ", task.Category);
+                    insertCommand.Parameters.AddWithValue("@colorKey", task.ColorKey);
+                    insertCommand.Parameters.AddWithValue("@tags", task.Tags);
                     pd = (long)insertCommand.ExecuteScalar();
                     success = true;
                 }
@@ -209,7 +222,7 @@ namespace KanbanTasker.DataAccess
         /// </summary>
         /// <param name="boardId"></param>
         /// <returns>If deletion was successful</returns>
-        internal static bool DeleteBoard(string boardId)
+        public bool DeleteBoard(int boardId)
         {
             // Delete task from db
             using (SqliteConnection db =
@@ -243,7 +256,7 @@ namespace KanbanTasker.DataAccess
         /// </summary>
         /// <param name="id"></param>
         /// <returns>If deletion was successful</returns>
-        public static bool DeleteTask(string id)
+        public bool DeleteTask(int id)
         {
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
@@ -273,7 +286,7 @@ namespace KanbanTasker.DataAccess
         /// <param name="colorKey"></param>
         /// <param name="tags"></param>
         /// <returns>If update was successful</returns>
-        public static bool UpdateTask(string id, string title, string descr, string category, string colorKey, string tags)
+        public bool UpdateTask(TaskDTO task)
         {
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
@@ -284,12 +297,12 @@ namespace KanbanTasker.DataAccess
                 {
                     SqliteCommand updateCommand = new SqliteCommand
                         ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
-                    updateCommand.Parameters.AddWithValue("@title", title);
-                    updateCommand.Parameters.AddWithValue("@desc", descr);
-                    updateCommand.Parameters.AddWithValue("@categ", category);
-                    updateCommand.Parameters.AddWithValue("@colorKey", colorKey);
-                    updateCommand.Parameters.AddWithValue("@tags", tags);
-                    updateCommand.Parameters.AddWithValue("@id", id);
+                    updateCommand.Parameters.AddWithValue("@title", task.Title);
+                    updateCommand.Parameters.AddWithValue("@desc", task.Description);
+                    updateCommand.Parameters.AddWithValue("@categ", task.Category);
+                    updateCommand.Parameters.AddWithValue("@colorKey", task.ColorKey);
+                    updateCommand.Parameters.AddWithValue("@tags", task.Tags);
+                    updateCommand.Parameters.AddWithValue("@id", task.Id);
                     updateCommand.ExecuteNonQuery();
                     return true;
                 }
@@ -305,7 +318,7 @@ namespace KanbanTasker.DataAccess
         /// <param name="selectedCardModel"></param>
         /// <param name="targetCategory"></param>
         /// <param name="targetIndex"></param>
-        public static void UpdateColumnData(CustomKanbanModel selectedCardModel, string targetCategory, string targetIndex)
+        public void UpdateColumnData(TaskDTO task)
         {
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
@@ -315,9 +328,9 @@ namespace KanbanTasker.DataAccess
                 // Update task column/category when dragged to new column/category
                 SqliteCommand updateCommand = new SqliteCommand
                     ("UPDATE tblTasks SET Category=@category, ColumnIndex=@columnIndex WHERE Id=@id", db);
-                updateCommand.Parameters.AddWithValue("@category", targetCategory);
-                updateCommand.Parameters.AddWithValue("@columnIndex", targetIndex);
-                updateCommand.Parameters.AddWithValue("@id", selectedCardModel.ID);
+                updateCommand.Parameters.AddWithValue("@category", task.Category);
+                updateCommand.Parameters.AddWithValue("@columnIndex", task.ColumnIndex);
+                updateCommand.Parameters.AddWithValue("@id", task.Id);
                 updateCommand.ExecuteNonQuery();
 
                 db.Close();
@@ -329,7 +342,7 @@ namespace KanbanTasker.DataAccess
         /// </summary>
         /// <param name="iD"></param>
         /// <param name="currentCardIndex"></param>
-        internal static void UpdateCardIndex(string iD, int currentCardIndex)
+        public void UpdateCardIndex(int iD, int currentCardIndex)
         {
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
@@ -355,7 +368,7 @@ namespace KanbanTasker.DataAccess
         /// <param name="boardName"></param>
         /// <param name="boardNotes"></param>
         /// <returns></returns>
-        internal static bool UpdateBoard(string boardId, string boardName, string boardNotes)
+        public bool UpdateBoard(BoardDTO board)
         {
             using (SqliteConnection db =
                new SqliteConnection(DBName))
@@ -368,9 +381,9 @@ namespace KanbanTasker.DataAccess
                     SqliteCommand updateCommand = new SqliteCommand
                         ("UPDATE tblBoards SET Name=@boardName,Notes=@boardNotes WHERE Id=@boardId", db);
 
-                    updateCommand.Parameters.AddWithValue("@boardId", boardId);
-                    updateCommand.Parameters.AddWithValue("@boardName", boardName);
-                    updateCommand.Parameters.AddWithValue("@boardNotes", boardNotes);
+                    updateCommand.Parameters.AddWithValue("@boardId", board.Id);
+                    updateCommand.Parameters.AddWithValue("@boardName", board.Name);
+                    updateCommand.Parameters.AddWithValue("@boardNotes", board.Notes);
                     updateCommand.ExecuteNonQuery();
                     return true;
                 }
