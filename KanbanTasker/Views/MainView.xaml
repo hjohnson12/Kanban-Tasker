@@ -177,6 +177,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Click="HideFlyout"
+                                Command="{x:Bind ViewModel.CancelSaveBoardCommand}"
                                 Icon="Cancel"
                                 Label="Cancel" />
                         </StackPanel>
@@ -225,7 +226,7 @@
             SelectedItem="{x:Bind ViewModel.CurrentBoard, Mode=TwoWay}"
             IsBackButtonVisible="Collapsed" 
             IsSettingsVisible="False"
-            PaneDisplayMode="Left">
+            PaneDisplayMode="Top">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="viewmodels:BoardViewModel">
                     <TextBlock

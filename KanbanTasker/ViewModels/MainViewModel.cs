@@ -21,6 +21,7 @@ namespace KanbanTasker.ViewModels
         public ICommand NewBoardCommand { get; set; }
         public ICommand EditBoardCommand { get; set; }
         public ICommand SaveBoardCommand { get; set; }
+        public ICommand CancelSaveBoardCommand { get; set; }
         public ICommand DeleteBoardCommand { get; set; }
 
         #region Properties
@@ -71,6 +72,9 @@ namespace KanbanTasker.ViewModels
         }
         private Frame navigationFrame { get; set; }
         private InAppNotification messagePump;
+
+        // TmpBoard is used to save the current board when a user clicks the Add button, than cancels.  Should be able to remove this property when this ticket is fixed: https://github.com/microsoft/microsoft-ui-xaml/issues/1200
+        private BoardViewModel TmpBoard; 
         #endregion Properties
 
 
@@ -87,6 +91,7 @@ namespace KanbanTasker.ViewModels
             NewBoardCommand = new RelayCommand(NewBoardCommandHandler, () => true);
             EditBoardCommand = new RelayCommand(EditBoardCommandHandler, () => CurrentBoard != null);
             SaveBoardCommand = new RelayCommand(SaveBoardCommandHandler, () => true);
+            CancelSaveBoardCommand = new RelayCommand(CancelSaveBoardCommandHandler, () => true);
             DeleteBoardCommand = new RelayCommand(DeleteBoardCommandHandler, () => CurrentBoard != null);
             this.dataProvider = dataProvider;
             this.boardViewModelFactory = boardViewModelFactory;
@@ -119,6 +124,8 @@ namespace KanbanTasker.ViewModels
         {
             BoardEditorTitle = "New Board";
             BoardViewModel newBoard = boardViewModelFactory(new PresentationBoard(new BoardDTO()), messagePump);
+            TmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
+            CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
             CurrentBoard = newBoard;
             // Don't add to BoardList here.  Wait till user saves.
         }
@@ -150,7 +157,14 @@ namespace KanbanTasker.ViewModels
                 BoardList.Add(boardViewModel);
             }
         }
-        
+
+        public void CancelSaveBoardCommandHandler()
+        {
+            CurrentBoard = null; 
+            CurrentBoard = TmpBoard;
+        }
+
+
         public void DeleteBoardCommandHandler()
         {
             if (CurrentBoard == null)
