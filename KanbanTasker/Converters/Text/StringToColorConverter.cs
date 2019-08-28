@@ -11,7 +11,8 @@ namespace KanbanTasker.Converters.Text
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            string colorKey = value.ToString();
+            PresentationTask task = value as PresentationTask;
+            string colorKey = task?.ColorKey ?? "Normal";
             RevealBorderBrush revealBorderBrush = null;
 
             switch (colorKey)

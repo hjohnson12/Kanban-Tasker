@@ -191,7 +191,7 @@
                         MinHeight="100"
                         Margin="0,6,0,6"
                         Background="{ThemeResource CardBackgroundRevealBrush}"
-                        BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}"
+                        BorderBrush="{Binding Converter={StaticResource stringToColorConvertor}}"
                         BorderThickness="5,0,0,0"
                         CornerRadius="{Binding Tag.CardStyle.CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}">
 
