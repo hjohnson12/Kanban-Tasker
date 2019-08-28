@@ -15,15 +15,41 @@ namespace KanbanTasker.Models
         private string _Notes;
         
 
-        public int ID { get => _Id; set { _Id = value; OnPropertyChanged(); } }
-        public string Name { get => _Name; set { _Name = value; OnPropertyChanged(); } }
+      //  public int ID { get => _Id; set { _Id = value; OnPropertyChanged(); } }
+        public int ID
+        {
+            get => _Id;
+            set
+            {
+                if (_Id != value)
+                {
+                    _Id = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public string Name
+        {
+            get => _Name;
+            set
+            {
+                if (_Name != value)
+                {
+                    _Name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public string Notes
         {
             get { return _Notes; }
             set
             {
-                _Notes = value;
-                OnPropertyChanged();
+                if (_Notes != value)
+                {
+                    _Notes = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -33,8 +59,11 @@ namespace KanbanTasker.Models
             get => _Tasks;
             set
             {
-                _Tasks = value;
-                OnPropertyChanged();
+                if (_Tasks != value)
+                {
+                    _Tasks = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

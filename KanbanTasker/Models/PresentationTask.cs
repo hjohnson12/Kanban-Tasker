@@ -23,17 +23,41 @@ namespace KanbanTasker.Models
         private int? _boardId;
         private PresentationBoard _Board;
 
-        public int ID { get => _id; set { _id = value; OnPropertyChanged(); } }
-        public int? BoardId { get => _boardId; set { _boardId = value; OnPropertyChanged(); } }
-        public string DateCreated { get => _dateCreated; set { _dateCreated = value; OnPropertyChanged(); } }
-        public string Title { get => _title; set { _title = value; OnPropertyChanged(); } }
-        public string Description { get => _description; set { _description = value; OnPropertyChanged(); } }
-        public string Category { get => _category; set { _category = value; OnPropertyChanged(); } }
-        public int? ColumnIndex { get => _columnIndex; set { _columnIndex = value; OnPropertyChanged(); } }
-        public string ColorKey { get => _colorKey; set { _colorKey = value; OnPropertyChanged(); } }
-        public ObservableCollection<string> Tags { get => _tags; set { _tags = value; OnPropertyChanged(); } }
-        public Uri ImageURL { get => _imageUrl; set { _imageUrl = value; OnPropertyChanged(); } }
-        public PresentationBoard Board { get => _Board; set { _Board = value; OnPropertyChanged(); } }
+        public int ID { get => _id; set { if (_id != value) { _id = value; OnPropertyChanged(); } } }
+  //      public int? BoardId { get => _boardId; set { _boardId = value; OnPropertyChanged(); } }
+        public int? BoardId
+        {
+            get => _boardId;
+            set
+            {
+                if(_boardId != value)
+                {
+                    _boardId = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+     //   public string DateCreated { get => _dateCreated; set { _dateCreated = value; OnPropertyChanged(); } }
+        public string DateCreated
+        {
+            get => _dateCreated;
+            set
+            {
+                if (_dateCreated != value)
+                {
+                    _dateCreated = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public string Title { get => _title; set { if (_title != value) { _title = value; OnPropertyChanged(); } } }
+        public string Description { get => _description; set { if(_description != value) { _description = value; OnPropertyChanged(); } } }
+        public string Category { get => _category; set { if (_category != value) { _category = value; OnPropertyChanged(); } } }
+        public int? ColumnIndex { get => _columnIndex; set { if (_columnIndex != value) { _columnIndex = value; OnPropertyChanged(); } } }
+        public string ColorKey { get => _colorKey; set { if (_colorKey != value) { _colorKey = value; OnPropertyChanged(); } } }
+        public ObservableCollection<string> Tags { get => _tags; set { if (_tags != value) { _tags = value; OnPropertyChanged(); } } }
+        public Uri ImageURL { get => _imageUrl; set { if (_imageUrl != value){ _imageUrl = value; OnPropertyChanged(); } } }
+        public PresentationBoard Board { get => _Board; set { if(_Board != value){ _Board = value; OnPropertyChanged(); } } }
 
         public object ColorKeyComboBoxItem { get; set; }                                                    // Hack --- Combobox cannot bind correctly.
 

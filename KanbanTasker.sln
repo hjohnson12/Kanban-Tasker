@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.779
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanTasker", "KanbanTasker\KanbanTasker.csproj", "{B434996D-3E75-4AAA-A039-CBA4FFB4418A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanTasker.Services", "KanbanTasker.Services\KanbanTasker.Services.csproj", "{018B078F-87F8-4B47-9F2C-E1C82CD742F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KanbanTasker.Services", "KanbanTasker.Services\KanbanTasker.Services.csproj", "{018B078F-87F8-4B47-9F2C-E1C82CD742F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanTasker.Model", "KanbanTasker.Model\KanbanTasker.Model.csproj", "{F02C8182-E2C1-4D7E-957A-353FC45494F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KanbanTasker.Model", "KanbanTasker.Model\KanbanTasker.Model.csproj", "{F02C8182-E2C1-4D7E-957A-353FC45494F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B434996D-3E75-4AAA-A039-CBA4FFB4418A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B434996D-3E75-4AAA-A039-CBA4FFB4418A}.Debug|Any CPU.Build.0 = Debug|x86
+		{B434996D-3E75-4AAA-A039-CBA4FFB4418A}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{B434996D-3E75-4AAA-A039-CBA4FFB4418A}.Debug|ARM.ActiveCfg = Debug|ARM
 		{B434996D-3E75-4AAA-A039-CBA4FFB4418A}.Debug|ARM.Build.0 = Debug|ARM
 		{B434996D-3E75-4AAA-A039-CBA4FFB4418A}.Debug|ARM.Deploy.0 = Debug|ARM
