@@ -85,8 +85,8 @@ namespace KanbanTasker.Models
             {
                 Id = ID,
                 Name = Name,
-                Notes = Notes,
-                Tasks = Tasks.Select(x => x.To_TaskDTO()).ToList()
+                Notes = Notes
+                // do not convert tasks here since each task has a board, each board has one or more tasks, each of which have a board with one or more tasks.... ad infinitum.
             };
         }
     }
