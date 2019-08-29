@@ -146,7 +146,7 @@ namespace KanbanTasker.ViewModels
 
             // Add board to db and collection
             if (isNew)
-                newBoardId = dataProvider.AddBoard(dto);
+                newBoardId = dataProvider.AddBoard(dto).Entity.Id;
             else
                 dataProvider.UpdateBoard(dto);
 

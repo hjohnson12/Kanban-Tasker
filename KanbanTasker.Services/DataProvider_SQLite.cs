@@ -149,8 +149,9 @@ namespace KanbanTasker.Services
         /// <param name="boardName"></param>
         /// <param name="boardNotes"></param>
         /// <returns>int, the newest board id in the sequence</returns>
-        public int AddBoard(BoardDTO board)
+        public RowOpResult<BoardDTO> AddBoard(BoardDTO board)
         {
+            RowOpResult<BoardDTO> result = new RowOpResult<BoardDTO>(board);
             long pd = -1;
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
@@ -165,10 +166,12 @@ namespace KanbanTasker.Services
                 insertCommand.Parameters.AddWithValue("@boardName", board.Name);
                 insertCommand.Parameters.AddWithValue("@boardNotes", board.Notes);
                 pd = (long)insertCommand.ExecuteScalar();
+                board.Id = (int)pd;
 
                 db.Close();
             }
-            return (int)pd;
+            result.Success = true;
+            return result;
         }
 
         /// <summary>
@@ -183,10 +186,11 @@ namespace KanbanTasker.Services
         /// <param name="colorKey"></param>
         /// <param name="tags"></param>
         /// <returns>int, the newest task id in the sequence </returns>
-        public (int, bool) AddTask(TaskDTO task)
+        public RowOpResult<TaskDTO> AddTask(TaskDTO task)
         {
+            RowOpResult<TaskDTO> result = new RowOpResult<TaskDTO>(task);
             long pd = -1;
-            var success = true;
+
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
             {
@@ -208,12 +212,13 @@ namespace KanbanTasker.Services
                     insertCommand.Parameters.AddWithValue("@colorKey", task.ColorKey);
                     insertCommand.Parameters.AddWithValue("@tags", task.Tags);
                     pd = (long)insertCommand.ExecuteScalar();
-                    success = true;
+                    task.Id = (int)pd;
+                    result.Success = true;
                 }
-                catch (Exception ex) { success = false; }
+                catch (Exception ex) { result.Success = false; }
                 finally { db.Close(); }
             }
-            return ((int)pd, success);
+            return result;
         }
 
         /// <summary>
@@ -286,8 +291,16 @@ namespace KanbanTasker.Services
         /// <param name="colorKey"></param>
         /// <param name="tags"></param>
         /// <returns>If update was successful</returns>
-        public bool UpdateTask(TaskDTO task)
+        public RowOpResult<TaskDTO> UpdateTask(TaskDTO task)
         {
+            RowOpResult<TaskDTO> result = new RowOpResult<TaskDTO>(task);
+
+            ValidateTask(result);
+
+            if (!result.Success)
+                return result;
+
+
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
             {
@@ -304,11 +317,12 @@ namespace KanbanTasker.Services
                     updateCommand.Parameters.AddWithValue("@tags", task.Tags);
                     updateCommand.Parameters.AddWithValue("@id", task.Id);
                     updateCommand.ExecuteNonQuery();
-                    return true;
+                    result.Success = true;
                 }
-                catch (Exception ex) { return false; }
+                catch (Exception ex) { result.Success = false; }
                 finally { db.Close(); }
             }
+            return result;
         }
 
         /// <summary>
@@ -368,8 +382,17 @@ namespace KanbanTasker.Services
         /// <param name="boardName"></param>
         /// <param name="boardNotes"></param>
         /// <returns></returns>
-        public bool UpdateBoard(BoardDTO board)
+        public RowOpResult<BoardDTO> UpdateBoard(BoardDTO board)
         {
+            RowOpResult<BoardDTO> result = new RowOpResult<BoardDTO>(board);
+
+            ValidateBoard(result);
+
+            if (!result.Success)
+                return result;
+
+
+
             using (SqliteConnection db =
                new SqliteConnection(DBName))
             {
@@ -385,11 +408,40 @@ namespace KanbanTasker.Services
                     updateCommand.Parameters.AddWithValue("@boardName", board.Name);
                     updateCommand.Parameters.AddWithValue("@boardNotes", board.Notes);
                     updateCommand.ExecuteNonQuery();
-                    return true;
+                    result.Success = true;
                 }
-                catch (Exception ex) { return false; }
+                catch (Exception ex) { result.Success = false; }
                 finally { db.Close(); }
             }
+            return result;
+        }
+
+        public RowOpResult<BoardDTO> ValidateBoard(RowOpResult<BoardDTO> result)
+        {
+            BoardDTO b = result.Entity;
+
+            if (string.IsNullOrEmpty(b.Name))
+                result.ErrorMessage = "Name is required.";
+            else if(b.Name.Length > 100)
+                result.ErrorMessage = "Name is too long.";
+
+            // more validation here
+            result.Success = string.IsNullOrEmpty(result.ErrorMessage);
+            return result;
+        }
+
+        public RowOpResult<TaskDTO> ValidateTask(RowOpResult<TaskDTO> result)
+        {
+            TaskDTO t = result.Entity;
+
+            if (string.IsNullOrEmpty(t.Title))
+                result.ErrorMessage = "Title is required.";
+            else if (t.Title.Length > 100)
+                result.ErrorMessage = "Title is too long.";
+
+            // more validation here
+            result.Success = string.IsNullOrEmpty(result.ErrorMessage);
+            return result;
         }
     }
 }

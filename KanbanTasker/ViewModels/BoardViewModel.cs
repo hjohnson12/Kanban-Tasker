@@ -186,7 +186,7 @@ namespace KanbanTasker.ViewModels
             if (isNew)
             {
                 dto.DateCreated = DateTime.Now.ToString();
-                dto.Id = DataProvider.AddTask(dto).Item1;
+                dto.Id = DataProvider.AddTask(dto).Entity.Id;
             }
             else
                 DataProvider.UpdateTask(dto);
