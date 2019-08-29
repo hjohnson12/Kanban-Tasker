@@ -115,7 +115,7 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public PresentationTask OriginalCardModel
+        public PresentationTask OriginalTask
         {
             get;
             set;
@@ -169,6 +169,8 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "Edit Task";
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
             IsEditingTask = true;
+            // clone a copy of CurrentTask so we can restore if user cancels
+            OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
         }
 
         public void SaveTaskCommandHandler()
@@ -229,6 +231,11 @@ namespace KanbanTasker.ViewModels
         public void CancelEditCommandHandler()
         {
             IsEditingTask = false;
+            // roll back changes to CurrentTask
+            int index = Board.Tasks.IndexOf(CurrentTask);
+            Board.Tasks.Remove(CurrentTask);
+            CurrentTask = new PresentationTask(OriginalTask.To_TaskDTO());
+            Board.Tasks.Insert(index, CurrentTask);
         }
 
         public bool AddTag(string tag)
