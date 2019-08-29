@@ -202,7 +202,7 @@ namespace KanbanTasker.Services
                         Connection = db,
 
                         // Use parameterized query to prevent SQL injection attacks
-                        CommandText = "INSERT INTO tblTasks (BoardID,DateCreated,Title,Description,Category,ColorKey,Tags) VALUES (@boardID, @dateCreated, @title, @desc, @categ, @colorKey, @tags); ; SELECT last_insert_rowid();"
+                        CommandText = "INSERT INTO tblTasks (BoardID,DateCreated,Title,Description,Category,ColorKey,Tags, ColumnIndex) VALUES (@boardID, @dateCreated, @title, @desc, @categ, @colorKey, @tags, @columnIndex); ; SELECT last_insert_rowid();"
                     };
                     insertCommand.Parameters.AddWithValue("@boardID", task.BoardId);
                     insertCommand.Parameters.AddWithValue("@dateCreated", task.DateCreated);
@@ -211,6 +211,7 @@ namespace KanbanTasker.Services
                     insertCommand.Parameters.AddWithValue("@categ", task.Category);
                     insertCommand.Parameters.AddWithValue("@colorKey", task.ColorKey);
                     insertCommand.Parameters.AddWithValue("@tags", task.Tags);
+                    insertCommand.Parameters.AddWithValue("@columnIndex", task.ColumnIndex);
                     pd = (long)insertCommand.ExecuteScalar();
                     task.Id = (int)pd;
                     result.Success = true;
@@ -309,13 +310,14 @@ namespace KanbanTasker.Services
                 try
                 {
                     SqliteCommand updateCommand = new SqliteCommand
-                        ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags WHERE Id=@id", db);
+                        ("UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags, ColumnIndex=@columnIndex WHERE Id=@id", db);
                     updateCommand.Parameters.AddWithValue("@title", task.Title);
                     updateCommand.Parameters.AddWithValue("@desc", task.Description);
                     updateCommand.Parameters.AddWithValue("@categ", task.Category);
                     updateCommand.Parameters.AddWithValue("@colorKey", task.ColorKey);
                     updateCommand.Parameters.AddWithValue("@tags", task.Tags);
                     updateCommand.Parameters.AddWithValue("@id", task.Id);
+                    updateCommand.Parameters.AddWithValue("@columnIndex", task.ColumnIndex);
                     updateCommand.ExecuteNonQuery();
                     result.Success = true;
                 }

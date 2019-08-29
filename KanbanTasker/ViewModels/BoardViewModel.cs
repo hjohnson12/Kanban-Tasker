@@ -187,6 +187,7 @@ namespace KanbanTasker.ViewModels
 
             if (isNew)
             {
+                dto.ColumnIndex = Board.Tasks?.Where(x => x.Category == dto.Category).Count() ?? 0;
                 dto.DateCreated = DateTime.Now.ToString();
                 dto.Id = DataProvider.AddTask(dto).Entity.Id;
             }
