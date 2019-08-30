@@ -216,8 +216,10 @@ namespace KanbanTasker.ViewModels
                 int startIndex = task.ColumnIndex.Value;
 
                 foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex))
-                    UpdateCardIndex(otherTask.ID, startIndex++);
-
+                {
+                    otherTask.ColumnIndex = startIndex++;
+                    UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex.Value);
+                }
                 MessagePump.Show("Task deleted from board successfully", MessageDuration);
             }
             else
