@@ -216,7 +216,11 @@ namespace KanbanTasker.Services
                     task.Id = (int)pd;
                     result.Success = true;
                 }
-                catch (Exception ex) { result.Success = false; }
+                catch (Exception ex)
+                {
+                    result.Success = false;
+                    throw;
+                }
                 finally { db.Close(); }
             }
             return result;
@@ -251,7 +255,7 @@ namespace KanbanTasker.Services
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    throw;
                 }
                 finally { db.Close(); }
             }
@@ -321,7 +325,11 @@ namespace KanbanTasker.Services
                     updateCommand.ExecuteNonQuery();
                     result.Success = true;
                 }
-                catch (Exception ex) { result.Success = false; }
+                catch (Exception ex)
+                {
+                    result.Success = false;
+                    throw;
+                }
                 finally { db.Close(); }
             }
             return result;

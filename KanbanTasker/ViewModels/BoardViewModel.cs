@@ -197,6 +197,7 @@ namespace KanbanTasker.ViewModels
             if (isNew)
             {
                 CurrentTask.ID = dto.Id;
+                CurrentTask.ColumnIndex = dto.ColumnIndex;
                 Board.Tasks.Add(CurrentTask);
             }
             
@@ -212,6 +213,11 @@ namespace KanbanTasker.ViewModels
             {
                 Board.Tasks.Remove(task);
                 CurrentTask = Board.Tasks.LastOrDefault();
+                int startIndex = task.ColumnIndex.Value;
+
+                foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex))
+                    UpdateCardIndex(otherTask.ID, startIndex++);
+
                 MessagePump.Show("Task deleted from board successfully", MessageDuration);
             }
             else

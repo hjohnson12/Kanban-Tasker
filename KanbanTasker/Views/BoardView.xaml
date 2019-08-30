@@ -830,7 +830,7 @@
                 BorderBrush="{StaticResource RegionBrush}"
                 CardDragEnd="KanbanBoard_CardDragEnd"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
-                ColumnMappingPath="Category" 
+                ColumnMappingPath="Category"
                 ItemsSource="{x:Bind ViewModel.Board.Tasks, Mode=OneWay}">
 
                 <syncfusion:SfKanban.ColumnHeaderTemplate>
@@ -939,7 +939,7 @@
                 <helpers:CustomKanbanColumn
                     x:Name="Backlog"
                     Title="Backlog"
-                    Categories="Backlog"
+                    Categories="Backlog" 
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}" 
                     MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
@@ -964,7 +964,7 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="In Progress"
+                    Title="In Progress" 
                     Categories="In Progress"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
