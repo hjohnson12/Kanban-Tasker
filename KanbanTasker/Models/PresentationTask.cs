@@ -59,7 +59,20 @@ namespace KanbanTasker.Models
         public Uri ImageURL { get => _imageUrl; set { if (_imageUrl != value){ _imageUrl = value; OnPropertyChanged(); } } }
         public PresentationBoard Board { get => _Board; set { if(_Board != value){ _Board = value; OnPropertyChanged(); } } }
 
-        public object ColorKeyComboBoxItem { get; set; }                                                    // Hack --- Combobox cannot bind correctly.
+        private object _ColorKeyComboBoxItem;
+        public object ColorKeyComboBoxItem
+        {
+            get => _ColorKeyComboBoxItem;
+            set
+            {
+                if (_ColorKeyComboBoxItem != value)
+                {
+                    ColorKey = value == null ? null : ((ComboBoxItem)value).Content?.ToString();
+                    _ColorKeyComboBoxItem = value;
+                    OnPropertyChanged();
+                }
+            }
+        }                                                    // Hack --- Combobox cannot bind correctly.
 
         public PresentationTask(TaskDTO dto)
         {
