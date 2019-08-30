@@ -172,6 +172,7 @@ namespace KanbanTasker.ViewModels
 
             dataProvider.DeleteBoard(CurrentBoard.Board.ID);
             BoardList.Remove(CurrentBoard);
+            CurrentBoard = null; // uwp bug
             CurrentBoard = BoardList.LastOrDefault();
         }
     }
