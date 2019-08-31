@@ -46,7 +46,7 @@
                             VerticalAlignment="Center"
                             FontSize="25"
                             FontWeight="Bold"
-                            Text="New Board" />
+                            Text="{x:Bind ViewModel.BoardEditorTitle}" />
                         <Button
                             x:Name="btnCloseNewBoardFlyout" 
                             Grid.Column="1"
@@ -89,7 +89,7 @@
                         VerticalAlignment="Center"
                         PlaceholderText="Type your information here"
                         Style="{StaticResource TextBoxStyle1}"
-                        Text="{x:Bind ViewModel.NewBoard.Board.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        Text="{x:Bind ViewModel.CurrentBoard.Board.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.Resources>
                             <muxc1:TeachingTip
                                 x:Name="ChooseBoardNameTeachingTip"
@@ -123,7 +123,7 @@
                             BorderThickness="1"
                             CornerRadius="3"
                             PlaceholderText="Type your information here"
-                            Text="{x:Bind ViewModel.NewBoard.Board.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{x:Bind ViewModel.CurrentBoard.Board.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             TextWrapping="Wrap">
                             <TextBox.Resources>
                                 <muxc1:TeachingTip

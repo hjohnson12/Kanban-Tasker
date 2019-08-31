@@ -60,22 +60,6 @@ namespace KanbanTasker.ViewModels
             }
 
         }
-
-        /// <summary>
-        /// Currently selected board
-        /// </summary>
-        private BoardViewModel _NewBoard;
-        public BoardViewModel NewBoard
-        {
-            get => _NewBoard;
-            set
-            {
-                _NewBoard = value;
-                OnPropertyChanged();
-            }
-
-        }
-
         private string _BoardEditorTitle;
         public string BoardEditorTitle
         {
@@ -139,19 +123,11 @@ namespace KanbanTasker.ViewModels
      
         public void NewBoardCommandHandler()
         {
-           // BoardEditorTitle = "New Board";
-
-         
+            BoardEditorTitle = "New Board";
             BoardViewModel newBoard = boardViewModelFactory(new PresentationBoard(new BoardDTO()), messagePump);
-            NewBoard = null;
-            NewBoard = newBoard;
-
-            // OLD
-            //BoardEditorTitle = "New Board";
-            //BoardViewModel newBoard = boardViewModelFactory(new PresentationBoard(new BoardDTO()), messagePump);
-            //TmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
-            //CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
-            //CurrentBoard = newBoard;
+            TmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
+            CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
+            CurrentBoard = newBoard;
             // Don't add to BoardList here.  Wait till user saves.
         }
 
@@ -162,62 +138,26 @@ namespace KanbanTasker.ViewModels
 
         public void SaveBoardCommandHandler()
         {
-            bool isNew = false;
-            if (NewBoard.Board != null)
-            {
-                isNew = true;
-            }
-            else
-                isNew = false;
+            if (CurrentBoard.Board == null)
+                return;
 
+            BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
+            bool isNew = dto.Id == 0;
+            RowOpResult<BoardDTO> result = null;
+
+            // Add board to db and collection
             if (isNew)
-            {
-                BoardDTO dto = NewBoard.Board.To_BoardDTO();
-                RowOpResult<BoardDTO> result = null;
                 result = dataProvider.AddBoard(dto);
-
-                messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
-
-                if (result.Success)
-                {
-                    NewBoard.Board.ID = result.Entity.Id;
-                    BoardList.Add(NewBoard);
-                    CurrentBoard = NewBoard;
-                }
-            }
             else
-            {
-                if (CurrentBoard.Board == null)
-                    return;
-
-                BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
-                RowOpResult<BoardDTO> result = null;
                 result = dataProvider.UpdateBoard(dto);
-                messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
+
+            messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
+
+            if (isNew && result.Success)
+            {
+                CurrentBoard.Board.ID = result.Entity.Id;
+                BoardList.Add(CurrentBoard);
             }
-
-            // OLD
-
-            //if (CurrentBoard.Board == null)
-            //    return;
-
-            //BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
-            //bool isNew = dto.Id == 0;
-            //RowOpResult<BoardDTO> result = null;
-
-            //// Add board to db and collection
-            //if (isNew)
-            //    result = dataProvider.AddBoard(dto);
-            //else
-            //    result = dataProvider.UpdateBoard(dto);
-
-            //messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
-
-            //if (isNew && result.Success)
-            //{
-            //    CurrentBoard.Board.ID = result.Entity.Id;
-            //    BoardList.Add(CurrentBoard);
-            //}
         }
 
         public void CancelSaveBoardCommandHandler()
