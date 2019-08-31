@@ -9,7 +9,7 @@ namespace KanbanTasker.Services
 {
     public class DataProvider_SQLite : IKanbanTaskerService
     {
-        private const string DBName = "Filename=ktdatabase.db";
+        private const string DBName = "Filename=ktdatabase2.db";
 
         public DataProvider_SQLite()
         {
