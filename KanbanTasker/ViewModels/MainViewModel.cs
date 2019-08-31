@@ -72,6 +72,7 @@ namespace KanbanTasker.ViewModels
         }
         private Frame navigationFrame { get; set; }
         private InAppNotification messagePump;
+        private const int MessageDuration = 3000;
 
         // TmpBoard is used to save the current board when a user clicks the Add button, than cancels.  Should be able to remove this property when this ticket is fixed: https://github.com/microsoft/microsoft-ui-xaml/issues/1200
         private BoardViewModel TmpBoard; 
@@ -142,19 +143,20 @@ namespace KanbanTasker.ViewModels
 
             BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
             bool isNew = dto.Id == 0;
-            int newBoardId = 0;
+            RowOpResult<BoardDTO> result = null;
 
             // Add board to db and collection
             if (isNew)
-                newBoardId = dataProvider.AddBoard(dto).Entity.Id;
+                result = dataProvider.AddBoard(dto);
             else
-                dataProvider.UpdateBoard(dto);
+                result = dataProvider.UpdateBoard(dto);
 
-            if (isNew)
+            messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
+
+            if (isNew && result.Success)
             {
-                dto.Id = newBoardId;
-                BoardViewModel boardViewModel = boardViewModelFactory(new PresentationBoard(dto), messagePump);
-                BoardList.Add(boardViewModel);
+                CurrentBoard.Board.ID = result.Entity.Id;
+                BoardList.Add(CurrentBoard);
             }
         }
 

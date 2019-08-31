@@ -152,6 +152,12 @@ namespace KanbanTasker.Services
         public RowOpResult<BoardDTO> AddBoard(BoardDTO board)
         {
             RowOpResult<BoardDTO> result = new RowOpResult<BoardDTO>(board);
+
+            ValidateBoard(result);
+
+            if (!result.Success)
+                return result;
+
             long pd = -1;
             using (SqliteConnection db =
                 new SqliteConnection(DBName))
