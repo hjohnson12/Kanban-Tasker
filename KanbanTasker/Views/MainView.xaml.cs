@@ -56,7 +56,7 @@ namespace KanbanTasker.Views
                 ViewModel.SetCurrentBoardOnClose();
             else if (txtBoxNewBoardName.Text == "")
                 ViewModel.SetCurrentBoardOnClose();
-            else if (txtBoxNewBoardName.Text == "")
+            else if (txtBoxNewBoardNotes.Text == "")
                 ViewModel.SetCurrentBoardOnClose();
         }
     }
