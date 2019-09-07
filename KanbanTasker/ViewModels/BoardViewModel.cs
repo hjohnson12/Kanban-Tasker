@@ -240,11 +240,19 @@ namespace KanbanTasker.ViewModels
         public void CancelEditCommandHandler()
         {
             IsEditingTask = false;
+
+            // BUG: Is that CurrentTask isn't added to the Board.Tasks if it's a new task, so when trying to delete something that doesn'te xist, it doesn't find it
+
+            if (OriginalTask == null)
+                return;
             // roll back changes to CurrentTask
-            int index = Board.Tasks.IndexOf(CurrentTask);
-            Board.Tasks.Remove(CurrentTask);
-            CurrentTask = new PresentationTask(OriginalTask.To_TaskDTO());
-            Board.Tasks.Insert(index, CurrentTask);
+           else
+            {
+                int index = Board.Tasks.IndexOf(CurrentTask);
+                Board.Tasks.Remove(CurrentTask);
+                CurrentTask = new PresentationTask(OriginalTask.To_TaskDTO());
+                Board.Tasks.Insert(index, CurrentTask);
+            }
         }
 
         public bool AddTag(string tag)
