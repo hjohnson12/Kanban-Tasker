@@ -70,6 +70,13 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        internal void SetCurrentBoardOnClose()
+        {
+            CurrentBoard = null;
+            CurrentBoard = TmpBoard;
+        }
+
         private Frame navigationFrame { get; set; }
         private InAppNotification messagePump;
         private const int MessageDuration = 3000;
@@ -123,7 +130,7 @@ namespace KanbanTasker.ViewModels
      
         public void NewBoardCommandHandler()
         {
-            BoardEditorTitle = "New Board";
+            BoardEditorTitle = "New Board Editor";
             BoardViewModel newBoard = boardViewModelFactory(new PresentationBoard(new BoardDTO()), messagePump);
             TmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
             CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
@@ -165,7 +172,6 @@ namespace KanbanTasker.ViewModels
             CurrentBoard = null; 
             CurrentBoard = TmpBoard;
         }
-
 
         public void DeleteBoardCommandHandler()
         {

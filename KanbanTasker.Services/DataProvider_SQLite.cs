@@ -440,6 +440,10 @@ namespace KanbanTasker.Services
                 result.ErrorMessage = "Name is required.";
             else if(b.Name.Length > 100)
                 result.ErrorMessage = "Name is too long.";
+            if (string.IsNullOrEmpty(b.Notes))
+                result.ErrorMessage = "Notes are required.";
+            else if (b.Notes.Length > 1000)
+                result.ErrorMessage = "Notes are too long.";
 
             // more validation here
             result.Success = string.IsNullOrEmpty(result.ErrorMessage);

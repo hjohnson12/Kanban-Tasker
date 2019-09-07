@@ -48,5 +48,16 @@ namespace KanbanTasker.Views
 
             ActiveFlyout.Hide();
         }
+
+        private void EditBoardFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
+        {
+            // Call VM method to reset current board to tmpBoard if user clicks away 
+            if (txtBoxNewBoardName.Text == "" && txtBoxNewBoardName.Text == "")
+                ViewModel.SetCurrentBoardOnClose();
+            else if (txtBoxNewBoardName.Text == "")
+                ViewModel.SetCurrentBoardOnClose();
+            else if (txtBoxNewBoardName.Text == "")
+                ViewModel.SetCurrentBoardOnClose();
+        }
     }
 }

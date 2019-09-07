@@ -17,7 +17,7 @@
     <Page.Resources>
         <ResourceDictionary>
         <!--This flyout is used for both creating a new board and editing an existing one.-->
-        <Flyout x:Name="EditBoardFlyout" Placement="Bottom">
+        <Flyout x:Name="EditBoardFlyout" Placement="Bottom" Closing="EditBoardFlyout_Closing">
             <Flyout.FlyoutPresenterStyle>
                 <Style TargetType="FlyoutPresenter">
                     <Setter Property="CornerRadius" Value="3" />
@@ -46,13 +46,14 @@
                             VerticalAlignment="Center"
                             FontSize="25"
                             FontWeight="Bold"
-                            Text="{x:Bind ViewModel.BoardEditorTitle}" />
+                            Text="{x:Bind ViewModel.BoardEditorTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Button
                             x:Name="btnCloseNewBoardFlyout" 
                             Grid.Column="1"
                             Margin="0,8,0,0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.CancelSaveBoardCommand}"
                             Background="Transparent"
                             BorderThickness="0"
                             Click="HideFlyout">
@@ -222,8 +223,8 @@
         <NavigationView
             x:Name="kanbanNavView"
             Grid.Row="1"
-            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=TwoWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoard, Mode=TwoWay}"
+            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             IsBackButtonVisible="Collapsed" 
             IsSettingsVisible="False"
             PaneDisplayMode="Top">
