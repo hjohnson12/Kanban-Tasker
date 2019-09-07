@@ -163,6 +163,10 @@ namespace KanbanTasker.ViewModels
         {
             if (CurrentBoard.Board == null)
                 return;
+            if (string.IsNullOrEmpty(CurrentBoard.Board.Name))
+                return;
+            if (string.IsNullOrEmpty(CurrentBoard.Board.Notes))
+                return;
 
             // Database validation will handle missing values and display an error message if necessary
             //if (string.IsNullOrEmpty(CurrentBoard.Board.Name))
@@ -176,12 +180,12 @@ namespace KanbanTasker.ViewModels
             // Add board to db and collection
             result = dataProvider.Call(x => x.BoardServices.SaveBoard(dto));
             messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
-
             if (isNew && result.Success)
             {
                 CurrentBoard.Board.ID = result.Entity.Id;
                 BoardList.Add(CurrentBoard);
             }
+
         }
 
         public void CancelSaveBoardCommandHandler()
