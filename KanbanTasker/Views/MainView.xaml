@@ -223,8 +223,8 @@
         <NavigationView
             x:Name="kanbanNavView"
             Grid.Row="1"
-            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=TwoWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoard, Mode=TwoWay}"
             IsBackButtonVisible="Collapsed" 
             IsSettingsVisible="False"
             PaneDisplayMode="Top">

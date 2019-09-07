@@ -73,8 +73,13 @@ namespace KanbanTasker.ViewModels
 
         internal void SetCurrentBoardOnClose()
         {
-            CurrentBoard = null;
-            CurrentBoard = TmpBoard;
+            if (CurrentBoard.Board.Name == "" || CurrentBoard.Board.Notes == "")
+                CurrentBoard = null;
+            else
+            {
+                CurrentBoard = null;
+                CurrentBoard = TmpBoard;
+            }
         }
 
         private Frame navigationFrame { get; set; }
