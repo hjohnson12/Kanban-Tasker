@@ -140,6 +140,7 @@ namespace KanbanTasker.ViewModels
 
         public void EditBoardCommandHandler()
         {
+            TmpBoard = CurrentBoard;
             BoardEditorTitle = "Edit Board";
         }
 

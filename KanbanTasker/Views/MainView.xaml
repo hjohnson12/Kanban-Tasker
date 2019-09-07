@@ -46,7 +46,7 @@
                             VerticalAlignment="Center"
                             FontSize="25"
                             FontWeight="Bold"
-                            Text="{x:Bind ViewModel.BoardEditorTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{x:Bind ViewModel.BoardEditorTitle, Mode=TwoWay}" />
                         <Button
                             x:Name="btnCloseNewBoardFlyout" 
                             Grid.Column="1"
