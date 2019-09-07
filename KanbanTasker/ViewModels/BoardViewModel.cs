@@ -161,6 +161,7 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "New Task";
             string category = tag?.Header?.ToString();
             CurrentTask = new PresentationTask(new TaskDTO() { Category = category }) { Board = Board, BoardId = Board.ID,  ColorKeyComboBoxItem = ColorKeys[1] };
+            OriginalTask = null; 
             IsEditingTask = true;
         }
 
