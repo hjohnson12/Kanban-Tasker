@@ -59,5 +59,20 @@ namespace KanbanTasker.Views
             else if (txtBoxNewBoardNotes.Text == "")
                 ViewModel.SetCurrentBoardOnClose();
         }
+
+        private void FlyoutBtnCreateNewBoard_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtBoxNewBoardName.Text == "")
+                ChooseBoardNameTeachingTip.IsOpen = true;
+            if (txtBoxNewBoardNotes.Text == "")
+                AddBoardNotesTeachingTip.IsOpen = true;
+            if (txtBoxNewBoardName.Text != "" && txtBoxNewBoardNotes.Text != "")
+            {
+                if (ActiveFlyout == null)
+                    return;
+
+                ActiveFlyout.Hide();
+            }
+        }
     }
 }

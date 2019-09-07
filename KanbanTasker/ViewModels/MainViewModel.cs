@@ -73,8 +73,8 @@ namespace KanbanTasker.ViewModels
 
         internal void SetCurrentBoardOnClose()
         {
-            if (CurrentBoard.Board.Name == "" || CurrentBoard.Board.Notes == "")
-                CurrentBoard = null;
+            if (BoardList.Count == 0) 
+                CurrentBoard = null; // Displays NoBoardsView after
             else
             {
                 CurrentBoard = null;
@@ -153,6 +153,10 @@ namespace KanbanTasker.ViewModels
         {
             if (CurrentBoard.Board == null)
                 return;
+            if (string.IsNullOrEmpty(CurrentBoard.Board.Name))
+                return;
+            if (string.IsNullOrEmpty(CurrentBoard.Board.Notes))
+                return;
 
             BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
             bool isNew = dto.Id == 0;
@@ -165,12 +169,12 @@ namespace KanbanTasker.ViewModels
                 result = dataProvider.UpdateBoard(dto);
 
             messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
-
             if (isNew && result.Success)
             {
                 CurrentBoard.Board.ID = result.Entity.Id;
                 BoardList.Add(CurrentBoard);
             }
+
         }
 
         public void CancelSaveBoardCommandHandler()
