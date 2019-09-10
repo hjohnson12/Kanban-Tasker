@@ -9,6 +9,7 @@ using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Syncfusion.UI.Xaml.Kanban;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using LeaderAnalytics.AdaptiveClient;
 
 namespace KanbanTasker.ViewModels
 {
@@ -43,7 +44,7 @@ namespace KanbanTasker.ViewModels
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
         private string _currentCategory;
-        private IKanbanTaskerService DataProvider;
+        private IAdaptiveClient<IServiceManifest> DataProvider;
         public ICommand NewTaskCommand { get; set; }
         public ICommand EditTaskCommand { get; set; }
         public ICommand SaveTaskCommand { get; set; }
@@ -129,7 +130,7 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// Constructor / Initialization of tasks
         /// </summary>
-        public BoardViewModel(PresentationBoard board, IKanbanTaskerService dataProvider, InAppNotification messagePump)
+        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, InAppNotification messagePump)
         {
             Board = board;
             DataProvider = dataProvider;
@@ -190,10 +191,9 @@ namespace KanbanTasker.ViewModels
             {
                 dto.ColumnIndex = Board.Tasks?.Where(x => x.Category == dto.Category).Count() ?? 0;
                 dto.DateCreated = DateTime.Now.ToString();
-                dto.Id = DataProvider.AddTask(dto).Entity.Id;
             }
-            else
-                DataProvider.UpdateTask(dto);
+            dto.Id = DataProvider.Call(x => x.TaskServices.SaveTask(dto)).Entity.Id;
+
 
             if (isNew)
             {
@@ -208,18 +208,18 @@ namespace KanbanTasker.ViewModels
         public void DeleteTaskCommandHandler(int taskID)
         {
             PresentationTask task = Board.Tasks.First(x => x.ID == taskID);
-            bool success = DataProvider.DeleteTask(taskID);
+            RowOpResult result = DataProvider.Call(x => x.TaskServices.DeleteTask(taskID));
 
-            if (success)
+            if (result.Success)
             {
                 Board.Tasks.Remove(task);
                 CurrentTask = Board.Tasks.LastOrDefault();
-                int startIndex = task.ColumnIndex.Value;
+                int startIndex = task.ColumnIndex;
 
                 foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex))
                 {
                     otherTask.ColumnIndex = startIndex++;
-                    UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex.Value);
+                    UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
                 }
                 MessagePump.Show("Task deleted from board successfully", MessageDuration);
             }
@@ -288,7 +288,7 @@ namespace KanbanTasker.ViewModels
             TaskDTO task = selectedCardModel.To_TaskDTO();
             task.Category = targetCategory;
             task.ColumnIndex = targetIndex;
-            DataProvider.UpdateColumnData(task);
+            DataProvider.Call(x => x.TaskServices.UpdateColumnData(task));
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace KanbanTasker.ViewModels
         /// <param name="currentCardIndex"></param>
         internal void UpdateCardIndex(int iD, int currentCardIndex)
         {
-            DataProvider.UpdateCardIndex(iD, currentCardIndex);
+            DataProvider.Call(x => x.TaskServices.UpdateCardIndex(iD, currentCardIndex));
         }
 
         private ComboBoxItem GetComboBoxItemForColorKey(string colorKey) => ColorKeys.FirstOrDefault(x => x.Content.ToString() == colorKey);

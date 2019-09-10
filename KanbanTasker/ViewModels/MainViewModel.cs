@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using LeaderAnalytics.AdaptiveClient;
 
 namespace KanbanTasker.ViewModels
 {
@@ -17,7 +18,7 @@ namespace KanbanTasker.ViewModels
     {
         //private ObservableCollection<PresentationTask> allTasks;
         public Func<PresentationBoard, InAppNotification, BoardViewModel> boardViewModelFactory;
-        private IKanbanTaskerService dataProvider;
+        private IAdaptiveClient<IServiceManifest> dataProvider;
         public ICommand NewBoardCommand { get; set; }
         public ICommand EditBoardCommand { get; set; }
         public ICommand SaveBoardCommand { get; set; }
@@ -96,7 +97,7 @@ namespace KanbanTasker.ViewModels
         ///  Sorts the tasks by column index so that they are
         ///  loaded in as they were left when the app closed
         /// </summary>
-        public MainViewModel(Func<PresentationBoard, InAppNotification, BoardViewModel> boardViewModelFactory, IKanbanTaskerService dataProvider, Frame navigationFrame, InAppNotification messagePump)
+        public MainViewModel(Func<PresentationBoard, InAppNotification, BoardViewModel> boardViewModelFactory, IAdaptiveClient<IServiceManifest> dataProvider, Frame navigationFrame, InAppNotification messagePump)
         {
             this.navigationFrame = navigationFrame;
             this.messagePump = messagePump;
@@ -109,10 +110,19 @@ namespace KanbanTasker.ViewModels
             this.dataProvider = dataProvider;
             this.boardViewModelFactory = boardViewModelFactory;
             BoardList = new ObservableCollection<BoardViewModel>();
-            List<BoardDTO> boardDTOs = dataProvider.GetBoards();
+            List<BoardDTO> boardDTOs = dataProvider.Call(x => x.BoardServices.GetBoards());
 
             foreach (BoardDTO dto in boardDTOs)
-                BoardList.Add(boardViewModelFactory(new PresentationBoard(dto), messagePump));
+            {
+                PresentationBoard presBoard = new PresentationBoard(dto);
+
+                if (dto.Tasks?.Any() ?? false)
+                    foreach (TaskDTO taskDTO in dto.Tasks)
+                        presBoard.Tasks.Add(new PresentationTask(taskDTO));
+
+                BoardList.Add(boardViewModelFactory(presBoard, messagePump));
+            }
+                
 
             if (BoardList.Any())
                 CurrentBoard = BoardList.First();
@@ -153,28 +163,25 @@ namespace KanbanTasker.ViewModels
         {
             if (CurrentBoard.Board == null)
                 return;
-            if (string.IsNullOrEmpty(CurrentBoard.Board.Name))
-                return;
-            if (string.IsNullOrEmpty(CurrentBoard.Board.Notes))
-                return;
+
+            // Database validation will handle missing values and display an error message if necessary
+            //if (string.IsNullOrEmpty(CurrentBoard.Board.Name))
+            //    return;
+            //if (string.IsNullOrEmpty(CurrentBoard.Board.Notes))
+            //    return;
 
             BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
             bool isNew = dto.Id == 0;
             RowOpResult<BoardDTO> result = null;
-
             // Add board to db and collection
-            if (isNew)
-                result = dataProvider.AddBoard(dto);
-            else
-                result = dataProvider.UpdateBoard(dto);
-
+            result = dataProvider.Call(x => x.BoardServices.SaveBoard(dto));
             messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
+
             if (isNew && result.Success)
             {
                 CurrentBoard.Board.ID = result.Entity.Id;
                 BoardList.Add(CurrentBoard);
             }
-
         }
 
         public void CancelSaveBoardCommandHandler()
@@ -188,7 +195,7 @@ namespace KanbanTasker.ViewModels
             if (CurrentBoard == null)
                 return;
 
-            dataProvider.DeleteBoard(CurrentBoard.Board.ID);
+            dataProvider.Call(x => x.BoardServices.DeleteBoard(CurrentBoard.Board.ID));
             BoardList.Remove(CurrentBoard);
             CurrentBoard = null; // uwp bug
             CurrentBoard = BoardList.LastOrDefault();

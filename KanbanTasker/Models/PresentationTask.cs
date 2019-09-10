@@ -15,17 +15,17 @@ namespace KanbanTasker.Models
         private Uri _imageUrl;
         private string _colorKey;
         private string _category;
-        private int? _columnIndex;
+        private int _columnIndex;
         private ObservableCollection<string> _tags;
         private string _description;
         private string _dateCreated;
         private int _id;
-        private int? _boardId;
+        private int _boardId;
         private PresentationBoard _Board;
 
         public int ID { get => _id; set { if (_id != value) { _id = value; OnPropertyChanged(); } } }
   //      public int? BoardId { get => _boardId; set { _boardId = value; OnPropertyChanged(); } }
-        public int? BoardId
+        public int BoardId
         {
             get => _boardId;
             set
@@ -53,7 +53,7 @@ namespace KanbanTasker.Models
         public string Title { get => _title; set { if (_title != value) { _title = value; OnPropertyChanged(); } } }
         public string Description { get => _description; set { if(_description != value) { _description = value; OnPropertyChanged(); } } }
         public string Category { get => _category; set { if (_category != value) { _category = value; OnPropertyChanged(); } } }
-        public int? ColumnIndex { get => _columnIndex; set { if (_columnIndex != value) { _columnIndex = value; OnPropertyChanged(); } } }
+        public int ColumnIndex { get => _columnIndex; set { if (_columnIndex != value) { _columnIndex = value; OnPropertyChanged(); } } }
         public string ColorKey { get => _colorKey; set { if (_colorKey != value) { _colorKey = value; OnPropertyChanged(); } } }
         public ObservableCollection<string> Tags { get => _tags; set { if (_tags != value) { _tags = value; OnPropertyChanged(); } } }
         public Uri ImageURL { get => _imageUrl; set { if (_imageUrl != value){ _imageUrl = value; OnPropertyChanged(); } } }

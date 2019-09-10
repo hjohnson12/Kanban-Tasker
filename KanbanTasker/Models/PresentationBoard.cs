@@ -73,10 +73,6 @@ namespace KanbanTasker.Models
             Name = dto.Name;
             Notes = dto.Notes;
             Tasks = new ObservableCollection<PresentationTask>();
-
-            if (dto.Tasks?.Any() ?? false)
-                foreach (TaskDTO taskDto in dto.Tasks)
-                    Tasks.Add(new PresentationTask(taskDto));
         }
 
         public BoardDTO To_BoardDTO()

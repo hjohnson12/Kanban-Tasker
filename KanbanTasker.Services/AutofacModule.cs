@@ -11,7 +11,6 @@ namespace KanbanTasker.Services
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<DataProvider_SQLite>().As<IKanbanTaskerService>();
         }
     }
 }

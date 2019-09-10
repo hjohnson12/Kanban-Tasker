@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KanbanTasker.Services", "Ka
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KanbanTasker.Model", "KanbanTasker.Model\KanbanTasker.Model.csproj", "{F02C8182-E2C1-4D7E-957A-353FC45494F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanTasker.Migrations", "KanbanTasker.Migrations\KanbanTasker.Migrations.csproj", "{661499DC-DA93-485A-8B2B-73BE837FD515}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,26 @@ Global
 		{F02C8182-E2C1-4D7E-957A-353FC45494F9}.Release|x64.Build.0 = Release|Any CPU
 		{F02C8182-E2C1-4D7E-957A-353FC45494F9}.Release|x86.ActiveCfg = Release|Any CPU
 		{F02C8182-E2C1-4D7E-957A-353FC45494F9}.Release|x86.Build.0 = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|ARM.Build.0 = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|x64.Build.0 = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Debug|x86.Build.0 = Debug|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|ARM.ActiveCfg = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|ARM.Build.0 = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|ARM64.Build.0 = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|x64.ActiveCfg = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|x64.Build.0 = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|x86.ActiveCfg = Release|Any CPU
+		{661499DC-DA93-485A-8B2B-73BE837FD515}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,6 +10,13 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using LeaderAnalytics.AdaptiveClient.Utilities;
+using System.Collections.Generic;
+using LeaderAnalytics.AdaptiveClient;
+using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System.Linq;
+using KanbanTasker.Model;
 
 namespace KanbanTasker
 {
@@ -46,12 +53,32 @@ namespace KanbanTasker
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
+
             // build the Autofac container
+            IEnumerable<IEndPointConfiguration> endPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
+            string fileRoot = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+            KanbanTasker.Services.ConnectionstringUtility.PopulateConnectionStrings(fileRoot, endPoints);
             ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             builder.RegisterModule(new AutofacModule());
             builder.RegisterModule(new Services.AutofacModule());
+            RegistrationHelper registrationHelper = new RegistrationHelper(builder);
+
+            registrationHelper
+                .RegisterEndPoints(endPoints)
+                .RegisterModule(new KanbanTasker.Services.AdaptiveClientModule());
+
+
             container = builder.Build();
-            
+
+            IDatabaseUtilities databaseUtilities = container.Resolve<IDatabaseUtilities>();
+
+            // Create all databases or apply migrations
+                     
+
+            foreach (IEndPointConfiguration ep in endPoints.Where(x => x.EndPointType == EndPointType.DBMS))
+                Task.Run(() => databaseUtilities.CreateOrUpdateDatabase(ep)).Wait();
+
         }
 
         public static MainViewModel GetViewModel(Frame frame, InAppNotification messagePump)
