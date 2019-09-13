@@ -9,13 +9,13 @@ namespace KanbanTasker.API.Controllers
     [Route("api")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ValuesController : Controller
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return View("~/index.html");
         }
 
         // GET api/values/5
