@@ -1,12 +1,17 @@
 # Kanban Tasker
 
-This Windows 10 Universal Windows Platform (UWP) application uses a kanban board to manage your work and includes dragging across columns to create an easy and simple workflow in each board created.
+This Windows 10 Universal Windows Platform (UWP) application uses a kanban board as a simple workflow visualization tool and allows dragging of individual tasks and multiple project boards.
 
 ## Kanban Tasker Details
 
-Created with C#/XAML and the Universal Windows Platform. The UI is created with Extensible Application Markup Language (XAML) and backend is using C#. (Note: Old designs from the start of the app can be found in the *Images* folder)
+Created with C#/XAML and the Windows 10 Universal Windows Platform. The UI is created with Extensible Application Markup Language (XAML) and backend is using C#. 
 
-Uses a kanban UI control created by [Syncfusion](https://www.syncfusion.com) but fully customized to Kanban Taskers style (see corresponding data templates in *BoardView.xaml, and App.xaml*). Also implemented with a Sqlite database to store the tasks/boards and uses create, read, update, and delete (CRUD) operations against the data (For information on viewing the database created by sqlite, look at [Getting Started](#getting-started))
+Uses a kanban control created by [Syncfusion](https://www.syncfusion.com) fully customized to Kanban Taskers style (see corresponding data templates in *BoardView.xaml, and App.xaml*). Also implemented with a Sqlite database to store the tasks/boards and uses create, read, update, and delete (CRUD) operations against the database.
+
+Available in the microsoft store: https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ
+
+Developers can read more here: [Getting Started](#getting-started)
+(Note: Old designs from the start of the app can be found in the *Images* folder)
 
 ## Kanban Tasker Features
 
@@ -14,8 +19,8 @@ Uses a kanban UI control created by [Syncfusion](https://www.syncfusion.com) but
 ![Image of Program](KanbanTasker/Images/KT_00.png)
 
 #### Simple design with a popout pane to edit and create your tasks
- * Quick access to pane comes from hovering over the task and selecting the edit icon
-   * **Note:** Tablet users need to touch and hold the task for a context menu to show (Right-click is enabled for desktop/laptop users too)
+ * Quick access to the pane comes from hovering over the task with your mouse and selecting the edit icon
+   *  If light-holding the task on tablet mode and it does not register and open a context menu, right-click is enabled to work for the menu for editing or deleting.
  * Tags in the pane can range in width and height. If the tag is longer than the width of the pane, it will wrap to a new row and  increase the height
 ![Image of Program](KanbanTasker/Images/KT_01.png)
 
@@ -49,10 +54,9 @@ Uses a kanban UI control created by [Syncfusion](https://www.syncfusion.com) but
 #### Scrollbar added to column when the tasks exceed the height of the application
 ![Image of Program](KanbanTasker/Images/KT_07.png)
 
-
 ## Getting Started
 
-### Debugging
+### Developing & Debugging
 
 The program requires a license from Syncfusion to debug since the Kanban Control is a control used by them, but they provide a free community license here: https://www.syncfusion.com/products/communitylicense
 
