@@ -22,7 +22,7 @@
 
     {
       "Name": "Kanban_SQLite",
-      "IsActive": "false",
+      "IsActive": "true",
       "API_Name": "Kanban",
       "Preference": "30",
       "EndPointType": "DBMS",

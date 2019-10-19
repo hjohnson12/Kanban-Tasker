@@ -57,7 +57,8 @@ namespace KanbanTasker
             // build the Autofac container
             IEnumerable<IEndPointConfiguration> endPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
             string fileRoot = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
-            KanbanTasker.Services.ConnectionstringUtility.PopulateConnectionStrings(fileRoot, endPoints);
+            // Commented out because I'm  currently not running MySQL
+           // KanbanTasker.Services.ConnectionstringUtility.PopulateConnectionStrings(fileRoot, endPoints); 
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             builder.RegisterModule(new AutofacModule());
