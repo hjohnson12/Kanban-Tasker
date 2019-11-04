@@ -2,7 +2,7 @@
   "EndPointConfigurations": [
     {
       "Name": "Kanban_SQLServer",
-      "IsActive": "true",
+      "IsActive": "false",
       "API_Name": "Kanban",
       "Preference": "10",
       "EndPointType": "DBMS",

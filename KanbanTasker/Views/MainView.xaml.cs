@@ -26,8 +26,6 @@ namespace KanbanTasker.Views
             ViewModel = App.GetViewModel(contentFrame, KanbanInAppNotification);
         }
 
-        
-
         private async void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new SettingsView();
@@ -39,6 +37,16 @@ namespace KanbanTasker.Views
         {
             ActiveFlyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            //var dialog = new EditBoardDialogView(ViewModel);
+            //var result = await dialog.ShowAsync();
+        }
+
+        private async void ShowDialog(object sender, RoutedEventArgs e)
+        {
+            //ActiveFlyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
+            //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            var dialog = new EditBoardDialogView(ViewModel);
+            var result = await dialog.ShowAsync();
         }
 
         private void HideFlyout(object sender, RoutedEventArgs e)

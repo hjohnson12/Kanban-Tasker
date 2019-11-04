@@ -190,6 +190,7 @@ namespace KanbanTasker.ViewModels
 
         public void CancelSaveBoardCommandHandler()
         {
+            // BUG: Currently TmpBoard still holds edited version?
             CurrentBoard = null; 
             CurrentBoard = TmpBoard;
         }

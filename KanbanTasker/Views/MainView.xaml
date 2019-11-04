@@ -247,9 +247,8 @@
                         Icon="Edit"
                         Style="{StaticResource AppBarButtonCustomStyle}"
                         ToolTipService.ToolTip="Edit Current Board" 
-                        Click="ShowFlyout" 
-                        Command="{x:Bind ViewModel.EditBoardCommand}"
-                        FlyoutBase.AttachedFlyout="{StaticResource EditBoardFlyout}">
+                        Click="ShowDialog" 
+                        Command="{x:Bind ViewModel.EditBoardCommand}" >
                         <AppBarButton.Resources>
                             <muxc1:TeachingTip
                                 x:Name="UnableToEditBoardTeachingTip"
@@ -336,7 +335,8 @@
                     Icon="Add"
                     Style="{ThemeResource AppBarButtonCustomStyle}"
                     Command="{x:Bind ViewModel.NewBoardCommand}" 
-                    ToolTipService.ToolTip="Create new board" Click="ShowFlyout" FlyoutBase.AttachedFlyout="{StaticResource EditBoardFlyout}">
+                    ToolTipService.ToolTip="Create new board" 
+                    Click="ShowDialog"  >
                 </AppBarButton>
 
             </NavigationView.PaneCustomContent>
@@ -355,6 +355,8 @@
                 Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
             </Grid>
         </NavigationView>
-        
+        <ContentDialog>
+            
+        </ContentDialog>
     </Grid>
 </Page>

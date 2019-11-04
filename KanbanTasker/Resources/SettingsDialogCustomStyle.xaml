@@ -16,12 +16,13 @@
                             x:Name="LayoutRoot"
                             Background="{ThemeResource SystemControlPageBackgroundMediumAltMediumBrush}"
                             Visibility="Collapsed">
+                            <!--MaxHeight="{ThemeResource ContentDialogMaxHeight}"-->
                             <Border
                                 x:Name="BackgroundElement"
                                 MinWidth="{ThemeResource ContentDialogMinWidth}"
                                 MinHeight="{ThemeResource ContentDialogMinHeight}"
                                 MaxWidth="{ThemeResource ContentDialogMaxWidth}"
-                                MaxHeight="{ThemeResource ContentDialogMaxHeight}"
+                                MaxHeight="1000"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Background="{TemplateBinding Background}"
