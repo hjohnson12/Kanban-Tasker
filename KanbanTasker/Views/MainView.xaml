@@ -250,23 +250,34 @@
                         Icon="Edit"
                         Style="{StaticResource AppBarButtonCustomStyle}"
                         ToolTipService.ToolTip="Edit Current Board" 
-                        Click="ShowDialog" 
-                        Command="{x:Bind ViewModel.EditBoardCommand}" >
-                        <AppBarButton.Resources>
-                            <muxc1:TeachingTip
-                                x:Name="UnableToEditBoardTeachingTip"
-                                Title="No board selected"
-                                Background="{ThemeResource RegionBrush}"
-                                CornerRadius="3"
-                                IsLightDismissEnabled="True"
-                                PreferredPlacement="Left"
-                                Subtitle="Please create or select a board to be edited"
-                                Target="{x:Bind NavViewBtnEditBoard}">
-                                <muxc1:TeachingTip.IconSource>
-                                    <muxc1:SymbolIconSource Symbol="Important" />
-                                </muxc1:TeachingTip.IconSource>
-                            </muxc1:TeachingTip>
-                        </AppBarButton.Resources>
+                        Click="ShowFlyout" >
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout
+                                x:Name="deleteeBoardFlyout"
+                                PickerFlyoutBase.Title="Edit Board Confirmation"
+                                Placement="Bottom">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Text="Edit Board Confirmation"
+                                        TextAlignment="Left" />
+                                    <TextBlock
+                                        Margin="0,4,0,0"
+                                        Text="Are you sure you wish to edit this board?"
+                                        TextAlignment="Left" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
+                                            x:Name="flyeoutBtnDeleteCardYes"
+                                            Margin="0,8,8,0"
+                                            Click="ShowDialog"
+                                            Command="{x:Bind ViewModel.EditBoardCommand}"
+                                            Content="Yes, edit this board"
+                                            CornerRadius="3" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
 
                     </AppBarButton>
                     <AppBarButton
