@@ -24,5 +24,12 @@ namespace KanbanTasker.Views
         {
             this.Hide();
         }
+
+        private void btnBackupDb_Click(object sender, RoutedEventArgs e)
+        {
+            // SQLite
+            // Backup Db
+
+        }
     }
 }
