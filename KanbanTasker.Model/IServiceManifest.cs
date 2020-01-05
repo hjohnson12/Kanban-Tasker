@@ -10,5 +10,6 @@ namespace KanbanTasker.Model
     {
         ITaskServices TaskServices { get; }
         IBoardServices BoardServices { get; }
+        IDatabaseServices DatabaseServices { get; }
     }
 }

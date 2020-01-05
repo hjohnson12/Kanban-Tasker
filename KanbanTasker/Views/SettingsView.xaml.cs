@@ -1,5 +1,8 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Collections.Generic;
+using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using KanbanTasker.Services.SQLite;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,11 +28,14 @@ namespace KanbanTasker.Views
             this.Hide();
         }
 
-        private void btnBackupDb_Click(object sender, RoutedEventArgs e)
+        private async void btnBackupDb_Click(object sender, RoutedEventArgs e)
         {
             // SQLite
             // Backup Db
 
+            // Use FilePicker to have user pick the path where they want to save a backup to
+            // Then use the BackupDatabase function in the DatabaseServices.cs for SQLite
+           
         }
     }
 }
