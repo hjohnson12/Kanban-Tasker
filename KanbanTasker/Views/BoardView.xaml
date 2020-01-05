@@ -475,7 +475,7 @@
                             x:Name="txtBoxTitle"
                             PlaceholderText="Type your information here"
                             Style="{StaticResource TextBoxStyle1}"
-                            Text="{x:Bind ViewModel.CurrentTask.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{x:Bind ViewModel.CurrentTask.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
                             <SymbolIcon Symbol="Page2" />
                             <TextBlock

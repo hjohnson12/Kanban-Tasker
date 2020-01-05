@@ -55,10 +55,13 @@ namespace KanbanTasker.Services
         {
             TaskDTO t = result.Entity;
 
+            // NOTE: Require Title? For now just set it to empty string; if not db will throw exception for null
             if (string.IsNullOrEmpty(t.Title))
-                result.ErrorMessage = "Title is required.";
+                t.Title = "";
             else if (t.Title.Length > 100)
                 result.ErrorMessage = "Title is too long.";
+            if (string.IsNullOrEmpty(t.Description))
+                t.Description = "";
 
             // more validation here
             result.Success = string.IsNullOrEmpty(result.ErrorMessage);
