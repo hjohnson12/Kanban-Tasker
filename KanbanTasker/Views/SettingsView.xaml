@@ -66,7 +66,7 @@
                             Margin="0,8,0,0"
                             HorizontalAlignment="Center"
                             Content="Contribute to Kanban Tasker's source code"
-                            NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
+                            NavigateUri="https://github.com/hjohnson12/Kanban-Tasker"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                         <HyperlinkButton
                             HorizontalAlignment="Center"
@@ -76,7 +76,7 @@
                         <HyperlinkButton
                             HorizontalAlignment="Center"
                             Content="Rate and Review"
-                            NavigateUri="https://github.com/hjohnson12/KanbanBoardUWP"
+                            NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                     </StackPanel>
                 </Grid>

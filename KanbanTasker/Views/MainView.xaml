@@ -208,7 +208,7 @@
                 Margin="8,8,8,2"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Source="ms-appx:///Resources/Images/KanbanTasker_Logo.png" />
+                Source="ms-appx:///Assets/SmallTile.scale-100.png" />
             <TextBlock
                 x:Name="TitleBarCurrentBoardTextblock"
                 Grid.Column="1"
