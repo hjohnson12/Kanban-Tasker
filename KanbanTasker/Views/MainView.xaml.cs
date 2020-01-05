@@ -45,6 +45,12 @@ namespace KanbanTasker.Views
         {
             //ActiveFlyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
             //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+
+            // This function shows the dialog used for Creating/Editing a board
+            // Hides the EditConfirmationFlyout if user chose to edit board
+            if (ActiveFlyout != null)
+                ActiveFlyout.Hide();
+
             var dialog = new EditBoardDialogView(ViewModel);
             var result = await dialog.ShowAsync();
         }
