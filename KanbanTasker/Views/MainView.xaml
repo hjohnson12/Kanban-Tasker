@@ -190,7 +190,7 @@
     </Page.Resources>
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid
@@ -203,16 +203,19 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Image
                 Grid.Column="0"
-                Margin="8,8,8,2"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Source="ms-appx:///Assets/SmallTile.scale-100.png" />
+                    Margin="4"
+                Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png" />
+                <TextBlock Text="Kanban Tasker" VerticalAlignment="Center" FontSize="12" Margin="4 2 0 0" FontFamily="SegoeUI"/>
+            </StackPanel>
+           
             <TextBlock
                 x:Name="TitleBarCurrentBoardTextblock"
                 Grid.Column="1"
-                Margin="0,10,45,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
