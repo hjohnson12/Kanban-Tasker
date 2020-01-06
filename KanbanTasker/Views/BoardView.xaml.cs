@@ -285,10 +285,11 @@ namespace KanbanTasker.Views
 
         private void btnDeleteTask_Click(object sender, RoutedEventArgs e)
         {
-            if(PaneBtnDeleteTaskConfirmationFlyout.IsOpen)
+            if (PaneBtnDeleteTaskConfirmationFlyout.IsOpen)
                 PaneBtnDeleteTaskConfirmationFlyout.Hide();
             else
-                FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+                PaneBtnDeleteTaskConfirmationFlyout.ShowAt((FrameworkElement)sender);
+                //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender); 
         }
     }
 }
