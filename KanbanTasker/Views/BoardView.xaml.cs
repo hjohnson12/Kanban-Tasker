@@ -198,7 +198,13 @@ namespace KanbanTasker.Views
                     if (currentIndex != Convert.ToInt32(targetCardIndex))
                     {
                         var currentModel = card.Content as PresentationTask;
+                        currentModel.ColumnIndex = currentIndex;
                         ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
+
+                        //ViewModel.Board.Tasks.Insert(currentIndex, currentModel);
+                        // NOTE FROM DEBUGGING:
+                        //  After its updated in the database, it's not updating the Tasks list? so next iteration when I delete second card, it's using old tasks?
+                        // Found inside of (this) at runtime
                     }
                 }
             }
@@ -206,7 +212,7 @@ namespace KanbanTasker.Views
             else
             {
                 // Reorder target col after drop
-                // Only items below the targetCardIndex need to be updated
+                // Only items above the targetCardIndex need to be updated
                 if (e.TargetColumn.Cards.Count != 0)
                 {
                     foreach (var card in e.TargetColumn.Cards)
@@ -215,6 +221,7 @@ namespace KanbanTasker.Views
                         if (currentIndex > Convert.ToInt32(targetCardIndex))
                         {
                             var currentModel = card.Content as PresentationTask;
+                            currentModel.ColumnIndex = currentIndex;
                             ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
                         }
                     }
@@ -227,6 +234,7 @@ namespace KanbanTasker.Views
                     {
                         int currentIndex = e.SelectedColumn.Cards.IndexOf(card);
                         var currentModel = card.Content as PresentationTask;
+                        currentModel.ColumnIndex = currentIndex;
                         ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
                     }
                 }

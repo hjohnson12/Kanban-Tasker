@@ -285,6 +285,8 @@ namespace KanbanTasker.ViewModels
         /// <param name="targetIndex"></param>
         public void UpdateCardColumn(string targetCategory, PresentationTask selectedCardModel, int targetIndex)
         {
+            selectedCardModel.Category = targetCategory;
+            selectedCardModel.ColumnIndex = targetIndex;
             TaskDTO task = selectedCardModel.To_TaskDTO();
             task.Category = targetCategory;
             task.ColumnIndex = targetIndex;
