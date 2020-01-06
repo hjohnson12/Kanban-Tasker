@@ -1,0 +1,51 @@
+﻿Dev environment setup:
+You should install at least one DBMS - preferably both.  If you only install one, choose MSSQL:
+Microsoft SQL Server:  https://www.microsoft.com/en-us/sql-server/sql-server-editions-express
+MySQL: https://www.mysql.com/downloads/
+
+You must enable TCP/IP connections for SQL Server:
+	Use this: C:\Windows\SysWOW64\SQLServerManager14.msc
+	SQL Server Network Configuration -> Protocols for SQLEXPRESS (or your instance name) -> TCP/IP => Enable
+	Restart "SQL Server (instance)" service from the control panel
+
+If you run MySQL you will need to populate the connectionstring with a password.  Don't put your password in the connection string.
+Create a file named appsettings.Development.json in the same dir where the ktdatabase.db file lives.  
+Copy json below to that file and set name/pwd correctly:
+    
+{
+ 
+    "Data": {
+    "MySQLUserName": "your_login",
+    "MySQLPassword": "your_pwd",
+    }
+}
+
+=========================================================================================================================================
+Database setup
+Database for MSSQL, MySQL, SQLite will be created automatically if it does not exist.  If you make changes to BoardDTO or TaskDTO you will
+need to update the database to refect the changes.  Easiest way to do this is just drop/recreate as follows:
+
+Delete files and under KanbanTasker.Services/Migrations/MSSQL
+Delete files and under KanbanTasker.Services/Migrations/MySQL
+Open SQL Server Management Studio and/or MySQL Workbench and delete Kanban database if they exist.
+	
+Open a command window in the directory where KanbanTasker.Services.csproj exists (KanbanTasker.Services)
+Copy/paste each command below into command window:
+
+-- MSSQL
+dotnet ef migrations add CreateDatabase --context KanbanTasker.Services.Database.Components.MSSQL.Db_MSSQL --startup-project ../KanbanTasker.Migrations --output-dir Database/Migrations/MSSQL
+
+-- MySQL
+dotnet ef migrations add CreateDatabase --context KanbanTasker.Services.Database.Components.MySQL.Db_MySQL --startup-project ../KanbanTasker.Migrations --output-dir Database/Migrations/MySQL
+
+=========================================================================================================================================
+Debugging and testing the WebAPI
+Note that KanbanTasker solution and KanbanTasker.API solution each have their own copy of EndPoints.json.  This is how a production setup would look - each server has its own copy of the file.
+Open KanbanTasker solution in an instance of Visual Studio.  Open another instance of Visual Studio and open KanbanTasker.API solution.
+In KanbanTasker project, open EndPoints.json.  Set IsActive=true for Kanban_WebAPI endpoint, all other IsActive should be false.
+In KanbanTasker.API project, open EndPoints.json.  Set IsActive=true for database of your choice endpoint, all other IsActive should be false.
+Put breakpoints on Board/Task controller methods in the API project if you want to verify they are being hit.
+Start debugging KanbanTasker.API
+Start debugging KanbanTasker.
+You should see your breakpoints on the controllers get hit as calls are made.
+=========================================================================================================================================

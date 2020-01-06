@@ -1,3 +1,4 @@
+using KanbanTasker.Models;
 using System;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -10,49 +11,49 @@ namespace KanbanTasker.Converters.Text
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value.ToString() == "Low")
+            
+            string colorKey = value?.ToString() ?? "Normal";
+            RevealBorderBrush revealBorderBrush = null;
+
+            switch (colorKey)
             {
+                case "Normal":
+                    // Normal Priority - Reveal Brush
+                    revealBorderBrush = new RevealBorderBrush
+                    {
+                        Color = Colors.Orange,
+                        FallbackColor = Colors.Orange,
+                        Opacity = 0.8,
+                        TargetTheme = ApplicationTheme.Light
+                    };
 
-                RevealBorderBrush revealBorderBrush = new RevealBorderBrush
-                {
-                    Color = Colors.Green,
-                    FallbackColor = Colors.Green,
-                    Opacity = 0.8,
-                    TargetTheme = ApplicationTheme.Light
-                };
+                    return revealBorderBrush;
 
-                // Low Priority - Reveal Brush
-                return revealBorderBrush;
+                case "Low":
+                    // Low Priority - Reveal Brush
+                    revealBorderBrush = new RevealBorderBrush
+                    {
+                        Color = Colors.Green,
+                        FallbackColor = Colors.Green,
+                        Opacity = 0.8,
+                        TargetTheme = ApplicationTheme.Light
+                    };
+                    return revealBorderBrush;
+
+                case "High":
+                    // High Priority - Reveal Brush
+                    revealBorderBrush = new RevealBorderBrush
+                    {
+                        Color = Colors.Red,
+                        FallbackColor = Colors.Red,
+                        Opacity = 0.8,
+                        TargetTheme = ApplicationTheme.Light
+                    };
+                    return revealBorderBrush;
+
+                default:
+                    return new SolidColorBrush(Colors.Transparent);
             }
-            if (value.ToString() == "Normal")
-            {
-                // Normal Priority - Reveal Brush
-                RevealBorderBrush revealBorderBrush = new RevealBorderBrush
-                {
-                    Color = Colors.Orange,
-                    FallbackColor = Colors.Orange,
-                    Opacity = 0.8,
-                    TargetTheme = ApplicationTheme.Light
-                };
-
-                // Low Priority - Reveal Brush
-                return revealBorderBrush;
-            }
-            if (value.ToString() == "High")
-            {
-                // High Priority - Reveal Brush
-                RevealBorderBrush revealBorderBrush = new RevealBorderBrush
-                {
-                    Color = Colors.Red,
-                    FallbackColor = Colors.Red,
-                    Opacity = 0.8,
-                    TargetTheme = ApplicationTheme.Light
-                };
-
-                // Low Priority - Reveal Brush
-                return revealBorderBrush;
-            }
-            return new SolidColorBrush(Colors.Transparent);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
