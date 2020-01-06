@@ -162,6 +162,11 @@ namespace KanbanTasker
                 var dialog = new AppUpdatedDialogView();
                 var result = await dialog.ShowAsync();
             }
+            else if (SystemInformation.IsFirstRun)
+            {
+                var dialog = new FirstRunDialogView();
+                var result = await dialog.ShowAsync();
+            }
         }
 
         /// <summary>

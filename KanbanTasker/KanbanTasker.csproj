@@ -151,6 +151,9 @@
     <Compile Include="Views\EditBoardDialogView.xaml.cs">
       <DependentUpon>EditBoardDialogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FirstRunDialogView.xaml.cs">
+      <DependentUpon>FirstRunDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -257,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditBoardDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FirstRunDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
