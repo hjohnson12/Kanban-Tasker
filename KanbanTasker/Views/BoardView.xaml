@@ -13,7 +13,7 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
-    mc:Ignorable="d">
+    mc:Ignorable="d" x:Name="boardViewPage">
     <Page.Resources>
         <ResourceDictionary>
             <RevealBackgroundBrush
@@ -237,6 +237,8 @@
                                             x:Name="BtnEdit"
                                             Margin="4,0,4,0"
                                             Click="CardBtnEdit_Click"
+                                            Command="{Binding ElementName=boardViewPage, Path=ViewModel.EditTaskCommand}"
+                                            CommandParameter="{Binding ID}"
                                             Style="{ThemeResource CardHyperlinkButtonStyle}"
                                             Visibility="Collapsed">
                                             <FontIcon
@@ -269,6 +271,8 @@
                                                             <Button
                                                                 x:Name="flyoutBtnDeleteCardYes"
                                                                 Margin="0,8,8,0"
+                                                                Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTaskCommand}"
+                                                                CommandParameter="{Binding ID}"
                                                                 Click="FlyoutDeleteCardBtnYes_Click"
                                                                 Content="Yes, delete this task"
                                                                 CornerRadius="3" />
@@ -405,7 +409,6 @@
             </CommandBarFlyout>
         </ResourceDictionary>
     </Page.Resources>
-
     <SplitView
         x:Name="splitView"
         DisplayMode="Inline"
@@ -460,7 +463,7 @@
                             x:Name="txtBoxID"
                             Header="ID:"
                             IsEnabled="False"
-                            Text="{x:Bind ViewModel.ID, Mode=OneWay}"
+                            Text="{x:Bind ViewModel.CurrentTask.ID, Mode=OneWay}"
                             Visibility="Collapsed" />
                         <TextBlock
                             Margin="0,20,0,8"
@@ -472,7 +475,7 @@
                             x:Name="txtBoxTitle"
                             PlaceholderText="Type your information here"
                             Style="{StaticResource TextBoxStyle1}"
-                            Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{x:Bind ViewModel.CurrentTask.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
                             <SymbolIcon Symbol="Page2" />
                             <TextBlock
@@ -490,7 +493,7 @@
                                 BorderThickness="1"
                                 CornerRadius="3"
                                 PlaceholderText="Type your information here"
-                                Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{x:Bind ViewModel.CurrentTask.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
                         </ScrollViewer>
                         <Grid Margin="0,10,0,0" VerticalAlignment="Center">
@@ -518,7 +521,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontWeight="Bold"
-                                Text="{x:Bind ViewModel.CurrentCategory, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.CurrentTask.Category, Mode=OneWay}" />
                             <!--<ComboBox
                                 x:Name="comboBoxCategories"
                                 Grid.Column="2"
@@ -541,18 +544,19 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Text="Priority: " />
+                            
                             <ComboBox
-                                x:Name="comboBoxColorKey"
+                                x:Name="comboBoxColorKey" 
                                 Grid.Row="1"
                                 Grid.Column="2"
-                                Margin="8,10,0,2"
+                                Margin="8,10,0,2" 
                                 HorizontalAlignment="Stretch"
                                 Background="{ThemeResource RegionBrush}"
                                 BorderThickness="1"
                                 CornerRadius="3"
-                                ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
-                                PlaceholderText="Choose One:"
-                                Text="{x:Bind ViewModel.ColorKey, Mode=OneWay}">
+                                ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}" 
+                                PlaceholderText="Choose One:" 
+                                SelectedValue="{x:Bind ViewModel.CurrentTask.ColorKeyComboBoxItem, Mode=TwoWay}">
                                 <ComboBox.Resources>
                                     <muxc:TeachingTip
                                         x:Name="ChoosePriorityInidcatorTeachingTip"
@@ -598,7 +602,7 @@
                             <ListView
                                 x:Name="lstViewTags"
                                 IsItemClickEnabled="True"
-                                ItemsSource="{x:Bind ViewModel.TagsCollection, Mode=OneWay}">
+                                ItemsSource="{x:Bind ViewModel.CurrentTask.Tags, Mode=OneWay}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <controls:WrapPanel
@@ -650,7 +654,8 @@
                                                 <Button
                                                     Grid.Column="1"
                                                     HorizontalAlignment="Right"
-                                                    Click="BtnDeleteTag_Click"
+                                                    Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTagCommand}"
+                                                    CommandParameter="{Binding}"
                                                     Content="&#xE74D;"
                                                     CornerRadius="2"
                                                     FontFamily="Segoe MDL2 Assets"
@@ -701,7 +706,7 @@
                                     Margin="4"
                                     HorizontalAlignment="Center"
                                     FontWeight="Bold"
-                                    Text="{x:Bind ViewModel.DateCreated, Mode=OneWay}" />
+                                    Text="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay}" />
                             </StackPanel>
 
                         </Grid>
@@ -734,6 +739,7 @@
                         <AppBarButton
                             x:Name="btnSaveTask"
                             Margin="20,17,20,20"
+                            Command="{Binding ElementName=boardViewPage, Path=ViewModel.SaveTaskCommand}"
                             Click="BtnSaveTask_Click"
                             Icon="Save"
                             Label="Save Task" />
@@ -743,6 +749,7 @@
                             AllowFocusOnInteraction="True"
                             Style="{ThemeResource AppBarButtonCustomStyle}"
                             Icon="Delete"
+                            Click="btnDeleteTask_Click"
                             Label="Delete Task">
                             <AppBarButton.Flyout>
                                 <Flyout
@@ -753,28 +760,37 @@
                                         <TextBlock
                                         FontSize="16"
                                         FontWeight="Bold"
-                                        Text="Delete Task Confirmation"
+                                        Text="Delete Task Disabled"
                                         TextAlignment="Left" />
                                         <TextBlock
                                         Margin="0,4,0,0"
-                                        Text="Are you sure you want to delete this task?"
+                                        Text="This control is experiencing issues. Please use delete option on card."
                                         TextAlignment="Left" />
                                         <StackPanel Orientation="Horizontal">
                                             <Button
                                             x:Name="flyoutBtnDeleteCardYes"
                                             Margin="0,8,8,0"
+                                                IsEnabled="False"
+                                            Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTaskCommand}"
+                                            CommandParameter="{Binding CurrentTask.ID}"
                                             Click="PaneBtnDeleteTaskYes_Click"
-                                            Content="Yes, delete this this"
+                                            Content="Yes, delete this"
                                             CornerRadius="3" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Flyout>
                             </AppBarButton.Flyout>
                         </AppBarButton>
+
+
+
+
+
                         <AppBarButton
                             x:Name="btnClosePane"
                             Margin="14,17,20,20"
                             Click="BtnCancel_Click"
+                            Command="{Binding ElementName=boardViewPage, Path=ViewModel.CancelEditCommand}"
                             Icon="Cancel"
                             Label="Cancel" />
                     </StackPanel>
@@ -804,7 +820,7 @@
             </Rectangle>
             <!--  KANBAN BOARD  -->
             <syncfusion:SfKanban
-                x:Name="kanbanBoard"
+                x:Name="kanbanBoard" 
                 Grid.Row="1"
                 Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
@@ -816,7 +832,7 @@
                 CardDragEnd="KanbanBoard_CardDragEnd"
                 CardTemplate="{StaticResource KanbanCardTemplate}"
                 ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}">
+                ItemsSource="{x:Bind ViewModel.Board.Tasks, Mode=OneWay}">
 
                 <syncfusion:SfKanban.ColumnHeaderTemplate>
                     <DataTemplate>
@@ -851,6 +867,7 @@
                                     HorizontalAlignment="Right"
                                     Background="Transparent"
                                     BorderThickness="0"
+                                    Command="{Binding ElementName=boardViewPage, Path=ViewModel.NewTaskCommand}" CommandParameter="{Binding}"
                                     Click="BtnNewTaskCurrentColumn_Click"
                                     Content="&#xE710;"
                                     CornerRadius="2"
@@ -923,11 +940,11 @@
                 <helpers:CustomKanbanColumn
                     x:Name="Backlog"
                     Title="Backlog"
-                    Categories="Backlog"
-                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                    Categories="Backlog" 
+                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}" 
                     MaximumLimit="10">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
-                        <syncfusion:ErrorBarSettings
+                        <syncfusion:ErrorBarSettings 
                             MaxValidationColor="Red"
                             MinValidationColor="Green"
                             Color="Gray" />
@@ -948,7 +965,7 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="In Progress"
+                    Title="In Progress" 
                     Categories="In Progress"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="10">
@@ -1004,14 +1021,6 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <controls:InAppNotification
-                x:Name="KanbanInAppNotification"
-                Grid.Row="1"
-                Width="550"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                BorderThickness="1"
-                Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
         </Grid>
     </SplitView>
 </Page>

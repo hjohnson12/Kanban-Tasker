@@ -1,9 +1,15 @@
 ﻿using KanbanTasker.Base;
-using KanbanTasker.DataAccess;
 using KanbanTasker.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using KanbanTasker.Model;
+using System.Windows.Input;
+using System.Linq;
+using Windows.UI.Xaml.Controls;
+using Syncfusion.UI.Xaml.Kanban;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using LeaderAnalytics.AdaptiveClient;
 
 namespace KanbanTasker.ViewModels
 {
@@ -12,219 +18,58 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// Variables/Private backing fields
         /// </summary>
-        public CustomKanbanModel Task = new CustomKanbanModel();
-        private CustomKanbanModel _cardModel;
-        private ObservableCollection<string> _tagsCollection;
-        private ObservableCollection<CustomKanbanModel> _tasks;
-        private List<string> _colorKeys;
+        ///
+        private PresentationBoard _Board;
+        public PresentationBoard Board
+        {
+            get => _Board;
+            set
+            {
+                _Board = value;
+                OnPropertyChanged();
+            }
+        }
+        private PresentationTask _CurrentTask;   
+        public PresentationTask CurrentTask
+        {
+            get => _CurrentTask;
+            set
+            {
+                _CurrentTask = value;
+                OnPropertyChanged();
+            }
+        }
+        
         private string _paneTitle;
-        private string _boardName;
-        private string _boardNotes;
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
         private string _currentCategory;
-
-        /// <summary>
-        /// Constructor / Initialization of tasks
-        /// </summary>
-        public BoardViewModel()
-        {
-            Tasks = new ObservableCollection<CustomKanbanModel>();
-        }
+        private IAdaptiveClient<IServiceManifest> DataProvider;
+        public ICommand NewTaskCommand { get; set; }
+        public ICommand EditTaskCommand { get; set; }
+        public ICommand SaveTaskCommand { get; set; }
+        public ICommand DeleteTaskCommand { get; set; }
+        public ICommand DeleteTagCommand { get; set; }
+        public ICommand CancelEditCommand { get; set; }
 
         #region Properties
-
-        public ObservableCollection<CustomKanbanModel> Tasks
-        {
-            get { return _tasks; }
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Used as the selected card model. If null, initialize a new task; 
-        /// otherwise, initialize properties to edit task in pane 
-        /// </summary>
-        public CustomKanbanModel CardModel
-        {
-            get { return _cardModel; }
-            set
-            {
-                _cardModel = value;
-
-                // Update Task Properties 
-
-                if (_cardModel == null) // New Task
-                {
-                    ID = null;
-                    DateCreated = null;
-                    Title = null;
-                    Description = null;
-                    Category = null;
-                    ColorKey = null;
-                    Tags = new string[] { };
-                    TagsCollection = new ObservableCollection<string>();
-                    OnPropertyChanged();
-                }
-                else // Edit Task
-                {
-                    ID = _cardModel.ID;
-                    DateCreated = _cardModel.DateCreated;
-                    Title = _cardModel.Title;
-                    Description = _cardModel.Description;
-                    Category = _cardModel.Category.ToString();
-                    ColorKey = _cardModel.ColorKey.ToString();
-                    Tags = _cardModel.Tags;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string ID
-        {
-            get
-            {
-                if (Task.ID == null)
-                    return "";
-                else
-                    return Task.ID;
-            }
-            set
-            {
-                Task.ID = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string BoardId
-        {
-            get
-            {
-                if (Task.BoardId == null)
-                    return "";
-                else
-                    return Task.BoardId;
-            }
-            set
-            {
-                Task.BoardId = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                if (Task.Title == null)
-                    return "";
-                else
-                    return Task.Title;
-            }
-            set
-            {
-                Task.Title = value;
-                OnPropertyChanged("Title");
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                if (Task.Description == null)
-                    return "";
-                else
-                    return Task.Description;
-            }
-            set
-            {
-                Task.Description = value;
-                OnPropertyChanged("Description");
-            }
-        }
-
-        public object Category
-        {
-            get
-            {
-                return Task.Category;
-            }
-            set
-            {
-                Task.Category = value;
-                OnPropertyChanged("Category");
-            }
-        }
 
         /// <summary>
         /// Used to fill indicator key combo box
         /// </summary>
-        public List<string> ColorKeys
+        /// 
+        private ObservableCollection<ComboBoxItem> _ColorKeys;
+        public ObservableCollection<ComboBoxItem> ColorKeys
         {
-            get { return _colorKeys; }
+            get { return _ColorKeys; }
             set
             {
-                _colorKeys = value;
+                _ColorKeys = value;
                 OnPropertyChanged();
             }
         }
 
-        public object ColorKey
-        {
-            get
-            {
-                return Task.ColorKey;
-            }
-            set
-            {
-                Task.ColorKey = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Fills the tags list view
-        /// </summary>
-        public ObservableCollection<string> TagsCollection
-        {
-            get { return _tagsCollection; }
-            set
-            {
-                _tagsCollection = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string[] Tags
-        {
-            get { return Task.Tags; }
-            set
-            {
-                Task.Tags = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string DateCreated
-        {
-            get
-            {
-                if (Task.DateCreated == null)
-                    return "";
-                else
-                    return Task.DateCreated;
-            }
-            set
-            {
-                Task.DateCreated = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public string PaneTitle
         {
             get { return _paneTitle; }
@@ -258,26 +103,6 @@ namespace KanbanTasker.ViewModels
             set { _isEditingTask = value; OnPropertyChanged(); }
         }
 
-        public string BoardName
-        {
-            get { return _boardName; }
-            set
-            {
-                _boardName = value;
-                OnPropertyChanged("BoardTitle");
-            }
-        }
-
-        public string BoardNotes
-        {
-            get { return _boardNotes; }
-            set
-            {
-                _boardNotes = value;
-                OnPropertyChanged("BoardDescription");
-            }
-        }
-
         /// <summary>
         /// The category to be displayed on the edit/new task pane
         /// </summary>
@@ -291,157 +116,165 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public CustomKanbanModel OriginalCardModel
+        public PresentationTask OriginalTask
         {
             get;
             set;
         }
 
+        private InAppNotification MessagePump;
+        private const int MessageDuration = 3000;
+
         #endregion Properties
 
+        /// <summary>
+        /// Constructor / Initialization of tasks
+        /// </summary>
+        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, InAppNotification messagePump)
+        {
+            Board = board;
+            DataProvider = dataProvider;
+            MessagePump = messagePump;
+        
+            CurrentTask = new PresentationTask(new TaskDTO());
+            NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
+            EditTaskCommand = new RelayCommand<int>(EditTaskCommandHandler, () => true);
+            SaveTaskCommand = new RelayCommand(SaveTaskCommandHandler, () => true);
+            DeleteTaskCommand = new RelayCommand<int>(DeleteTaskCommandHandler, () => true);
+            DeleteTagCommand = new RelayCommand<string>(DeleteTagCommandHandler, () => true);
+            CancelEditCommand = new RelayCommand(CancelEditCommandHandler, () => true);
+
+            ColorKeys = new ObservableCollection<ComboBoxItem>();
+            ColorKeys.Add(new ComboBoxItem { Content = "High" });
+            ColorKeys.Add(new ComboBoxItem { Content = "Normal" });
+            ColorKeys.Add(new ComboBoxItem { Content = "Low" });
+
+            if (Board.Tasks != null && board.Tasks.Any())   // hack
+                foreach (PresentationTask task in Board.Tasks)
+                    task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
+        }
 
         #region Functions
 
-        public void AddTagToCollection(string tag)
-        {
-            TagsCollection.Add(tag);
-        }
 
-        /// <summary>
-        /// Initializes properties to show information in the edit task pane
-        /// </summary>
-        /// <param name="selectedModel">Assigned to CardModel to set its properties</param>
-        /// <param name="colorKeys"></param>
-        /// <param name="tags"></param>
-        public void EditTaskHelper(CustomKanbanModel selectedModel, List<string> colorKeys, ObservableCollection<string> tags)
+        public void NewTaskCommandHandler(ColumnTag tag)
         {
-            OriginalCardModel = selectedModel;
-            IsEditingTask = true;
-            CardModel = selectedModel;
-            ColorKeys = colorKeys;
-            TagsCollection = tags;
-            PaneTitle = "Edit Task";
-        }
-
-        /// <summary>
-        /// Initializes properties to show information in the new task pane.
-        /// CardModel is null for new task.
-        /// </summary>
-        /// <param name="currentCategory"></param>
-        /// <param name="colorKeys"></param>
-        public void NewTaskHelper(string currentCategory, List<string> colorKeys)
-        {
-            CardModel = null; // Null card for new task
-            IsEditingTask = false;
-            CurrentCategory = currentCategory;
-            ColorKeys = colorKeys;
             PaneTitle = "New Task";
+            string category = tag?.Header?.ToString();
+            CurrentTask = new PresentationTask(new TaskDTO() { Category = category }) { Board = Board, BoardId = Board.ID,  ColorKeyComboBoxItem = ColorKeys[1] };
+            OriginalTask = null; 
+            IsEditingTask = true;
         }
 
-        /// <summary>
-        /// Updates task data and then updates database entry
-        /// </summary>
-        /// <param name="tags"></param>
-        /// <param name="selectedCategory"></param>
-        /// <param name="selectedColorKey"></param>
-        /// <param name="selectedCard"></param>
-        /// <returns>If updating was successful</returns>
-        public bool SaveTask(string tags, object selectedCategory, object selectedColorKey, CustomKanbanModel selectedCard)
+        public void EditTaskCommandHandler(int taskID)
         {
-            // Tags are stroed as string[] in CustomKanbanModel
-            // Strip string into a string[]
-            string[] tagsArray;
-            if (tags == "")
-                tagsArray = new string[] { };
-            else
-                tagsArray = tags.Split(",");
-
-            // Update model
-            var selectedModel = selectedCard;
-            selectedModel.ColumnIndex = "";
-            selectedModel.Title = Title;
-            selectedModel.Description = Description;
-            selectedModel.Category = selectedCategory;
-            selectedModel.ColorKey = selectedColorKey;
-            selectedModel.Tags = tagsArray;
-
-            return DataProvider.UpdateTask(ID, Title,
-                Description, selectedCategory.ToString(),
-                selectedColorKey.ToString(), tags);
+            PaneTitle = "Edit Task";
+            CurrentTask = Board.Tasks.First(x => x.ID == taskID);
+            IsEditingTask = true;
+            // clone a copy of CurrentTask so we can restore if user cancels
+            OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
         }
 
-        /// <summary>
-        /// Removes task from collection and from the database
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns>If deletion was successful</returns>
-        public bool DeleteTask(CustomKanbanModel model)
+        public void SaveTaskCommandHandler()
         {
-            Tasks.Remove(model);
-            var deleteSuccess = DataProvider.DeleteTask(model.ID);
-            CardModel = null;
+            IsEditingTask = false;
 
-            return deleteSuccess;
-        }
+            if (CurrentTask == null)
+                return;
 
-        /// <summary>
-        /// Creates model and adds it to the database. 
-        /// Returns the success flag and the new tasks ID
-        /// </summary>
-        /// <param name="tags"></param>
-        /// <param name="selectedCategory"></param>
-        /// <param name="selectedColorKey"></param>
-        /// <returns>Tuple of values; one for success, other for the new tasks id</returns>
-        public (bool, int) AddTask(string tags, object selectedCategory, object selectedColorKey)
-        {
-            // Tags are stored as as string[] in CustomKanbanModel
-            // Strip string into a sting[]
-            string[] tagsArray = new string[] { };
-            if (tags != null)
-                tagsArray = tags.Split(',');
-            else
-                tags = ""; // No tags
+            TaskDTO dto = CurrentTask.To_TaskDTO();
+            dto.ColorKey = ((ComboBoxItem)CurrentTask.ColorKeyComboBoxItem)?.Content.ToString() ?? "Normal"; // hack
+            
+            bool isNew = dto.Id == 0;
 
-            var boardId = this.BoardId.ToString();
-
-            var currentDateTime = DateTimeOffset.Now.ToString();
-
-            // Create model, set it's ID after made in database
-            var model = new CustomKanbanModel
+            if (isNew)
             {
-                BoardId = boardId,
-                DateCreated = currentDateTime,
-                Title = Title,
-                Description = Description,
-                Category = selectedCategory,
-                ColorKey = selectedColorKey,
-                Tags = tagsArray
-            };
+                dto.ColumnIndex = Board.Tasks?.Where(x => x.Category == dto.Category).Count() ?? 0;
+                dto.DateCreated = DateTime.Now.ToString();
+            }
+            dto.Id = DataProvider.Call(x => x.TaskServices.SaveTask(dto)).Entity.Id;
 
-            // Returns a tuple (bool addSuccess, int id) for success flag and 
-            // the new tasks ID for the model
-            var returnedTuple = DataProvider.AddTask(boardId, currentDateTime, Title,
-                Description, selectedCategory.ToString(),
-                selectedColorKey.ToString(), tags);
-            int newTaskID = returnedTuple.Item1;
-            var success = returnedTuple.Item2;
 
-            model.ID = newTaskID.ToString();
-            Tasks.Add(model);
-            return (success, newTaskID);
+            if (isNew)
+            {
+                CurrentTask.ID = dto.Id;
+                CurrentTask.ColumnIndex = dto.ColumnIndex;
+                Board.Tasks.Add(CurrentTask);
+            }
+            
+            MessagePump.Show("Task was saved successfully", MessageDuration);
         }
 
-        /// <summary>
-        /// Removes tag from collection
-        /// </summary>
-        /// <param name="tagName"></param>
-        /// <returns>If deletion was successful</returns>
-        public bool DeleteTag(string tagName)
+        public void DeleteTaskCommandHandler(int taskID)
         {
-            var originalCount = TagsCollection.Count;
-            TagsCollection.Remove(tagName);
-            return (TagsCollection.Count == (originalCount - 1)) ? true : false;
+            PresentationTask task = Board.Tasks.First(x => x.ID == taskID);
+            RowOpResult result = DataProvider.Call(x => x.TaskServices.DeleteTask(taskID));
+
+            if (result.Success)
+            {
+                Board.Tasks.Remove(task);
+                CurrentTask = Board.Tasks.LastOrDefault();
+                int startIndex = task.ColumnIndex;
+
+                foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex))
+                {
+                    otherTask.ColumnIndex = startIndex++;
+                    UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
+                }
+                MessagePump.Show("Task deleted from board successfully", MessageDuration);
+            }
+            else
+                MessagePump.Show("Task failed to be deleted. Please try again or restart the application.", MessageDuration);
         }
+
+        public void DeleteTagCommandHandler(string tag)
+        {
+            if (CurrentTask == null)
+            {
+                MessagePump.Show("Tag failed to be deleted.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                return;
+            }
+            CurrentTask.Tags.Remove(tag);
+            MessagePump.Show("Tag deleted successfully", MessageDuration);
+        }
+
+        public void CancelEditCommandHandler()
+        {
+            IsEditingTask = false;
+
+            if (OriginalTask == null)
+                return;
+            // roll back changes to CurrentTask
+           else
+            {
+                int index = Board.Tasks.IndexOf(CurrentTask);
+                Board.Tasks.Remove(CurrentTask);
+                CurrentTask = new PresentationTask(OriginalTask.To_TaskDTO());
+                Board.Tasks.Insert(index, CurrentTask);
+            }
+        }
+
+        public bool AddTag(string tag)
+        {
+            bool result = false;
+
+            if (CurrentTask == null)
+            {
+                MessagePump.Show("Tag failed to be deleted.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                return result;
+            }
+
+            if (CurrentTask.Tags.Contains(tag))
+                MessagePump.Show("Tag already exists", 3000);
+            else
+            {
+                CurrentTask.Tags.Add(tag);
+                MessagePump.Show($"Tag {tag} added successfully", 3000);
+                result = true;
+            }
+            return result;
+        }
+
 
         /// <summary>
         /// Updates the selected card category and column index after dragging it to
@@ -450,9 +283,14 @@ namespace KanbanTasker.ViewModels
         /// <param name="targetCategory"></param>
         /// <param name="selectedCardModel"></param>
         /// <param name="targetIndex"></param>
-        public void UpdateCardColumn(string targetCategory, CustomKanbanModel selectedCardModel, string targetIndex)
+        public void UpdateCardColumn(string targetCategory, PresentationTask selectedCardModel, int targetIndex)
         {
-            DataProvider.UpdateColumnData(selectedCardModel, targetCategory, targetIndex);
+            selectedCardModel.Category = targetCategory;
+            selectedCardModel.ColumnIndex = targetIndex;
+            TaskDTO task = selectedCardModel.To_TaskDTO();
+            task.Category = targetCategory;
+            task.ColumnIndex = targetIndex;
+            DataProvider.Call(x => x.TaskServices.UpdateColumnData(task));
         }
 
         /// <summary>
@@ -460,10 +298,13 @@ namespace KanbanTasker.ViewModels
         /// </summary>
         /// <param name="iD"></param>
         /// <param name="currentCardIndex"></param>
-        internal void UpdateCardIndex(string iD, int currentCardIndex)
+        internal void UpdateCardIndex(int iD, int currentCardIndex)
         {
-            DataProvider.UpdateCardIndex(iD, currentCardIndex);
+            DataProvider.Call(x => x.TaskServices.UpdateCardIndex(iD, currentCardIndex));
         }
+
+        private ComboBoxItem GetComboBoxItemForColorKey(string colorKey) => ColorKeys.FirstOrDefault(x => x.Content.ToString() == colorKey);
+
         #endregion
     }
 }

@@ -1,0 +1,43 @@
+﻿{
+  "EndPointConfigurations": [
+    {
+      "Name": "Kanban_SQLServer",
+      "IsActive": "false",
+      "API_Name": "Kanban",
+      "Preference": "10",
+      "EndPointType": "DBMS",
+      "ProviderName": "MSSQL",
+      "ConnectionString": "Data Source=.\\SQLEXPRESS;Initial Catalog=KanbanTasker;Integrated Security=SSPI;MultipleActiveResultSets=True;"
+    },
+
+    {
+      "Name": "Kanban_MySQL",
+      "IsActive": "false",
+      "API_Name": "Kanban",
+      "Preference": "20",
+      "EndPointType": "DBMS",
+      "ProviderName": "MySQL",
+      "ConnectionString": "Server=localhost;Database=KanbanTasker;Uid={MySQL_UserName};Pwd={MySQL_Password};SslMode=none"
+    },
+
+    {
+      "Name": "Kanban_SQLite",
+      "IsActive": "true",
+      "API_Name": "Kanban",
+      "Preference": "30",
+      "EndPointType": "DBMS",
+      "ProviderName": "SQLite",
+      "ConnectionString": "Filename=ktdatabase.db"
+    },
+
+    {
+      "Name": "Kanban_WebAPI",
+      "IsActive": "false",
+      "API_Name": "Kanban",
+      "Preference": "100",
+      "EndPointType": "HTTP",
+      "ProviderName": "WebAPI",
+      "ConnectionString": "http://localhost:5000/api/"
+    }
+  ]
+}
