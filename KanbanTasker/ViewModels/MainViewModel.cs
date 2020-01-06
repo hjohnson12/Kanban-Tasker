@@ -156,6 +156,8 @@ namespace KanbanTasker.ViewModels
         public void EditBoardCommandHandler()
         {
             TmpBoard = CurrentBoard;
+            OldBoardName = TmpBoard.Board.Name;
+            OldBoardNotes = TmpBoard.Board.Notes;
             BoardEditorTitle = "Edit Board";
         }
 
@@ -187,12 +189,42 @@ namespace KanbanTasker.ViewModels
             }
 
         }
+        private string _OldBoardName;
+        public string OldBoardName
+        {
+            get => _OldBoardName;
+            set
+            {
+                _OldBoardName = value;
+                OnPropertyChanged();
+            }
+        } 
+        
+        private string _OldBoardNotes;
+        public string OldBoardNotes
+        {
+            get => _OldBoardNotes;
+            set
+            {
+                _OldBoardNotes = value;
+                OnPropertyChanged();
+            }
+        }
 
         public void CancelSaveBoardCommandHandler()
         {
             // BUG: Currently TmpBoard still holds edited version?
+            CurrentBoard.Board.Name = "";
+            CurrentBoard.Board.Notes = "";
             CurrentBoard = null; 
             CurrentBoard = TmpBoard;
+
+            // hack
+            if (CurrentBoard != null)
+            {
+                CurrentBoard.Board.Name = OldBoardName;
+                CurrentBoard.Board.Notes = OldBoardNotes;
+            }
         }
 
         public void DeleteBoardCommandHandler()
@@ -202,6 +234,9 @@ namespace KanbanTasker.ViewModels
 
             dataProvider.Call(x => x.BoardServices.DeleteBoard(CurrentBoard.Board.ID));
             BoardList.Remove(CurrentBoard);
+            CurrentBoard.Board.Name = ""; // uwp bug
+            CurrentBoard.Board.Notes = ""; // uwp bug
+
             CurrentBoard = null; // uwp bug
             CurrentBoard = BoardList.LastOrDefault();
         }
