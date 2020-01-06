@@ -9,12 +9,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using LeaderAnalytics.AdaptiveClient.Utilities;
 using System.Collections.Generic;
 using LeaderAnalytics.AdaptiveClient;
 using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 using System.Threading.Tasks;
+using KanbanTasker.Views;
 using System.Linq;
 using KanbanTasker.Model;
 
@@ -49,6 +51,7 @@ namespace KanbanTasker
 
             // Added because was still prompting users from the store
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTMwNjE1QDMxMzcyZTMyMmUzMEFlSlpZMDNRQVFhUy9pOHQ4dzlObVNNbGNsQ3I2bE15NE50U2dzQ1lYK1k9");
+           
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
@@ -147,6 +150,17 @@ namespace KanbanTasker
                 titleBar.InactiveBackgroundColor = Windows.UI.Colors.Transparent;
                 titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
                 titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
+
+                checkUpdate();
+            }
+        }
+
+        public async void checkUpdate()
+        {
+            if (SystemInformation.IsAppUpdated)
+            {
+                var dialog = new AppUpdatedDialogView();
+                var result = await dialog.ShowAsync();
             }
         }
 

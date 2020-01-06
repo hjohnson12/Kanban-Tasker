@@ -78,6 +78,8 @@
                             Content="Rate and Review"
                             NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                        <Button Content="View Updates" HorizontalAlignment="Center" Margin="0 8 0 0" x:Name="btnViewUpdates" Click="btnViewUpdates_Click">
+                        </Button>
                     </StackPanel>
                 </Grid>
             </PivotItem>

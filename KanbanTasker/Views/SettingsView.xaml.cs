@@ -37,5 +37,12 @@ namespace KanbanTasker.Views
             // Then use the BackupDatabase function in the DatabaseServices.cs for SQLite
            
         }
+
+        private async void btnViewUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            var dialog = new AppUpdatedDialogView();
+            var result = await dialog.ShowAsync();
+        }
     }
 }
