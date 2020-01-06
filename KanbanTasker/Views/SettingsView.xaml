@@ -82,23 +82,23 @@
                 </Grid>
             </PivotItem>
             <!--  TO-DO: Finish implementation after first release  -->
-            <PivotItem Header="Database">
+            <!--<PivotItem Header="General">
                 <Grid Margin="0,8,0,0">
                     <StackPanel Orientation="Vertical">
                         <TextBlock FontWeight="Bold" Text="SQLite Settings" Margin="4" TextDecorations="Underline" FontSize="17"/>
                         <TextBlock FontWeight="Bold" Text="Backup Database" Margin="4" />
                         <Button Content="Backup Db" Margin="4 2 4 4" x:Name="btnBackupDb" Click="btnBackupDb_Click" />
-                        <!--<RadioButton
+                        --><!--<RadioButton
                             x:Name="LightThemeRadioButton"
                             Content="Light Theme"
                             IsEnabled="False" />
                         <RadioButton
                             x:Name="DarkThemeRadioButton"
                             Content="Dark Theme"
-                            IsEnabled="False" />-->
+                            IsEnabled="False" />--><!--
                     </StackPanel>
                 </Grid>
-            </PivotItem>
+            </PivotItem>-->
         </Pivot>
 
     </Grid>
