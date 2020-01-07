@@ -15,6 +15,8 @@ Developers can read more here: [Getting Started](#getting-started)
 
 ## Kanban Tasker Features
 
+Note: Images are slightly out of date, new screenshots coming soon! 
+
 #### A clean, modern UI
 ![Image of Program](KanbanTasker/Images/KT_00.png)
 
