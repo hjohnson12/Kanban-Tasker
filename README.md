@@ -15,7 +15,7 @@ Developers can read more here: [Getting Started](#getting-started)
 
 ## Kanban Tasker Features
 
-Note: Images are slightly out of date, new screenshots coming soon! 
+*Note*: Images are slightly out of date, new screenshots coming soon! Update released 1/06/2020.
 
 #### A clean, modern UI
 ![Image of Program](KanbanTasker/Images/KT_00.png)
