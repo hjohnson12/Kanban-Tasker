@@ -22,7 +22,7 @@
         <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image
                             Height="75"
-                            Source="ms-appx:///Assets/StoreLogo.scale-400.png"
+                            Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
                             Stretch="Uniform" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
@@ -39,7 +39,7 @@
                             FontWeight="Bold"
                             FontSize="15"
                             TextDecorations="Underline"
-                            Text="Version 1.0.3.0 Update:" />
+                            Text="Version 1.0.4.0 Update:" />
             <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
