@@ -8,7 +8,7 @@
 
   <Identity
     Name="17325HunterJohnson.KanbanTasker"
-    Publisher="CN=7E9AA0BA-92B9-4274-B9BB-343DA3A9765C"
+    Publisher="CN=sam"
     Version="1.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="65c4d4af-42f1-4aa7-8181-842060e92669" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
