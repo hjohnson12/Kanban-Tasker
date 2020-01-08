@@ -148,8 +148,11 @@ namespace KanbanTasker.ViewModels
             BoardEditorTitle = "New Board Editor";
             BoardViewModel newBoard = boardViewModelFactory(new PresentationBoard(new BoardDTO()), messagePump);
             TmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
-            OldBoardName = TmpBoard.Board.Name;
-            OldBoardNotes = TmpBoard.Board.Notes;
+            if (TmpBoard != null)
+            {
+                OldBoardName = TmpBoard.Board.Name;
+                OldBoardNotes = TmpBoard.Board.Notes;
+            }
             CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
             CurrentBoard = newBoard;
             // Don't add to BoardList here.  Wait till user saves.
