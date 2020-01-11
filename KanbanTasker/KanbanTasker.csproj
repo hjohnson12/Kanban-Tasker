@@ -20,12 +20,13 @@
     <PackageCertificateThumbprint>D500FE6F4D9B5F9BF8B2492313037EBF5192B44D</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <PackageCertificateKeyFile />
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -127,21 +128,32 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AutofacModule.cs" />
     <Compile Include="Base\Observable.cs" />
+    <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="Converters\Text\CardCountConverter.cs" />
     <Compile Include="Converters\Text\CardTemplateConverter.cs" />
     <Compile Include="Converters\Text\CollapsedMarginHeader.cs" />
     <Compile Include="Converters\Text\StringToColorConverter.cs" />
     <Compile Include="Helpers\CustomKanbanColumn.cs" />
-    <Compile Include="DataAccess\DataProvider.cs" />
-    <Compile Include="Models\CustomKanbanModel.cs" />
+    <Compile Include="Models\PresentationBoard.cs" />
+    <Compile Include="Models\PresentationTask.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\AppUpdatedDialogView.xaml.cs">
+      <DependentUpon>AppUpdatedDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeleteConfirmationView.xaml.cs">
       <DependentUpon>DeleteConfirmationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditBoardDialogView.xaml.cs">
+      <DependentUpon>EditBoardDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FirstRunDialogView.xaml.cs">
+      <DependentUpon>FirstRunDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -200,11 +212,18 @@
     <Content Include="Assets\StoreLogo.scale-125.png" />
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
-    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <None Include="..\EndPoints.json">
+      <Link>EndPoints.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -232,11 +251,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AppUpdatedDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BoardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DeleteConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditBoardDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FirstRunDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -254,33 +285,61 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>2.2.4</Version>
+    <PackageReference Include="AdaptiveClient">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="AdaptiveClient.EntityFrameworkCore">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="AdaptiveClient.Utilities">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Autofac">
+      <Version>4.9.4</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>2.2.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.8</Version>
+      <Version>6.2.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit">
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>5.1.1</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.1.190606001</Version>
+      <Version>2.3.191211002</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCLRaw.bundle_winsqlite3">
-      <Version>1.1.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.SfKanban.UWP">
       <Version>17.2.0.41</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DataAccess\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KanbanTasker.Model\KanbanTasker.Model.csproj">
+      <Project>{f02c8182-e2c1-4d7e-957a-353fc45494f9}</Project>
+      <Name>KanbanTasker.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KanbanTasker.Services\KanbanTasker.Services.csproj">
+      <Project>{018b078f-87f8-4b47-9f2c-e1c82cd742f8}</Project>
+      <Name>KanbanTasker.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="KanbanTasker_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
