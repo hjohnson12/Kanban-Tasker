@@ -218,6 +218,7 @@ namespace KanbanTasker.ViewModels
 
                 foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex))
                 {
+                    // otherTask.ColumnIndex = startIndex++; 
                     otherTask.ColumnIndex -= 1;
                     UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
                 }
