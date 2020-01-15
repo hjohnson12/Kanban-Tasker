@@ -53,3 +53,6 @@ You should see your breakpoints on the controllers get hit as calls are made.
 https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork
 https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
 https://help.github.com/en/github/using-git/pushing-commits-to-a-remote-repository
+
+git fetch upstream
+git merge upstream/master
