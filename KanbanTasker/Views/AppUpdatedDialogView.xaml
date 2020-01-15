@@ -39,7 +39,7 @@
                             FontWeight="Bold"
                             FontSize="15"
                             TextDecorations="Underline"
-                            Text="Version 1.0.4.0 Update:" />
+                            Text="Version 1.0.5.0 Update:" />
             <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
