@@ -17,7 +17,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateThumbprint>E6775F28E82B37C2A802AA0EE39DD8FDAF979C8D</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>E7888617A48CD2C89DF2D0BF6FE751FAC8D3BFF2</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
@@ -223,7 +223,6 @@
       <Link>EndPoints.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -233,6 +232,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Resources\Images\KanbanTasker.PNG" />
     <Content Include="Resources\Images\KanbanTasker_Logo.png" />
+    <None Include="KanbanTasker_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -331,9 +331,6 @@
       <Project>{018b078f-87f8-4b47-9f2c-e1c82cd742f8}</Project>
       <Name>KanbanTasker.Services</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="KanbanTasker_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

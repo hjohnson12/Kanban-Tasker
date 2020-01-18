@@ -306,6 +306,15 @@ namespace KanbanTasker.ViewModels
 
         private ComboBoxItem GetComboBoxItemForColorKey(string colorKey) => ColorKeys.FirstOrDefault(x => x.Content.ToString() == colorKey);
 
+        public void LoadTasksForBoard(int ID)
+        {
+            
+            IEnumerable<TaskDTO> tasks = DataProvider.Call(t => t.TaskServices.GetTasks().Where(x => x.BoardId == ID).OrderBy(x => x.Category).ThenBy(x => x.ColumnIndex));
+            Board.Tasks.Clear();
+            foreach (TaskDTO task in tasks)
+                Board.Tasks.Add(new PresentationTask(task));
+        }
+
         #endregion
     }
 }

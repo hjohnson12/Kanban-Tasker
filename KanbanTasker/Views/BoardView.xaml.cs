@@ -178,7 +178,64 @@ namespace KanbanTasker.Views
             //ShowContextMenu(SelectedModel);
         }
 
+
+
         private void KanbanBoard_CardDragEnd(object sender, KanbanDragEndEventArgs e)
+        {
+            // Create these variables BEFORE modifying the current card
+            var targetCategory = e.TargetKey.ToString();
+
+            int toColumn = e.TargetColumnIndex;
+            int toRow = e.TargetCardIndex;
+            int toColumnCardCount = e.TargetColumn.Cards.Count;
+            List<KanbanCardItem> toColumnCards = e.TargetColumn.Cards.ToList();
+
+            int fromColumn = e.SelectedColumnIndex;
+            int fromRow = e.SelectedCardIndex;
+            int fromColumnCardCount = e.SelectedColumn.Cards.Count;
+            List<KanbanCardItem> fromColumnCards = e.SelectedColumn.Cards.ToList();
+
+            // Update the card that was moved
+            PresentationTask movedCard = e.SelectedCard.Content as PresentationTask;
+            ViewModel.UpdateCardColumn(targetCategory, movedCard, toRow);
+
+            // renumber cards in the TO column 
+            foreach(KanbanCardItem card in toColumnCards)
+            {
+                var currentModel = card.Content as PresentationTask;
+            
+                if (currentModel == null)
+                    continue;
+                
+                int row = toColumnCards.IndexOf(card);
+
+                if (currentModel.ColumnIndex != row || currentModel.Category != targetCategory)
+                    ViewModel.UpdateCardColumn(currentModel.Category, currentModel, row);
+            }
+
+            // if the from FROM column is different from the TO column, renumber the from column also
+
+            if (fromColumn != toColumn)
+            {
+                foreach (KanbanCardItem card in fromColumnCards)
+                {
+                    var currentModel = card.Content as PresentationTask;
+                    
+                    if (currentModel == null)
+                        continue;
+                    
+                    int row = fromColumnCards.IndexOf(card);
+
+                    if (currentModel.ColumnIndex != row)
+                        ViewModel.UpdateCardColumn(currentModel.Category, currentModel, row);
+                }
+            }
+
+            // SyncFusion control has bugs.  Need to reload data from disk
+            ViewModel.LoadTasksForBoard(ViewModel.Board.ID);
+        }
+
+        private void KanbanBoard_CardDragEnd2(object sender, KanbanDragEndEventArgs e)
         {
             // Change column and category of task when dragged to new column
             // ObservableCollection Tasks already updated
