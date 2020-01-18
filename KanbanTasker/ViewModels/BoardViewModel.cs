@@ -216,10 +216,19 @@ namespace KanbanTasker.ViewModels
                 CurrentTask = Board.Tasks.LastOrDefault();
                 int startIndex = task.ColumnIndex;
 
-                foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex))
+                // Calling OrderBy after Where, reordering a whole collection prior to filter is high overhead
+                // If we do not sort by ColumnIndex, the tasks in Board.Tasks will be in unsorted order when assigning startIndex 
+
+                // Questionable issue:
+                //  Sometimes the task index value for a task in Board.Tasks are wrong, but correct in db (shouldn't be because of this though)
+                //      Ex: We have a task named t2 which is index 2 in db (expected), but index 4 or something in Board.Tasks at time of deletion
+                //      - I've only noticed it when moving a task and then deleting, sometimes... Possible binding issue when changing property, since db is correct? 
+                //  otherTask.ColumnIndex -=1 works without OrderBy, but has the problem above
+                // Fix: If an index in the db gets messed up, moving one card in the column fixes the whole column. Low severity.
+                foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex).OrderBy(x => x.ColumnIndex)) 
                 {
-                    // otherTask.ColumnIndex = startIndex++; 
-                    otherTask.ColumnIndex -= 1;
+                    otherTask.ColumnIndex = startIndex++;
+                    //otherTask.ColumnIndex -= 1;
                     UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
                 }
                 MessagePump.Show("Task deleted from board successfully", MessageDuration);
@@ -286,8 +295,6 @@ namespace KanbanTasker.ViewModels
         /// <param name="targetIndex"></param>
         public void UpdateCardColumn(string targetCategory, PresentationTask selectedCardModel, int targetIndex)
         {
-            selectedCardModel.Category = targetCategory;
-            selectedCardModel.ColumnIndex = targetIndex;
             TaskDTO task = selectedCardModel.To_TaskDTO();
             task.Category = targetCategory;
             task.ColumnIndex = targetIndex;

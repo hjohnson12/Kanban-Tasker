@@ -201,10 +201,11 @@ namespace KanbanTasker.Views
                         currentModel.ColumnIndex = currentIndex;
                         ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
 
-                        //ViewModel.Board.Tasks.Insert(currentIndex, currentModel);
                         // NOTE FROM DEBUGGING:
+
                         //  After its updated in the database, it's not updating the Tasks list? so next iteration when I delete second card, it's using old tasks?
-                        // Found inside of (this) at runtime
+                        // Found inside of (this) at runtime by viewing the ViewModel and PresentationBoard inside it
+                        // Part of the bug explained in BoardViewModel.cs, Line 222. Low severity, current fixes stops the major crashing, this is just a hidden issue
                     }
                 }
             }
