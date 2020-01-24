@@ -62,31 +62,5 @@ namespace KanbanTasker.Views
 
             ActiveFlyout.Hide();
         }
-
-        private void EditBoardFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
-        {
-            // Call VM method to reset current board to tmpBoard if user clicks away 
-            if (txtBoxNewBoardName.Text == "" && txtBoxNewBoardName.Text == "")
-                ViewModel.SetCurrentBoardOnClose();
-            else if (txtBoxNewBoardName.Text == "")
-                ViewModel.SetCurrentBoardOnClose();
-            else if (txtBoxNewBoardNotes.Text == "")
-                ViewModel.SetCurrentBoardOnClose();
-        }
-
-        private void FlyoutBtnCreateNewBoard_Click(object sender, RoutedEventArgs e)
-        {
-            if (txtBoxNewBoardName.Text == "")
-                ChooseBoardNameTeachingTip.IsOpen = true;
-            if (txtBoxNewBoardNotes.Text == "")
-                AddBoardNotesTeachingTip.IsOpen = true;
-            if (txtBoxNewBoardName.Text != "" && txtBoxNewBoardNotes.Text != "")
-            {
-                if (ActiveFlyout == null)
-                    return;
-
-                ActiveFlyout.Hide();
-            }
-        }
     }
 }
