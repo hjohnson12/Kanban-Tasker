@@ -38,6 +38,7 @@
             </Rectangle>
             <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
             <textconverters:CardCountConverter x:Key="cardCountConverter" />
+            <textconverters:StringToDateConverter x:Key="stringToDateConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
             <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
             <ControlTemplate x:Key="CollapsedColumnTemplate" TargetType="helpers:CustomKanbanColumn">
