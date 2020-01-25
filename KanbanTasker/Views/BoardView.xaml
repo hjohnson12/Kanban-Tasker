@@ -679,37 +679,105 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </Grid>
-
-                        <Grid Margin="0,12,0,0" Visibility="{x:Bind ViewModel.IsEditingTask, Mode=OneWay}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Orientation="Horizontal">
-                                <SymbolIcon Symbol="Calendar" />
-                                <TextBlock Margin="4,0,0,0" Text="Date Created:" />
-                            </StackPanel>
-                            <StackPanel
-                                Grid.Row="1"
-                                Grid.ColumnSpan="2"
-                                HorizontalAlignment="Center"
-                                Orientation="Vertical">
-                                <TextBlock
-                                    Margin="4"
-                                    HorizontalAlignment="Center"
-                                    FontWeight="Bold"
-                                    Text="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay}" />
-                            </StackPanel>
-
-                        </Grid>
+                           
+                        <!-- Date Information Section -->
+                        <Grid Margin="0,12,0,0">
+                            <controls:Expander 
+                               x:Name="dateInformationExpander" 
+                               VerticalAlignment="Top"
+                               Margin="0,0,0,10"
+                               Header="Date Information"
+                               Background="{ThemeResource RegionBrush}"
+                               HorizontalContentAlignment="Stretch"
+                               IsExpanded="False"
+                               ExpandDirection="Down" >
+                                <controls:Expander.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <SymbolIcon Symbol="Calendar" />
+                                            <TextBlock Margin="8 0 0 0"  Text="Date Information" Grid.Column="1"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </controls:Expander.HeaderTemplate>
+                                <Grid Margin="0 0 0 8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Date Created:" Margin="8 8 8 8"/>
+                                        <TextBlock
+                                            Margin="8 8 8 0"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Center"
+                                            FontWeight="Bold"
+                                            Text="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay}" />   
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="8"
+                                            VerticalAlignment="Center"
+                                            Text="Due Date:" />
+                                        <CalendarDatePicker 
+                                            Grid.Column="1"  
+                                            Background="{ThemeResource RegionBrush}"
+                                            Margin="36,10,8,0" 
+                                            HorizontalAlignment="Stretch" 
+                                            PlaceholderText="Pick a date" />
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="8"
+                                            VerticalAlignment="Center"
+                                            Text="Start Date:" />
+                                        <CalendarDatePicker 
+                                            Grid.Column="1"  
+                                            Background="{ThemeResource RegionBrush}"
+                                            Margin="32,10,8,0" 
+                                            HorizontalAlignment="Stretch" 
+                                            PlaceholderText="Pick a date" />
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="8"
+                                            VerticalAlignment="Center"
+                                            Text="Finish Date:" />
+                                        <CalendarDatePicker 
+                                            Grid.Column="1"  
+                                            Margin="24,10,8,0" 
+                                            Background="{ThemeResource RegionBrush}"
+                                            HorizontalAlignment="Stretch" 
+                                            PlaceholderText="Pick a date" />
+                                    </Grid>
+                                </Grid>
+                            </controls:Expander>
+                        </Grid> <!-- END Date Information Section -->
 
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
