@@ -714,16 +714,25 @@
                                     <Grid Grid.Row="0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Date Created:" Margin="8 8 8 8"/>
-                                        <TextBlock
+                                        <TextBlock Text="Date Created:" VerticalAlignment="Center" Margin="8 8 8 8" Grid.Column="0"/>
+                                        <!-- Fix Binding with CalendarDatePicker-->
+                                        <!--<CalendarDatePicker 
+                                            Grid.Column="1"  
+                                            Background="{ThemeResource RegionBrush}"
+                                            Margin="12,10,8,0" 
+                                            HorizontalAlignment="Stretch" 
+                                            Date="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
+                                            PlaceholderText="Not created yet" />-->
+                                        
+                                        <!-- Original, keep for now-->
+                                        <!--<TextBlock
                                             Margin="8 8 8 0"
                                             Grid.Column="1"
                                             HorizontalAlignment="Center"
                                             FontWeight="Bold"
-                                            Text="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay}" />   
+                                            Text="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay}" />-->   
                                     </Grid>
                                     <Grid Grid.Row="1">
                                         <Grid.ColumnDefinitions>
