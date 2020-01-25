@@ -445,6 +445,7 @@
                         Margin="5,5,20,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        Command="{Binding ElementName=boardViewPage, Path=ViewModel.CancelEditCommand}"
                         Click="appBarBtnClosePane_Click"
                         Icon="OpenPane"
                         Label="Close Pane" />
