@@ -5,14 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:KanbanTasker.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="SettingsDialog"
     Title="Settings"
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     BorderThickness="1"
     CloseButtonText="Close"
     CornerRadius="2"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="Save"
-    IsPrimaryButtonEnabled="False"
+    PrimaryButtonClick="SettingsDialog_ViewUpdatesClick"
+    PrimaryButtonText="View Updates"
     Style="{ThemeResource SettingsDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.TitleTemplate>
@@ -37,71 +37,74 @@
         </DataTemplate>
     </ContentDialog.TitleTemplate>
     <Grid Margin="0,8,0,0">
-        <Pivot>
-            <PivotItem Header="About">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">
-                        <Image
+            <Pivot>
+                <PivotItem Header="About">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Image
                             Height="75"
                             HorizontalAlignment="Right"
                             Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
                             Stretch="Uniform" />
-                    </StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
-                       
-                        <TextBlock
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
+
+                            <TextBlock
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"
                             Text="Developed by Hunter Johnson" />
-                        <TextBlock
+                            <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Center"
                             Text="Icon design by Joshua Askharoun" />
-                        <HyperlinkButton
+                            <HyperlinkButton
                             Margin="0,8,0,0"
                             HorizontalAlignment="Center"
-                            Content="Contribute to Kanban Tasker's source code"
+                            Content="Kanban Tasker's source code"
                             NavigateUri="https://github.com/hjohnson12/Kanban-Tasker"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-                        <HyperlinkButton
+                            <HyperlinkButton
                             HorizontalAlignment="Center"
                             Content="Feedback"
                             NavigateUri="https://feedback.userreport.com/7d4ef159-95d2-4cf0-a068-b50adbe514a6/#ideas/popular"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-                        <HyperlinkButton
+                            <HyperlinkButton
                             HorizontalAlignment="Center"
                             Content="Rate and Review"
                             NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-                        <Button Content="View Updates" HorizontalAlignment="Center" Margin="0 8 0 0" x:Name="btnViewUpdates" Click="btnViewUpdates_Click">
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </PivotItem>
-            <!--  TO-DO: Finish implementation after first release  -->
-            <!--<PivotItem Header="General">
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+                </PivotItem>
+                <!--  TO-DO: Finish implementation after first release  -->
+                <!--<PivotItem Header="General">
                 <Grid Margin="0,8,0,0">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock FontWeight="Bold" Text="SQLite Settings" Margin="4" TextDecorations="Underline" FontSize="17"/>
+                        <ToggleSwitch x:Name="pipToggle" Header="Compact Overlay (Picture-In-Picture) Mode" Toggled="pipToggle_Toggled"/>
+                        -->
+                <!--<TextBlock FontWeight="Bold" Text="SQLite Settings" Margin="4" TextDecorations="Underline" FontSize="17"/>
                         <TextBlock FontWeight="Bold" Text="Backup Database" Margin="4" />
                         <Button Content="Backup Db" Margin="4 2 4 4" x:Name="btnBackupDb" Click="btnBackupDb_Click" />
-                        --><!--<RadioButton
+                        <RadioButton
                             x:Name="LightThemeRadioButton"
                             Content="Light Theme"
                             IsEnabled="False" />
                         <RadioButton
                             x:Name="DarkThemeRadioButton"
                             Content="Dark Theme"
-                            IsEnabled="False" />--><!--
+                            IsEnabled="False" />-->
+                <!--
                     </StackPanel>
                 </Grid>
             </PivotItem>-->
-        </Pivot>
-
+            </Pivot>
+        
     </Grid>
 </ContentDialog>

@@ -1,5 +1,6 @@
 ﻿using KanbanTasker.ViewModels;
 using System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -61,6 +62,21 @@ namespace KanbanTasker.Views
                 return;
 
             ActiveFlyout.Hide();
+        }
+
+        private async void BtnCompactOverlay_Click(object sender, RoutedEventArgs e)
+        {
+            var view = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+            if (view.ViewMode == ApplicationViewMode.Default)
+            {
+                btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE944);
+                await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+            }
+            else
+            {
+                btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE8A7);
+                await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+            }
         }
     }
 }

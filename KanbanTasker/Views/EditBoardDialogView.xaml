@@ -57,9 +57,9 @@
                         BorderThickness="0.5" />
                 </StackPanel>
 
-                  <!--New Board Flyout Body-->  
+                  <!--New Board Flyout Body-->
+            <ScrollViewer x:Name="scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Auto">
                 <StackPanel
-                    Grid.Row="1"
                     Margin="0,16,0,12"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -132,6 +132,7 @@
                         </TextBox>
                     </ScrollViewer>
                 </StackPanel>
+            </ScrollViewer>
 
                   <!--New Board Flyout Footer-->  
                 <Grid Grid.Row="2" Margin="0,12,0,0">

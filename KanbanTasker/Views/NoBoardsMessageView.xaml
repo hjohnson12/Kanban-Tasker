@@ -28,13 +28,12 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <TextBlock
+            <TextBlock
             Grid.Row="1"
-            Width="600"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="20"
-            Text="There are currently no boards. Press the + icon on the navigation menu to create a new board."
+            Text="No boards available. Press the + icon on the navigation menu to create a new board."
             TextAlignment="Center"
             TextWrapping="Wrap" />
     </Grid>

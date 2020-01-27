@@ -15,10 +15,6 @@ namespace KanbanTasker.Views
             this.InitializeComponent();
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
@@ -26,6 +22,13 @@ namespace KanbanTasker.Views
         private void BtnCloseSettings_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
+        }
+
+        private async void SettingsDialog_ViewUpdatesClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            this.Hide();
+            var dialog = new AppUpdatedDialogView();
+            var result = await dialog.ShowAsync();
         }
 
         private async void btnBackupDb_Click(object sender, RoutedEventArgs e)
@@ -38,11 +41,5 @@ namespace KanbanTasker.Views
            
         }
 
-        private async void btnViewUpdates_Click(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-            var dialog = new AppUpdatedDialogView();
-            var result = await dialog.ShowAsync();
-        }
     }
 }
