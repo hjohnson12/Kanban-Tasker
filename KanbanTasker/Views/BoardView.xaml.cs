@@ -292,5 +292,44 @@ namespace KanbanTasker.Views
                 PaneBtnDeleteTaskConfirmationFlyout.ShowAt((FrameworkElement)sender);
                 //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender); 
         }
+
+        private void autoSuggestBoxTags_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                // User selected an item from the suggestion list, take an action on it here.
+                var autoSuggestBoxTags = sender as AutoSuggestBox;
+                if (string.IsNullOrEmpty(args.ChosenSuggestion.ToString()))
+                    return;
+                if (ViewModel.AddTag(args.ChosenSuggestion.ToString()))
+                    autoSuggestBoxTags.Text = string.Empty;
+            }
+            else if(!string.IsNullOrEmpty(args.QueryText))
+            {
+                // Use args.QueryText to determine what to do.
+
+                // Currently works like the textbox did with Enter
+                var autoSuggestBoxTags = sender as AutoSuggestBox;
+                if (string.IsNullOrEmpty(args.QueryText))
+                    return;
+                if (ViewModel.AddTag(args.QueryText))
+                    autoSuggestBoxTags.Text = string.Empty;
+            }
+        }
+
+        private void autoSuggestBoxTags_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Test
+            //if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && sender.Text != "")
+            //{
+            //    var autoSuggestBoxTags = sender as AutoSuggestBox;
+            //    List<string> suggestions = new List<string>()
+            //    {
+            //        sender.Text,
+            //        sender.Text + "2"
+            //    };
+            //    autoSuggestBoxTags.ItemsSource = suggestions;
+            //}
+        }
     }
 }
