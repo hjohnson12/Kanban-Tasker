@@ -601,7 +601,6 @@
                                 TextChanged="autoSuggestBoxTags_TextChanged"
                                 PlaceholderText="Press enter to add tag"
                                 HorizontalAlignment="Stretch"
-                                CornerRadius="2"
                                 QuerySubmitted="autoSuggestBoxTags_QuerySubmitted"
                                 Margin="36,10,0,0"
                                 Grid.Column="2" />
