@@ -747,7 +747,7 @@
                                         <CalendarDatePicker 
                                             Grid.Column="1"  
                                             Background="{ThemeResource RegionBrush}"
-                                            Margin="36,10,8,0" 
+                                            Margin="36,10,8,0"
                                             HorizontalAlignment="Stretch" 
                                             PlaceholderText="Pick a date" />
                                     </Grid>

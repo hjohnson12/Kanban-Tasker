@@ -19,6 +19,9 @@ namespace KanbanTasker.Models
         private ObservableCollection<string> _tags;
         private string _description;
         private string _dateCreated;
+        private string _dueDate;
+        private string _startDate;
+        private string _finishDate;
         private int _id;
         private int _boardId;
         private PresentationBoard _Board;
@@ -50,6 +53,10 @@ namespace KanbanTasker.Models
                 }
             }
         }
+        public string DueDate { get => _dueDate; set { if (_dueDate != value) { _dueDate = value; OnPropertyChanged(); } } }
+        public string StartDate { get => _startDate; set { if (_startDate != value) { _startDate = value; OnPropertyChanged(); } } }
+        public string FinishDate { get => _finishDate; set { if (_finishDate != value) { _finishDate = value; OnPropertyChanged(); } } }
+        
         public string Title { get => _title; set { if (_title != value) { _title = value; OnPropertyChanged(); } } }
         public string Description { get => _description; set { if(_description != value) { _description = value; OnPropertyChanged(); } } }
         public string Category { get => _category; set { if (_category != value) { _category = value; OnPropertyChanged(); } } }
