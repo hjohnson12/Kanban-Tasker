@@ -492,7 +492,7 @@
                                 AcceptsReturn="True"
                                 Background="{ThemeResource RegionBrush}"
                                 BorderThickness="1"
-                                CornerRadius="3"
+                                CornerRadius="2"
                                 PlaceholderText="Type your information here"
                                 Text="{x:Bind ViewModel.CurrentTask.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
@@ -554,7 +554,7 @@
                                 HorizontalAlignment="Stretch"
                                 Background="{ThemeResource RegionBrush}"
                                 BorderThickness="1"
-                                CornerRadius="3"
+                                CornerRadius="2"
                                 ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}" 
                                 PlaceholderText="Choose One:" 
                                 SelectedValue="{x:Bind ViewModel.CurrentTask.ColorKeyComboBoxItem, Mode=TwoWay}">
@@ -587,7 +587,7 @@
                                 Margin="8,0"
                                 VerticalAlignment="Center"
                                 Text="Tags:" />
-                            <TextBox
+                            <!--<TextBox
                                 x:Name="txtBoxTags"
                                 Grid.Column="2"
                                 Margin="36,10,0,0"
@@ -595,7 +595,16 @@
                                 KeyDown="TxtBoxTags_KeyDown"
                                 PlaceholderText="Press enter to add tag"
                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                Style="{StaticResource TextBoxStyle1}" />
+                                Style="{StaticResource TextBoxStyle1}" />-->
+                            <AutoSuggestBox Style="{StaticResource CustomAutoSuggestBoxStyle}" 
+                                x:Name="autoSuggestBoxTags"
+                                TextChanged="autoSuggestBoxTags_TextChanged"
+                                PlaceholderText="Press enter to add tag"
+                                HorizontalAlignment="Stretch"
+                                CornerRadius="2"
+                                QuerySubmitted="autoSuggestBoxTags_QuerySubmitted"
+                                Margin="36,10,0,0"
+                                Grid.Column="2" />
                         </Grid>
 
                         <!--  Grid for WrapPanel  -->
