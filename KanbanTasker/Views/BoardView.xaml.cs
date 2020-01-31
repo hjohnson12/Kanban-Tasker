@@ -37,61 +37,12 @@ namespace KanbanTasker.Views
             ViewModel = selectedBoard;
         }
 
-        public void ShowContextMenu(PresentationTask selectedModel)
-        {
-            // Workaround to show context menu next to selected card model
-            foreach (var col in kanbanBoard.ActualColumns)
-            {
-                if (col.Categories.Contains(selectedModel.Category.ToString()))
-                {
-                    // Find card inside column
-                    foreach (var card in col.Cards)
-                    {
-                        int cardIndex = 0;
-                        var cardModel = card.Content as PresentationTask;
-                        if (cardModel.ID == selectedModel.ID)
-                        {
-                            // Get current index of card
-                            cardIndex = col.Cards.IndexOf(card);
-                        }
-
-                        // Set flyout to selected card index
-                        for (int i = 0; i <= col.Cards.Count; i++)
-                        {
-                            if (i == cardIndex)
-                            {
-                                FlyoutShowOptions myOption = new FlyoutShowOptions();
-                                myOption.ShowMode = FlyoutShowMode.Transient;
-                                taskFlyout.ShowAt(col.Cards[i], myOption);
-                            }
-                        }
-                    }
-                }
-            }
-        }
         #endregion Methods
 
         #region UIEvents
 
-        private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
-        {
-            // Hide flyout
-            taskFlyout.Hide();
-
-            // Open pane if closed
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-
-            // Give title textbox focus once pane opens
-            txtBoxTitle.Focus(FocusState.Programmatic);
-            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
-            txtBoxTitle.SelectionLength = 0;
-        }
-
         private void CardBtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            taskFlyout.Hide();
-
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
 
@@ -121,22 +72,16 @@ namespace KanbanTasker.Views
 
         private void appBarBtnClosePane_Click(object sender, RoutedEventArgs e)
         {
-            // Reset changes and close pane
-            // To Do: Change when adding task
-
+            // Close pane when done
             if (splitView.IsPaneOpen == true)
                 splitView.IsPaneOpen = false;
-
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            // Reset changes and close pane
-            // To Do: Change when adding task
-
+            // Close pane when done
             if (splitView.IsPaneOpen == true)
                 splitView.IsPaneOpen = false;
-
         }
 
         private void BtnSaveTask_Click(object sender, RoutedEventArgs e)
@@ -158,24 +103,12 @@ namespace KanbanTasker.Views
 
                 if (ViewModel.AddTag(tagsTextBox.Text))
                     tagsTextBox.Text = string.Empty;
-
             }
         }
 
         private void MnuItemExitApp_Click(object sender, RoutedEventArgs e)
         {
             CoreApplication.Exit();
-        }
-
-        private void Card_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            // Pre: Get information to pass to the dialog for displaying
-            //      Set corresponding properties in TaskDialog
-            // Post: Information passed, dialog opened
-
-            // Always show in standard mode
-            var originalSource = (FrameworkElement)sender;
-            //ShowContextMenu(SelectedModel);
         }
 
         private void KanbanBoard_CardDragEnd(object sender, KanbanDragEndEventArgs e)
@@ -249,40 +182,10 @@ namespace KanbanTasker.Views
 
         private void PaneBtnDeleteTaskYes_Click(object sender, RoutedEventArgs e)
         {
-        
             // Close pane when done
             splitView.IsPaneOpen = false;
             PaneBtnDeleteTaskConfirmationFlyout.Hide();
         }
-
-        /// <summary>
-        /// Used for touch screen users, but works for PC users too
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            // Hide flyout
-            taskFlyout.Hide();
-
-            // Create dialog and check button click result
-            var deleteDialog = new DeleteConfirmationView();
-            var result = await deleteDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                // Close pane when done
-                splitView.IsPaneOpen = false;
-
-                // Delete Task from collection and databaseIn
-                var deleteSuccess = true;
-
-            }
-            else
-                return;
-        }
-
-        #endregion UIEvents
 
         private void btnDeleteTask_Click(object sender, RoutedEventArgs e)
         {
@@ -290,7 +193,48 @@ namespace KanbanTasker.Views
                 PaneBtnDeleteTaskConfirmationFlyout.Hide();
             else
                 PaneBtnDeleteTaskConfirmationFlyout.ShowAt((FrameworkElement)sender);
-                //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender); 
+            //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender); 
         }
+
+        private void autoSuggestBoxTags_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                // User selected an item from the suggestion list, take an action on it here.
+                var autoSuggestBoxTags = sender as AutoSuggestBox;
+                if (string.IsNullOrEmpty(args.ChosenSuggestion.ToString()))
+                    return;
+                if (ViewModel.AddTag(args.ChosenSuggestion.ToString()))
+                    autoSuggestBoxTags.Text = string.Empty;
+            }
+            else if (!string.IsNullOrEmpty(args.QueryText))
+            {
+                // Use args.QueryText to determine what to do.
+
+                // Currently works like the textbox did with Enter
+                var autoSuggestBoxTags = sender as AutoSuggestBox;
+                if (string.IsNullOrEmpty(args.QueryText))
+                    return;
+                if (ViewModel.AddTag(args.QueryText))
+                    autoSuggestBoxTags.Text = string.Empty;
+            }
+        }
+
+        private void autoSuggestBoxTags_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Test
+            //if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && sender.Text != "")
+            //{
+            //    var autoSuggestBoxTags = sender as AutoSuggestBox;
+            //    List<string> suggestions = new List<string>()
+            //    {
+            //        sender.Text,
+            //        sender.Text + "2"
+            //    };
+            //    autoSuggestBoxTags.ItemsSource = suggestions;
+            //}
+        }
+
+        #endregion UIEvents
     }
 }

@@ -13,26 +13,27 @@
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Image
+    <ScrollViewer>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image
                             Height="75"
                             Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
                             Stretch="Uniform" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
 
-            <TextBlock
+                <TextBlock
                             Margin="0,4,0,4"
                             HorizontalAlignment="Left"
                             Text="Welcome and thank you for using Kanban Tasker!" />
-            <TextBlock Text="" />
-            <TextBlock
+                <TextBlock Text="" />
+                <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
@@ -40,47 +41,48 @@
                             FontSize="15"
                             TextDecorations="Underline"
                             Text="Version 1.0.5.0 Update:" />
-            <TextBlock
+                <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- It's been a while since the last update due to a very busy schedule but I appreciate all of the feedback and patience since release as it's helped very much with restructuring the back-end for the coming updates" />
-            <TextBlock
+                <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- This is a large update primarily focused on the back-end but also has a few changes to the functionality of the user interface to best fit with the changes made and user experience" />
-            <TextBlock
+                <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- This update serves as a base update for future updates such as multiple database options like SQLite, MSSQL, MySQL, and a WebAPI" />
-            <TextBlock
+                <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- Some features reqeusted by users will be coming in future updates as well" />
-            <TextBlock
+                <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- If any bugs are encountered after updating, please report them using github issues or the feedback link in Settings with steps that led to the error, if possible!" />
-            <HyperlinkButton
+                <HyperlinkButton
                             Margin="0,8,0,0"
                             HorizontalAlignment="Left"
                             Content="Github Issues Link"
                             NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-            <TextBlock Text="" />
-            <TextBlock Text="Known Issues:" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
-            <TextBlock
+                <TextBlock Text="" />
+                <TextBlock Text="Known Issues:" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
+                <TextBlock
                             Margin="0,2,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             >
                 - A <Bold>known issue</Bold> on this update is that DeleteTask in the EditPane is not working and has been disabled until a fix is provided in the next update. Deleting from the card itself is the recommended option until further update
-            </TextBlock>
-            
-        </StackPanel>
-    </Grid>
+                </TextBlock>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </ContentDialog>

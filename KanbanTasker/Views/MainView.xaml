@@ -160,6 +160,15 @@
                     </AppBarButton>
                     <AppBarSeparator />
                     <AppBarButton
+                        x:Name="btnCompactOverlay"
+                        Width="40"
+                        Click="BtnCompactOverlay_Click"
+                        ToolTipService.ToolTip="Compact Overlay (PiP) Mode">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton
                         x:Name="btnSettings"
                         Width="40"
                         Click="BtnSettings_Click"

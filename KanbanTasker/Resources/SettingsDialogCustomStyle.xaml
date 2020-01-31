@@ -110,7 +110,7 @@
                                             VerticalAlignment="Stretch"
                                             ToolTipService.ToolTip="Coming Soon"
                                             Content="{TemplateBinding PrimaryButtonText}"
-                                            CornerRadius="1"
+                                            CornerRadius="2"
                                             ElementSoundMode="FocusOnly"
                                             IsEnabled="{TemplateBinding IsPrimaryButtonEnabled}"
                                             Style="{TemplateBinding PrimaryButtonStyle}" />
@@ -128,12 +128,12 @@
                                             Style="{TemplateBinding SecondaryButtonStyle}" />
                                         <Button
                                             x:Name="CloseButton"
-                                            Grid.Column="2"
+                                            Grid.Column="1"
                                             Margin="2,0,0,0"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
                                             Content="{TemplateBinding CloseButtonText}"
-                                            CornerRadius="1"
+                                            CornerRadius="2"
                                             ElementSoundMode="FocusOnly"
                                             Style="{TemplateBinding CloseButtonStyle}" />
                                     </Grid>

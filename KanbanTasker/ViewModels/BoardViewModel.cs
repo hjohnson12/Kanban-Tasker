@@ -128,7 +128,7 @@ namespace KanbanTasker.ViewModels
         #endregion Properties
 
         /// <summary>
-        /// Constructor / Initialization of tasks
+        /// Constructor / Initialization of tasks.
         /// </summary>
         public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, InAppNotification messagePump)
         {
@@ -264,6 +264,11 @@ namespace KanbanTasker.ViewModels
             }
         }
 
+        /// <summary>
+        /// Inserts a tag to the current task's tag collection.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns>A bool containing whether the tag was successfully added or not.</returns>
         public bool AddTag(string tag)
         {
             bool result = false;
@@ -288,7 +293,7 @@ namespace KanbanTasker.ViewModels
 
         /// <summary>
         /// Updates the selected card category and column index after dragging it to
-        /// a new column
+        /// a new column.
         /// </summary>
         /// <param name="targetCategory"></param>
         /// <param name="selectedCardModel"></param>
@@ -302,7 +307,7 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
-        /// Updates a specific card index in the database when reordering after dragging a card
+        /// Updates a specific card index in the database when reordering after dragging a card.
         /// </summary>
         /// <param name="iD"></param>
         /// <param name="currentCardIndex"></param>
