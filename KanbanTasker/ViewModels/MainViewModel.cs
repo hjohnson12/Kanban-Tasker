@@ -122,7 +122,6 @@ namespace KanbanTasker.ViewModels
 
                 BoardList.Add(boardViewModelFactory(presBoard, messagePump));
             }
-                
 
             if (BoardList.Any())
                 CurrentBoard = BoardList.First();

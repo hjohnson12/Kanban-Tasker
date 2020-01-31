@@ -156,11 +156,11 @@ namespace KanbanTasker
                 titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
                 titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
 
-                checkUpdate();
+                CheckForUpdateOrFirstRun();
             }
         }
 
-        public async void checkUpdate()
+        public async void CheckForUpdateOrFirstRun()
         {
             if (SystemInformation.IsAppUpdated)
             {
