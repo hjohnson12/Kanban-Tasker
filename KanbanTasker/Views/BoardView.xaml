@@ -691,6 +691,7 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                         <RowDefinition />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Grid Grid.Row="0">
                                         <Grid.ColumnDefinitions>
@@ -745,7 +746,7 @@
                                                 Grid.ColumnSpan="2" 
                                                 HorizontalAlignment="Stretch" />
                                             
-                                            <Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>
+                                            <!--<Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>-->
                                         </StackPanel>
                                     </Grid>
                                     <Grid Grid.Row="3">
@@ -786,7 +787,7 @@
                                             HorizontalAlignment="Stretch" 
                                             PlaceholderText="Pick a date" />
                                     </Grid>
-                                    <Grid Grid.Row="5">
+                                    <!--<Grid Grid.Row="5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
@@ -795,8 +796,31 @@
                                             Grid.Column="0"
                                             Margin="8"
                                             VerticalAlignment="Center"
-                                            Text="Days Completed:" />
-                                    </Grid>
+                                            Text="Days Worked On:" />
+                                        <TextBlock 
+                                            Grid.Column="1"
+                                            Margin="8"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Text="1 day(s) worked on" />
+                                    </Grid>  
+                                    <Grid Grid.Row="6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="8"
+                                            VerticalAlignment="Center"
+                                            Text="Days Since Creation:" />
+                                        <TextBlock 
+                                            Grid.Column="1"
+                                            Margin="8"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Text="54 day(s)" />
+                                    </Grid>-->
                                 </Grid>
                             </controls:Expander>
                         </Grid> <!-- END Date Information Section -->
