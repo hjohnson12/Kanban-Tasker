@@ -265,6 +265,42 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
+        /// Sets the due date for the current task.
+        /// </summary>
+        /// <param name="dueDate"></param>
+        public void SetDueDate(string dueDate)
+        {
+            if (CurrentTask == null)
+                MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+
+            CurrentTask.DueDate = dueDate;
+        }
+
+        /// <summary>
+        /// Sets the start date for the current task.
+        /// </summary>
+        /// <param name="startDate"></param>
+        public void SetStartDate(string startDate)
+        {
+            if (CurrentTask == null)
+                MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+
+            CurrentTask.StartDate = startDate;
+        }
+
+        /// <summary>
+        /// Sets the finish date for the current task.
+        /// </summary>
+        /// <param name="finishDate"></param>
+        public void SetFinishDate(string finishDate)
+        {
+            if (CurrentTask == null)
+                MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+
+            CurrentTask.FinishDate = finishDate;
+        }
+
+        /// <summary>
         /// Inserts a tag to the current task's tag collection.
         /// </summary>
         /// <param name="tag"></param>
@@ -275,7 +311,7 @@ namespace KanbanTasker.ViewModels
 
             if (CurrentTask == null)
             {
-                MessagePump.Show("Tag failed to be deleted.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                MessagePump.Show("Tag failed to be added.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
                 return result;
             }
 

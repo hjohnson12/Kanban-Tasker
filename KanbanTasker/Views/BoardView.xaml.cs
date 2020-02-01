@@ -235,6 +235,29 @@ namespace KanbanTasker.Views
             //}
         }
 
+        private void CalendarPicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            var calendarName = sender.Name.ToString();
+            if (string.IsNullOrEmpty(args.NewDate.ToString()))
+                return;
+            else
+            {
+                var datePicked = args.NewDate.Value.Date.ToShortDateString();
+                switch (calendarName)
+                {
+                    case "DueDateCalendarPicker":
+                        ViewModel.SetDueDate(datePicked);
+                        break;
+                    case "StartDateCalendarPicker":
+                        ViewModel.SetStartDate(datePicked);
+                        break;
+                    case "FinishDateCalendarPicker":
+                        ViewModel.SetFinishDate(datePicked);
+                        break;
+                }
+            }
+        }
+
         #endregion UIEvents
     }
 }
