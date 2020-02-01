@@ -366,6 +366,15 @@ namespace KanbanTasker.ViewModels
 
         private ComboBoxItem GetComboBoxItemForColorKey(string colorKey) => ColorKeys.FirstOrDefault(x => x.Content.ToString() == colorKey);
 
+        /// <summary>
+        /// Shows a local notification on the current board using message as the content.
+        /// </summary>
+        /// <param name="message"></param>
+        public void ShowInAppNotification(string message)
+        {
+            MessagePump.Show(message, MessageDuration);
+        }
+
         #endregion
     }
 }

@@ -40,42 +40,64 @@ namespace KanbanTasker.Views
             ViewModel = selectedBoard;
         }
 
-        public DateTimeOffset ConvertToDateTimeOffset(string dateTime)
+        public DateTimeOffset? ConvertToDateTimeOffset(string dateTime)
         {
-            DateTimeOffset dt = new DateTimeOffset();
+            DateTimeOffset? dt = null;
+            DateTime dt2;
             if (dateTime != null && dateTime is string)
             {
                 var stringToConvert = dateTime as string;
-                if (!DateTimeOffset.TryParse(stringToConvert, out dt))
+                bool success = DateTime.TryParse(dateTime, out dt2);
+                if (success)
+                    dt = dt2;
+                else
                     return dt;
-                return dt;
             }
             return dt;
         }
 
         /// <summary>
-        /// Initializes the ToastContent and sets the toast to be scheduled
+        /// Initializes the ToastContent for the current task and schedules the toast notificiaton.
         /// </summary>
-        private void ScheduleToastNotification(DateTimeOffset dueDate, DateTimeOffset reminderTime)
+        /// <param name="dueDate"></param>
+        /// <param name="reminderTime"></param>
+        private void ScheduleToastNotification(DateTimeOffset? dueDate, DateTimeOffset? reminderTime)
         {
             DateTimeOffset alarmTime = new DateTimeOffset(
-                dueDate.Year, dueDate.Month, dueDate.Day,
-                reminderTime.Hour, reminderTime.Minute, reminderTime.Second, 
-                reminderTime.Offset
+                dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
+                reminderTime.Value.Hour, reminderTime.Value.Minute, reminderTime.Value.Second, 
+                reminderTime.Value.Offset
             );
 
             // Verify that the alarm is after the current time
             if (alarmTime > DateTime.Now.AddSeconds(5))
             {
-                // Setup Toast Notification
-                var toastContent = new ToastContent()
+                // Construct toast notification content
+                var toastContent = ConstructToastContent(alarmTime);
+
+                // Create the toast notification
+                var scheduledNotif = new ScheduledToastNotification(toastContent.GetXml(), alarmTime);
+
+                // And schedule the notification
+                ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotif);
+            }
+        }
+
+        /// <summary>
+        /// Builds and returns the toast notification content object.  
+        /// </summary>
+        /// <param name="alarmTime"></param>
+        /// <returns>Returns a toast content object to be used for creating the toast notification.</returns>
+        public ToastContent ConstructToastContent(DateTimeOffset alarmTime)
+        {
+            return new ToastContent()
+            {
+                //DisplayTimestamp = new DateTime(alarmTime.Year, alarmTime.Month, alarmTime.Day, alarmTime.Hour, alarmTime.Minute, alarmTime.Second, DateTimeKind.Utc),
+                Visual = new ToastVisual()
                 {
-                    //DisplayTimestamp = new DateTime(alarmTime.Year, alarmTime.Month, alarmTime.Day, alarmTime.Hour, alarmTime.Minute, alarmTime.Second, DateTimeKind.Utc),
-                    Visual = new ToastVisual()
-                     {
-                        BindingGeneric = new ToastBindingGeneric()
-                        {
-                            Children =
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
                             {
                                 new AdaptiveText()
                                 { // Title
@@ -87,20 +109,20 @@ namespace KanbanTasker.Views
                                 },
                                 new AdaptiveText()
                                 { // Time
-                                    Text = "Due " + reminderTime.ToString("t") + ", " + dueDate.Date.ToShortDateString()
+                                    Text = "Due " + alarmTime.ToString("t") + ", " + alarmTime.Date.ToShortDateString()
                                 },
 
                             },
-                            AppLogoOverride = new ToastGenericAppLogo()
-                            {
-                                Source = "ms-appx:///Assets/Square44x44Logo.targetsize-256.png",
-                            },
+                        AppLogoOverride = new ToastGenericAppLogo()
+                        {
+                            Source = "ms-appx:///Assets/Square44x44Logo.targetsize-256.png",
+                        },
 
-                        }
-                     },
-                    Actions = new ToastActionsCustom()
-                    {
-                        Inputs =
+                    }
+                },
+                Actions = new ToastActionsCustom()
+                {
+                    Inputs =
                         {
                             new ToastSelectionBox("snoozeTime")
                             {
@@ -115,7 +137,7 @@ namespace KanbanTasker.Views
                                 }
                             }
                         },
-                        Buttons =
+                    Buttons =
                         {
                             new ToastButtonSnooze()
                             {
@@ -123,17 +145,10 @@ namespace KanbanTasker.Views
                             },
                             new ToastButtonDismiss()
                         }
-                    },
-                    Launch = "action=viewEvent&eventId=1983",
-                    Scenario = ToastScenario.Reminder
-                };
-
-                // Create the toast notification
-                var scheduledNotif = new ScheduledToastNotification(toastContent.GetXml(), alarmTime);
-
-                // And schedule the notification
-                ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotif);
-            }
+                },
+                Launch = "action=viewEvent&eventId=1983",
+                Scenario = ToastScenario.Reminder
+            };
         }
 
         #endregion Methods
@@ -362,7 +377,10 @@ namespace KanbanTasker.Views
         {
             var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
             var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
-            ScheduleToastNotification(dueDate, reminderTime);
+            if (dueDate != null && reminderTime != null)
+                ScheduleToastNotification(dueDate, reminderTime);
+            else
+                ViewModel.ShowInAppNotification("Failed to schedule toast notification. Due date and/or alarm time not set, please try again.");
         }
 
         private void TaskReminderTimePicker_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
