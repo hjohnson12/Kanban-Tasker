@@ -301,6 +301,18 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
+        /// Sets the reminder time for the current task to be used for the toast notification.
+        /// </summary>
+        /// <param name="reminderTime"></param>
+        public void SetReminderTime(string reminderTime)
+        {
+            if (CurrentTask == null)
+                MessagePump.Show("Failed to set reminder time.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+
+            CurrentTask.ReminderTime = reminderTime;
+        }
+
+        /// <summary>
         /// Inserts a tag to the current task's tag collection.
         /// </summary>
         /// <param name="tag"></param>

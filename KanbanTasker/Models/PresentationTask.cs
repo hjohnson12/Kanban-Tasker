@@ -22,6 +22,7 @@ namespace KanbanTasker.Models
         private string _dueDate;
         private string _startDate;
         private string _finishDate;
+        private string _reminderTime;
         private int _id;
         private int _boardId;
         private PresentationBoard _Board;
@@ -56,6 +57,7 @@ namespace KanbanTasker.Models
         public string DueDate { get => _dueDate; set { if (_dueDate != value) { _dueDate = value; OnPropertyChanged(); } } }
         public string StartDate { get => _startDate; set { if (_startDate != value) { _startDate = value; OnPropertyChanged(); } } }
         public string FinishDate { get => _finishDate; set { if (_finishDate != value) { _finishDate = value; OnPropertyChanged(); } } }
+        public string ReminderTime { get => _reminderTime; set { if (_reminderTime != value) { _reminderTime = value; OnPropertyChanged(); } } }
         
         public string Title { get => _title; set { if (_title != value) { _title = value; OnPropertyChanged(); } } }
         public string Description { get => _description; set { if(_description != value) { _description = value; OnPropertyChanged(); } } }

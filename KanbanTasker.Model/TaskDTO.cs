@@ -10,6 +10,7 @@ namespace KanbanTasker.Model
         //public string DueDate { get; set; }
         //public string StartDate { get; set; }
         //public string FinishDate { get; set; }
+        //public string ReminderTime {get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }

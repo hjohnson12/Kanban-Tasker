@@ -38,6 +38,7 @@
             </Rectangle>
             <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
             <textconverters:CardCountConverter x:Key="cardCountConverter" />
+            <textconverters:NullableDateTimeOffsetToBoolConverter x:Key="NullableDateTimeOffsetToBoolConverter" />
             <textconverters:StringToDateConverter x:Key="stringToDateConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
             <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
@@ -688,6 +689,8 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                         <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Grid Grid.Row="0">
                                         <Grid.ColumnDefinitions>
@@ -732,7 +735,20 @@
                                             HorizontalAlignment="Stretch" 
                                             PlaceholderText="Pick a date" />
                                     </Grid>
-                                    <Grid Grid.Row="2">
+                                    <Grid Grid.Row="2" Margin="8">
+                                        <StackPanel Orientation="Vertical">
+                                            <TimePicker 
+                                                x:Name="TaskReminderTimePicker"  
+                                                TimeChanged="TaskReminderTimePicker_TimeChanged" 
+                                                Header="Alarm Time:"
+                                                Style="{ThemeResource CustomTimePickerStyle}" 
+                                                Grid.ColumnSpan="2" 
+                                                HorizontalAlignment="Stretch" />
+                                            
+                                            <Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
@@ -751,7 +767,7 @@
                                             HorizontalAlignment="Stretch" 
                                             PlaceholderText="Pick a date" />
                                     </Grid>
-                                    <Grid Grid.Row="3">
+                                    <Grid Grid.Row="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
@@ -769,6 +785,17 @@
                                             Background="{ThemeResource RegionBrush}"
                                             HorizontalAlignment="Stretch" 
                                             PlaceholderText="Pick a date" />
+                                    </Grid>
+                                    <Grid Grid.Row="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="8"
+                                            VerticalAlignment="Center"
+                                            Text="Days Completed:" />
                                     </Grid>
                                 </Grid>
                             </controls:Expander>

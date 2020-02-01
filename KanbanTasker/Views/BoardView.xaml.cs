@@ -1,5 +1,6 @@
 ﻿using KanbanTasker.Models;
 using KanbanTasker.ViewModels;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Syncfusion.UI.Xaml.Kanban;
 using System;
 using System.Collections;
@@ -7,7 +8,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,6 +38,95 @@ namespace KanbanTasker.Views
         {
             var selectedBoard = e.Parameter as BoardViewModel;
             ViewModel = selectedBoard;
+        }
+
+        public DateTimeOffset ConvertToDateTimeOffset(string dateTime)
+        {
+            DateTimeOffset dt = new DateTimeOffset();
+            if (dateTime != null && dateTime is string)
+            {
+                var stringToConvert = dateTime as string;
+                if (!DateTimeOffset.TryParse(stringToConvert, out dt))
+                    return dt;
+                return dt;
+            }
+            return dt;
+        }
+
+        private void InitializeToastNotification()
+        {
+            var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
+            var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
+
+            DateTimeOffset alarmTime = new DateTimeOffset(
+                dueDate.Year, dueDate.Month, dueDate.Day,
+                reminderTime.Hour, reminderTime.Minute, reminderTime.Second, 
+                reminderTime.Offset
+            );
+
+            // Verify that the alarm is after the current time
+            if (alarmTime > DateTime.Now.AddSeconds(5))
+            {
+                // Setup Toast Notification
+                var toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+                            {
+                                new AdaptiveText()
+                                { // Title
+                                    Text = "Task Due Reminder"
+                                },
+                                new AdaptiveText()
+                                { // Description
+                                    Text = ViewModel.CurrentTask.Title.ToString()
+                                },
+                                new AdaptiveText()
+                                { // Time
+                                    Text = "Right now"
+                                }
+                            }
+                        }
+                    },
+                    Actions = new ToastActionsCustom()
+                    {
+                        Inputs =
+                        {
+                            new ToastSelectionBox("snoozeTime")
+                            {
+                                DefaultSelectionBoxItemId = "15",
+                                Items =
+                                {
+                                    new ToastSelectionBoxItem("1", "1 minute"),
+                                    new ToastSelectionBoxItem("15", "15 minutes"),
+                                    new ToastSelectionBoxItem("60", "1 hour"),
+                                    new ToastSelectionBoxItem("240", "4 hours"),
+                                    new ToastSelectionBoxItem("1440", "1 day")
+                                }
+                            }
+                        },
+                        Buttons =
+                        {
+                            new ToastButtonSnooze()
+                            {
+                                SelectionBoxId = "snoozeTime"
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    },
+                    Launch = "action=viewEvent&eventId=1983",
+                    Scenario = ToastScenario.Reminder
+                };
+
+                // Create the toast notification
+                var scheduledNotif = new ScheduledToastNotification(toastContent.GetXml(), alarmTime);
+
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotif);
+            }
         }
 
         #endregion Methods
@@ -242,7 +334,8 @@ namespace KanbanTasker.Views
                 return;
             else
             {
-                var datePicked = args.NewDate.Value.Date.ToShortDateString();
+                //var datePicked = args.NewDate.Value.Date.ToShortDateString();
+                var datePicked = args.NewDate.ToString();
                 switch (calendarName)
                 {
                     case "DueDateCalendarPicker":
@@ -256,6 +349,19 @@ namespace KanbanTasker.Views
                         break;
                 }
             }
+        }
+
+        private void BtnTestReminder_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeToastNotification();
+        }
+
+        private void TaskReminderTimePicker_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTime.ToString()))
+                return;
+            else
+                ViewModel.SetReminderTime(e.NewTime.ToString());
         }
 
         #endregion UIEvents

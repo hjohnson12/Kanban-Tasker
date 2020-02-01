@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources\CustomMSEdgeNotificationStyle.xaml" />
                 <ResourceDictionary Source="Resources\SettingsDialogCustomStyle.xaml" />
+                <ResourceDictionary Source="Resources\CustomTimePickerStyle.xaml" />
                 <ResourceDictionary Source="Resources\KanbanThemeDictionary.xaml" />
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
