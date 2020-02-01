@@ -53,11 +53,11 @@ namespace KanbanTasker.Views
             return dt;
         }
 
-        private void InitializeToastNotification()
+        /// <summary>
+        /// Initializes the ToastContent and sets the toast to be scheduled
+        /// </summary>
+        private void ScheduleToastNotification(DateTimeOffset dueDate, DateTimeOffset reminderTime)
         {
-            var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
-            var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
-
             DateTimeOffset alarmTime = new DateTimeOffset(
                 dueDate.Year, dueDate.Month, dueDate.Day,
                 reminderTime.Hour, reminderTime.Minute, reminderTime.Second, 
@@ -70,27 +70,34 @@ namespace KanbanTasker.Views
                 // Setup Toast Notification
                 var toastContent = new ToastContent()
                 {
+                    //DisplayTimestamp = new DateTime(alarmTime.Year, alarmTime.Month, alarmTime.Day, alarmTime.Hour, alarmTime.Minute, alarmTime.Second, DateTimeKind.Utc),
                     Visual = new ToastVisual()
-                    {
+                     {
                         BindingGeneric = new ToastBindingGeneric()
                         {
                             Children =
                             {
                                 new AdaptiveText()
                                 { // Title
-                                    Text = "Task Due Reminder"
+                                    Text = "You have a task due"
                                 },
                                 new AdaptiveText()
                                 { // Description
-                                    Text = ViewModel.CurrentTask.Title.ToString()
+                                    Text = ViewModel.CurrentTask.Title.ToString() + "\n" + ViewModel.CurrentTask.Description.ToString()
                                 },
                                 new AdaptiveText()
                                 { // Time
-                                    Text = "Right now"
-                                }
-                            }
+                                    Text = "Due " + reminderTime.ToString("t") + ", " + dueDate.Date.ToShortDateString()
+                                },
+
+                            },
+                            AppLogoOverride = new ToastGenericAppLogo()
+                            {
+                                Source = "ms-appx:///Assets/Square44x44Logo.targetsize-256.png",
+                            },
+
                         }
-                    },
+                     },
                     Actions = new ToastActionsCustom()
                     {
                         Inputs =
@@ -124,7 +131,7 @@ namespace KanbanTasker.Views
                 // Create the toast notification
                 var scheduledNotif = new ScheduledToastNotification(toastContent.GetXml(), alarmTime);
 
-                // And send the notification
+                // And schedule the notification
                 ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotif);
             }
         }
@@ -353,7 +360,9 @@ namespace KanbanTasker.Views
 
         private void BtnTestReminder_Click(object sender, RoutedEventArgs e)
         {
-            InitializeToastNotification();
+            var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
+            var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
+            ScheduleToastNotification(dueDate, reminderTime);
         }
 
         private void TaskReminderTimePicker_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
