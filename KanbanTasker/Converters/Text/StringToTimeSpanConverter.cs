@@ -12,7 +12,10 @@ namespace KanbanTasker.Converters.Text
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            TimeSpan ts;
+
+            // When using on TimePicker, it doesn't accept nullable timespan
+            // Setting to current time on default since there is no null
+            TimeSpan ts = DateTime.Now.TimeOfDay;
 
             if (value != null && value is string)
             {
