@@ -118,7 +118,12 @@ namespace KanbanTasker.ViewModels
 
                 if (dto.Tasks?.Any() ?? false)
                     foreach (TaskDTO taskDTO in dto.Tasks.OrderBy(x => x.ColumnIndex))
+                    {
                         presBoard.Tasks.Add(new PresentationTask(taskDTO));
+                        foreach (var tag in taskDTO.Tags.Split(','))
+                            if (!string.IsNullOrEmpty(tag))
+                                presBoard.TagsCollection.Add(tag);
+                    }
 
                 BoardList.Add(boardViewModelFactory(presBoard, messagePump));
             }

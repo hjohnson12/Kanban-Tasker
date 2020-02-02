@@ -606,11 +606,14 @@
                             <AutoSuggestBox Style="{StaticResource CustomAutoSuggestBoxStyle}" 
                                 x:Name="autoSuggestBoxTags"
                                 TextChanged="autoSuggestBoxTags_TextChanged"
+                                SuggestionChosen="autoSuggestBoxTags_SuggestionChosen"            
                                 PlaceholderText="Press enter to add tag"
+                                ItemsSource="{x:Bind ViewModel.Board.TagsCollection,Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
                                 QuerySubmitted="autoSuggestBoxTags_QuerySubmitted"
                                 Margin="36,10,0,0"
-                                Grid.Column="2" />
+                                Grid.Column="2"
+                                GotFocus="autoSuggestBoxTags_GotFocus" />
                         </Grid>
 
                         <!--  Grid for WrapPanel  -->

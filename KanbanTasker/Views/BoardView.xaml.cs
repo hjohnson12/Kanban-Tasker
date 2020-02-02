@@ -344,17 +344,13 @@ namespace KanbanTasker.Views
         private void autoSuggestBoxTags_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Test
-            //if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && sender.Text != "")
-            //{
-            //    var autoSuggestBoxTags = sender as AutoSuggestBox;
-            //    List<string> suggestions = new List<string>()
-            //    {
-            //        sender.Text,
-            //        sender.Text + "2"
-            //    };
-            //    autoSuggestBoxTags.ItemsSource = suggestions;
-            //}
-        }
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && sender.Text != "")
+            {
+                var results = ViewModel.Board.TagsCollection.Where(i => i.StartsWith(sender.Text)).ToList();
+                autoSuggestBoxTags.ItemsSource = results;
+                autoSuggestBoxTags.IsSuggestionListOpen = true;
+            }
+    }
 
         private void CalendarPicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
@@ -399,5 +395,16 @@ namespace KanbanTasker.Views
         }
 
         #endregion UIEvents
+
+        private void autoSuggestBoxTags_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            if (!string.IsNullOrEmpty(autoSuggestBoxTags.Text))
+                autoSuggestBoxTags.Text = string.Empty;
+        }
+
+        private void autoSuggestBoxTags_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as AutoSuggestBox).IsSuggestionListOpen = true;
+        }
     }
 }

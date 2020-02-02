@@ -67,12 +67,27 @@ namespace KanbanTasker.Models
             }
         }
 
+        private ObservableCollection<string> _TagsCollection;
+        public ObservableCollection<string> TagsCollection 
+        { 
+            get => _TagsCollection;
+            set
+            {
+                if(_TagsCollection != value)
+                {
+                    _TagsCollection = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public PresentationBoard(BoardDTO dto)
         {
             ID = dto.Id;
             Name = dto.Name;
             Notes = dto.Notes;
             Tasks = new ObservableCollection<PresentationTask>();
+            TagsCollection = new ObservableCollection<string>();
         }
 
         public BoardDTO To_BoardDTO()
@@ -83,6 +98,7 @@ namespace KanbanTasker.Models
                 Name = Name,
                 Notes = Notes
                 // do not convert tasks here since each task has a board, each board has one or more tasks, each of which have a board with one or more tasks.... ad infinitum.
+                // the board also has its own set of tags
             };
         }
     }
