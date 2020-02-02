@@ -40,6 +40,7 @@
             <textconverters:CardCountConverter x:Key="cardCountConverter" />
             <textconverters:NullableDateTimeOffsetToBoolConverter x:Key="NullableDateTimeOffsetToBoolConverter" />
             <textconverters:StringToNullableDateTimeOffsetConverter x:Key="stringToDateConverter" />
+            <textconverters:StringToTimeSpanConverter x:Key="stringToTimeSpanConverter" />
             <textconverters:IsNullConverter x:Key="isNullConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
             <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
@@ -778,6 +779,8 @@
                                                 TimeChanged="TaskReminderTimePicker_TimeChanged" 
                                                 Header="Reminder Time:"
                                                 Style="{ThemeResource CustomTimePickerStyle}" 
+                                                
+                                                Time="{x:Bind ViewModel.CurrentTask.ReminderTime, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
                                                 Grid.ColumnSpan="2" 
                                                 HorizontalAlignment="Stretch" />
                                             
