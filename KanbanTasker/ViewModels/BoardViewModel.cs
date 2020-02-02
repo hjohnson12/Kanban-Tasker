@@ -9,6 +9,7 @@ using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Syncfusion.UI.Xaml.Kanban;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using KanbanTasker.Helpers.Extensions;
 using LeaderAnalytics.AdaptiveClient;
 
 namespace KanbanTasker.ViewModels
@@ -171,8 +172,42 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "Edit Task";
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
             IsEditingTask = true;
+            InitializeDateInformation();
             // clone a copy of CurrentTask so we can restore if user cancels
             OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
+        }
+
+        private void InitializeDateInformation()
+        {
+            DateTimeOffset? dateCreated = CurrentTask.DateCreated.ToNullableDateTimeOffset();
+            DateTimeOffset? today = DateTimeOffset.Now;
+            DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
+            DateTimeOffset? finishDate = CurrentTask.FinishDate.ToNullableDateTimeOffset();
+
+            if (IsEditingTask)
+            {
+                // Days worked on
+                if (finishDate != null && startDate != null)
+                {
+                    TimeSpan? ts = finishDate - startDate;
+
+                    if (ts != null)
+                        // Difference in days, hous, mins
+                        CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
+                            ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+                }
+
+                // Days since creation
+                if (dateCreated != null && today != null)
+                {
+                    TimeSpan? ts = today - dateCreated;
+
+                    if (ts != null)
+                        // Difference in days, hours, mins
+                        CurrentTask.DaysSinceCreation = String.Format("{0}d, {1}hrs, {2}min",
+                            ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+                }
+            }
         }
 
         public void SaveTaskCommandHandler()
@@ -298,6 +333,18 @@ namespace KanbanTasker.ViewModels
                 MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
             CurrentTask.FinishDate = finishDate;
+
+            // Determine new DaysWorkedOn value to update binding
+            DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
+            if (finishDate != null && startDate != null)
+            {
+                TimeSpan? ts = finishDate.ToNullableDateTimeOffset() - startDate;
+
+                if (ts != null)
+                    // Difference in days, hous, mins
+                    CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
+                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+            }
         }
 
         /// <summary>

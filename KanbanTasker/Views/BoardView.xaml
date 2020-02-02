@@ -39,7 +39,8 @@
             <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
             <textconverters:CardCountConverter x:Key="cardCountConverter" />
             <textconverters:NullableDateTimeOffsetToBoolConverter x:Key="NullableDateTimeOffsetToBoolConverter" />
-            <textconverters:StringToDateConverter x:Key="stringToDateConverter" />
+            <textconverters:StringToNullableDateTimeOffsetConverter x:Key="stringToDateConverter" />
+            <textconverters:IsNullConverter x:Key="isNullConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
             <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
             <ControlTemplate x:Key="CollapsedColumnTemplate" TargetType="helpers:CustomKanbanColumn">
@@ -201,6 +202,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="3*" />
                                     <RowDefinition Height="4*" />
+                                    <RowDefinition Height="3*" />
                                     <RowDefinition Height="3*" />
                                 </Grid.RowDefinitions>
 
@@ -383,7 +385,40 @@
                                         </Border.Background>
                                     </Border>-->
                                 </Grid>
+                                
+                                <!-- Date Information Section on Kanban Card -->
+                                <!--<Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
 
+                                    <TextBlock 
+                                        Text="Due: " 
+                                        FontWeight="Bold"
+                                        FontSize="{Binding Tag.CardStyle.FontSize, 
+                                        RelativeSource={RelativeSource Mode=TemplatedParent}}"  
+                                        Grid.Column="0" 
+                                        Margin="0 0 12 0"/>
+                                    <TextBlock
+                                        x:Name="KANBAN_DueDate"
+                                        Height="Auto"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                        Foreground="{Binding Tag.CardStyle.Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                        Text="{Binding DueDate}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock 
+                                        FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"  
+                                        Grid.Column="2" 
+                                        HorizontalAlignment="Right"
+                                        Margin="0 0 12 0">
+                                        <Run FontWeight="Bold" Text="Age:" />
+                                        <Run Text="4d" />
+                                    </TextBlock>
+                                </Grid>-->
                             </Grid>
                         </Grid>
                     </Border>
@@ -699,15 +734,14 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="Date Created:" VerticalAlignment="Center" Margin="8 8 8 8" Grid.Column="0"/>
-                                        <!-- Fix Binding with CalendarDatePicker, defaults to 1/1/1920 on NewTask and if null -->
-                                        <!--<CalendarDatePicker 
+                                        <CalendarDatePicker 
                                             Grid.Column="1"  
                                             Background="{ThemeResource RegionBrush}"
                                             Margin="12,10,8,0" 
                                             IsEnabled="False"
                                             HorizontalAlignment="Stretch" 
                                             Date="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay, Converter={StaticResource stringToDateConverter}}"
-                                            PlaceholderText="Not created yet" />-->
+                                            PlaceholderText="Not created yet" />
                                         
                                         <!-- Original, keep for now-->
                                         <!--<TextBlock
@@ -731,6 +765,7 @@
                                             x:Name="DueDateCalendarPicker"
                                             Grid.Column="1"  
                                             Background="{ThemeResource RegionBrush}"
+                                            Date="{x:Bind ViewModel.CurrentTask.DueDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
                                             Margin="36,10,8,0"
                                             HorizontalAlignment="Stretch" 
@@ -741,12 +776,12 @@
                                             <TimePicker 
                                                 x:Name="TaskReminderTimePicker"  
                                                 TimeChanged="TaskReminderTimePicker_TimeChanged" 
-                                                Header="Alarm Time:"
+                                                Header="Reminder Time:"
                                                 Style="{ThemeResource CustomTimePickerStyle}" 
                                                 Grid.ColumnSpan="2" 
                                                 HorizontalAlignment="Stretch" />
                                             
-                                            <!--<Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>-->
+                                            <Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Grid.Row="3">
@@ -765,6 +800,7 @@
                                             DateChanged="CalendarPicker_DateChanged"
                                             Background="{ThemeResource RegionBrush}"
                                             Margin="32,10,8,0" 
+                                            Date="{x:Bind ViewModel.CurrentTask.StartDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             HorizontalAlignment="Stretch" 
                                             PlaceholderText="Pick a date" />
                                     </Grid>
@@ -782,12 +818,14 @@
                                             x:Name="FinishDateCalendarPicker"
                                             Grid.Column="1"  
                                             DateChanged="CalendarPicker_DateChanged"
+                                            MinDate="{x:Bind StartDateCalendarPicker.Date.Value, Mode=OneWay}"
+                                            Date="{x:Bind ViewModel.CurrentTask.FinishDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             Margin="24,10,8,0" 
                                             Background="{ThemeResource RegionBrush}"
                                             HorizontalAlignment="Stretch" 
                                             PlaceholderText="Pick a date" />
                                     </Grid>
-                                    <!--<Grid Grid.Row="5">
+                                    <Grid Grid.Row="5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
@@ -802,7 +840,7 @@
                                             Margin="8"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Text="1 day(s) worked on" />
+                                            Text="{x:Bind ViewModel.CurrentTask.DaysWorkedOn, Mode=OneWay}" />
                                     </Grid>  
                                     <Grid Grid.Row="6">
                                         <Grid.ColumnDefinitions>
@@ -819,8 +857,8 @@
                                             Margin="8"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Text="54 day(s)" />
-                                    </Grid>-->
+                                            Text="{x:Bind ViewModel.CurrentTask.DaysSinceCreation, Mode=OneWay}" />
+                                    </Grid>
                                 </Grid>
                             </controls:Expander>
                         </Grid> <!-- END Date Information Section -->

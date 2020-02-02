@@ -134,10 +134,13 @@
     <Compile Include="Converters\Text\CardCountConverter.cs" />
     <Compile Include="Converters\Text\CardTemplateConverter.cs" />
     <Compile Include="Converters\Text\CollapsedMarginHeader.cs" />
+    <Compile Include="Converters\Text\IsNullConverter.cs" />
     <Compile Include="Converters\Text\NullableDateTimeOffsetToBoolConverter.cs" />
     <Compile Include="Converters\Text\StringToColorConverter.cs" />
-    <Compile Include="Converters\Text\StringToDateConverter.cs" />
+    <Compile Include="Converters\Text\StringToNullableDateTimeOffsetConverter.cs" />
+    <Compile Include="Converters\Text\StringToTimeSpanConverter.cs" />
     <Compile Include="Helpers\CustomKanbanColumn.cs" />
+    <Compile Include="Helpers\Extensions\CustomExtensionMethods.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
     <Compile Include="Models\PresentationTask.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />

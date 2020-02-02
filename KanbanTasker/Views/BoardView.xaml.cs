@@ -65,7 +65,7 @@ namespace KanbanTasker.Views
         {
             DateTimeOffset alarmTime = new DateTimeOffset(
                 dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
-                reminderTime.Value.Hour, reminderTime.Value.Minute, reminderTime.Value.Second, 
+                reminderTime.Value.Hour, reminderTime.Value.Minute, reminderTime.Value.Second,
                 reminderTime.Value.Offset
             );
 

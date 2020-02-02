@@ -23,7 +23,8 @@ namespace KanbanTasker.Models
         private string _startDate;
         private string _finishDate;
         private string _reminderTime;
-        private string _daysCompleted;
+        private string _daysWorkedOn;
+        private string _daysSinceCreation;
         private int _id;
         private int _boardId;
         private PresentationBoard _Board;
@@ -59,7 +60,8 @@ namespace KanbanTasker.Models
         public string StartDate { get => _startDate; set { if (_startDate != value) { _startDate = value; OnPropertyChanged(); } } }
         public string FinishDate { get => _finishDate; set { if (_finishDate != value) { _finishDate = value; OnPropertyChanged(); } } }
         public string ReminderTime { get => _reminderTime; set { if (_reminderTime != value) { _reminderTime = value; OnPropertyChanged(); } } }
-        public string DaysCompleted { get => _daysCompleted; set { if (_daysCompleted != value) { _daysCompleted = value; OnPropertyChanged(); } } }
+        public string DaysWorkedOn { get => _daysWorkedOn; set { if (_daysWorkedOn != value) { _daysWorkedOn = value; OnPropertyChanged(); } } }
+        public string DaysSinceCreation { get => _daysSinceCreation; set { if (_daysSinceCreation != value) { _daysSinceCreation = value; OnPropertyChanged(); } } }
         
         public string Title { get => _title; set { if (_title != value) { _title = value; OnPropertyChanged(); } } }
         public string Description { get => _description; set { if(_description != value) { _description = value; OnPropertyChanged(); } } }
