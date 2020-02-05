@@ -203,13 +203,13 @@ namespace KanbanTasker.Views
             // Close pane when done
             if (splitView.IsPaneOpen == true)
                 splitView.IsPaneOpen = false;
-
-            // Schedule toast notification if they chose a due date and reminder time
-            // NOTE: Uncomment when the properties in TaskDTO.cs are uncommented and DB is updated
-            //var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
-            //var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
-            //if (dueDate != null && reminderTime != null)
-            //    ScheduleToastNotification(dueDate, reminderTime);
+            
+            //Schedule toast notification if they chose a due date and reminder time
+            // Note: UWP TimePicker doesn't support Nullable values, autoselects current time
+            var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
+            var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
+            if (dueDate != null && reminderTime != null)
+                ScheduleToastNotification(dueDate, reminderTime);
         }
 
         private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)

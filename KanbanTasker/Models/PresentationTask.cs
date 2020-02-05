@@ -92,6 +92,10 @@ namespace KanbanTasker.Models
             ID = dto.Id;
             BoardId = dto.BoardId;
             DateCreated = dto.DateCreated;
+            DueDate = dto.DueDate;
+            ReminderTime = dto.ReminderTime;
+            StartDate = dto.StartDate;
+            FinishDate = dto.FinishDate;
             Title = dto.Title;
             Description = dto.Description;
             Category = dto.Category;
@@ -113,6 +117,10 @@ namespace KanbanTasker.Models
                 Id = ID,
                 BoardId = BoardId,
                 DateCreated = DateCreated,
+                DueDate = DueDate,
+                ReminderTime = ReminderTime,
+                StartDate = StartDate,
+                FinishDate = FinishDate,
                 Title = Title,
                 Description = Description,
                 Category = Category,
