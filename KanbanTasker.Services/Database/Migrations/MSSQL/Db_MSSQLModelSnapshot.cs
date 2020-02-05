@@ -51,6 +51,14 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
 
                     b.Property<string>("Description");
 
+                    b.Property<string>("DueDate");
+
+                    b.Property<string>("FinishDate");
+
+                    b.Property<string>("ReminderTime");
+
+                    b.Property<string>("StartDate");
+
                     b.Property<string>("Tags");
 
                     b.Property<string>("Title");

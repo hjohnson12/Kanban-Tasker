@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanTasker.Services.Database.Migrations.MSSQL
 {
     [DbContext(typeof(Db_MSSQL))]
-    [Migration("20190908203853_CreateDatabase")]
+    [Migration("20200205023200_CreateDatabase")]
     partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,14 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
                     b.Property<string>("DateCreated");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("DueDate");
+
+                    b.Property<string>("FinishDate");
+
+                    b.Property<string>("ReminderTime");
+
+                    b.Property<string>("StartDate");
 
                     b.Property<string>("Tags");
 
