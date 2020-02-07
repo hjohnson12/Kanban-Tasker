@@ -8,30 +8,37 @@
     mc:Ignorable="d"
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     Title="App Updated"
- 
     PrimaryButtonText="Close"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
-
+   
     <ScrollViewer>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <Image
-                            Height="75"
-                            Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
-                            Stretch="Uniform" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
-
+                    Grid.Column="0"
+                    Height="75"
+                    HorizontalAlignment="Left"
+                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
+                    Stretch="Uniform" />
                 <TextBlock
-                            Margin="0,4,0,4"
-                            HorizontalAlignment="Left"
-                            Text="Welcome and thank you for using Kanban Tasker!" />
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="Welcome and thank you for using Kanban Tasker!" />
+            </Grid>
+          
+            <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Vertical">
+                
+               
                 <TextBlock Text="" />
                 <TextBlock
                             Margin="0,2,0,0"
@@ -40,29 +47,31 @@
                             FontWeight="Bold"
                             FontSize="15"
                             TextDecorations="Underline"
-                            Text="Version 1.0.5.0 Update:" />
-                <TextBlock
-                            Margin="0,2,0,0"
+                            Text="Version 1.0.6.0 Update:" />
+                <TextBlock  
+                            Margin="0,8,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
-                            Text="- It's been a while since the last update due to a very busy schedule but I appreciate all of the feedback and patience since release as it's helped very much with restructuring the back-end for the coming updates" />
+                            Text="- Bugs causing application crashing and latency when dragging tasks fixed" />
+
                 <TextBlock
-                            Margin="0,2,0,0"
+                            Margin="0,8,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
-                            Text="- This is a large update primarily focused on the back-end but also has a few changes to the functionality of the user interface to best fit with the changes made and user experience" />
+                            Text="- Compact Overlay (picture-in-picture) mode added to view your tasks while doing other work. This feature is in beta and still being worked on." />
                 <TextBlock
-                            Margin="0,2,0,0"
+                            Margin="0,8,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
-                            Text="- This update serves as a base update for future updates such as multiple database options like SQLite, MSSQL, MySQL, and a WebAPI" />
+                            Text="- Additional minor changes. Newest changes can be followed on Github." />
                 <TextBlock
-                            Margin="0,2,0,0"
+                            Margin="0,8,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
-                            Text="- Some features reqeusted by users will be coming in future updates as well" />
+                            Text="- Working on testing another future update to make sure it modifies your current databases correctly to avoid complete database reconstruction." />
+                
                 <TextBlock
-                            Margin="0,2,0,0"
+                            Margin="0,8,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- If any bugs are encountered after updating, please report them using github issues or the feedback link in Settings with steps that led to the error, if possible!" />
@@ -75,11 +84,18 @@
                 <TextBlock Text="" />
                 <TextBlock Text="Known Issues:" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
                 <TextBlock
-                            Margin="0,2,0,0"
-                            HorizontalAlignment="Left"
-                            TextWrapping="Wrap"
-                            >
-                - A <Bold>known issue</Bold> on this update is that DeleteTask in the EditPane is not working and has been disabled until a fix is provided in the next update. Deleting from the card itself is the recommended option until further update
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap" >
+                        <Run Text="- DeleteTask in the EditPane is not working and has been disabled until a solution is found. Deleting from the card itself is the recommended option until further update." />
+                </TextBlock>
+                <TextBlock
+                    Margin="0,8,0,4"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap">
+                        <Run Text="- In some cases, when cancelling the edit of a task, sometimes the current task will be moved to a location near the end of the column." />
+                        <Run Text="It does not affect the database value since it's an internal issue with the control. If you restart the application it returns to its correct placement, but you're able to move it back as well!" />
+                        <Run Text="This is currently being investigated." />
                 </TextBlock>
 
             </StackPanel>
