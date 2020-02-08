@@ -10,6 +10,7 @@ using KanbanTasker.Model;
 using LeaderAnalytics.AdaptiveClient;
 using KanbanTasker.Services.Database.Components.MSSQL;
 using KanbanTasker.Services.Database.Components.MySQL;
+using KanbanTasker.Services.Database.Components.SQLite;
 
 namespace KanbanTasker.Migrations
 {
@@ -37,6 +38,19 @@ namespace KanbanTasker.Migrations
             DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
             dbOptions.UseMySql(connectionString);
             Db_MySQL db = new Db_MySQL(dbOptions.Options);
+            return db;
+        }
+    }
+    
+    public class SQLite_ContextFactory : IDesignTimeDbContextFactory<Db_SQLite>
+    {
+        public Db_SQLite CreateDbContext(string[] args)
+        {
+            string fileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "EndPoints.json");
+            string connectionString = EndPointUtilities.LoadEndPoints(fileName, false).First(x => x.API_Name == API_Name.Kanban && x.ProviderName == DatabaseProvider.SQLite).ConnectionString;
+            DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
+            dbOptions.UseSqlite(connectionString);
+            Db_SQLite db = new Db_SQLite(dbOptions.Options);
             return db;
         }
     }
