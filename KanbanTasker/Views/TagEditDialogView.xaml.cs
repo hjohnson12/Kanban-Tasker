@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,6 +20,7 @@ namespace KanbanTasker.Views
 {
     public sealed partial class TagEditDialogView : ContentDialog
     {
+        const int MIDDLE = 382; // Middle sum of RGB - Max is 765
         public ViewModels.BoardViewModel ViewModel { get; set; }
         public TagEditDialogView(ViewModels.BoardViewModel viewModel)
         {
@@ -32,6 +34,48 @@ namespace KanbanTasker.Views
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+        }
+
+        /// <summary>
+        /// Gets RGB values of color object passed and returns the sum.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns>Sum of parameters RGB values.</returns>
+        private int ConvertToRGB(Windows.UI.Color c)
+        {
+            int r = c.R, // RED component value
+                g = c.G, // GREEN component value
+                b = c.B; // BLUE component value
+
+            return r + g + b;
+        }
+
+
+        private void tagColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+        {
+            // ViewModel.TagBackground = sender.Color;
+
+            var color = Color.FromArgb(sender.Color.A, sender.Color.R, sender.Color.G, sender.Color.B);
+
+            // 255,255,255 = White and 0,0,0 = Black
+            // Max sum of RGB values is 765 -> (255 + 255 + 255)
+            // Middle sum of RGB values is 382 -> (765/2)
+            // Color is considered darker if its <= 382
+            // Color is considered lighter if its > 382
+            int sumRGB = ConvertToRGB(color);    // get the color objects sum of the RGB value
+            if (sumRGB <= MIDDLE)          // Darker Background
+            {
+                //ViewModel.TagForeground = new SolidColorBrush(Colors.White); // Set to white text
+            }
+            else if (sumRGB > MIDDLE)     // Lighter Background
+            {
+                //ViewModel.TagForeground = new SolidColorBrush(Colors.Black); // Set to black text
+            }
+        }
+
+        private void BtnCloseDialog_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
         }
     }
 }

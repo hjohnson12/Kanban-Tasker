@@ -7,9 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource RegionBrush}"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="Button1"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    SecondaryButtonText="Button2"
     mc:Ignorable="d">
 
     <Grid>
@@ -36,12 +34,14 @@
                     FontWeight="Bold"
                     Text="Edit Tag" />
                 <Button
+                    x:Name="BtnCloseDialog"
                     Grid.Column="1"
                     Margin="0,8,0,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Background="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Click="BtnCloseDialog_Click">
                     <SymbolIcon Symbol="Cancel" />
                 </Button>
             </Grid>
@@ -79,7 +79,8 @@
                 VerticalAlignment="Center"
                 BorderThickness="1"
                 CornerRadius="3"
-                Text="{x:Bind ViewModel.CurrentTask.SelectedTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                Style="{ThemeResource TextBoxStyle1}"
+                Text="{x:Bind ViewModel.CurrentTask.SelectedTag, Mode=OneWay}" />
         </Grid>
 
         <ColorPicker
@@ -87,6 +88,7 @@
             Grid.Row="2"
             Margin="4"
             BorderThickness="0"
+            ColorChanged="tagColorPicker_ColorChanged"
             ColorSpectrumShape="Ring"
             CornerRadius="3" />
         <Border
@@ -96,7 +98,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             BorderBrush="Gray"
-            BorderThickness="1" />
+            BorderThickness="0.5" />
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -106,7 +108,7 @@
             <AppBarButton
                 x:Name="btnUpdateTag"
                 Grid.Column="0"
-                Margin="10"
+                Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Icon="Save"
@@ -114,7 +116,7 @@
             <AppBarButton
                 x:Name="btnDeleteTagFlyout"
                 Grid.Column="1"
-                Margin="10"
+                Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Icon="Delete"
@@ -122,7 +124,7 @@
             <AppBarButton
                 x:Name="btnCancelTagEdit"
                 Grid.Column="2"
-                Margin="10"
+                Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Icon="Cancel"
