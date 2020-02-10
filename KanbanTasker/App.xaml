@@ -6,9 +6,9 @@
     xmlns:local="using:KanbanTasker"
     RequestedTheme="Dark">
     <Application.Resources>
-
+        
         <ResourceDictionary>
-
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources\CustomMSEdgeNotificationStyle.xaml" />
                 <ResourceDictionary Source="Resources\SettingsDialogCustomStyle.xaml" />
