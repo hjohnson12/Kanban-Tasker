@@ -78,7 +78,8 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 BorderThickness="1"
-                CornerRadius="3" />
+                CornerRadius="3"
+                Text="{x:Bind ViewModel.CurrentTask.SelectedTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
 
         <ColorPicker

@@ -19,9 +19,11 @@ namespace KanbanTasker.Views
 {
     public sealed partial class TagEditDialogView : ContentDialog
     {
-        public TagEditDialogView()
+        public ViewModels.BoardViewModel ViewModel { get; set; }
+        public TagEditDialogView(ViewModels.BoardViewModel viewModel)
         {
             this.InitializeComponent();
+            ViewModel = viewModel;
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

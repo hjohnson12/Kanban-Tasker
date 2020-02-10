@@ -151,6 +151,20 @@ namespace KanbanTasker.Views
             };
         }
 
+        /// <summary>
+        /// Gets RGB values of color object passed and returns the sum.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns>Sum of parameters RGB values.</returns>
+        private int ConvertToRGB(Windows.UI.Color c)
+        {
+            int r = c.R, // RED component value
+                g = c.G, // GREEN component value
+                b = c.B; // BLUE component value
+     
+            return r + g + b;
+        }
+
         #endregion Methods
 
         #region UIEvents
@@ -405,6 +419,17 @@ namespace KanbanTasker.Views
         private void autoSuggestBoxTags_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as AutoSuggestBox).IsSuggestionListOpen = true;
+        }
+
+        private async void lstViewTags_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            // Ideally, edit the tag through Edit Pane
+            // User is able to select tag through the card too, should maybe handle that case
+            // when CurrentTask would be null
+            var tag = e.ClickedItem;
+            ViewModel.CurrentTask.SelectedTag = tag.ToString();
+            var dialog = new TagEditDialogView(ViewModel);
+            await dialog.ShowAsync();
         }
     }
 }

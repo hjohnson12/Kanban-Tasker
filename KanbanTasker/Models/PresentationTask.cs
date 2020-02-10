@@ -25,6 +25,7 @@ namespace KanbanTasker.Models
         private string _reminderTime;
         private string _daysWorkedOn;
         private string _daysSinceCreation;
+        private string _selectedTag;
         private int _id;
         private int _boardId;
         private PresentationBoard _Board;
@@ -62,7 +63,8 @@ namespace KanbanTasker.Models
         public string ReminderTime { get => _reminderTime; set { if (_reminderTime != value) { _reminderTime = value; OnPropertyChanged(); } } }
         public string DaysWorkedOn { get => _daysWorkedOn; set { if (_daysWorkedOn != value) { _daysWorkedOn = value; OnPropertyChanged(); } } }
         public string DaysSinceCreation { get => _daysSinceCreation; set { if (_daysSinceCreation != value) { _daysSinceCreation = value; OnPropertyChanged(); } } }
-        
+        public string SelectedTag { get => _selectedTag; set { if (_selectedTag != value) { _selectedTag = value; OnPropertyChanged(); } } }
+
         public string Title { get => _title; set { if (_title != value) { _title = value; OnPropertyChanged(); } } }
         public string Description { get => _description; set { if(_description != value) { _description = value; OnPropertyChanged(); } } }
         public string Category { get => _category; set { if (_category != value) { _category = value; OnPropertyChanged(); } } }

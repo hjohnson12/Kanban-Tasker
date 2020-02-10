@@ -28,7 +28,7 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-            <TextBlock
+        <TextBlock
             Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

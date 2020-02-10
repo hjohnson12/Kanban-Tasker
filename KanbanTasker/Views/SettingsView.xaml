@@ -37,59 +37,67 @@
         </DataTemplate>
     </ContentDialog.TitleTemplate>
     <Grid Margin="0,8,0,0">
-            <Pivot>
-                <PivotItem Header="About">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Pivot>
+            <PivotItem Header="About">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Image
-                            Height="75"
+                        <StackPanel
+                            Grid.Column="0"
                             HorizontalAlignment="Right"
-                            Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
-                            Stretch="Uniform" />
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <Image
+                                Height="75"
+                                HorizontalAlignment="Right"
+                                Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
+                                Stretch="Uniform" />
                         </StackPanel>
-                        <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
+                        <StackPanel
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
 
                             <TextBlock
-                            Margin="0,4,0,4"
-                            HorizontalAlignment="Center"
-                            Text="Developed by Hunter Johnson" />
+                                Margin="0,4,0,4"
+                                HorizontalAlignment="Center"
+                                Text="Developed by Hunter Johnson" />
                             <TextBlock
-                            Margin="0,2,0,0"
-                            HorizontalAlignment="Center"
-                            Text="Icon design by Joshua Askharoun" />
+                                Margin="0,2,0,0"
+                                HorizontalAlignment="Center"
+                                Text="Icon design by Joshua Askharoun" />
                             <HyperlinkButton
-                            Margin="0,8,0,0"
-                            HorizontalAlignment="Center"
-                            Content="Kanban Tasker's source code"
-                            NavigateUri="https://github.com/hjohnson12/Kanban-Tasker"
-                            Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Center"
+                                Content="Kanban Tasker's source code"
+                                NavigateUri="https://github.com/hjohnson12/Kanban-Tasker"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                             <HyperlinkButton
-                            HorizontalAlignment="Center"
-                            Content="Feedback"
-                            NavigateUri="https://feedback.userreport.com/7d4ef159-95d2-4cf0-a068-b50adbe514a6/#ideas/popular"
-                            Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                                HorizontalAlignment="Center"
+                                Content="Feedback"
+                                NavigateUri="https://feedback.userreport.com/7d4ef159-95d2-4cf0-a068-b50adbe514a6/#ideas/popular"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                             <HyperlinkButton
-                            HorizontalAlignment="Center"
-                            Content="Rate and Review"
-                            NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
-                            Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                                HorizontalAlignment="Center"
+                                Content="Rate and Review"
+                                NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
-                </PivotItem>
-                <!--  TO-DO: Finish implementation after first release  -->
-                <!--<PivotItem Header="General">
+            </PivotItem>
+            <!--  TO-DO: Finish implementation after first release  -->
+            <!--<PivotItem Header="General">
                 <Grid Margin="0,8,0,0">
                     <StackPanel Orientation="Vertical">
                         <ToggleSwitch x:Name="pipToggle" Header="Compact Overlay (Picture-In-Picture) Mode" Toggled="pipToggle_Toggled"/>
-                        -->
-                <!--<TextBlock FontWeight="Bold" Text="SQLite Settings" Margin="4" TextDecorations="Underline" FontSize="17"/>
+            -->
+            <!--<TextBlock FontWeight="Bold" Text="SQLite Settings" Margin="4" TextDecorations="Underline" FontSize="17"/>
                         <TextBlock FontWeight="Bold" Text="Backup Database" Margin="4" />
                         <Button Content="Backup Db" Margin="4 2 4 4" x:Name="btnBackupDb" Click="btnBackupDb_Click" />
                         <RadioButton
@@ -100,11 +108,11 @@
                             x:Name="DarkThemeRadioButton"
                             Content="Dark Theme"
                             IsEnabled="False" />-->
-                <!--
+            <!--
                     </StackPanel>
                 </Grid>
             </PivotItem>-->
-            </Pivot>
-        
+        </Pivot>
+
     </Grid>
 </ContentDialog>
