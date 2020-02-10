@@ -2,6 +2,7 @@
     x:Class="KanbanTasker.Views.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:KanbanTasker.Helpers"
     xmlns:kbcontrol="using:KanbanTasker.Views"
@@ -12,10 +13,8 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
-    <Page.Resources>
-    </Page.Resources>
+    <Page.Resources />
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -31,16 +30,21 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Column="0">
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <Image
-                Grid.Column="0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
+                    Grid.Column="0"
                     Margin="4"
-                Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png" />
-                <TextBlock Text="Kanban Tasker" VerticalAlignment="Center" FontSize="12" Margin="4 2 0 0" FontFamily="SegoeUI"/>
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png" />
+                <TextBlock
+                    Margin="4,2,0,0"
+                    VerticalAlignment="Center"
+                    FontFamily="SegoeUI"
+                    FontSize="12"
+                    Text="Kanban Tasker" />
             </StackPanel>
-           
+
             <TextBlock
                 x:Name="TitleBarCurrentBoardTextblock"
                 Grid.Column="1"
@@ -54,18 +58,17 @@
         <NavigationView
             x:Name="kanbanNavView"
             Grid.Row="1"
-            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=TwoWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoard, Mode=TwoWay}"
-            IsBackButtonVisible="Collapsed" 
+            IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
-            PaneDisplayMode="Top">
+            MenuItemsSource="{x:Bind ViewModel.BoardList, Mode=TwoWay}"
+            PaneDisplayMode="Top"
+            SelectedItem="{x:Bind ViewModel.CurrentBoard, Mode=TwoWay}">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="viewmodels:BoardViewModel">
                     <TextBlock
-                        Text="{x:Bind Board.Name , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{x:Bind Board.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         ToolTipService.Placement="Bottom"
-                        ToolTipService.ToolTip="{x:Bind Board.Notes, Mode=OneWay }"
-                        />
+                        ToolTipService.ToolTip="{x:Bind Board.Notes, Mode=OneWay}" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
 
@@ -75,10 +78,10 @@
                         x:Name="NavViewBtnEditBoard"
                         Width="40"
                         AllowFocusOnInteraction="True"
+                        Click="ShowFlyout"
                         Icon="Edit"
                         Style="{StaticResource AppBarButtonCustomStyle}"
-                        ToolTipService.ToolTip="Edit Current Board" 
-                        Click="ShowFlyout" >
+                        ToolTipService.ToolTip="Edit Current Board">
                         <FlyoutBase.AttachedFlyout>
                             <Flyout
                                 x:Name="deleteeBoardFlyout"
@@ -112,9 +115,10 @@
                         x:Name="navViewBtnDeleteBoard"
                         Width="40"
                         AllowFocusOnInteraction="True"
+                        Click="ShowFlyout"
                         Icon="Delete"
                         Style="{ThemeResource AppBarButtonCustomStyle}"
-                        ToolTipService.ToolTip="Delete Current Board" Click="ShowFlyout">
+                        ToolTipService.ToolTip="Delete Current Board">
                         <FlyoutBase.AttachedFlyout>
                             <Flyout
                                 x:Name="deleteBoardFlyout"
@@ -183,31 +187,28 @@
                     Width="40"
                     VerticalAlignment="Center"
                     AllowFocusOnInteraction="True"
+                    Click="ShowDialog"
+                    Command="{x:Bind ViewModel.NewBoardCommand}"
                     Icon="Add"
                     Style="{ThemeResource AppBarButtonCustomStyle}"
-                    Command="{x:Bind ViewModel.NewBoardCommand}" 
-                    ToolTipService.ToolTip="Create new board" 
-                    Click="ShowDialog"  >
-                </AppBarButton>
+                    ToolTipService.ToolTip="Create new board" />
 
             </NavigationView.PaneCustomContent>
             <Grid>
                 <Frame
-                x:Name="contentFrame"
-                VerticalAlignment="Stretch"
-                Background="{ThemeResource RegionBrush}" />
+                    x:Name="contentFrame"
+                    VerticalAlignment="Stretch"
+                    Background="{ThemeResource RegionBrush}" />
                 <controls:InAppNotification
-                x:Name="KanbanInAppNotification"
-                Grid.Row="1"
-                Width="550"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                BorderThickness="1"
-                Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
+                    x:Name="KanbanInAppNotification"
+                    Grid.Row="1"
+                    Width="550"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="1"
+                    Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
             </Grid>
         </NavigationView>
-        <ContentDialog>
-            
-        </ContentDialog>
+        <ContentDialog />
     </Grid>
 </Page>
