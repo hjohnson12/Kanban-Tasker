@@ -31,11 +31,12 @@ namespace KanbanTasker.Services.SQLite
                 db.Open();
 
                 SqliteCommand selectCommand = new SqliteCommand
-                    ("SELECT Id, BoardID, DateCreated, Title, Description, Category, ColumnIndex, ColorKey, Tags from tblTasks order by ColumnIndex", db);
+                    ("SELECT Id, BoardID, DateCreated, Title, Description, Category, ColumnIndex, ColorKey, Tags, DueDate, FinishDate, ReminderTime, StartDate from tblTasks order by ColumnIndex", db);
 
                 SqliteDataReader query = selectCommand.ExecuteReader();
 
                 // Query the db and get the tasks
+                // Must match the exact table schemas
                 while (query.Read())
                 {
                     //string[] tags;
@@ -54,7 +55,11 @@ namespace KanbanTasker.Services.SQLite
                         Category = query.GetString(5),
                         ColumnIndex = Convert.ToInt32(query.GetValue(6) == DBNull.Value ? "0" : query.GetString(6)),
                         ColorKey = query.GetString(7),
-                        Tags = query.GetString(8)
+                        Tags = query.GetString(8),
+                        DueDate = (query.GetValue(9) == DBNull.Value ? "" : query.GetString(9)),
+                        FinishDate = (query.GetValue(10) == DBNull.Value ? "" : query.GetString(10)),
+                        ReminderTime = (query.GetValue(11) == DBNull.Value ? "" : query.GetString(11)),
+                        StartDate = (query.GetValue(12) == DBNull.Value ? "" : query.GetString(12))
                     };
 
                     tasks.Add(row);
@@ -94,20 +99,25 @@ namespace KanbanTasker.Services.SQLite
                     command.Parameters.AddWithValue("@colorKey", task.ColorKey);
                     command.Parameters.AddWithValue("@tags", task.Tags);
                     command.Parameters.AddWithValue("@columnIndex", task.ColumnIndex);
+                    command.Parameters.AddWithValue("@dueDate", task.DueDate);
+                    command.Parameters.AddWithValue("@finishDate", task.FinishDate);
+                    command.Parameters.AddWithValue("@reminderTime", task.ReminderTime);
+                    command.Parameters.AddWithValue("@startDate", task.StartDate);
 
                     if (task.Id == 0)
                     {
                         // Insert a new row
                         command.Parameters.AddWithValue("@boardID", task.BoardId);
                         command.Parameters.AddWithValue("@dateCreated", task.DateCreated);
-                        command.CommandText = "INSERT INTO tblTasks (BoardID,DateCreated,Title,Description,Category,ColorKey,Tags, ColumnIndex) VALUES (@boardID, @dateCreated, @title, @desc, @categ, @colorKey, @tags, @columnIndex); ; SELECT last_insert_rowid();";
+                        command.CommandText = "INSERT INTO tblTasks (BoardID,DateCreated,Title,Description,Category,ColorKey,Tags, ColumnIndex, DueDate, FinishDate, ReminderTime, StartDate) VALUES (" +
+                            "@boardID, @dateCreated, @title, @desc, @categ, @colorKey, @tags, @columnIndex, @dueDate, @finishDate, @reminderTime, @startDate); ; SELECT last_insert_rowid();";
                         task.Id = Convert.ToInt32(command.ExecuteScalar());
                     }
                     else
                     {
                         // Update an existing row
                         command.Parameters.AddWithValue("@id", task.Id);
-                        command.CommandText = "UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags, ColumnIndex=@columnIndex WHERE Id=@id";
+                        command.CommandText = "UPDATE tblTasks SET Title=@title, Description=@desc, Category=@categ, ColorKey=@colorKey, Tags=@tags, ColumnIndex=@columnIndex, DueDate=@dueDate, FinishDate=@finishDate, ReminderTime=@reminderTime, StartDate=@startDate WHERE Id=@id";
                         command.ExecuteNonQuery();
                     }
 
