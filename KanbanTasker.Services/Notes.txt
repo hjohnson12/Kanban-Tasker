@@ -38,6 +38,8 @@ dotnet ef migrations add CreateDatabase --context KanbanTasker.Services.Database
 -- MySQL
 dotnet ef migrations add CreateDatabase --context KanbanTasker.Services.Database.Components.MySQL.Db_MySQL --startup-project ../KanbanTasker.Migrations --output-dir Database/Migrations/MySQL
 
+-- SQLite
+dotnet ef migrations add CreateDatabase --context KanbanTasker.Services.Database.Components.SQLite.Db_SQLite --startup-project ../KanbanTasker.Migrations --output-dir Database/Migrations/SQLite
 =========================================================================================================================================
 Debugging and testing the WebAPI
 Note that KanbanTasker solution and KanbanTasker.API solution each have their own copy of EndPoints.json.  This is how a production setup would look - each server has its own copy of the file.
