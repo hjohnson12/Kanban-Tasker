@@ -56,12 +56,22 @@ namespace KanbanTasker.Services
             TaskDTO t = result.Entity;
 
             // NOTE: Require Title? For now just set it to empty string; if not db will throw exception for null
+            // Set the dates to null if nothing set.. otherwise sqlite insert crashes because of no value to insert
             if (string.IsNullOrEmpty(t.Title))
                 t.Title = "";
             else if (t.Title.Length > 100)
                 result.ErrorMessage = "Title is too long.";
             if (string.IsNullOrEmpty(t.Description))
                 t.Description = "";
+            if (string.IsNullOrEmpty(t.DueDate))
+                t.DueDate = "";
+            if (string.IsNullOrEmpty(t.FinishDate))
+                t.FinishDate = "";
+            if (string.IsNullOrEmpty(t.ReminderTime))
+                t.ReminderTime = "";
+            if (string.IsNullOrEmpty(t.StartDate))
+                t.StartDate = "";
+
 
             // more validation here
             result.Success = string.IsNullOrEmpty(result.ErrorMessage);
