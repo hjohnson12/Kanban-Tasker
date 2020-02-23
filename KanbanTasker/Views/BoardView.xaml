@@ -388,37 +388,69 @@
                                 </Grid>
                                 
                                 <!-- Date Information Section on Kanban Card -->
+                                <!-- Set this section to be visible only if the respective card has a selected due date -->
                                 <!--<Grid Grid.Row="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-
-                                    <TextBlock 
-                                        Text="Due: " 
+                                    --><!--<TextBlock 
+                                        Text="&#xE121;" 
+                                        FontFamily="SegoeMDL2Assets"
                                         FontWeight="Bold"
                                         FontSize="{Binding Tag.CardStyle.FontSize, 
                                         RelativeSource={RelativeSource Mode=TemplatedParent}}"  
                                         Grid.Column="0" 
-                                        Margin="0 0 12 0"/>
-                                    <TextBlock
-                                        x:Name="KANBAN_DueDate"
-                                        Height="Auto"
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                        Foreground="{Binding Tag.CardStyle.Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                        Text="{Binding DueDate}"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock 
+                                        Margin="0 0 12 0"/>--><!--
+                                    <Border Grid.Row="0" BorderThickness="0.25" Grid.ColumnSpan="3" BorderBrush="Gray" Margin="0 0 0 4"  HorizontalAlignment="Stretch" />
+                                    <Border CornerRadius="4" Grid.Row="1"  Grid.Column="0" Background="Transparent">
+                                        <StackPanel Orientation="Horizontal" Margin="3">
+                                            <SymbolIcon Symbol="Clock" Grid.Column="0" VerticalAlignment="Center" Foreground="Red" />
+                                            <TextBlock 
+                                                Text="Due: " 
+                                                Margin="4 0 4 0"
+                                                Foreground="Red"
+                                                FontWeight="Bold"
+                                                VerticalAlignment="Center"
+                                                FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                            <TextBlock
+                                                x:Name="KANBAN_DueDate"
+                                                Height="Auto"
+                                                Margin="2"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                Foreground="Red"
+                                                Text="{Binding DueDate}"
+                                                TextWrapping="Wrap" />
+                                            <Border VerticalAlignment="Stretch" BorderThickness="0.25" BorderBrush="Gray"  Margin="8 0 8 0" />
+                                            <TextBlock
+                                                x:Name="KANBAN_DaysRemaining"
+                                                Height="Auto"
+                                                Margin="2"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                Foreground="Black"
+                                                Text="0 day(s) remaining"
+                                                TextWrapping="Wrap" />  
+                                        </StackPanel>
+                                    </Border>
+                                    
+                                    --><!--<TextBlock 
                                         FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"  
                                         Grid.Column="2" 
                                         HorizontalAlignment="Right"
                                         Margin="0 0 12 0">
                                         <Run FontWeight="Bold" Text="Age:" />
                                         <Run Text="4d" />
-                                    </TextBlock>
+                                    </TextBlock>--><!--
                                 </Grid>-->
                             </Grid>
                         </Grid>
