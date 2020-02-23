@@ -58,6 +58,7 @@ namespace KanbanTasker.Views
 
             var color = Color.FromArgb(sender.Color.A, sender.Color.R, sender.Color.G, sender.Color.B);
             colorCode = sender.Color.ToString(); // ex: #FFFFFF
+
             // 255,255,255 = White and 0,0,0 = Black
             // Max sum of RGB values is 765 -> (255 + 255 + 255)
             // Middle sum of RGB values is 382 -> (765/2)
@@ -89,6 +90,13 @@ namespace KanbanTasker.Views
                 this.Hide();
                 ViewModel.CurrentTask.SelectedTag += colorCode;
             }
+        }
+
+        private void btnDeleteTag_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+
+            //var deleteSuccess = ViewModel.DeleteTagCommandHandler(ViewModel.CurrentTask.SelectedTag);
         }
     }
 }

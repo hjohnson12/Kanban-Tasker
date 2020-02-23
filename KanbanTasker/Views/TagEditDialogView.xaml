@@ -115,11 +115,14 @@
                 Icon="Save"
                 Label="Update Tag" />
             <AppBarButton
-                x:Name="btnDeleteTagFlyout"
+                x:Name="btnDeleteTag"
                 Grid.Column="1"
                 Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                Click="btnDeleteTag_Click"
+                Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTagCommand}"
+                CommandParameter="{Binding}"
                 Icon="Delete"
                 Label="Delete Tag" />
             <AppBarButton
