@@ -111,6 +111,7 @@
                 Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                Click="btnUpdateTag_Click"
                 Icon="Save"
                 Label="Update Tag" />
             <AppBarButton

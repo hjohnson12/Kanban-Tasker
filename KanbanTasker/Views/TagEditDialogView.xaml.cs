@@ -21,6 +21,7 @@ namespace KanbanTasker.Views
     public sealed partial class TagEditDialogView : ContentDialog
     {
         const int MIDDLE = 382; // Middle sum of RGB - Max is 765
+        string colorCode = "";
         public ViewModels.BoardViewModel ViewModel { get; set; }
         public TagEditDialogView(ViewModels.BoardViewModel viewModel)
         {
@@ -56,7 +57,7 @@ namespace KanbanTasker.Views
             // ViewModel.TagBackground = sender.Color;
 
             var color = Color.FromArgb(sender.Color.A, sender.Color.R, sender.Color.G, sender.Color.B);
-
+            colorCode = sender.Color.ToString(); // ex: #FFFFFF
             // 255,255,255 = White and 0,0,0 = Black
             // Max sum of RGB values is 765 -> (255 + 255 + 255)
             // Middle sum of RGB values is 382 -> (765/2)
@@ -76,6 +77,18 @@ namespace KanbanTasker.Views
         private void BtnCloseDialog_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
+        }
+
+        private void btnUpdateTag_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: Fix binding bug
+            // Tag in the database will be storing tag with hex 
+            // EX: ExampleTag#000000;AnotherTag#000000
+            if(ViewModel.CurrentTask.SelectedTag != "")
+            {
+                this.Hide();
+                ViewModel.CurrentTask.SelectedTag += colorCode;
+            }
         }
     }
 }
