@@ -11,6 +11,7 @@ using LeaderAnalytics.AdaptiveClient;
 using KanbanTasker.Services.Database.Components.MSSQL;
 using KanbanTasker.Services.Database.Components.MySQL;
 using KanbanTasker.Services.Database.Components.SQLite;
+using Windows.Storage;
 
 namespace KanbanTasker.Migrations
 {
@@ -49,7 +50,9 @@ namespace KanbanTasker.Migrations
             string fileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "EndPoints.json");
             string connectionString = EndPointUtilities.LoadEndPoints(fileName, false).First(x => x.API_Name == API_Name.Kanban && x.ProviderName == DatabaseProvider.SQLite).ConnectionString;
             DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
-            dbOptions.UseSqlite(connectionString);
+            string dbFileName = connectionString.Split('=')[1];
+            string dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbFileName);
+            dbOptions.UseSqlite($"Filename={dbPath}");
             Db_SQLite db = new Db_SQLite(dbOptions.Options);
             return db;
         }
