@@ -179,7 +179,6 @@ namespace KanbanTasker.ViewModels
                     task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
                     task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
                 }
-
         }
 
         #region Functions
@@ -339,37 +338,45 @@ namespace KanbanTasker.ViewModels
             var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
             var reminderTime = CurrentTask.ReminderTime;
 
-            if (dueDate != null && timeDue != null && reminderTime != "None")
+            if (dueDate != null && timeDue != null && reminderTime != "None" && reminderTime != "")
             {
-                var scheduledTime = timeDue;
+                // Combine due date and time due
+                // ToastNotifications require a non-nullable DateTimeOffset
+                DateTimeOffset taskDueDate = new DateTimeOffset(
+                   dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
+                   timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
+                   timeDue.Value.Offset
+                );
+
+                var scheduledTime = taskDueDate;
                 switch (reminderTime)
                 {
                     case "At Time of Due Date":
                         break;
                     case "5 Minutes Before":
-                        scheduledTime = timeDue.Value.AddMinutes(-5);
+                        scheduledTime = taskDueDate.AddMinutes(-5);
                         break;
                     case "10 Minutes Before":
-                        scheduledTime = timeDue.Value.AddMinutes(-10);
+                        scheduledTime = taskDueDate.AddMinutes(-10);
                         break;
                     case "15 Minutes Before":
-                        scheduledTime = timeDue.Value.AddMinutes(-15);
+                        scheduledTime = taskDueDate.AddMinutes(-15);
                         break;
                     case "1 Hour Before":
-                        scheduledTime = timeDue.Value.AddHours(-1);
+                        scheduledTime = taskDueDate.AddHours(-1);
                         break;
                     case "2 Hours Before":
-                        scheduledTime = timeDue.Value.AddHours(-2);
+                        scheduledTime = taskDueDate.AddHours(-2);
                         break;
                     case "1 Day Before":
-                        scheduledTime = timeDue.Value.AddDays(-1);
+                        scheduledTime = taskDueDate.AddDays(-1);
                         break;
                     case "2 Days Before":
-                        scheduledTime = timeDue.Value.AddDays(-2);
+                        scheduledTime = taskDueDate.AddDays(-2);
                         break;
                 }
-                ToastHelper.ScheduleTaskNotification(CurrentTask.ID.ToString(), CurrentTask.Title,
-                    CurrentTask.Description, dueDate, scheduledTime);
+                ToastHelper.ScheduleTaskDueNotification(CurrentTask.ID.ToString(), CurrentTask.Title,
+                    CurrentTask.Description, scheduledTime, taskDueDate);
             }
         }
 

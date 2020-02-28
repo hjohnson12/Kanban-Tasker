@@ -9,32 +9,31 @@ using Windows.UI.Notifications;
 namespace KanbanTasker.Helpers
 {
     /// <summary>
-    /// A class used to work with toast notifications on tasks.
+    /// A static class used to work with toast notifications.
     /// </summary>
     public static class ToastHelper
     {
         /// <summary>
-        /// Schedules a toast notification on the due date of the specified task.
+        /// Schedules a reminder notification at the specified time for a task that's due or soon-to-be due.
+        /// The scheduled alarm time must be at least 5 seconds later than the current day
+        /// and time, otherwise it will not be scheduled.
         /// </summary>
-        /// <param name="dueDate"></param>
-        /// <param name="reminderTime"></param>
-        public static void ScheduleTaskNotification(string taskId, string taskTitle, string taskDescription, DateTimeOffset? dueDate, DateTimeOffset? reminderTime)
+        /// <param name="taskId"></param>
+        /// <param name="taskTitle"></param>
+        /// <param name="taskDescription"></param>
+        /// <param name="scheduledAlarmTime">Scheduled time for the toast notification.</param>
+        /// <param name="taskDueDate">Full due date of the task.</param>
+        public static void ScheduleTaskDueNotification(string taskId, string taskTitle, string taskDescription, DateTimeOffset scheduledAlarmTime, DateTimeOffset taskDueDate)
         {
-            DateTimeOffset alarmTime = new DateTimeOffset(
-               dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
-               reminderTime.Value.Hour, reminderTime.Value.Minute, reminderTime.Value.Second,
-               reminderTime.Value.Offset
-           );
-
-            // Verify that the alarm is after the current time
-            if (alarmTime > DateTime.Now.AddSeconds(5))
+            // Verify that the scheduled alarm is after the current time
+            if (scheduledAlarmTime > DateTime.Now.AddSeconds(5))
             {
                 // Construct toast notification content
-                var toastContent = ConstructToastContent(taskTitle, taskDescription, alarmTime);
+                var toastContent = ConstructToastContent(taskTitle, taskDescription, taskDueDate);
 
                 // Create the toast notification and scheudle it
                 // Use the task's unique ID as the tag to reference the toast later on
-                var scheduledNotif = new ScheduledToastNotification(toastContent.GetXml(), alarmTime);
+                var scheduledNotif = new ScheduledToastNotification(toastContent.GetXml(), scheduledAlarmTime);
                 scheduledNotif.Tag = taskId;
                 ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotif);
             }

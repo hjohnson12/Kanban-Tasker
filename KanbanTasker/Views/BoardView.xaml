@@ -811,9 +811,10 @@
                                         <StackPanel Orientation="Vertical">
                                             <TimePicker 
                                                 x:Name="TaskReminderTimePicker"  
+                                                Margin="0 3 0 0"
                                                 TimeChanged="TaskReminderTimePicker_TimeChanged" 
                                                 Style="{ThemeResource CustomTimePickerStyle}" 
-                                                Time="{x:Bind ViewModel.CurrentTask.ReminderTime, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
+                                                Time="{x:Bind ViewModel.CurrentTask.TimeDue, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
                                                 Grid.ColumnSpan="2" 
                                                 HorizontalAlignment="Stretch" />
                                             <StackPanel 
