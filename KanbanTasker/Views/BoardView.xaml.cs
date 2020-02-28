@@ -100,15 +100,16 @@ namespace KanbanTasker.Views
                         Children =
                             {
                                 new AdaptiveText()
-                                { // Title
+                                { // Toast Header Title
                                     Text = "You have a task due"
                                 },
                                 new AdaptiveText()
-                                { // Description
-                                    Text = ViewModel.CurrentTask.Title.ToString() + "\n" + ViewModel.CurrentTask.Description.ToString()
+                                { // Title of Task & Description
+                                    Text = ((ViewModel.CurrentTask.Title != null) ? ViewModel.CurrentTask.Title.ToString() : "") + "\n" +
+                                           ((ViewModel.CurrentTask.Description != null) ? ViewModel.CurrentTask.Description.ToString() : "")
                                 },
                                 new AdaptiveText()
-                                { // Time
+                                { // Task Time Due
                                     Text = "Due " + alarmTime.ToString("t") + ", " + alarmTime.Date.ToShortDateString()
                                 },
 
@@ -117,7 +118,6 @@ namespace KanbanTasker.Views
                         {
                             Source = "ms-appx:///Assets/Square44x44Logo.targetsize-256.png",
                         },
-
                     }
                 },
                 Actions = new ToastActionsCustom()
@@ -204,8 +204,8 @@ namespace KanbanTasker.Views
             if (splitView.IsPaneOpen == true)
                 splitView.IsPaneOpen = false;
             
-            //Schedule toast notification if they chose a due date and reminder time
-            // Note: UWP TimePicker doesn't support Nullable values, autoselects current time
+            // Schedule toast notification if user chose a due date and reminder time
+            // Note: UWP TimePicker doesn't support Nullable values, defaults to a value either way
             var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
             var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
             if (dueDate != null && reminderTime != null)
