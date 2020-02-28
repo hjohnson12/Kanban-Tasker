@@ -285,6 +285,7 @@ namespace KanbanTasker.ViewModels
             {
                 Board.Tasks.Remove(task);
                 CurrentTask = Board.Tasks.LastOrDefault();
+                ToastHelper.RemoveScheduledNotification(taskID.ToString());
                 int startIndex = task.ColumnIndex;
 
                 // Calling OrderBy after Where, reordering a whole collection prior to filter is high overhead
@@ -332,6 +333,54 @@ namespace KanbanTasker.ViewModels
                 Board.Tasks.Remove(CurrentTask);
                 CurrentTask = new PresentationTask(OriginalTask.To_TaskDTO());
                 Board.Tasks.Insert(index, CurrentTask);
+
+                // Check if a toast notification was deleted
+                if (OriginalTask.ReminderTime != "None")
+                    PrepareToastNotification();
+
+                // Reset combo box selected item since UWP Combobox doesn't bind correctly
+                switch (OriginalTask.ColorKey)
+                {
+                    case "Low":
+                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[0];
+                        break;
+                    case "Normal":
+                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[1];
+                        break;
+                    case "High":
+                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[2];
+                        break;
+                }
+                switch (OriginalTask.ReminderTime)
+                {
+                    case "None":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[0];
+                        break;
+                    case "At Time of Due Date":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[1];
+                        break;
+                    case "5 Minutes Before":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[2];
+                        break;
+                    case "10 Minutes Before":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[3];
+                        break;
+                    case "15 Minutes Before":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[4];
+                        break;
+                    case "1 Hour Before":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[5];
+                        break;
+                    case "2 Hours Before":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[6];
+                        break;
+                    case "1 Day Before":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[7];
+                        break;
+                    case "2 Days Before":
+                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[8];
+                        break;
+                }
             }
         }
 
@@ -386,6 +435,8 @@ namespace KanbanTasker.ViewModels
                 ToastHelper.ScheduleTaskDueNotification(CurrentTask.ID.ToString(), CurrentTask.Title,
                     CurrentTask.Description, scheduledTime, taskDueDate);
             }
+            else if (reminderTime == "None")
+                ToastHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
         }
 
         /// <summary>
