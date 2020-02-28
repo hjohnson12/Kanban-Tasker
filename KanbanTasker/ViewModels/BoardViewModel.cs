@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Syncfusion.UI.Xaml.Kanban;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using KanbanTasker.Helpers.Extensions;
+using KanbanTasker.Helpers;
 using LeaderAnalytics.AdaptiveClient;
 
 namespace KanbanTasker.ViewModels
@@ -236,8 +237,24 @@ namespace KanbanTasker.ViewModels
                 CurrentTask.ColumnIndex = dto.ColumnIndex;
                 Board.Tasks.Add(CurrentTask);
             }
+
+            PrepareToastNotification();
             
             MessagePump.Show("Task was saved successfully", MessageDuration);
+        }
+
+        /// <summary>
+        /// Schedules a toast notification using <see cref="ToastHelper"/> if the current task 
+        /// has a selected due date and reminder time when called.
+        /// </summary>
+        public void PrepareToastNotification()
+        {
+            // Note: UWP TimePicker doesn't support Nullable values, defaults to a value either way
+            var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
+            var reminderTime = CurrentTask.ReminderTime.ToNullableDateTimeOffset();
+            if (dueDate != null && reminderTime != null)
+                ToastHelper.ScheduleTaskNotification(CurrentTask.ID.ToString(), CurrentTask.Title,
+                    CurrentTask.Description, dueDate, reminderTime);
         }
 
         public void DeleteTaskCommandHandler(int taskID)
