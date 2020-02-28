@@ -40,7 +40,8 @@ namespace KanbanTasker.Helpers
         }
 
         /// <summary>
-        /// Removes the scheduled toast notification uniquely identified by its tag from the schedule.
+        /// Removes the scheduled toast notification uniquely identified by its tag from the schedule, if there are
+        /// any notifications scheduled by that tag.
         /// </summary>
         /// <param name="tag"></param>
         public static void RemoveScheduledNotification(string tag)
@@ -50,7 +51,7 @@ namespace KanbanTasker.Helpers
             {
                 // The tag value is the unique ScheduledTileNotification.Id assigned to the 
                 // notification when it was created.
-                if (notif.Id == tag)
+                if (notif.Tag == tag)
                     ToastNotificationManager.CreateToastNotifier().RemoveFromSchedule(notif);
             }
         }

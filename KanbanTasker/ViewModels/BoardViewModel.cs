@@ -53,6 +53,7 @@ namespace KanbanTasker.ViewModels
         public ICommand DeleteTaskCommand { get; set; }
         public ICommand DeleteTagCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
+        public ICommand RemoveScheduledNotificationCommand { get; set; }
 
         #region Properties
 
@@ -156,6 +157,7 @@ namespace KanbanTasker.ViewModels
             DeleteTaskCommand = new RelayCommand<int>(DeleteTaskCommandHandler, () => true);
             DeleteTagCommand = new RelayCommand<string>(DeleteTagCommandHandler, () => true);
             CancelEditCommand = new RelayCommand(CancelEditCommandHandler, () => true);
+            RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotficationCommandHandler, () => true);
 
             ColorKeys = new ObservableCollection<ComboBoxItem>();
             ColorKeys.Add(new ComboBoxItem { Content = "High" });
@@ -179,6 +181,12 @@ namespace KanbanTasker.ViewModels
                     task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
                     task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
                 }
+        }
+
+        private void RemoveScheduledNotficationCommandHandler()
+        {
+            ToastHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
+            CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[0];
         }
 
         #region Functions
