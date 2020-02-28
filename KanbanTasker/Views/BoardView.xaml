@@ -817,7 +817,7 @@
                                                 Time="{x:Bind ViewModel.CurrentTask.TimeDue, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
                                                 Grid.ColumnSpan="2" 
                                                 HorizontalAlignment="Stretch" />
-                                            <Grid Margin="0 10 0 0" HorizontalAlignment="Stretch">
+                                            <Grid Margin="0 12 0 0" HorizontalAlignment="Stretch">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition  Width="*"/>
