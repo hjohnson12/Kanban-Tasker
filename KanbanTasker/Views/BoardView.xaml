@@ -817,31 +817,34 @@
                                                 Time="{x:Bind ViewModel.CurrentTask.TimeDue, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
                                                 Grid.ColumnSpan="2" 
                                                 HorizontalAlignment="Stretch" />
-                                            <StackPanel 
-                                                Orientation="Horizontal" 
-                                                Margin="0 8 0 0"
-                                                HorizontalAlignment="Stretch">
+                                            <Grid Margin="0 10 0 0" HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition  Width="*"/>
+                                                </Grid.ColumnDefinitions>
                                                 <ComboBox 
                                                     x:Name="ReminderComboBox"
                                                     BorderThickness="1"  
+                                                    Grid.Column="0"
                                                     ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}" 
                                                     Header="Set Reminder:"
                                                     Width="175" 
                                                     Background="{ThemeResource RegionBrush}"
                                                     SelectedValue="{x:Bind ViewModel.CurrentTask.ReminderTimeComboBoxItem, Mode=TwoWay}">
-
                                                 </ComboBox>
                                                 <Button 
                                                     Content="Remove" 
                                                     ToolTipService.ToolTip="Remove scheduled notification" 
                                                     x:Name="btnDeleteToastNotification" 
+                                                    Grid.Column="1"
                                                     Command="{Binding ElementName=boardViewPage, Path=ViewModel.RemoveScheduledNotificationCommand}"
                                                     CommandParameter="{Binding}"
                                                     Click="btnDeleteToastNotification_Click" 
                                                     Margin="4 0 0 0"  
                                                     VerticalAlignment="Bottom" 
                                                     HorizontalAlignment="Stretch"/>
-                                            </StackPanel>
+                                            </Grid>
+                                            
                                             <!--<Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>-->
                                         </StackPanel>
                                     </Grid>
