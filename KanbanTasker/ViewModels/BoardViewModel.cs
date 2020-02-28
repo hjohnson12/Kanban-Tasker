@@ -71,6 +71,17 @@ namespace KanbanTasker.ViewModels
             }
         }
 
+        private ObservableCollection<ComboBoxItem> _ReminderTimes;
+        public ObservableCollection<ComboBoxItem> ReminderTimes
+        {
+            get { return _ReminderTimes; }
+            set
+            {
+                _ReminderTimes = value;
+                OnPropertyChanged();
+            }
+        }
+
         
         public string PaneTitle
         {
@@ -151,19 +162,33 @@ namespace KanbanTasker.ViewModels
             ColorKeys.Add(new ComboBoxItem { Content = "Normal" });
             ColorKeys.Add(new ComboBoxItem { Content = "Low" });
 
+            ReminderTimes = new ObservableCollection<ComboBoxItem>();
+            ReminderTimes.Add(new ComboBoxItem { Content = "None" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "At Time of Due Date" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "5 Minutes Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "10 Minutes Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "15 Minutes Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "1 Hour Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "2 Hours Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "1 Day Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "2 Days Before" });
+
             if (Board.Tasks != null && board.Tasks.Any())   // hack
                 foreach (PresentationTask task in Board.Tasks)
+                {
                     task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
+                    task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
+                }
+
         }
 
         #region Functions
-
 
         public void NewTaskCommandHandler(ColumnTag tag)
         {
             PaneTitle = "New Task";
             string category = tag?.Header?.ToString();
-            CurrentTask = new PresentationTask(new TaskDTO() { Category = category }) { Board = Board, BoardId = Board.ID,  ColorKeyComboBoxItem = ColorKeys[1] };
+            CurrentTask = new PresentationTask(new TaskDTO() { Category = category }) { Board = Board, BoardId = Board.ID,  ColorKeyComboBoxItem = ColorKeys[1], ReminderTimeComboBoxItem = ReminderTimes[0] };
             OriginalTask = null; 
             IsEditingTask = true;
         }
@@ -220,7 +245,8 @@ namespace KanbanTasker.ViewModels
 
             TaskDTO dto = CurrentTask.To_TaskDTO();
             dto.ColorKey = ((ComboBoxItem)CurrentTask.ColorKeyComboBoxItem)?.Content.ToString() ?? "Normal"; // hack
-            
+            dto.ReminderTime = ((ComboBoxItem)CurrentTask.ReminderTimeComboBoxItem)?.Content.ToString() ?? "None";
+
             bool isNew = dto.Id == 0;
 
             if (isNew)
@@ -241,20 +267,6 @@ namespace KanbanTasker.ViewModels
             PrepareToastNotification();
             
             MessagePump.Show("Task was saved successfully", MessageDuration);
-        }
-
-        /// <summary>
-        /// Schedules a toast notification using <see cref="ToastHelper"/> if the current task 
-        /// has a selected due date and reminder time when called.
-        /// </summary>
-        public void PrepareToastNotification()
-        {
-            // Note: UWP TimePicker doesn't support Nullable values, defaults to a value either way
-            var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
-            var reminderTime = CurrentTask.ReminderTime.ToNullableDateTimeOffset();
-            if (dueDate != null && reminderTime != null)
-                ToastHelper.ScheduleTaskNotification(CurrentTask.ID.ToString(), CurrentTask.Title,
-                    CurrentTask.Description, dueDate, reminderTime);
         }
 
         public void DeleteTaskCommandHandler(int taskID)
@@ -317,6 +329,51 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
+        /// Schedules a toast notification using <see cref="ToastHelper"/> if the current task 
+        /// has a selected due date, time due, reminder time when called.
+        /// </summary>
+        private void PrepareToastNotification()
+        {
+            // Note: UWP TimePicker doesn't support Nullable values, defaults to a value either way
+            var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
+            var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
+            var reminderTime = CurrentTask.ReminderTime;
+
+            if (dueDate != null && timeDue != null && reminderTime != "None")
+            {
+                var scheduledTime = timeDue;
+                switch (reminderTime)
+                {
+                    case "At Time of Due Date":
+                        break;
+                    case "5 Minutes Before":
+                        scheduledTime = timeDue.Value.AddMinutes(-5);
+                        break;
+                    case "10 Minutes Before":
+                        scheduledTime = timeDue.Value.AddMinutes(-10);
+                        break;
+                    case "15 Minutes Before":
+                        scheduledTime = timeDue.Value.AddMinutes(-15);
+                        break;
+                    case "1 Hour Before":
+                        scheduledTime = timeDue.Value.AddHours(-1);
+                        break;
+                    case "2 Hours Before":
+                        scheduledTime = timeDue.Value.AddHours(-2);
+                        break;
+                    case "1 Day Before":
+                        scheduledTime = timeDue.Value.AddDays(-1);
+                        break;
+                    case "2 Days Before":
+                        scheduledTime = timeDue.Value.AddDays(-2);
+                        break;
+                }
+                ToastHelper.ScheduleTaskNotification(CurrentTask.ID.ToString(), CurrentTask.Title,
+                    CurrentTask.Description, dueDate, scheduledTime);
+            }
+        }
+
+        /// <summary>
         /// Sets the due date for the current task.
         /// </summary>
         /// <param name="dueDate"></param>
@@ -365,15 +422,15 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
-        /// Sets the reminder time for the current task to be used for the toast notification.
+        /// Sets the time due for the current task to be used for the toast notification.
         /// </summary>
-        /// <param name="reminderTime"></param>
-        public void SetReminderTime(string reminderTime)
+        /// <param name="timeDue"></param>
+        public void SetTimeDue(string timeDue)
         {
             if (CurrentTask == null)
-                MessagePump.Show("Failed to set reminder time.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                MessagePump.Show("Failed to set time due.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
-            CurrentTask.ReminderTime = reminderTime;
+            CurrentTask.TimeDue = timeDue;
         }
 
         /// <summary>
@@ -429,6 +486,7 @@ namespace KanbanTasker.ViewModels
         }
 
         private ComboBoxItem GetComboBoxItemForColorKey(string colorKey) => ColorKeys.FirstOrDefault(x => x.Content.ToString() == colorKey);
+        private ComboBoxItem GetComboBoxItemForReminderTime(string reminderTime) => ReminderTimes.FirstOrDefault(x => x.Content.ToString() == reminderTime);
 
         /// <summary>
         /// Shows a local notification on the current board using message as the content.

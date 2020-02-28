@@ -809,37 +809,36 @@
                                     </Grid>
                                     <Grid Grid.Row="2" Margin="8">
                                         <StackPanel Orientation="Vertical">
-                                            <!--<StackPanel 
-                                                Orientation="Horizontal" 
-                                                Margin="0 0 0 8"
-                                                HorizontalAlignment="Stretch">
-                                                <ComboBox 
-                                                    Header="Set Reminder:" 
-                                                    BorderThickness="1"  
-                                                    PlaceholderText="None" 
-                                                    Width="175" 
-                                                    Background="{ThemeResource RegionBrush}">
-                                                    <x:String>None</x:String>
-                                                    <x:String>At time of due date</x:String>
-                                                    <x:String>5 minutes before</x:String>
-                                                    <x:String>10 minutes before</x:String>
-                                                    <x:String>15 minutes before</x:String>
-                                                    <x:String>1 hour before</x:String>
-                                                    <x:String>2 hours before</x:String>
-                                                    <x:String>1 day before</x:String>
-                                                    <x:String>2 days before</x:String>
-                                                </ComboBox>
-                                                <Button Content="Remove" x:Name="btnDeleteToastNotification" Click="btnDeleteToastNotification_Click" Margin="4 0 0 0"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
-                                            </StackPanel>-->
                                             <TimePicker 
                                                 x:Name="TaskReminderTimePicker"  
                                                 TimeChanged="TaskReminderTimePicker_TimeChanged" 
                                                 Style="{ThemeResource CustomTimePickerStyle}" 
-                                                
                                                 Time="{x:Bind ViewModel.CurrentTask.ReminderTime, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
                                                 Grid.ColumnSpan="2" 
                                                 HorizontalAlignment="Stretch" />
-                                            
+                                            <StackPanel 
+                                                Orientation="Horizontal" 
+                                                Margin="0 8 0 0"
+                                                HorizontalAlignment="Stretch">
+                                                <ComboBox 
+                                                    x:Name="ReminderComboBox"
+                                                    BorderThickness="1"  
+                                                    ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}" 
+                                                    Header="Set Reminder:"
+                                                    Width="175" 
+                                                    Background="{ThemeResource RegionBrush}"
+                                                    SelectedValue="{x:Bind ViewModel.CurrentTask.ReminderTimeComboBoxItem, Mode=TwoWay}">
+
+                                                </ComboBox>
+                                                <Button 
+                                                    Content="Remove" 
+                                                    ToolTipService.ToolTip="Remove scheduled notification" 
+                                                    x:Name="btnDeleteToastNotification" 
+                                                    Click="btnDeleteToastNotification_Click" 
+                                                    Margin="4 0 0 0"  
+                                                    VerticalAlignment="Bottom" 
+                                                    HorizontalAlignment="Stretch"/>
+                                            </StackPanel>
                                             <!--<Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>-->
                                         </StackPanel>
                                     </Grid>

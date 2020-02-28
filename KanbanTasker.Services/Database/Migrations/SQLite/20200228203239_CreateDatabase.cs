@@ -2,10 +2,11 @@
 
 namespace KanbanTasker.Services.Database.Migrations.SQLite
 {
-    public partial class AddedDateInfo : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
             // NOTE: In the case where db is already created locally, just comment this out
             #region DEBUG
             //migrationBuilder.CreateTable(
@@ -33,6 +34,7 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
             //        DueDate = table.Column<string>(nullable: true),
             //        StartDate = table.Column<string>(nullable: true),
             //        FinishDate = table.Column<string>(nullable: true),
+            //        TimeDue = table.Column<string>(nullable: true),
             //        ReminderTime = table.Column<string>(nullable: true),
             //        Title = table.Column<string>(nullable: true),
             //        Description = table.Column<string>(nullable: true),
@@ -56,6 +58,8 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
             //    name: "IX_tblTasks_BoardId",
             //    table: "tblTasks",
             //    column: "BoardId");
+
+           
             #endregion DEBUG
 
             // Add new columns to db
@@ -66,6 +70,11 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
 
             migrationBuilder.AddColumn<string>(
                 name: "FinishDate",
+                table: "tblTasks",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "TimeDue",
                 table: "tblTasks",
                 nullable: true);
 
@@ -84,6 +93,10 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
         {
             migrationBuilder.DropColumn(
                 name: "DueDate",
+                table: "tblTasks");
+
+            migrationBuilder.DropColumn(
+                name: "TimeDue",
                 table: "tblTasks");
 
             migrationBuilder.DropColumn(

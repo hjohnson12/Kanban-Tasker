@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanTasker.Services.Database.Migrations.SQLite
 {
     [DbContext(typeof(Db_SQLite))]
-    [Migration("20200222192828_AddedDateInfo")]
-    partial class AddedDateInfo
+    [Migration("20200228203239_CreateDatabase")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,8 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
                     b.Property<string>("StartDate");
 
                     b.Property<string>("Tags");
+
+                    b.Property<string>("TimeDue");
 
                     b.Property<string>("Title");
 

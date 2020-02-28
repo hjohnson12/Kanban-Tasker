@@ -265,7 +265,8 @@ namespace KanbanTasker.Views
             }
         }
 
-        private void BtnTestReminder_Click(object sender, RoutedEventArgs e)
+        
+    private void BtnTestReminder_Click(object sender, RoutedEventArgs e)
         {
             //var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
             //var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
@@ -280,7 +281,7 @@ namespace KanbanTasker.Views
             if (string.IsNullOrEmpty(e.NewTime.ToString()))
                 return;
             else
-                ViewModel.SetReminderTime(e.NewTime.ToString());
+                ViewModel.SetTimeDue(e.NewTime.ToString());
         }
 
         #endregion UIEvents
@@ -294,6 +295,10 @@ namespace KanbanTasker.Views
         private void autoSuggestBoxTags_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as AutoSuggestBox).IsSuggestionListOpen = true;
+        }
+
+        private void btnDeleteToastNotification_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

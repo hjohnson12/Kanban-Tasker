@@ -20,6 +20,7 @@ namespace KanbanTasker.Models
         private string _description;
         private string _dateCreated;
         private string _dueDate;
+        private string _timeDue;
         private string _startDate;
         private string _finishDate;
         private string _reminderTime;
@@ -30,7 +31,6 @@ namespace KanbanTasker.Models
         private PresentationBoard _Board;
 
         public int ID { get => _id; set { if (_id != value) { _id = value; OnPropertyChanged(); } } }
-  //      public int? BoardId { get => _boardId; set { _boardId = value; OnPropertyChanged(); } }
         public int BoardId
         {
             get => _boardId;
@@ -60,6 +60,7 @@ namespace KanbanTasker.Models
         public string StartDate { get => _startDate; set { if (_startDate != value) { _startDate = value; OnPropertyChanged(); } } }
         public string FinishDate { get => _finishDate; set { if (_finishDate != value) { _finishDate = value; OnPropertyChanged(); } } }
         public string ReminderTime { get => _reminderTime; set { if (_reminderTime != value) { _reminderTime = value; OnPropertyChanged(); } } }
+        public string TimeDue { get => _timeDue; set { if (_timeDue != value) { _timeDue = value; OnPropertyChanged(); } } }
         public string DaysWorkedOn { get => _daysWorkedOn; set { if (_daysWorkedOn != value) { _daysWorkedOn = value; OnPropertyChanged(); } } }
         public string DaysSinceCreation { get => _daysSinceCreation; set { if (_daysSinceCreation != value) { _daysSinceCreation = value; OnPropertyChanged(); } } }
         
@@ -85,7 +86,22 @@ namespace KanbanTasker.Models
                     OnPropertyChanged();
                 }
             }
-        }                                                    // Hack --- Combobox cannot bind correctly.
+        } // Hack --- Combobox cannot bind correctly.
+
+        private object _ReminderTimeComboBoxItem;
+        public object ReminderTimeComboBoxItem
+        {
+            get => _ReminderTimeComboBoxItem;
+            set
+            {
+                if (_ReminderTimeComboBoxItem != value)
+                {
+                    ReminderTime = value == null ? null : ((ComboBoxItem)value).Content?.ToString();
+                    _ReminderTimeComboBoxItem = value;
+                    OnPropertyChanged();
+                }
+            }
+        } // Hack --- Combobox cannot bind correctly.
 
         public PresentationTask(TaskDTO dto)
         {
@@ -93,6 +109,7 @@ namespace KanbanTasker.Models
             BoardId = dto.BoardId;
             DateCreated = dto.DateCreated;
             DueDate = dto.DueDate;
+            TimeDue = dto.TimeDue;
             ReminderTime = dto.ReminderTime;
             StartDate = dto.StartDate;
             FinishDate = dto.FinishDate;
@@ -118,6 +135,7 @@ namespace KanbanTasker.Models
                 BoardId = BoardId,
                 DateCreated = DateCreated,
                 DueDate = DueDate,
+                TimeDue = TimeDue,
                 ReminderTime = ReminderTime,
                 StartDate = StartDate,
                 FinishDate = FinishDate,
