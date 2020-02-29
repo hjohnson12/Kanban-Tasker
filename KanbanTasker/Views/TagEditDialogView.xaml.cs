@@ -54,7 +54,7 @@ namespace KanbanTasker.Views
 
         private void tagColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
-            (ViewModel.CurrentTask.TagListViewItem as ListViewItem).Background = new SolidColorBrush(sender.Color);
+            ViewModel.TagBackground = new SolidColorBrush(sender.Color);
             // ViewModel.TagBackground = sender.Color;
 
             var color = Color.FromArgb(sender.Color.A, sender.Color.R, sender.Color.G, sender.Color.B);
@@ -68,13 +68,13 @@ namespace KanbanTasker.Views
             int sumRGB = ConvertToRGB(color);    // get the color objects sum of the RGB value
             if (sumRGB <= MIDDLE)          // Darker Background
             {
-                (ViewModel.CurrentTask.TagListViewItem as ListViewItem).Foreground = new SolidColorBrush(Colors.White); // Set to white text
-                //ViewModel.TagForeground = new SolidColorBrush(Colors.White); // Set to white text
+               // (ViewModel.CurrentTask.TagListViewItem as ListViewItem).Foreground = new SolidColorBrush(Colors.White); // Set to white text
+                ViewModel.TagForeground = new SolidColorBrush(Colors.White); // Set to white text
             }
             else if (sumRGB > MIDDLE)     // Lighter Background
             {
-                (ViewModel.CurrentTask.TagListViewItem as ListViewItem).Foreground = new SolidColorBrush(Colors.Black); // Set to black text
-                //ViewModel.TagForeground = new SolidColorBrush(Colors.Black); // Set to black text
+              //  (ViewModel.CurrentTask.TagListViewItem as ListViewItem).Foreground = new SolidColorBrush(Colors.Black); // Set to black text
+                ViewModel.TagForeground = new SolidColorBrush(Colors.Black); // Set to black text
             }
         }
 

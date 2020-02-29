@@ -686,8 +686,8 @@
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Background="#FFEDEDED" CornerRadius="4">
+                                    <DataTemplate x:DataType="viewmodels:BoardViewModel">
+                                        <Border Background="{Binding ElementName=boardViewPage, Path=ViewModel.TagBackground}" CornerRadius="4">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
@@ -700,7 +700,7 @@
                                                     HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
                                                     FontSize="12"
-                                                    Foreground="#FF454545"
+                                                    Foreground="{Binding ElementName=boardViewPage, Path=ViewModel.TagForeground}"
                                                     Text="{Binding}"
                                                     TextTrimming="None"
                                                     TextWrapping="Wrap" />
@@ -712,7 +712,7 @@
                                                     Content="&#xE74D;"
                                                     CornerRadius="2"
                                                     FontFamily="Segoe MDL2 Assets"
-                                                    Foreground="Black">
+                                                    Foreground="{Binding ElementName=boardViewPage, Path=ViewModel.TagForeground}">
                                                     <Button.Resources>
                                                         <ResourceDictionary>
                                                             <ResourceDictionary.ThemeDictionaries>

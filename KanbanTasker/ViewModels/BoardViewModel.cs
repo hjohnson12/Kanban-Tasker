@@ -12,6 +12,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using KanbanTasker.Helpers.Extensions;
 using KanbanTasker.Helpers;
 using LeaderAnalytics.AdaptiveClient;
+using Windows.UI.Xaml.Media;
 
 namespace KanbanTasker.ViewModels
 {
@@ -65,7 +66,8 @@ namespace KanbanTasker.ViewModels
         public ICommand DeleteTagCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
         public ICommand RemoveScheduledNotificationCommand { get; set; }
-
+        private SolidColorBrush _tagForeground;
+        private SolidColorBrush _tagBackground;
         #region Properties
 
         /// <summary>
@@ -82,7 +84,25 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+        public SolidColorBrush TagForeground
+        {
+            get { return _tagForeground; }
+            set
+            {
+                _tagForeground = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public SolidColorBrush TagBackground
+        {
+            get { return _tagBackground; }
+            set
+            {
+                _tagBackground = value;
+                OnPropertyChanged();
+            }
+        }
         private ObservableCollection<ListViewItem> _Tags;
         public ObservableCollection<ListViewItem> Tags
         {
@@ -200,12 +220,16 @@ namespace KanbanTasker.ViewModels
             ReminderTimes.Add(new ComboBoxItem { Content = "1 Day Before" });
             ReminderTimes.Add(new ComboBoxItem { Content = "2 Days Before" });
 
+            Tags = new ObservableCollection<ListViewItem>();
+
             if (Board.Tasks != null && board.Tasks.Any())   // hack
                 foreach (PresentationTask task in Board.Tasks)
                 {
                     task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
                     task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
                     task.TagListViewItem = GetListViewItemForTag(task.SelectedTag);
+                    foreach (var tag in task.Tags)
+                        Tags.Add(new ListViewItem { Content = tag });
                 }
         }
 
@@ -296,7 +320,6 @@ namespace KanbanTasker.ViewModels
             TaskDTO dto = CurrentTask.To_TaskDTO();
             dto.ColorKey = ((ComboBoxItem)CurrentTask.ColorKeyComboBoxItem)?.Content.ToString() ?? "Normal"; // hack
             dto.ReminderTime = ((ComboBoxItem)CurrentTask.ReminderTimeComboBoxItem)?.Content.ToString() ?? "None";
-
             bool isNew = dto.Id == 0;
 
             if (isNew)
@@ -564,6 +587,7 @@ namespace KanbanTasker.ViewModels
                 if (!Board.TagsCollection.Contains(tag))
                     Board.TagsCollection.Add(tag);
                 SuggestedTagsCollection.Remove(tag);
+                Tags.Add(new ListViewItem { Content = tag });
                 MessagePump.Show($"Tag {tag} added successfully", 3000);
                 result = true;
             }

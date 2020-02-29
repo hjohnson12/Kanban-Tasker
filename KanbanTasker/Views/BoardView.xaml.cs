@@ -336,10 +336,13 @@ namespace KanbanTasker.Views
             // Ideally, edit the tag through Edit Pane
             // User is able to select tag through the card too, should maybe handle that case
             // when CurrentTask would be null
-            var tag = e.ClickedItem;
-            ViewModel.CurrentTask.SelectedTag = tag.ToString();
+            //var tag = e.ClickedItem.ToString();
+            //var selTag = ViewModel.Tags.Where(x => x.Content.ToString() == tag);
+            //ViewModel.CurrentTask.TagListViewItem = ViewModel.Tags.First();
+            //ViewModel.CurrentTask.SelectedTag = tag.ToString();
             var dialog = new TagEditDialogView(ViewModel);
             await dialog.ShowAsync();
         }
     }
 }
+#endregion UIEvents

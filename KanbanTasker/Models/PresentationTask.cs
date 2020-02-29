@@ -114,7 +114,7 @@ namespace KanbanTasker.Models
             {
                 if(_TagListViewItem != value)
                 {
-                    SelectedTag = value == null ? null : ((ListViewItem)value).Content?.ToString();
+                    SelectedTag = value == null ? null : (new ListViewItem { Content = value }).Content?.ToString();
                     _TagListViewItem = value;
                     OnPropertyChanged();
                 }
