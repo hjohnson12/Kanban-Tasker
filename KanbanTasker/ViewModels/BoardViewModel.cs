@@ -210,6 +210,7 @@ namespace KanbanTasker.ViewModels
             CurrentTask = new PresentationTask(new TaskDTO() { Category = category }) { Board = Board, BoardId = Board.ID,  ColorKeyComboBoxItem = ColorKeys[1], ReminderTimeComboBoxItem = ReminderTimes[0] };
             OriginalTask = null; 
             IsEditingTask = true;
+            InitializeSuggestedTags();
         }
 
         public void EditTaskCommandHandler(int taskID)
