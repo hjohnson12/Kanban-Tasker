@@ -1,4 +1,5 @@
-﻿using KanbanTasker.Models;
+﻿using KanbanTasker.Helpers.Extensions;
+using KanbanTasker.Models;
 using KanbanTasker.ViewModels;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Syncfusion.UI.Xaml.Kanban;
@@ -15,6 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -38,117 +40,6 @@ namespace KanbanTasker.Views
         {
             var selectedBoard = e.Parameter as BoardViewModel;
             ViewModel = selectedBoard;
-        }
-
-        public DateTimeOffset? ConvertToDateTimeOffset(string dateTime)
-        {
-            DateTimeOffset? dt = null;
-            DateTime dt2;
-            if (dateTime != null && dateTime is string)
-            {
-                var stringToConvert = dateTime as string;
-                bool success = DateTime.TryParse(dateTime, out dt2);
-                if (success)
-                    dt = dt2;
-                else
-                    return dt;
-            }
-            return dt;
-        }
-
-        /// <summary>
-        /// Initializes the ToastContent for the current task and schedules the toast notificiaton.
-        /// </summary>
-        /// <param name="dueDate"></param>
-        /// <param name="reminderTime"></param>
-        private void ScheduleToastNotification(DateTimeOffset? dueDate, DateTimeOffset? reminderTime)
-        {
-            DateTimeOffset alarmTime = new DateTimeOffset(
-                dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
-                reminderTime.Value.Hour, reminderTime.Value.Minute, reminderTime.Value.Second,
-                reminderTime.Value.Offset
-            );
-
-            // Verify that the alarm is after the current time
-            if (alarmTime > DateTime.Now.AddSeconds(5))
-            {
-                // Construct toast notification content
-                var toastContent = ConstructToastContent(alarmTime);
-
-                // Create the toast notification
-                var scheduledNotif = new ScheduledToastNotification(toastContent.GetXml(), alarmTime);
-
-                // And schedule the notification
-                ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotif);
-            }
-        }
-
-        /// <summary>
-        /// Builds and returns the toast notification content object.  
-        /// </summary>
-        /// <param name="alarmTime"></param>
-        /// <returns>Returns a toast content object to be used for creating the toast notification.</returns>
-        public ToastContent ConstructToastContent(DateTimeOffset alarmTime)
-        {
-            return new ToastContent()
-            {
-                //DisplayTimestamp = new DateTime(alarmTime.Year, alarmTime.Month, alarmTime.Day, alarmTime.Hour, alarmTime.Minute, alarmTime.Second, DateTimeKind.Utc),
-                Visual = new ToastVisual()
-                {
-                    BindingGeneric = new ToastBindingGeneric()
-                    {
-                        Children =
-                            {
-                                new AdaptiveText()
-                                { // Title
-                                    Text = "You have a task due"
-                                },
-                                new AdaptiveText()
-                                { // Description
-                                    Text = ViewModel.CurrentTask.Title.ToString() + "\n" + ViewModel.CurrentTask.Description.ToString()
-                                },
-                                new AdaptiveText()
-                                { // Time
-                                    Text = "Due " + alarmTime.ToString("t") + ", " + alarmTime.Date.ToShortDateString()
-                                },
-
-                            },
-                        AppLogoOverride = new ToastGenericAppLogo()
-                        {
-                            Source = "ms-appx:///Assets/Square44x44Logo.targetsize-256.png",
-                        },
-
-                    }
-                },
-                Actions = new ToastActionsCustom()
-                {
-                    Inputs =
-                        {
-                            new ToastSelectionBox("snoozeTime")
-                            {
-                                DefaultSelectionBoxItemId = "15",
-                                Items =
-                                {
-                                    new ToastSelectionBoxItem("1", "1 minute"),
-                                    new ToastSelectionBoxItem("15", "15 minutes"),
-                                    new ToastSelectionBoxItem("60", "1 hour"),
-                                    new ToastSelectionBoxItem("240", "4 hours"),
-                                    new ToastSelectionBoxItem("1440", "1 day")
-                                }
-                            }
-                        },
-                    Buttons =
-                        {
-                            new ToastButtonSnooze()
-                            {
-                                SelectionBoxId = "snoozeTime"
-                            },
-                            new ToastButtonDismiss()
-                        }
-                },
-                Launch = "action=viewEvent&eventId=1983",
-                Scenario = ToastScenario.Reminder
-            };
         }
 
         #endregion Methods
@@ -181,6 +72,9 @@ namespace KanbanTasker.Views
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
 
+            var brushColor = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+            DueDateCalendarPicker.Background = brushColor;
+
             txtBoxTitle.Focus(FocusState.Programmatic);
         }
 
@@ -204,12 +98,12 @@ namespace KanbanTasker.Views
             if (splitView.IsPaneOpen == true)
                 splitView.IsPaneOpen = false;
             
-            //Schedule toast notification if they chose a due date and reminder time
-            // Note: UWP TimePicker doesn't support Nullable values, autoselects current time
-            var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
-            var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
-            if (dueDate != null && reminderTime != null)
-                ScheduleToastNotification(dueDate, reminderTime);
+            // Schedule toast notification if user chose a due date and reminder time
+            // Note: UWP TimePicker doesn't support Nullable values, defaults to a value either way
+            //var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
+            //var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
+            //if (dueDate != null && reminderTime != null)
+            //    ScheduleToastNotification(dueDate, reminderTime);
         }
 
         private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -327,6 +221,7 @@ namespace KanbanTasker.Views
                     return;
                 if (ViewModel.AddTag(args.ChosenSuggestion.ToString()))
                     autoSuggestBoxTags.Text = string.Empty;
+                autoSuggestBoxTags.ItemsSource = ViewModel.SuggestedTagsCollection;
             }
             else if (!string.IsNullOrEmpty(args.QueryText))
             {
@@ -338,19 +233,26 @@ namespace KanbanTasker.Views
                     return;
                 if (ViewModel.AddTag(args.QueryText))
                     autoSuggestBoxTags.Text = string.Empty;
+                autoSuggestBoxTags.ItemsSource = ViewModel.SuggestedTagsCollection;
             }
         }
 
         private void autoSuggestBoxTags_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Test
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && sender.Text != "")
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var results = ViewModel.Board.TagsCollection.Where(i => i.StartsWith(sender.Text)).ToList();
-                autoSuggestBoxTags.ItemsSource = results;
-                autoSuggestBoxTags.IsSuggestionListOpen = true;
+                var results = ViewModel.SuggestedTagsCollection.Where(i => i.StartsWith(sender.Text)).ToList();
+
+                if (results.Count > 0)
+                    sender.ItemsSource = results;
+                else
+                {
+                    results.Add(sender.Text);
+                    sender.ItemsSource = results;
+                }
             }
-    }
+        }
 
         private void CalendarPicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
@@ -365,6 +267,29 @@ namespace KanbanTasker.Views
                 {
                     case "DueDateCalendarPicker":
                         ViewModel.SetDueDate(datePicked);
+
+                        var dueDate = ViewModel.CurrentTask.DueDate.ToNullableDateTimeOffset();
+                        var timeDue = ViewModel.CurrentTask.TimeDue.ToNullableDateTimeOffset();
+                        DateTimeOffset? today = DateTimeOffset.Now;
+
+                        DateTimeOffset taskDueDate = new DateTimeOffset(
+                          dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
+                          timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
+                          timeDue.Value.Offset
+                        );
+
+                        if (today > taskDueDate)
+                        {
+                            var brush = new SolidColorBrush(Windows.UI.Colors.Red);
+                            brush.Opacity = 0.6;
+                            (DueDateCalendarPicker.Background) = brush;
+                        }
+                        else
+                        {
+                            var brushColor = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+                            DueDateCalendarPicker.Background = brushColor;
+                        }
+
                         break;
                     case "StartDateCalendarPicker":
                         ViewModel.SetStartDate(datePicked);
@@ -376,14 +301,15 @@ namespace KanbanTasker.Views
             }
         }
 
-        private void BtnTestReminder_Click(object sender, RoutedEventArgs e)
+        
+    private void BtnTestReminder_Click(object sender, RoutedEventArgs e)
         {
-            var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
-            var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
-            if (dueDate != null && reminderTime != null)
-                ScheduleToastNotification(dueDate, reminderTime);
-            else
-                ViewModel.ShowInAppNotification("Failed to schedule toast notification. Due date and/or alarm time not set, please try again.");
+            //var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
+            //var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
+            //if (dueDate != null && reminderTime != null)
+            //    ScheduleToastNotification(dueDate, reminderTime);
+            //else
+            //    ViewModel.ShowInAppNotification("Failed to schedule toast notification. Due date and/or alarm time not set, please try again.");
         }
 
         private void TaskReminderTimePicker_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
@@ -391,15 +317,13 @@ namespace KanbanTasker.Views
             if (string.IsNullOrEmpty(e.NewTime.ToString()))
                 return;
             else
-                ViewModel.SetReminderTime(e.NewTime.ToString());
+                ViewModel.SetTimeDue(e.NewTime.ToString());
         }
-
-        #endregion UIEvents
 
         private void autoSuggestBoxTags_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            if (!string.IsNullOrEmpty(autoSuggestBoxTags.Text))
-                autoSuggestBoxTags.Text = string.Empty;
+            // When a user navigates through the suggestion list using the keyboard, you need to update the text in the text box to match.
+            // In this case, we're just adding it to the tag collection automatically
         }
 
         private void autoSuggestBoxTags_GotFocus(object sender, RoutedEventArgs e)

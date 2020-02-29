@@ -385,39 +385,71 @@
                                         </Border.Background>
                                     </Border>-->
                                 </Grid>
-
-                                <!--  Date Information Section on Kanban Card  -->
+                                
+                                <!-- Date Information Section on Kanban Card -->
+                                <!-- Set this section to be visible only if the respective card has a selected due date -->
                                 <!--<Grid Grid.Row="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-
-                                    <TextBlock
-                                        Text="Due: "
+                                    --><!--<TextBlock 
+                                        Text="&#xE121;" 
+                                        FontFamily="SegoeMDL2Assets"
                                         FontWeight="Bold"
-                                        FontSize="{Binding Tag.CardStyle.FontSize,
-                                        RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                        Grid.Column="0"
-                                        Margin="0 0 12 0"/>
-                                    <TextBlock
-                                        x:Name="KANBAN_DueDate"
-                                        Height="Auto"
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                        Foreground="{Binding Tag.CardStyle.Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                        Text="{Binding DueDate}"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                        Grid.Column="2"
+                                        FontSize="{Binding Tag.CardStyle.FontSize, 
+                                        RelativeSource={RelativeSource Mode=TemplatedParent}}"  
+                                        Grid.Column="0" 
+                                        Margin="0 0 12 0"/>--><!--
+                                    <Border Grid.Row="0" BorderThickness="0.25" Grid.ColumnSpan="3" BorderBrush="Gray" Margin="0 0 0 4"  HorizontalAlignment="Stretch" />
+                                    <Border CornerRadius="4" Grid.Row="1"  Grid.Column="0" Background="Transparent">
+                                        <StackPanel Orientation="Horizontal" Margin="3">
+                                            <SymbolIcon Symbol="Clock" Grid.Column="0" VerticalAlignment="Center" Foreground="Red" />
+                                            <TextBlock 
+                                                Text="Due: " 
+                                                Margin="4 0 4 0"
+                                                Foreground="Red"
+                                                FontWeight="Bold"
+                                                VerticalAlignment="Center"
+                                                FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                            <TextBlock
+                                                x:Name="KANBAN_DueDate"
+                                                Height="Auto"
+                                                Margin="2"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                Foreground="Red"
+                                                Text="{Binding DueDate}"
+                                                TextWrapping="Wrap" />
+                                            <Border VerticalAlignment="Stretch" BorderThickness="0.25" BorderBrush="Gray"  Margin="8 0 8 0" />
+                                            <TextBlock
+                                                x:Name="KANBAN_DaysRemaining"
+                                                Height="Auto"
+                                                Margin="2"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                Foreground="Black"
+                                                Text="0 day(s) remaining"
+                                                TextWrapping="Wrap" />  
+                                        </StackPanel>
+                                    </Border>
+                                    
+                                    --><!--<TextBlock 
+                                        FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"  
+                                        Grid.Column="2" 
                                         HorizontalAlignment="Right"
                                         Margin="0 0 12 0">
                                         <Run FontWeight="Bold" Text="Age:" />
                                         <Run Text="4d" />
-                                    </TextBlock>
+                                    </TextBlock>--><!--
                                 </Grid>-->
                             </Grid>
                         </Grid>
@@ -622,7 +654,8 @@
                                 x:Name="lstViewTags"
                                 IsItemClickEnabled="True"
                                 ItemClick="lstViewTags_ItemClick"
-                                ItemsSource="{x:Bind ViewModel.CurrentTask.Tags, Mode=OneWay}">
+                                ItemsSource="{x:Bind ViewModel.CurrentTask.Tags, Mode=OneWay}"
+                                SelectedValue="{x:Bind ViewModel.CurrentTask.TagListViewItem, Mode=TwoWay}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <controls:WrapPanel
@@ -775,9 +808,8 @@
                                             Text="Due Date:" />
                                         <CalendarDatePicker
                                             x:Name="DueDateCalendarPicker"
-                                            Grid.Column="1"
-                                            Margin="36,10,8,0"
-                                            HorizontalAlignment="Stretch"
+                                            Grid.Column="1"  
+                                            Foreground="Red"
                                             Background="{ThemeResource RegionBrush}"
                                             Date="{x:Bind ViewModel.CurrentTask.DueDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
@@ -785,16 +817,42 @@
                                     </Grid>
                                     <Grid Grid.Row="2" Margin="8">
                                         <StackPanel Orientation="Vertical">
-                                            <TimePicker
-                                                x:Name="TaskReminderTimePicker"
-                                                Grid.ColumnSpan="2"
-                                                HorizontalAlignment="Stretch"
-                                                Header="Reminder Time:"
-                                                Style="{ThemeResource CustomTimePickerStyle}"
-                                                Time="{x:Bind ViewModel.CurrentTask.ReminderTime, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
-                                                TimeChanged="TaskReminderTimePicker_TimeChanged" />
-
-                                            <Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test" />
+                                            <TimePicker 
+                                                x:Name="TaskReminderTimePicker"  
+                                                Margin="0 3 0 0"
+                                                TimeChanged="TaskReminderTimePicker_TimeChanged" 
+                                                Style="{ThemeResource CustomTimePickerStyle}" 
+                                                Time="{x:Bind ViewModel.CurrentTask.TimeDue, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
+                                                Grid.ColumnSpan="2" 
+                                                HorizontalAlignment="Stretch" />
+                                            <Grid Margin="0 12 0 0" HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition  Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ComboBox 
+                                                    x:Name="ReminderComboBox"
+                                                    BorderThickness="1"  
+                                                    Grid.Column="0"
+                                                    ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}" 
+                                                    Header="Set Reminder:"
+                                                    Width="175" 
+                                                    Background="{ThemeResource RegionBrush}"
+                                                    SelectedValue="{x:Bind ViewModel.CurrentTask.ReminderTimeComboBoxItem, Mode=TwoWay}">
+                                                </ComboBox>
+                                                <Button 
+                                                    Content="Remove" 
+                                                    ToolTipService.ToolTip="Remove scheduled notification" 
+                                                    x:Name="btnDeleteToastNotification" 
+                                                    Grid.Column="1"
+                                                    Command="{Binding ElementName=boardViewPage, Path=ViewModel.RemoveScheduledNotificationCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="4 0 0 0"  
+                                                    VerticalAlignment="Bottom" 
+                                                    HorizontalAlignment="Stretch"/>
+                                            </Grid>
+                                            
+                                            <!--<Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>-->
                                         </StackPanel>
                                     </Grid>
                                     <Grid Grid.Row="3">

@@ -141,6 +141,7 @@
     <Compile Include="Converters\Text\StringToTimeSpanConverter.cs" />
     <Compile Include="Helpers\CustomKanbanColumn.cs" />
     <Compile Include="Helpers\Extensions\CustomExtensionMethods.cs" />
+    <Compile Include="Helpers\ToastHelper.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
     <Compile Include="Models\PresentationTask.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />

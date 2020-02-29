@@ -56,6 +56,8 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
 
                     b.Property<string>("Tags");
 
+                    b.Property<string>("TimeDue");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
