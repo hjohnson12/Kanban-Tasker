@@ -216,6 +216,7 @@ namespace KanbanTasker.Views
                     return;
                 if (ViewModel.AddTag(args.ChosenSuggestion.ToString()))
                     autoSuggestBoxTags.Text = string.Empty;
+                autoSuggestBoxTags.ItemsSource = ViewModel.SuggestedTagsCollection;
             }
             else if (!string.IsNullOrEmpty(args.QueryText))
             {
@@ -227,7 +228,7 @@ namespace KanbanTasker.Views
                     return;
                 if (ViewModel.AddTag(args.QueryText))
                     autoSuggestBoxTags.Text = string.Empty;
-                autoSuggestBoxTags.ItemsSource = ViewModel.Board.TagsCollection;
+                autoSuggestBoxTags.ItemsSource = ViewModel.SuggestedTagsCollection;
             }
         }
 
