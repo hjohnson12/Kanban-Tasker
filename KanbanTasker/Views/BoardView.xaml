@@ -800,6 +800,7 @@
                                         <CalendarDatePicker 
                                             x:Name="DueDateCalendarPicker"
                                             Grid.Column="1"  
+                                            Foreground="Red"
                                             Background="{ThemeResource RegionBrush}"
                                             Date="{x:Bind ViewModel.CurrentTask.DueDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"

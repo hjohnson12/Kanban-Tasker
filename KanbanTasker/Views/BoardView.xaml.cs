@@ -1,4 +1,5 @@
-﻿using KanbanTasker.Models;
+﻿using KanbanTasker.Helpers.Extensions;
+using KanbanTasker.Models;
 using KanbanTasker.ViewModels;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Syncfusion.UI.Xaml.Kanban;
@@ -15,6 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -69,6 +71,9 @@ namespace KanbanTasker.Views
             // Open pane if not already
             if (splitView.IsPaneOpen == false)
                 splitView.IsPaneOpen = true;
+
+            var brushColor = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+            DueDateCalendarPicker.Background = brushColor;
 
             txtBoxTitle.Focus(FocusState.Programmatic);
         }
@@ -262,6 +267,29 @@ namespace KanbanTasker.Views
                 {
                     case "DueDateCalendarPicker":
                         ViewModel.SetDueDate(datePicked);
+
+                        var dueDate = ViewModel.CurrentTask.DueDate.ToNullableDateTimeOffset();
+                        var timeDue = ViewModel.CurrentTask.TimeDue.ToNullableDateTimeOffset();
+                        DateTimeOffset? today = DateTimeOffset.Now;
+
+                        DateTimeOffset taskDueDate = new DateTimeOffset(
+                          dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
+                          timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
+                          timeDue.Value.Offset
+                        );
+
+                        if (today > taskDueDate)
+                        {
+                            var brush = new SolidColorBrush(Windows.UI.Colors.Red);
+                            brush.Opacity = 0.6;
+                            (DueDateCalendarPicker.Background) = brush;
+                        }
+                        else
+                        {
+                            var brushColor = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+                            DueDateCalendarPicker.Background = brushColor;
+                        }
+
                         break;
                     case "StartDateCalendarPicker":
                         ViewModel.SetStartDate(datePicked);
