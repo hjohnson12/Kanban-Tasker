@@ -839,7 +839,6 @@
                                                     Grid.Column="1"
                                                     Command="{Binding ElementName=boardViewPage, Path=ViewModel.RemoveScheduledNotificationCommand}"
                                                     CommandParameter="{Binding}"
-                                                    Click="btnDeleteToastNotification_Click" 
                                                     Margin="4 0 0 0"  
                                                     VerticalAlignment="Bottom" 
                                                     HorizontalAlignment="Stretch"/>

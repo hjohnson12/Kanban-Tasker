@@ -519,6 +519,8 @@ namespace KanbanTasker.ViewModels
             else
             {
                 CurrentTask.Tags.Add(tag);
+                if (!Board.TagsCollection.Contains(tag))
+                    Board.TagsCollection.Add(tag);
                 MessagePump.Show($"Tag {tag} added successfully", 3000);
                 result = true;
             }

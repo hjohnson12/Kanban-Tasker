@@ -227,19 +227,26 @@ namespace KanbanTasker.Views
                     return;
                 if (ViewModel.AddTag(args.QueryText))
                     autoSuggestBoxTags.Text = string.Empty;
+                autoSuggestBoxTags.ItemsSource = ViewModel.Board.TagsCollection;
             }
         }
 
         private void autoSuggestBoxTags_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Test
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && sender.Text != "")
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 var results = ViewModel.Board.TagsCollection.Where(i => i.StartsWith(sender.Text)).ToList();
-                autoSuggestBoxTags.ItemsSource = results;
-                autoSuggestBoxTags.IsSuggestionListOpen = true;
+
+                if (results.Count > 0)
+                    sender.ItemsSource = results;
+                else
+                {
+                    results.Add(sender.Text);
+                    sender.ItemsSource = results;
+                }
             }
-    }
+        }
 
         private void CalendarPicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
@@ -284,12 +291,10 @@ namespace KanbanTasker.Views
                 ViewModel.SetTimeDue(e.NewTime.ToString());
         }
 
-        #endregion UIEvents
-
         private void autoSuggestBoxTags_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            if (!string.IsNullOrEmpty(autoSuggestBoxTags.Text))
-                autoSuggestBoxTags.Text = string.Empty;
+            // When a user navigates through the suggestion list using the keyboard, you need to update the text in the text box to match.
+            // In this case, we're just adding it to the tag collection automatically
         }
 
         private void autoSuggestBoxTags_GotFocus(object sender, RoutedEventArgs e)
@@ -297,8 +302,6 @@ namespace KanbanTasker.Views
             (sender as AutoSuggestBox).IsSuggestionListOpen = true;
         }
 
-        private void btnDeleteToastNotification_Click(object sender, RoutedEventArgs e)
-        {
-        }
+        #endregion UIEvents
     }
 }
