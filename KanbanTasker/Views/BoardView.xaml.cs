@@ -236,7 +236,7 @@ namespace KanbanTasker.Views
             // Test
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var results = ViewModel.Board.TagsCollection.Where(i => i.StartsWith(sender.Text)).ToList();
+                var results = ViewModel.SuggestedTagsCollection.Where(i => i.StartsWith(sender.Text)).ToList();
 
                 if (results.Count > 0)
                     sender.ItemsSource = results;

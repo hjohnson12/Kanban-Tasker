@@ -41,7 +41,18 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
+        public ObservableCollection<string> SuggestedTagsCollection 
+        {
+            get => _suggestedTagsCollection;
+            set
+            {
+                _suggestedTagsCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         private string _paneTitle;
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
@@ -137,6 +148,7 @@ namespace KanbanTasker.ViewModels
         }
 
         private InAppNotification MessagePump;
+        private ObservableCollection<string> _suggestedTagsCollection;
         private const int MessageDuration = 3000;
 
         #endregion Properties
@@ -205,9 +217,24 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "Edit Task";
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
             IsEditingTask = true;
+            InitializeTagAutosuggest();
             InitializeDateInformation();
             // clone a copy of CurrentTask so we can restore if user cancels
             OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
+        }
+
+        private void InitializeTagAutosuggest()
+        {
+            SuggestedTagsCollection = Board.TagsCollection;
+            foreach(var tag in CurrentTask.Tags)
+            {
+                if (SuggestedTagsCollection.Contains(tag))
+                {
+                    SuggestedTagsCollection.Remove(tag);
+                }
+                else
+                    SuggestedTagsCollection = Board.TagsCollection;
+            }
         }
 
         private void InitializeDateInformation()
@@ -521,6 +548,7 @@ namespace KanbanTasker.ViewModels
                 CurrentTask.Tags.Add(tag);
                 if (!Board.TagsCollection.Contains(tag))
                     Board.TagsCollection.Add(tag);
+                SuggestedTagsCollection.Remove(tag);
                 MessagePump.Show($"Tag {tag} added successfully", 3000);
                 result = true;
             }

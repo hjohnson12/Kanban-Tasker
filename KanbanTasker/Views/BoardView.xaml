@@ -640,7 +640,7 @@
                                 TextChanged="autoSuggestBoxTags_TextChanged"
                                 SuggestionChosen="autoSuggestBoxTags_SuggestionChosen"            
                                 PlaceholderText="Press enter to add tag"
-                                ItemsSource="{x:Bind ViewModel.Board.TagsCollection,Mode=OneWay}"
+                                ItemsSource="{x:Bind ViewModel.SuggestedTagsCollection,Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
                                 QuerySubmitted="autoSuggestBoxTags_QuerySubmitted"
                                 Margin="36,10,0,0"
