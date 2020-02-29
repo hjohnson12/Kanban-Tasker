@@ -217,14 +217,15 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "Edit Task";
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
             IsEditingTask = true;
-            InitializeTagAutosuggest();
+            InitializeSuggestedTags();
             InitializeDateInformation();
             // clone a copy of CurrentTask so we can restore if user cancels
             OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
         }
 
-        private void InitializeTagAutosuggest()
+        private void InitializeSuggestedTags()
         {
+            // Removes tags from suggested list that are already on the tag, if any
             SuggestedTagsCollection = Board.TagsCollection;
             foreach(var tag in CurrentTask.Tags)
             {
@@ -289,7 +290,6 @@ namespace KanbanTasker.ViewModels
                 dto.DateCreated = DateTime.Now.ToString();
             }
             dto.Id = DataProvider.Call(x => x.TaskServices.SaveTask(dto)).Entity.Id;
-
 
             if (isNew)
             {
