@@ -17,14 +17,17 @@ namespace KanbanTasker.Services
             // Services - MSSQL
             .RegisterService<MSSQL.BoardServices, IBoardServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.MSSQL)
             .RegisterService<MSSQL.TaskServices, ITaskServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.MSSQL)
+            .RegisterService<MSSQL.TagServices, ITaskServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.MSSQL)
 
             // Services - MySQL
             .RegisterService<MySQL.BoardServices, IBoardServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.MySQL)
             .RegisterService<MySQL.TaskServices, ITaskServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.MySQL)
+            .RegisterService<MySQL.TagServices, ITaskServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.MySQL)
 
             // Services - SQLite
             .RegisterService<SQLite.BoardServices, IBoardServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.SQLite)
             .RegisterService<SQLite.TaskServices, ITaskServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.SQLite)
+            .RegisterService<SQLite.TagServices, ITaskServices>(EndPointType.DBMS, API_Name.Kanban, DatabaseProvider.SQLite)
 
             // Services - WebAPI
             .RegisterService<WebAPI.BoardServices, IBoardServices>(EndPointType.HTTP, API_Name.Kanban, DatabaseProvider.WebAPI)

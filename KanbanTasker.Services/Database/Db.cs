@@ -11,6 +11,8 @@ namespace KanbanTasker.Services.Database
     {
         public DbSet<BoardDTO> Boards { get; set; }
         public DbSet<TaskDTO> Tasks { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<TaskTag> TaskTags { get; set; }
 
         public Db(Func<IDbContextOptions> dbContextOptionsFactory) : base(dbContextOptionsFactory().Options) { }
 
@@ -21,6 +23,17 @@ namespace KanbanTasker.Services.Database
             base.OnModelCreating(mb);
             mb.Entity<BoardDTO>().ToTable("tblBoards");
             mb.Entity<TaskDTO>().ToTable("tblTasks");
+            mb.Entity<Tag>().ToTable("tblTags");
+
+            mb.Entity<TaskTag>().HasOne(x => x.Tag)
+                .WithMany(x => x.TaskTags)
+                .HasForeignKey(x => x.TagID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            mb.Entity<TaskTag>().HasOne(x => x.Task)
+                 .WithMany(x => x.TaskTags)
+                 .HasForeignKey(x => x.TaskID)
+                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

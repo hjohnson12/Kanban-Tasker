@@ -12,5 +12,6 @@ namespace KanbanTasker.Services
         public ITaskServices TaskServices => Create<ITaskServices>();
         public IBoardServices BoardServices => Create<IBoardServices>();
         public IDatabaseServices DatabaseServices => Create<IDatabaseServices>();
+        public ITagServices TagServices => Create<ITagServices>();
     }
 }

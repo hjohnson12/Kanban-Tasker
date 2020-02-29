@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace KanbanTasker.Model
 {
@@ -17,8 +18,7 @@ namespace KanbanTasker.Model
         public string Category { get; set; }
         public int ColumnIndex { get; set; }
         public string ColorKey { get; set; }
-        public string Tags { get; set; }
-
+        public ICollection<TaskTag> TaskTags { get; set; }
         public virtual BoardDTO Board { get; set; }
     }
 }
