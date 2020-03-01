@@ -346,19 +346,11 @@ namespace KanbanTasker.Views
                         var cardModel = card.Content as PresentationTask;
                         if (cardModel.ID == selectedModel.ID)
                         {
-                            // Get current index of card
+                            // Get current index of card and set on selected card
                             cardIndex = col.Cards.IndexOf(card);
-                        }
-
-                        // Set flyout to selected card index
-                        for (int i = 0; i <= col.Cards.Count; i++)
-                        {
-                            if (i == cardIndex)
-                            {
-                                FlyoutShowOptions myOption = new FlyoutShowOptions();
-                                myOption.ShowMode = FlyoutShowMode.Transient;
-                                taskFlyout.ShowAt(col.Cards[i], myOption);
-                            }
+                            FlyoutShowOptions myOption = new FlyoutShowOptions();
+                            myOption.ShowMode = FlyoutShowMode.Transient;
+                            taskFlyout.ShowAt(col.Cards[cardIndex], myOption);
                         }
                     }
                 }
