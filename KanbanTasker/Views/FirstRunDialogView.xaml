@@ -7,6 +7,7 @@
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    CornerRadius="4"
     Title="Welcome to Kanban Tasker"
     PrimaryButtonText="Close"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"

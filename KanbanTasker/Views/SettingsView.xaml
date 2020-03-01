@@ -10,7 +10,7 @@
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     BorderThickness="1"
     CloseButtonText="Close"
-    CornerRadius="2"
+    CornerRadius="4"
     PrimaryButtonClick="SettingsDialog_ViewUpdatesClick"
     PrimaryButtonText="View Updates"
     Style="{ThemeResource SettingsDialogStyle}"

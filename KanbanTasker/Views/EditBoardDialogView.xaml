@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc1="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
+    CornerRadius="4"
     Style="{ThemeResource SettingsDialogStyle}"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
