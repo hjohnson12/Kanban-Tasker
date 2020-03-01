@@ -25,7 +25,7 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
                 name: "tblTags",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TagName = table.Column<string>(nullable: true),
                     TagBackground = table.Column<string>(nullable: true),
@@ -33,7 +33,7 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblTags", x => x.ID);
+                    table.PrimaryKey("PK_tblTags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,7 +80,7 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
                         name: "FK_TaskTags_tblTags_TagID",
                         column: x => x.TagID,
                         principalTable: "tblTags",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TaskTags_tblTasks_TaskID",

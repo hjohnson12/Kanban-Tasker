@@ -17,7 +17,7 @@ namespace KanbanTasker.Services.MSSQL
         public RowOpResult DeleteTag(int id)
         {
             RowOpResult result = new RowOpResult();
-            Tag tag = db.Tags.FirstOrDefault(x => x.ID == id);
+            Tag tag = db.Tags.FirstOrDefault(x => x.Id == id);
 
             if (tag == null)
             {
@@ -45,7 +45,7 @@ namespace KanbanTasker.Services.MSSQL
             if (!result.Success)
                 return result;
 
-            db.Entry(tag).State = tag.ID == 0 ? EntityState.Added : EntityState.Modified;
+            db.Entry(tag).State = tag.Id == 0 ? EntityState.Added : EntityState.Modified;
             db.SaveChanges();
             result.Success = true;
             return result;

@@ -35,7 +35,7 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
 
             modelBuilder.Entity("KanbanTasker.Model.Tag", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -45,7 +45,7 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
 
                     b.Property<string>("TagName");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("tblTags");
                 });

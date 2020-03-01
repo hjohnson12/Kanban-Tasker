@@ -6,7 +6,7 @@ namespace KanbanTasker.Model
 {
     public class Tag
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string TagName { get; set; }
         public string TagBackground { get; set; }
         public string TagForeground { get; set; }
