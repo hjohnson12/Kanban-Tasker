@@ -33,6 +33,23 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
                     b.ToTable("tblBoards");
                 });
 
+            modelBuilder.Entity("KanbanTasker.Model.Tag", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TagBackground");
+
+                    b.Property<string>("TagForeground");
+
+                    b.Property<string>("TagName");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("tblTags");
+                });
+
             modelBuilder.Entity("KanbanTasker.Model.TaskDTO", b =>
                 {
                     b.Property<int>("Id")
@@ -59,7 +76,7 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
 
                     b.Property<string>("StartDate");
 
-                    b.Property<string>("Tags");
+                    b.Property<string>("TimeDue");
 
                     b.Property<string>("Title");
 
@@ -70,12 +87,38 @@ namespace KanbanTasker.Services.Database.Migrations.MSSQL
                     b.ToTable("tblTasks");
                 });
 
+            modelBuilder.Entity("KanbanTasker.Model.TaskTag", b =>
+                {
+                    b.Property<int>("TaskID");
+
+                    b.Property<int>("TagID");
+
+                    b.HasKey("TaskID", "TagID");
+
+                    b.HasIndex("TagID");
+
+                    b.ToTable("TaskTags");
+                });
+
             modelBuilder.Entity("KanbanTasker.Model.TaskDTO", b =>
                 {
                     b.HasOne("KanbanTasker.Model.BoardDTO", "Board")
                         .WithMany("Tasks")
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("KanbanTasker.Model.TaskTag", b =>
+                {
+                    b.HasOne("KanbanTasker.Model.Tag", "Tag")
+                        .WithMany("TaskTags")
+                        .HasForeignKey("TagID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("KanbanTasker.Model.TaskDTO", "Task")
+                        .WithMany("TaskTags")
+                        .HasForeignKey("TaskID")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

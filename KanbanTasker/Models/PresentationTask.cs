@@ -137,10 +137,10 @@ namespace KanbanTasker.Models
             ColumnIndex = dto.ColumnIndex;
             ColorKey = dto.ColorKey;
 
-            if (!string.IsNullOrEmpty(dto.Tags))
-                Tags = new ObservableCollection<string>(dto.Tags.Split(','));
-            else
-                Tags = new ObservableCollection<string>();
+            //if (!string.IsNullOrEmpty(dto.Tags))
+            //    Tags = new ObservableCollection<string>(dto.Tags.Split(','));
+            //else
+            //    Tags = new ObservableCollection<string>();
 
             Board = new PresentationBoard(dto?.Board ?? new BoardDTO());
         }
@@ -162,7 +162,6 @@ namespace KanbanTasker.Models
                 Category = Category,
                 ColumnIndex = ColumnIndex,
                 ColorKey = ColorKey,
-                Tags = Tags == null ? string.Empty : string.Join(",", Tags),
                 Board = Board.To_BoardDTO()
             };
         }

@@ -25,6 +25,8 @@ namespace KanbanTasker.Services.Database
             mb.Entity<TaskDTO>().ToTable("tblTasks");
             mb.Entity<Tag>().ToTable("tblTags");
 
+            mb.Entity<TaskTag>().HasKey(x => new { x.TaskID, x.TagID });
+            
             mb.Entity<TaskTag>().HasOne(x => x.Tag)
                 .WithMany(x => x.TaskTags)
                 .HasForeignKey(x => x.TagID)

@@ -122,9 +122,9 @@ namespace KanbanTasker.ViewModels
                         presBoard.Tasks.Add(new PresentationTask(taskDTO));
                         
                         // Fill TagsCollection on Board for AutoSuggestBox
-                        foreach (var tag in taskDTO.Tags.Split(','))
-                            if (!string.IsNullOrEmpty(tag) && !presBoard.TagsCollection.Contains(tag))
-                                presBoard.TagsCollection.Add(tag);
+                        //foreach (var tag in taskDTO.Tags.Split(','))
+                        //    if (!string.IsNullOrEmpty(tag) && !presBoard.TagsCollection.Contains(tag))
+                        //        presBoard.TagsCollection.Add(tag);
                     }
 
                 BoardList.Add(boardViewModelFactory(presBoard, messagePump));

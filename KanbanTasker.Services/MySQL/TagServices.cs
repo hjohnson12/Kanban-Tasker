@@ -6,30 +6,14 @@ using System.Text;
 
 namespace KanbanTasker.Services.MySQL
 {
-    public class TagServices : BaseService, ITagServices
+    public class TagServices : MSSQL.TagServices, ITagServices
     {
-        public TagServices (Db db, IServiceManifest serviceManifest) : base(db, serviceManifest)
-        {
+        public TagServices(Db db, IServiceManifest serviceManifest) : base(db, serviceManifest){}
+        
+        public RowOpResult DeleteTag(int id) => base.DeleteTag(id);
 
-        }
-        public RowOpResult DeleteTag(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public List<Tag> GetTags() => base.GetTags();
 
-        public List<Tag> GetTags()
-        {
-            throw new NotImplementedException();
-        }
-
-        public RowOpResult<Tag> SaveTag(Tag tag)
-        {
-            throw new NotImplementedException();
-        }
-
-        public RowOpResult<Tag> ValidateTag(RowOpResult<Tag> result)
-        {
-            throw new NotImplementedException();
-        }
+        public RowOpResult<Tag> SaveTag(Tag tag) => base.SaveTag(tag);
     }
 }

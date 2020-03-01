@@ -78,6 +78,20 @@ namespace KanbanTasker.Services
             return result;
         }
 
+        public virtual RowOpResult<Tag> ValidateTag(RowOpResult<Tag> result)
+        {
+            Tag t = result.Entity;
+
+            if (string.IsNullOrEmpty(t.TagName))
+                t.TagName = "";
+            if (string.IsNullOrEmpty(t.TagName))
+                t.TagBackground = "";
+            if (string.IsNullOrEmpty(t.TagName))
+                t.TagForeground = "";
+
+            result.Success = string.IsNullOrEmpty(result.ErrorMessage);
+            return result;
+        }
         public virtual async Task<T> Get<T>(string url)
         {
             string json = await httpClient.GetStringAsync(url);

@@ -37,34 +37,34 @@ namespace KanbanTasker.Services.SQLite
 
                 // Query the db and get the tasks
                 // Must match the exact table schemas
-                while (query.Read())
-                {
-                    //string[] tags;
-                    //if (query.GetString(8).ToString() == "")
-                    //    tags = new string[] { }; // Empty array if no tags are in the col
-                    //else
-                    //    tags = query.GetString(8).Split(','); // Turn string of tags into string array, fills listview
+                //while (query.Read())
+                //{
+                //    //string[] tags;
+                //    //if (query.GetString(8).ToString() == "")
+                //    //    tags = new string[] { }; // Empty array if no tags are in the col
+                //    //else
+                //    //    tags = query.GetString(8).Split(','); // Turn string of tags into string array, fills listview
 
-                    TaskDTO row = new TaskDTO()
-                    {
-                        Id = Convert.ToInt32(query.GetString(0)),
-                        BoardId = Convert.ToInt32(query.GetString(1)),
-                        DateCreated = query.GetString(2),
-                        Title = query.GetString(3),
-                        Description = query.GetString(4),
-                        Category = query.GetString(5),
-                        ColumnIndex = Convert.ToInt32(query.GetValue(6) == DBNull.Value ? "0" : query.GetString(6)),
-                        ColorKey = query.GetString(7),
-                        Tags = query.GetString(8),
-                        DueDate = (query.GetValue(9) == DBNull.Value ? "" : query.GetString(9)),
-                        FinishDate = (query.GetValue(10) == DBNull.Value ? "" : query.GetString(10)),
-                        TimeDue = (query.GetValue(11) == DBNull.Value ? "" : query.GetString(11)),
-                        ReminderTime = (query.GetValue(12) == DBNull.Value ? "" : query.GetString(12)),
-                        StartDate = (query.GetValue(13) == DBNull.Value ? "" : query.GetString(13))
-                    };
+                //    TaskDTO row = new TaskDTO()
+                //    {
+                //        Id = Convert.ToInt32(query.GetString(0)),
+                //        BoardId = Convert.ToInt32(query.GetString(1)),
+                //        DateCreated = query.GetString(2),
+                //        Title = query.GetString(3),
+                //        Description = query.GetString(4),
+                //        Category = query.GetString(5),
+                //        ColumnIndex = Convert.ToInt32(query.GetValue(6) == DBNull.Value ? "0" : query.GetString(6)),
+                //        ColorKey = query.GetString(7),
+                //        Tags = query.GetString(8),
+                //        DueDate = (query.GetValue(9) == DBNull.Value ? "" : query.GetString(9)),
+                //        FinishDate = (query.GetValue(10) == DBNull.Value ? "" : query.GetString(10)),
+                //        TimeDue = (query.GetValue(11) == DBNull.Value ? "" : query.GetString(11)),
+                //        ReminderTime = (query.GetValue(12) == DBNull.Value ? "" : query.GetString(12)),
+                //        StartDate = (query.GetValue(13) == DBNull.Value ? "" : query.GetString(13))
+                //    };
 
-                    tasks.Add(row);
-                }
+                //    tasks.Add(row);
+                //}
                 db.Close();
             }
             return tasks;
@@ -98,7 +98,7 @@ namespace KanbanTasker.Services.SQLite
                     command.Parameters.AddWithValue("@desc", task.Description);
                     command.Parameters.AddWithValue("@categ", task.Category);
                     command.Parameters.AddWithValue("@colorKey", task.ColorKey);
-                    command.Parameters.AddWithValue("@tags", task.Tags);
+                    //command.Parameters.AddWithValue("@tags", task.Tags);
                     command.Parameters.AddWithValue("@columnIndex", task.ColumnIndex);
                     command.Parameters.AddWithValue("@dueDate", task.DueDate);
                     command.Parameters.AddWithValue("@finishDate", task.FinishDate);
