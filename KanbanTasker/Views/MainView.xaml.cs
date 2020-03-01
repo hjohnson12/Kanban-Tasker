@@ -66,17 +66,19 @@ namespace KanbanTasker.Views
 
         private async void BtnCompactOverlay_Click(object sender, RoutedEventArgs e)
         {
-            var view = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
-            if (view.ViewMode == ApplicationViewMode.Default)
-            {
-                btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE944);
-                await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
-            }
-            else
-            {
-                btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE8A7);
-                await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
-            }
+            var dialog = new CalendarDialogView(ViewModel);
+            var result = await dialog.ShowAsync();
+            //var view = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+            //if (view.ViewMode == ApplicationViewMode.Default)
+            //{
+            //    btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE944);
+            //    await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+            //}
+            //else
+            //{
+            //    btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE8A7);
+            //    await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+            //}
         }
     }
 }

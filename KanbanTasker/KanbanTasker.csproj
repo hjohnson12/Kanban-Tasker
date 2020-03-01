@@ -152,6 +152,9 @@
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CalendarDialogView.xaml.cs">
+      <DependentUpon>CalendarDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DeleteConfirmationView.xaml.cs">
       <DependentUpon>DeleteConfirmationView.xaml</DependentUpon>
     </Compile>
@@ -266,6 +269,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CalendarDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

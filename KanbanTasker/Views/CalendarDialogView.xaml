@@ -1,0 +1,144 @@
+﻿<ContentDialog
+    x:Class="KanbanTasker.Views.CalendarDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:KanbanTasker.Views"
+    Background="{ThemeResource RegionBrush}"
+    CornerRadius="4"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="using:System"
+    xmlns:viewmodels="using:KanbanTasker.ViewModels"
+    mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!--New Board Flyout Header-->
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="25"
+                            FontWeight="Bold"
+                            Text="Task Calendar" />
+                    <Button
+                            x:Name="btnCloseNewBoardFlyout" 
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Margin="0,8,0,0"
+                            Click="btnCloseNewBoardFlyout_Click"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0" >
+                        <SymbolIcon Symbol="Cancel" />
+                    </Button>
+                    <Border
+                        Width="Auto"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,16,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        BorderBrush="Gray"
+                        BorderThickness="0.5" />
+                    <StackPanel Margin="0 12 0 0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="2" Orientation="Vertical">
+                        <TextBlock x:Name="txtCurrentTime" FontSize="22" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind sys:DateTime.Today.ToLongDateString()}" />
+                    </StackPanel>
+                </Grid>
+                <Border
+                        Width="Auto"
+                        Margin="0,16,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        BorderBrush="Gray"
+                        BorderThickness="0.5" />
+            </StackPanel>
+
+            <!--New Board Flyout Body-->
+            <StackPanel
+                    Grid.Row="1"
+                    Margin="0,8,0,12"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                <CalendarView 
+                        BorderThickness="0"
+                        SelectionMode="Single"
+                        CalendarItemBorderThickness="1"
+                        CalendarItemBackground="{ThemeResource RegionBrush}"
+                        Background="{ThemeResource RegionBrush}"
+                        IsGroupLabelVisible="True"
+                        IsOutOfScopeEnabled="True"
+                        Language="en"
+                        CalendarIdentifier="GregorianCalendar" />
+            </StackPanel>
+
+            <!--New Board Flyout Footer-->
+            <Grid Grid.Row="2" Margin="0,12,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        BorderBrush="Gray"
+                        BorderThickness="0.5" />
+                <Grid Grid.Row="1">
+                    <Grid
+                        HorizontalAlignment="Stretch"
+                        Margin="0 12 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                            Text="Today:" 
+                            Grid.Row="0" 
+                            HorizontalAlignment="Left" 
+                            FontSize="18" 
+                            FontWeight="Bold" />
+                        <ListView 
+                            Grid.Row="1" 
+                            Margin="0 8 0 0" 
+                            SelectionMode="Single" 
+                            HorizontalAlignment="Stretch">
+                               <ListViewItem Content="test1" />
+                               <ListViewItem Content="test2" />
+                               <ListViewItem Content="test3" />
+                               <ListViewItem Content="test4" />
+                               <ListViewItem Content="test5" />
+                               <ListViewItem Content="test6" />
+                           <ListView.ItemTemplate>
+                               <DataTemplate x:Name="TaskListView">
+                                   <TextBlock Text="{Binding}" />
+                               </DataTemplate>
+                           </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentDialog>
