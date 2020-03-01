@@ -365,7 +365,6 @@ namespace KanbanTasker.Views
             // Always show in standard mode
             var originalSource = (FrameworkElement)sender;
             var selectedCard = originalSource.DataContext as PresentationTask;
-            ViewModel.CurrentTask = selectedCard;
             ShowContextMenu(selectedCard);
         }
 
