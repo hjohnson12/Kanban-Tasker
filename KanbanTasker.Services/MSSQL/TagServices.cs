@@ -14,7 +14,7 @@ namespace KanbanTasker.Services.MSSQL
         {
 
         }
-        public RowOpResult DeleteTag(int id)
+        public virtual RowOpResult DeleteTag(int id)
         {
             RowOpResult result = new RowOpResult();
             Tag tag = db.Tags.FirstOrDefault(x => x.Id == id);
@@ -31,9 +31,9 @@ namespace KanbanTasker.Services.MSSQL
             return result;
         }
 
-        public List<Tag> GetTags() => db.Tags.ToList();
+        public virtual List<Tag> GetTags() => db.Tags.ToList();
 
-        public RowOpResult<Tag> SaveTag(Tag tag)
+        public virtual RowOpResult<Tag> SaveTag(Tag tag)
         {
             if (tag.TagName == null)
                 throw new NotImplementedException(nameof(tag.TagName));

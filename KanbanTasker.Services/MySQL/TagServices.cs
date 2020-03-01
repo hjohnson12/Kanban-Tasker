@@ -10,10 +10,10 @@ namespace KanbanTasker.Services.MySQL
     {
         public TagServices(Db db, IServiceManifest serviceManifest) : base(db, serviceManifest){}
         
-        public RowOpResult DeleteTag(int id) => base.DeleteTag(id);
+        public override RowOpResult DeleteTag(int id) => base.DeleteTag(id);
 
-        public List<Tag> GetTags() => base.GetTags();
+        public override List<Tag> GetTags() => base.GetTags();
 
-        public RowOpResult<Tag> SaveTag(Tag tag) => base.SaveTag(tag);
+        public override RowOpResult<Tag> SaveTag(Tag tag) => base.SaveTag(tag);
     }
 }
