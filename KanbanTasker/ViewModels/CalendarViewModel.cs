@@ -26,8 +26,8 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        private ObservableCollection<string> _ScheduledTasks;
-        public ObservableCollection<string> ScheudledTasks
+        private ObservableCollection<PresentationTask> _ScheduledTasks;
+        public ObservableCollection<PresentationTask> ScheudledTasks
         {
             get => _ScheduledTasks;
             set
@@ -45,9 +45,9 @@ namespace KanbanTasker.ViewModels
             SelectedDate = DateTimeOffset.Now;
         }
 
-        public ObservableCollection<string> GetAvailableTasks(PresentationBoard currentBoard)
+        public ObservableCollection<PresentationTask> GetAvailableTasks(PresentationBoard currentBoard)
         {
-            ScheudledTasks = new ObservableCollection<string>();
+            ScheudledTasks = new ObservableCollection<PresentationTask>();
             // Get all tasks for the current day
             if (currentBoard.Tasks != null && currentBoard.Tasks.Any())   // hack
                 foreach (PresentationTask task in currentBoard.Tasks)
@@ -59,7 +59,7 @@ namespace KanbanTasker.ViewModels
                             dueDate.Value.Month == SelectedDate.Month &&
                             dueDate.Value.Day == SelectedDate.Day)
                         {
-                            ScheudledTasks.Add(task.Title);
+                            ScheudledTasks.Add(task);
                         }
                     }
                 }

@@ -11,6 +11,7 @@
     xmlns:helpers="using:KanbanTasker.Helpers"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters" 
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
+    xmlns:models="using:KanbanTasker.Models"
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
@@ -140,8 +141,8 @@
                                <ListViewItem Content="test5" />
                                <ListViewItem Content="test6" />
                            <ListView.ItemTemplate>
-                               <DataTemplate x:Name="TaskListView">
-                                   <TextBlock Text="{Binding}" />
+                               <DataTemplate x:Name="TaskListView" x:DataType="models:PresentationTask">
+                                   <TextBlock Text="{Binding Title}" />
                                </DataTemplate>
                            </ListView.ItemTemplate>
                         </ListView>
