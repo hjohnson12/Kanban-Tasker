@@ -138,6 +138,7 @@
     <Compile Include="Converters\Text\NullableDateTimeOffsetToBoolConverter.cs" />
     <Compile Include="Converters\Text\StringToColorConverter.cs" />
     <Compile Include="Converters\Text\StringToNullableDateTimeOffsetConverter.cs" />
+    <Compile Include="Converters\Text\StringFormatToTimeConverter.cs" />
     <Compile Include="Converters\Text\StringToTimeSpanConverter.cs" />
     <Compile Include="Helpers\CalendarViewHelper.cs" />
     <Compile Include="Helpers\CustomKanbanColumn.cs" />

@@ -45,6 +45,12 @@ namespace KanbanTasker.ViewModels
             SelectedDate = DateTimeOffset.Now;
         }
 
+        /// <summary>
+        /// Gets all of the tasks from the current board and places only the ones
+        /// due today in the collection. Sorts by time due before returning.
+        /// </summary>
+        /// <param name="currentBoard"></param>
+        /// <returns></returns>
         public ObservableCollection<PresentationTask> GetAvailableTasks(PresentationBoard currentBoard)
         {
             ScheudledTasks = new ObservableCollection<PresentationTask>();
@@ -63,7 +69,7 @@ namespace KanbanTasker.ViewModels
                         }
                     }
                 }
-            return ScheudledTasks;
+            return new ObservableCollection<PresentationTask>(ScheudledTasks.OrderBy(x => x.TimeDue));
         }
     }
 }
