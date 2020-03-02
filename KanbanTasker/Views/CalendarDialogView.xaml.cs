@@ -20,12 +20,14 @@ namespace KanbanTasker.Views
     public sealed partial class CalendarDialogView : ContentDialog
     {
         public ViewModels.MainViewModel ViewModel { get; set; }
+        public ViewModels.CalendarViewModel CalViewModel { get; set; }
 
         public CalendarDialogView(ViewModels.MainViewModel viewModel)
         {
             this.InitializeComponent();
 
             ViewModel = viewModel;
+            CalViewModel = new ViewModels.CalendarViewModel();
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -49,6 +51,13 @@ namespace KanbanTasker.Views
         private void btnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
+        }
+
+        private void TaskCalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            if (sender.SelectedDates != null && sender.SelectedDates.Count != 0)
+                // Work-around: Fix using the AttachedProperty SelectedDate
+                CalViewModel.SelectedDate = sender.SelectedDates.First();
         }
     }
 }

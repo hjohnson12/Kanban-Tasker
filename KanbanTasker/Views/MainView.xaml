@@ -160,6 +160,15 @@
                     </AppBarButton>
                     <AppBarSeparator />
                     <AppBarButton
+                        x:Name="btnOpenTaskCalendar"
+                        Width="40"
+                        Click="btnOpenTaskCalendar_Click"
+                        ToolTipService.ToolTip="View Task Calendar">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton
                         x:Name="btnCompactOverlay"
                         Width="40"
                         Click="BtnCompactOverlay_Click"

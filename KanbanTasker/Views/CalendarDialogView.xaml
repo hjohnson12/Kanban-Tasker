@@ -8,9 +8,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sys="using:System"
+    xmlns:helpers="using:KanbanTasker.Helpers"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters" 
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
     mc:Ignorable="d">
-
+    <ContentDialog.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+    </ContentDialog.Resources>
     <Grid HorizontalAlignment="Stretch">
         <Grid HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
@@ -83,15 +87,18 @@
                     VerticalAlignment="Center"
                     Orientation="Vertical">
                 <CalendarView 
-                        BorderThickness="0"
-                        SelectionMode="Single"
-                        CalendarItemBorderThickness="1"
-                        CalendarItemBackground="{ThemeResource RegionBrush}"
-                        Background="{ThemeResource RegionBrush}"
-                        IsGroupLabelVisible="True"
-                        IsOutOfScopeEnabled="True"
-                        Language="en"
-                        CalendarIdentifier="GregorianCalendar" />
+                    x:Name="TaskCalendarView"
+                    BorderThickness="0"
+                    SelectionMode="Single"
+                    helpers:CalendarViewHelper.SelectedDate="{x:Bind CalViewModel.SelectedDate, Mode=OneWay}"
+                    CalendarItemBorderThickness="1"
+                    SelectedDatesChanged="TaskCalendarView_SelectedDatesChanged"
+                    CalendarItemBackground="{ThemeResource RegionBrush}"
+                    Background="{ThemeResource RegionBrush}"
+                    IsGroupLabelVisible="True"
+                    IsOutOfScopeEnabled="True"
+                    Language="en"
+                    CalendarIdentifier="GregorianCalendar" />
             </StackPanel>
 
             <!--New Board Flyout Footer-->
@@ -114,7 +121,8 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <TextBlock 
-                            Text="Today:" 
+                            x:Name="txtCurrentDay"
+                            Text="{x:Bind CalViewModel.SelectedDate, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:dddd, MMMM d}'}" 
                             Grid.Row="0" 
                             HorizontalAlignment="Left" 
                             FontSize="18" 
