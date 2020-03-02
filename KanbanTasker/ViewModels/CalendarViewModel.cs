@@ -1,6 +1,8 @@
 ﻿using KanbanTasker.Base;
+using KanbanTasker.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,9 +25,29 @@ namespace KanbanTasker.ViewModels
             }
         }
 
+        private ObservableCollection<PresentationTask> _ScheduledTasks;
+        public ObservableCollection<PresentationTask> ScheudledTasks
+        {
+            get => _ScheduledTasks;
+            set
+            {
+                if(_ScheduledTasks != value)
+                {
+                    _ScheduledTasks = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public CalendarViewModel()
         {
             SelectedDate = DateTimeOffset.Now;
+        }
+
+        public ObservableCollection<PresentationTask> GetAvailableTasks(string currentDate)
+        { 
+            // Get all tasks for the current day
+            return new ObservableCollection<PresentationTask>();
         }
     }
 }
