@@ -27,7 +27,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <!--New Board Flyout Header-->
+            <!--Task Calendar Flyout Header-->
             <StackPanel Grid.Row="0" Orientation="Vertical">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -70,7 +70,7 @@
                         BorderBrush="Gray"
                         BorderThickness="0.5" />
                     <StackPanel Margin="0 12 0 0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="2" Orientation="Vertical">
-                        <TextBlock x:Name="txtCurrentTime" FontSize="22" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="txtCurrentTime" Text="{x:Bind CalendarViewModel.CurrentTime.ToLongTimeString(), Mode=OneWay}" FontSize="22" HorizontalAlignment="Center"/>
                         <TextBlock Text="{x:Bind sys:DateTime.Today.ToLongDateString()}" />
                     </StackPanel>
                 </Grid>
@@ -83,7 +83,7 @@
                         BorderThickness="0.5" />
             </StackPanel>
 
-            <!--New Board Flyout Body-->
+            <!--Task Calendar Flyout Body-->
             <StackPanel
                     Grid.Row="1"
                     Margin="0,8,0,12"
@@ -94,7 +94,7 @@
                     x:Name="TaskCalendarView"
                     BorderThickness="0"
                     SelectionMode="Single"
-                    helpers:CalendarViewHelper.SelectedDate="{x:Bind CalViewModel.SelectedDate, Mode=OneWay}"
+                    helpers:CalendarViewHelper.SelectedDate="{x:Bind CalendarViewModel.SelectedDate, Mode=OneWay}"
                     CalendarItemBorderThickness="1"
                     SelectedDatesChanged="TaskCalendarView_SelectedDatesChanged"
                     CalendarItemBackground="{ThemeResource RegionBrush}"
@@ -105,7 +105,7 @@
                     CalendarIdentifier="GregorianCalendar" />
             </StackPanel>
 
-            <!--New Board Flyout Footer-->
+            <!--Task Calendar Flyout Footer-->
             <Grid Grid.Row="2" Margin="0,12,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -126,7 +126,7 @@
                         </Grid.RowDefinitions>
                         <TextBlock 
                             x:Name="txtCurrentDay"
-                            Text="{x:Bind CalViewModel.SelectedDate, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:dddd, MMMM d}'}" 
+                            Text="{x:Bind CalendarViewModel.SelectedDate, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:dddd, MMMM d}'}" 
                             Grid.Row="0" 
                             HorizontalAlignment="Left" 
                             FontSize="18" 
@@ -134,7 +134,7 @@
                         <ListView 
                             Grid.Row="1" 
                             Margin="0 8 0 0" 
-                            ItemsSource="{x:Bind CalViewModel.ScheudledTasks, Mode=TwoWay}"
+                            ItemsSource="{x:Bind CalendarViewModel.ScheudledTasks, Mode=TwoWay}"
                             SelectionMode="Single" 
                             HorizontalAlignment="Stretch">
                                <ListViewItem Content="test1" />

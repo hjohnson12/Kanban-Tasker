@@ -20,32 +20,13 @@ namespace KanbanTasker.Views
     public sealed partial class CalendarDialogView : ContentDialog
     {
         public ViewModels.MainViewModel ViewModel { get; set; }
-        public ViewModels.CalendarViewModel CalViewModel { get; set; }
+        public ViewModels.CalendarViewModel CalendarViewModel { get; set; }
 
         public CalendarDialogView(ViewModels.MainViewModel viewModel)
         {
             this.InitializeComponent();
-
             ViewModel = viewModel;
-            CalViewModel = new ViewModels.CalendarViewModel();
-
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += timer_tick;
-            timer.Start();
-        }
-
-        private void timer_tick(object sender, object e)
-        {
-            txtCurrentTime.Text = DateTime.Now.ToLongTimeString();
-        }
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
+            CalendarViewModel = new ViewModels.CalendarViewModel();
         }
 
         private void btnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
@@ -57,10 +38,9 @@ namespace KanbanTasker.Views
         {
             if (sender.SelectedDates != null && sender.SelectedDates.Count != 0)
                 // Work-around: Fix using the AttachedProperty SelectedDate
-                CalViewModel.SelectedDate = sender.SelectedDates.First();
+                CalendarViewModel.SelectedDate = sender.SelectedDates.First();
 
-            CalViewModel.ScheudledTasks = CalViewModel.GetAvailableTasks(ViewModel.CurrentBoard.Board);
-
+            CalendarViewModel.ScheudledTasks = CalendarViewModel.GetAvailableTasks(ViewModel.CurrentBoard.Board);
         }
     }
 }

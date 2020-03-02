@@ -7,11 +7,27 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 namespace KanbanTasker.ViewModels
 {
     public class CalendarViewModel : Observable
     {
+
+        private DispatcherTimer timer;
+        private DateTime _currentTime;
+        public DateTime CurrentTime
+        {
+            get => _currentTime;
+            set
+            {
+                if(_currentTime != value)
+                {
+                    _currentTime = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private DateTimeOffset _selectedDate;
         public DateTimeOffset SelectedDate
         {
@@ -43,6 +59,8 @@ namespace KanbanTasker.ViewModels
         public CalendarViewModel()
         {
             SelectedDate = DateTimeOffset.Now;
+            CurrentTime = DateTime.Now;
+            StartTimer();
         }
 
         /// <summary>
@@ -70,6 +88,19 @@ namespace KanbanTasker.ViewModels
                     }
                 }
             return new ObservableCollection<PresentationTask>(ScheudledTasks.OrderBy(x => x.TimeDue));
+        }
+
+        private void StartTimer()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_tick;
+            timer.Start();
+        }
+
+        private void timer_tick(object sender, object e)
+        {
+            CurrentTime = DateTime.Now;
         }
     }
 }
