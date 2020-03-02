@@ -58,6 +58,9 @@ namespace KanbanTasker.Views
             if (sender.SelectedDates != null && sender.SelectedDates.Count != 0)
                 // Work-around: Fix using the AttachedProperty SelectedDate
                 CalViewModel.SelectedDate = sender.SelectedDates.First();
+
+            CalViewModel.ScheudledTasks = CalViewModel.GetAvailableTasks(ViewModel.CurrentBoard.Board);
+
         }
     }
 }

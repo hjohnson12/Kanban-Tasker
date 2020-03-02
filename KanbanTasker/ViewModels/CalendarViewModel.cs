@@ -1,4 +1,5 @@
 ﻿using KanbanTasker.Base;
+using KanbanTasker.Helpers.Extensions;
 using KanbanTasker.Models;
 using System;
 using System.Collections.Generic;
@@ -44,9 +45,23 @@ namespace KanbanTasker.ViewModels
             SelectedDate = DateTimeOffset.Now;
         }
 
-        public ObservableCollection<PresentationTask> GetAvailableTasks(string currentDate)
-        { 
+        public ObservableCollection<PresentationTask> GetAvailableTasks(PresentationBoard currentBoard)
+        {
             // Get all tasks for the current day
+            if (currentBoard.Tasks != null && currentBoard.Tasks.Any())   // hack
+                foreach (PresentationTask task in currentBoard.Tasks)
+                {
+                    if (!string.IsNullOrEmpty(task.DueDate))
+                    {
+                        var dueDate = task.DueDate.ToNullableDateTimeOffset();
+                        if (dueDate.Value.Year == SelectedDate.Year && 
+                            dueDate.Value.Month == SelectedDate.Month &&
+                            dueDate.Value.Day == SelectedDate.Day)
+                        {
+                            ScheudledTasks.Add(task);
+                        }
+                    }
+                }
             return new ObservableCollection<PresentationTask>();
         }
     }
