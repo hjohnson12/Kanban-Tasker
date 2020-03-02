@@ -28,6 +28,7 @@ namespace KanbanTasker.ViewModels
                 }
             }
         }
+
         private DateTimeOffset _selectedDate;
         public DateTimeOffset SelectedDate
         {
@@ -52,7 +53,21 @@ namespace KanbanTasker.ViewModels
                 {
                     _ScheduledTasks = value;
                     OnPropertyChanged();
+                    OnPropertyChanged("IsResultsVisible");
                 }
+            }
+        }
+
+        private bool _IsResultsVisible;
+        public bool IsResultsVisible
+        {
+            get
+            {
+                return _ScheduledTasks.Count == 0;
+            }
+            set
+            {
+                _IsResultsVisible = value;
             }
         }
 

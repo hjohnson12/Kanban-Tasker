@@ -134,7 +134,15 @@
                                 HorizontalAlignment="Left" 
                                 FontSize="18" 
                                 FontWeight="Bold" />
+                            <TextBlock
+                                Text="No tasks due"
+                                Grid.Row="1"
+                                Margin="0 4 0 0"
+                                Visibility="{x:Bind CalendarViewModel.IsResultsVisible, Mode=OneWay}">
+                               
+                            </TextBlock>
                             <ListView 
+                                x:Name="lstView"
                                 Grid.Row="1" 
                                 Height="300"
                                 Margin="0 4 0 0"
