@@ -18,13 +18,15 @@
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
         <textconverters:StringFormatToTimeConverter x:Key="StringToTimeConverter" />
+        <x:Double x:Key="ContentDialogWidth">1500</x:Double>
+        <x:Double x:Key="ContentDialogMaxWidth">1500</x:Double>
+        <x:Double x:Key="ContentDialogMaxHeight">600</x:Double>
     </ContentDialog.Resources>
-    <Grid HorizontalAlignment="Stretch">
-        <Grid HorizontalAlignment="Stretch">
+    <Grid>
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto"/>
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!--Task Calendar Flyout Header-->
@@ -84,15 +86,20 @@
             </StackPanel>
 
             <!--Task Calendar Flyout Body-->
-            <StackPanel
-                    Grid.Row="1"
-                    Margin="0,8,0,12"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Orientation="Vertical">
+            <Grid 
+                Grid.Row="1"
+                Margin="0 8 0 0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
                 <CalendarView 
                     x:Name="TaskCalendarView"
                     BorderThickness="0"
+                    Grid.Column="0"
                     SelectionMode="Single"
                     helpers:CalendarViewHelper.SelectedDate="{x:Bind CalendarViewModel.SelectedDate, Mode=OneWay}"
                     CalendarItemBorderThickness="1"
@@ -103,97 +110,100 @@
                     IsOutOfScopeEnabled="True"
                     Language="en"
                     CalendarIdentifier="GregorianCalendar" />
-            </StackPanel>
 
-            <!--Task Calendar Flyout Footer-->
-            <Grid Grid.Row="2" Margin="0,12,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border
-                        Grid.Row="0"
-                        HorizontalAlignment="Stretch"
+                <!--<Border
+                        Grid.Column="1"
+                        Margin="8 0 2 0"
+                        HorizontalAlignment="Left"
                         BorderBrush="Gray"
-                        BorderThickness="0.5" />
-                <Grid Grid.Row="1">
-                    <Grid
-                        HorizontalAlignment="Stretch"
-                        Margin="0 12 0 0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <TextBlock 
-                            x:Name="txtCurrentDay"
-                            Text="{x:Bind CalendarViewModel.SelectedDate, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:dddd, MMMM d}'}" 
-                            Grid.Row="0" 
-                            HorizontalAlignment="Left" 
-                            FontSize="18" 
-                            FontWeight="Bold" />
-                        <ListView 
-                            Grid.Row="1" 
-                            Margin="0 8 0 0" 
-                            ItemsSource="{x:Bind CalendarViewModel.ScheudledTasks, Mode=TwoWay}"
-                            SelectionMode="Single" 
-                            HorizontalAlignment="Stretch">
-                               <ListViewItem Content="test1" />
-                               <ListViewItem Content="test2" />
-                               <ListViewItem Content="test3" />
-                               <ListViewItem Content="test4" />
-                               <ListViewItem Content="test5" />
-                               <ListViewItem Content="test6" />
-                           <ListView.ItemTemplate>
-                               <DataTemplate x:Name="TaskListView" x:DataType="models:PresentationTask">
-                                    <!--<StackPanel Margin="0 2 0 2" Orientation="Horizontal" VerticalAlignment="Stretch">
+                        BorderThickness="0.5" />-->
+                <Grid Grid.Column="2" Margin="0,8,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition  Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock 
+                                Text="{x:Bind CalendarViewModel.SelectedDate, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:dddd, MMMM d}'}" 
+                                Grid.Row="0" 
+                                HorizontalAlignment="Left" 
+                                FontSize="18" 
+                                FontWeight="Bold" />
+                            <ListView 
+                                Grid.Row="1" 
+                                Height="300"
+                                Margin="0 4 0 0"
+                                ItemsSource="{x:Bind CalendarViewModel.ScheudledTasks, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <ListViewItem Content="test1" />
+                                <ListViewItem Content="test2" />
+                                <ListViewItem Content="test3" />
+                                <ListViewItem Content="test4" />
+                                <ListViewItem Content="test5" />
+                                <ListViewItem Content="test6" />
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:Name="TaskListView2" x:DataType="models:PresentationTask">
+                                        <!--<StackPanel Margin="0 2 0 2" Orientation="Horizontal" VerticalAlignment="Stretch">
                                         
                                     </StackPanel>-->
-                                    <Grid Margin="0 2 0 2">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Border 
-                                            Grid.Column="0"
-                                            Grid.RowSpan="4"
-                                            HorizontalAlignment="Left" 
-                                            BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}" 
-                                            BorderThickness="3"
-                                            VerticalAlignment="Stretch"
-                                            Margin="0 0 4 0" />
-                                        <TextBlock 
-                                            Text="{Binding TimeDue, Converter={StaticResource StringToTimeConverter}}" 
-                                            Grid.RowSpan="4" 
-                                            Grid.Column="1" 
-                                            Grid.Row="0" 
-                                            Margin="0 0 8 0"/>
-                                        <TextBlock 
-                                            Text="{Binding Title}" 
-                                            Grid.Column="2" 
-                                            Grid.Row="0"/>
-                                        <TextBlock
-                                            Text="{Binding Description}" 
-                                            Grid.Column="2" 
-                                            Grid.Row="1"/>
-                                    </Grid>
-                               </DataTemplate>
-                           </ListView.ItemTemplate>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Margin" Value="0 2 0 2" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
+                                        <Grid Margin="0 2 4 2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border 
+                                                Grid.Column="0"
+                                                Grid.RowSpan="4"
+                                                HorizontalAlignment="Left" 
+                                                BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}" 
+                                                BorderThickness="3"
+                                                VerticalAlignment="Stretch"
+                                                Margin="0 0 4 0" />
+                                            <TextBlock 
+                                                Text="{Binding TimeDue, Converter={StaticResource StringToTimeConverter}}" 
+                                                Grid.RowSpan="4" 
+                                                TextWrapping="Wrap"
+                                                Grid.Column="1" 
+                                                Grid.Row="0" 
+                                                Margin="0 0 8 0"/>
+                                            <TextBlock 
+                                                Text="{Binding Title}" 
+                                                TextWrapping="Wrap"
+                                                Grid.Column="2" 
+                                                Grid.Row="0"/>
+                                            <TextBlock
+                                                Text="{Binding Description}" 
+                                                TextWrapping="Wrap"
+                                                Grid.Column="2" 
+                                                Grid.Row="1"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Margin" Value="0 2 0 2" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </Grid>
                     </Grid>
                 </Grid>
+
+
             </Grid>
         </Grid>
     </Grid>
