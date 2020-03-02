@@ -130,6 +130,7 @@
                         <ListView 
                             Grid.Row="1" 
                             Margin="0 8 0 0" 
+                            ItemsSource="{x:Bind CalViewModel.ScheudledTasks, Mode=TwoWay}"
                             SelectionMode="Single" 
                             HorizontalAlignment="Stretch">
                                <ListViewItem Content="test1" />
