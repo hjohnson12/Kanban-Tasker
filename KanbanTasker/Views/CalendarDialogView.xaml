@@ -12,9 +12,11 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters" 
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
     xmlns:models="using:KanbanTasker.Models"
+    xmlns:textconverters="using:KanbanTasker.Converters.Text"
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
     </ContentDialog.Resources>
     <Grid HorizontalAlignment="Stretch">
         <Grid HorizontalAlignment="Stretch">
@@ -142,9 +144,39 @@
                                <ListViewItem Content="test6" />
                            <ListView.ItemTemplate>
                                <DataTemplate x:Name="TaskListView" x:DataType="models:PresentationTask">
-                                   <TextBlock Text="{Binding Title}" />
+                                    <!--<StackPanel Margin="0 2 0 2" Orientation="Horizontal" VerticalAlignment="Stretch">
+                                        
+                                    </StackPanel>-->
+                                    <Grid Margin="0 2 0 2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border 
+                                            Grid.Column="0"
+                                            Grid.RowSpan="4"
+                                            HorizontalAlignment="Left" 
+                                            BorderBrush="{Binding ColorKey, Converter={StaticResource stringToColorConvertor}}" 
+                                            BorderThickness="3"
+                                            VerticalAlignment="Stretch"
+                                            Margin="0 0 4 0" />
+                                        <TextBlock Text="{Binding Title}" Grid.Column="1" Grid.Row="0"/>
+                                        <TextBlock Text="{Binding Description}" Grid.Column="1" Grid.Row="1"/>
+                                    </Grid>
                                </DataTemplate>
                            </ListView.ItemTemplate>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0 2 0 2" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
                         </ListView>
                     </Grid>
                 </Grid>
