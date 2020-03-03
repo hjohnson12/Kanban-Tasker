@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KanbanTasker.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace KanbanTasker.Views
     {
         public ViewModels.MainViewModel ViewModel { get; set; }
         public ViewModels.CalendarViewModel CalendarViewModel { get; set; }
+        private PresentationTask SelectedTask { get; set; }
 
         public CalendarDialogView(ViewModels.MainViewModel viewModel)
         {
@@ -41,6 +43,26 @@ namespace KanbanTasker.Views
                 CalendarViewModel.SelectedDate = sender.SelectedDates.First();
 
             CalendarViewModel.ScheudledTasks = CalendarViewModel.GetAvailableTasks(ViewModel.CurrentBoard.Board);
+        }
+
+        private void lstView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            SelectedTask = e.ClickedItem as PresentationTask;
+            this.Hide();
+
+        }
+
+        private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+        {
+            // Note: There is a flicker when closing this dialog
+            // Can't fully tell if it's memory leak or control issue
+            // Adding stop timer and clearing of tasks to try and help with flickering for now
+            CalendarViewModel.StopTimer();
+            CalendarViewModel.ScheudledTasks.Clear();
+
+            // Set CurrentTask and open EditPane
+            ViewModel.CurrentBoard.EditTaskCommandHandler(SelectedTask.ID);
+            BoardView.MySplitView.IsPaneOpen = true;
         }
     }
 }

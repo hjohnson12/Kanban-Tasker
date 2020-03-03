@@ -113,6 +113,11 @@ namespace KanbanTasker.ViewModels
             timer.Start();
         }
 
+        public void StopTimer()
+        {
+            timer.Stop();
+        }
+
         private void timer_tick(object sender, object e)
         {
             CurrentTime = DateTime.Now;

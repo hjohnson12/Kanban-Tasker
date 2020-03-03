@@ -26,12 +26,13 @@ namespace KanbanTasker.Views
     public sealed partial class BoardView : Page
     {
         public BoardViewModel ViewModel { get; set; }
-
+        public static SplitView MySplitView { get; set; }
         public BoardView()
         {
             this.InitializeComponent();
             DataContext = ViewModel;
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(3);
+            MySplitView = splitView;
         }
 
         #region Methods

@@ -15,7 +15,7 @@
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
     xmlns:models="using:KanbanTasker.Models"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Closing="ContentDialog_Closing">
     <ContentDialog.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <textconverters:StringToColorConverter x:Key="stringToColorConvertor" />
@@ -145,6 +145,8 @@
                             <ListView 
                                 x:Name="lstView"
                                 Grid.Row="1" 
+                                IsItemClickEnabled="True"
+                                ItemClick="lstView_ItemClick"
                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                 Height="300"
                                 Margin="0 4 0 0"
