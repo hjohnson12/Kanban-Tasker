@@ -42,6 +42,33 @@ namespace KanbanTasker.Views
             ViewModel = selectedBoard;
         }
 
+        /// <summary>
+        /// Checks to see if the selected due date has already passed.
+        /// If so, sets the background of the CalendarPicker red. Otherwise, normal brush.
+        /// <para>Note: If being called from TimePicker_TimeChanged event, no changes
+        /// will be made if the current task's due date is null. </para>
+        /// </summary>
+        private void CheckIfPassedDueDate()
+        {
+            var dueDate = ViewModel.CurrentTask.DueDate.ToNullableDateTimeOffset();
+            if (!(dueDate == null))
+            {
+                var timeDue = ViewModel.CurrentTask.TimeDue.ToNullableDateTimeOffset();
+                DateTimeOffset today = DateTimeOffset.Now;
+
+                DateTimeOffset taskDueDate = new DateTimeOffset(
+                  dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
+                  timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
+                  timeDue.Value.Offset
+                );
+
+                if (DateTimeOffset.Compare(taskDueDate, today) < 0)
+                    DueDateCalendarPicker.Background = new SolidColorBrush(Windows.UI.Colors.Red) { Opacity = 0.6 };
+                else
+                    DueDateCalendarPicker.Background = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+            }
+        }
+
         #endregion Methods
 
         #region UIEvents
@@ -97,13 +124,6 @@ namespace KanbanTasker.Views
             // Close pane when done
             if (splitView.IsPaneOpen == true)
                 splitView.IsPaneOpen = false;
-            
-            // Schedule toast notification if user chose a due date and reminder time
-            // Note: UWP TimePicker doesn't support Nullable values, defaults to a value either way
-            //var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
-            //var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
-            //if (dueDate != null && reminderTime != null)
-            //    ScheduleToastNotification(dueDate, reminderTime);
         }
 
         private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -267,29 +287,7 @@ namespace KanbanTasker.Views
                 {
                     case "DueDateCalendarPicker":
                         ViewModel.SetDueDate(datePicked);
-
-                        var dueDate = ViewModel.CurrentTask.DueDate.ToNullableDateTimeOffset();
-                        var timeDue = ViewModel.CurrentTask.TimeDue.ToNullableDateTimeOffset();
-                        DateTimeOffset? today = DateTimeOffset.Now;
-
-                        DateTimeOffset taskDueDate = new DateTimeOffset(
-                          dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
-                          timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
-                          timeDue.Value.Offset
-                        );
-
-                        if (today > taskDueDate)
-                        {
-                            var brush = new SolidColorBrush(Windows.UI.Colors.Red);
-                            brush.Opacity = 0.6;
-                            (DueDateCalendarPicker.Background) = brush;
-                        }
-                        else
-                        {
-                            var brushColor = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
-                            DueDateCalendarPicker.Background = brushColor;
-                        }
-
+                        CheckIfPassedDueDate();
                         break;
                     case "StartDateCalendarPicker":
                         ViewModel.SetStartDate(datePicked);
@@ -301,23 +299,16 @@ namespace KanbanTasker.Views
             }
         }
 
-        
-    private void BtnTestReminder_Click(object sender, RoutedEventArgs e)
-        {
-            //var dueDate = ConvertToDateTimeOffset(ViewModel.CurrentTask.DueDate);
-            //var reminderTime = ConvertToDateTimeOffset(ViewModel.CurrentTask.ReminderTime);
-            //if (dueDate != null && reminderTime != null)
-            //    ScheduleToastNotification(dueDate, reminderTime);
-            //else
-            //    ViewModel.ShowInAppNotification("Failed to schedule toast notification. Due date and/or alarm time not set, please try again.");
-        }
-
+       
         private void TaskReminderTimePicker_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.NewTime.ToString()))
                 return;
             else
+            {
                 ViewModel.SetTimeDue(e.NewTime.ToString());
+                CheckIfPassedDueDate();
+            }
         }
 
         private void autoSuggestBoxTags_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
