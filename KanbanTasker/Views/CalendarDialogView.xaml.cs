@@ -60,9 +60,13 @@ namespace KanbanTasker.Views
             CalendarViewModel.StopTimer();
             CalendarViewModel.ScheudledTasks.Clear();
 
-            // Set CurrentTask and open EditPane
-            ViewModel.CurrentBoard.EditTaskCommandHandler(SelectedTask.ID);
-            BoardView.MySplitView.IsPaneOpen = true;
+            if(SelectedTask != null)
+            {
+                // Set CurrentTask and open EditPane
+                ViewModel.CurrentBoard.EditTaskCommandHandler(SelectedTask.ID);
+                BoardView.MySplitView.IsPaneOpen = true;
+                SelectedTask = null;
+            }
         }
     }
 }
