@@ -43,8 +43,9 @@ namespace KanbanTasker.Views
         }
 
         /// <summary>
-        /// Checks to see if the selected due date has already passed.
-        /// If so, sets the background of the CalendarPicker red. Otherwise, normal brush.
+        /// Checks to see if the selected due date has already passed. <br />
+        /// If so, sets the background of the CalendarPicker red. <br /> 
+        /// Otherwise, sets the background to the normal brush.
         /// <para>Note: If being called from TimePicker_TimeChanged event, no changes
         /// will be made if the current task's due date is null. </para>
         /// </summary>
@@ -139,11 +140,6 @@ namespace KanbanTasker.Views
                 if (ViewModel.AddTag(tagsTextBox.Text))
                     tagsTextBox.Text = string.Empty;
             }
-        }
-
-        private void MnuItemExitApp_Click(object sender, RoutedEventArgs e)
-        {
-            CoreApplication.Exit();
         }
 
         private void KanbanBoard_CardDragEnd(object sender, KanbanDragEndEventArgs e)
