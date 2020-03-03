@@ -370,13 +370,13 @@ namespace KanbanTasker.ViewModels
                 switch (OriginalTask.ColorKey)
                 {
                     case "Low":
-                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[0];
+                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[2];
                         break;
                     case "Normal":
                         CurrentTask.ColorKeyComboBoxItem = ColorKeys[1];
                         break;
                     case "High":
-                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[2];
+                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[0];
                         break;
                 }
                 switch (OriginalTask.ReminderTime)
