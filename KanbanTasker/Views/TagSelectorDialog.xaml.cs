@@ -27,10 +27,23 @@ namespace KanbanTasker.Views
         {
             this.InitializeComponent();
             ViewModel = viewModel;
-
-            // test data
-            for (int i = 0; i <= 50; i++)
-                lstViewTags.Items.Add(new ListViewItem() { Content = "Test" });
+            ViewModel.SuggestedTagsCollection = new System.Collections.ObjectModel.ObservableCollection<string>();
+            ViewModel.SuggestedTagsCollection.Add("Test 1");
+            ViewModel.SuggestedTagsCollection.Add("Test 2");
+            ViewModel.SuggestedTagsCollection.Add("Test 3");
+            ViewModel.SuggestedTagsCollection.Add("Test 4");
+            ViewModel.SuggestedTagsCollection.Add("Test 5  ");
+            ViewModel.SuggestedTagsCollection.Add("Test 6");
+            ViewModel.SuggestedTagsCollection.Add("Test 7");
+            ViewModel.SuggestedTagsCollection.Add("Test 8");
+            ViewModel.SuggestedTagsCollection.Add("Test 9");
+            ViewModel.SuggestedTagsCollection.Add("Test 923432423");
+            ViewModel.SuggestedTagsCollection.Add("Test 914313213213213");
+            ViewModel.SuggestedTagsCollection.Add("Test 2");
+            ViewModel.SuggestedTagsCollection.Add("Test 4");
+            ViewModel.SuggestedTagsCollection.Add("Test 914313213213213");
+            ViewModel.SuggestedTagsCollection.Add("Test 914313213213213");
+            ViewModel.SuggestedTagsCollection.Add("Test 914313213213213");
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

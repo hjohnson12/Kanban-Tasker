@@ -175,9 +175,29 @@
                                 Margin="0,4,0,0"
                                 VerticalAlignment="Stretch"
                                 IsItemClickEnabled="True"
+                                ItemsSource="{x:Bind ViewModel.SuggestedTagsCollection, Mode=OneWay}"
                                 SelectionChanged="lstViewTags_SelectionChanged"
                                 SelectionMode="Multiple">
-
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
+                                <ListViewItem Content="flsafdsa" />
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <controls:WrapPanel
@@ -186,31 +206,32 @@
                                             VerticalSpacing="0" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
-                                <!--<ListView.ItemContainerStyle>
+                                <ListView.Resources>
+                                    <ResourceDictionary>
+                                        <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="Transparent" />
+                                    </ResourceDictionary>
+                                </ListView.Resources>
+                                <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
-                                        <Setter Property="Padding" Value="0" />
-                                        <Setter Property="Margin" Value="0" />
-                                        <Setter Property="MinHeight" Value="0" />
-                                        <Setter Property="MinWidth" Value="0" />
-                                        <Setter Property="BorderThickness" Value="0" />
                                         <Setter Property="Height" Value="Auto" />
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="ListViewItem">
-                                                    <ListViewItemPresenter
-                                                        Margin="1"
-                                                        Padding="0"
-                                                        BorderThickness="0"
-                                                        ContentMargin="0" />
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
+                                        <Setter Property="Padding" Value="2" />
+                                        <Setter Property="Margin" Value="2" />
                                     </Style>
-                                </ListView.ItemContainerStyle>-->
+                                </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="viewmodels:BoardViewModel">
-                                        <Border Background="Red" CornerRadius="4">
+                                        <Border
+                                            Margin="4,0,2,0"
+                                            Background="DarkCyan"
+                                            CornerRadius="4">
                                             <Grid>
+                                                <TextBlock Margin="4" Text="{Binding}" />
+                                            </Grid>
+                                            <!--<Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition />
@@ -247,7 +268,7 @@
                                                         </ResourceDictionary>
                                                     </Button.Resources>
                                                 </Button>
-                                            </Grid>
+                                            </Grid>-->
                                         </Border>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
