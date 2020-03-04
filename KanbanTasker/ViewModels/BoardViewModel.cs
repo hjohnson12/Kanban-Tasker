@@ -12,6 +12,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using KanbanTasker.Helpers.Extensions;
 using KanbanTasker.Helpers;
 using LeaderAnalytics.AdaptiveClient;
+using Windows.UI.Xaml;
 
 namespace KanbanTasker.ViewModels
 {
@@ -57,6 +58,7 @@ namespace KanbanTasker.ViewModels
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
         private string _currentCategory;
+        private DispatcherTimer timer;
         private IAdaptiveClient<IServiceManifest> DataProvider;
         public ICommand NewTaskCommand { get; set; }
         public ICommand EditTaskCommand { get; set; }
@@ -161,6 +163,7 @@ namespace KanbanTasker.ViewModels
             Board = board;
             DataProvider = dataProvider;
             MessagePump = messagePump;
+
         
             CurrentTask = new PresentationTask(new TaskDTO());
             NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
@@ -193,6 +196,53 @@ namespace KanbanTasker.ViewModels
                     task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
                     task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
                 }
+        }
+
+        private void StartDateCheckTimer()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMinutes(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, object e)
+        {
+            UpdateDateInformation();
+        }
+
+
+        private void UpdateDateInformation()
+        {
+            DateTimeOffset? dateCreated = CurrentTask.DateCreated.ToNullableDateTimeOffset();
+            DateTimeOffset? today = DateTimeOffset.Now;
+            DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
+            DateTimeOffset? finishDate = CurrentTask.FinishDate.ToNullableDateTimeOffset();
+
+            // Update Background of DueDateCalendarPicker if passed due date
+            
+
+            // Update DaysWorkedOn
+            if (finishDate != null && startDate != null)
+            {
+                TimeSpan? ts = finishDate - startDate;
+
+                if (ts != null)
+                    // Difference in days, hous, mins
+                    CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
+                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+            }
+
+            //  Update DaysSinceCreation
+            if (dateCreated != null && today != null)
+            {
+                TimeSpan? ts = today - dateCreated;
+
+                if (ts != null)
+                    // Difference in days, hours, mins
+                    CurrentTask.DaysSinceCreation = String.Format("{0}d, {1}hrs, {2}min",
+                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+            }
         }
 
         private void RemoveScheduledNotficationCommandHandler()
@@ -241,40 +291,17 @@ namespace KanbanTasker.ViewModels
 
         private void InitializeDateInformation()
         {
-            DateTimeOffset? dateCreated = CurrentTask.DateCreated.ToNullableDateTimeOffset();
-            DateTimeOffset? today = DateTimeOffset.Now;
-            DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
-            DateTimeOffset? finishDate = CurrentTask.FinishDate.ToNullableDateTimeOffset();
-
             if (IsEditingTask)
             {
-                // Days worked on
-                if (finishDate != null && startDate != null)
-                {
-                    TimeSpan? ts = finishDate - startDate;
-
-                    if (ts != null)
-                        // Difference in days, hous, mins
-                        CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
-                            ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
-                }
-
-                // Days since creation
-                if (dateCreated != null && today != null)
-                {
-                    TimeSpan? ts = today - dateCreated;
-
-                    if (ts != null)
-                        // Difference in days, hours, mins
-                        CurrentTask.DaysSinceCreation = String.Format("{0}d, {1}hrs, {2}min",
-                            ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
-                }
+                StartDateCheckTimer();
+                UpdateDateInformation();
             }
         }
 
         public void SaveTaskCommandHandler()
         {
             IsEditingTask = false;
+            timer.Stop(); 
 
             if (CurrentTask == null)
                 return;
@@ -351,6 +378,7 @@ namespace KanbanTasker.ViewModels
         public void CancelEditCommandHandler()
         {
             IsEditingTask = false;
+            timer.Stop();
 
             if (OriginalTask == null)
                 return;
