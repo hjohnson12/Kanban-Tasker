@@ -103,7 +103,7 @@
                         HorizontalAlignment="Left"
                         FontSize="18"
                         FontWeight="Bold"
-                        Text="Create New Tag:" />
+                        Text="Create/Edit Tag:" />
                     <TextBox
                         Margin="0,8,0,8"
                         Background="{ThemeResource RegionBrush}"
@@ -260,21 +260,47 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                             <Grid Grid.Row="2" VerticalAlignment="Bottom">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
                                     x:Name="txtCount"
+                                    Grid.Row="0"
                                     Grid.Column="0"
                                     Margin="0,4,0,0"
                                     Text="0 Item(s) Selected" />
                                 <Button
-                                    x:Name="btnAddTagsToTask"
+                                    x:Name="btnDeleteTags"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Left"
+                                    Content="Delete Tag(s)"
+                                    ToolTipService.ToolTip="Delete selected tag(s)" />
+                                <Button
+                                    Grid.Row="1"
                                     Grid.Column="1"
-                                    HorizontalAlignment="Right"
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Center"
+                                    Content="Edit Selected Tag"
+                                    ToolTipService.ToolTip="Update a single selected tag" />
+                                <Button
+                                    x:Name="btnAddTagsToTask"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Center"
                                     Click="btnAddTagsToTask_Click"
-                                    Content="Add Selected to Task" />
+                                    Content="Add to Task"
+                                    ToolTipService.ToolTip="Add selected tag(s) to the task" />
+
+
                             </Grid>
                         </Grid>
                     </Grid>
