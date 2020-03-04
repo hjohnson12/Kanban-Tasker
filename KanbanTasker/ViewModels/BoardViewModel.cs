@@ -13,6 +13,7 @@ using KanbanTasker.Helpers.Extensions;
 using KanbanTasker.Helpers;
 using LeaderAnalytics.AdaptiveClient;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace KanbanTasker.ViewModels
 {
@@ -50,6 +51,20 @@ namespace KanbanTasker.ViewModels
             {
                 _suggestedTagsCollection = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private Brush _DueDateBackground;
+        public Brush DueDateBackground
+        {
+            get => _DueDateBackground;
+            set
+            {
+                if(_DueDateBackground != value)
+                {
+                    _DueDateBackground = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -164,7 +179,6 @@ namespace KanbanTasker.ViewModels
             DataProvider = dataProvider;
             MessagePump = messagePump;
 
-        
             CurrentTask = new PresentationTask(new TaskDTO());
             NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
             EditTaskCommand = new RelayCommand<int>(EditTaskCommandHandler, () => true);
@@ -173,6 +187,8 @@ namespace KanbanTasker.ViewModels
             DeleteTagCommand = new RelayCommand<string>(DeleteTagCommandHandler, () => true);
             CancelEditCommand = new RelayCommand(CancelEditCommandHandler, () => true);
             RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotficationCommandHandler, () => true);
+
+            DueDateBackground = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
 
             ColorKeys = new ObservableCollection<ComboBoxItem>();
             ColorKeys.Add(new ComboBoxItem { Content = "High" });
@@ -198,60 +214,9 @@ namespace KanbanTasker.ViewModels
                 }
         }
 
-        private void StartDateCheckTimer()
-        {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMinutes(1);
-            timer.Tick += Timer_Tick;
-            timer.Start();
-        }
+        
 
-        private void Timer_Tick(object sender, object e)
-        {
-            UpdateDateInformation();
-        }
-
-
-        private void UpdateDateInformation()
-        {
-            DateTimeOffset? dateCreated = CurrentTask.DateCreated.ToNullableDateTimeOffset();
-            DateTimeOffset? today = DateTimeOffset.Now;
-            DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
-            DateTimeOffset? finishDate = CurrentTask.FinishDate.ToNullableDateTimeOffset();
-
-            // Update Background of DueDateCalendarPicker if passed due date
-            
-
-            // Update DaysWorkedOn
-            if (finishDate != null && startDate != null)
-            {
-                TimeSpan? ts = finishDate - startDate;
-
-                if (ts != null)
-                    // Difference in days, hous, mins
-                    CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
-                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
-            }
-
-            //  Update DaysSinceCreation
-            if (dateCreated != null && today != null)
-            {
-                TimeSpan? ts = today - dateCreated;
-
-                if (ts != null)
-                    // Difference in days, hours, mins
-                    CurrentTask.DaysSinceCreation = String.Format("{0}d, {1}hrs, {2}min",
-                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
-            }
-        }
-
-        private void RemoveScheduledNotficationCommandHandler()
-        {
-            ToastHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
-            CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[0];
-        }
-
-        #region Functions
+        #region CommandHandlers
 
         public void NewTaskCommandHandler(ColumnTag tag)
         {
@@ -274,34 +239,10 @@ namespace KanbanTasker.ViewModels
             OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
         }
 
-        private void InitializeSuggestedTags()
-        {
-            // Removes tags from suggested list that are already on the tag, if any
-            SuggestedTagsCollection = Board.TagsCollection;
-            foreach(var tag in CurrentTask.Tags)
-            {
-                if (SuggestedTagsCollection.Contains(tag))
-                {
-                    SuggestedTagsCollection.Remove(tag);
-                }
-                else
-                    SuggestedTagsCollection = Board.TagsCollection;
-            }
-        }
-
-        private void InitializeDateInformation()
-        {
-            if (IsEditingTask)
-            {
-                StartDateCheckTimer();
-                UpdateDateInformation();
-            }
-        }
-
         public void SaveTaskCommandHandler()
         {
             IsEditingTask = false;
-            timer.Stop(); 
+            timer.Stop();
 
             if (CurrentTask == null)
                 return;
@@ -327,7 +268,7 @@ namespace KanbanTasker.ViewModels
             }
 
             PrepareToastNotification();
-            
+
             MessagePump.Show("Task was saved successfully", MessageDuration);
         }
 
@@ -352,7 +293,7 @@ namespace KanbanTasker.ViewModels
                 //      - I've only noticed it when moving a task and then deleting, sometimes... Possible binding issue when changing property, since db is correct? 
                 //  otherTask.ColumnIndex -=1 works without OrderBy, but has the problem above
                 // Fix: If an index in the db gets messed up, moving one card in the column fixes the whole column. Low severity.
-                foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex).OrderBy(x => x.ColumnIndex)) 
+                foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex).OrderBy(x => x.ColumnIndex))
                 {
                     otherTask.ColumnIndex = startIndex++;
                     //otherTask.ColumnIndex -= 1;
@@ -383,7 +324,7 @@ namespace KanbanTasker.ViewModels
             if (OriginalTask == null)
                 return;
             // roll back changes to CurrentTask
-           else
+            else
             {
                 int index = Board.Tasks.IndexOf(CurrentTask);
                 Board.Tasks.Remove(CurrentTask);
@@ -439,6 +380,67 @@ namespace KanbanTasker.ViewModels
                 }
             }
         }
+
+        #endregion CommandHandlers
+
+        #region Methods
+
+        /// <summary>
+        /// Inserts a tag to the current task's tag collection.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns>A bool containing whether the tag was successfully added or not.</returns>
+        public bool AddTag(string tag)
+        {
+            bool result = false;
+
+            if (CurrentTask == null)
+            {
+                MessagePump.Show("Tag failed to be added.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                return result;
+            }
+
+            if (CurrentTask.Tags.Contains(tag))
+                MessagePump.Show("Tag already exists", 3000);
+            else
+            {
+                CurrentTask.Tags.Add(tag);
+                if (!Board.TagsCollection.Contains(tag))
+                    Board.TagsCollection.Add(tag);
+                SuggestedTagsCollection.Remove(tag);
+                MessagePump.Show($"Tag {tag} added successfully", 3000);
+                result = true;
+            }
+            return result;
+        }
+
+
+
+        private void InitializeSuggestedTags()
+        {
+            // Removes tags from suggested list that are already on the tag, if any
+            SuggestedTagsCollection = Board.TagsCollection;
+            foreach (var tag in CurrentTask.Tags)
+            {
+                if (SuggestedTagsCollection.Contains(tag))
+                {
+                    SuggestedTagsCollection.Remove(tag);
+                }
+                else
+                    SuggestedTagsCollection = Board.TagsCollection;
+            }
+        }
+
+        private void InitializeDateInformation()
+        {
+            if (IsEditingTask)
+            {
+                StartDateCheckTimer();
+                UpdateDateInformation();
+            }
+        }
+
+
 
         /// <summary>
         /// Schedules a toast notification using <see cref="ToastHelper"/> if the current task 
@@ -496,6 +498,62 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
+        /// Removes the scheuled notification for the current task, 
+        /// uniqely identified by its tag. <br />
+        /// In this case, the tag is the task's unique ID.
+        /// </summary>
+        private void RemoveScheduledNotficationCommandHandler()
+        {
+            ToastHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
+            CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[0];
+        }
+
+        private void StartDateCheckTimer()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMinutes(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, object e)
+        {
+            UpdateDateInformation();
+        }
+
+        private void UpdateDateInformation()
+        {
+            DateTimeOffset? dateCreated = CurrentTask.DateCreated.ToNullableDateTimeOffset();
+            DateTimeOffset? today = DateTimeOffset.Now;
+            DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
+            DateTimeOffset? finishDate = CurrentTask.FinishDate.ToNullableDateTimeOffset();
+
+            CheckIfPassedDueDate();
+
+            // Update DaysWorkedOn
+            if (finishDate != null && startDate != null)
+            {
+                TimeSpan? ts = finishDate - startDate;
+
+                if (ts != null)
+                    // Difference in days, hous, mins
+                    CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
+                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+            }
+
+            //  Update DaysSinceCreation
+            if (dateCreated != null && today != null)
+            {
+                TimeSpan? ts = today - dateCreated;
+
+                if (ts != null)
+                    // Difference in days, hours, mins
+                    CurrentTask.DaysSinceCreation = String.Format("{0}d, {1}hrs, {2}min",
+                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+            }
+        }
+
+        /// <summary>
         /// Sets the due date for the current task.
         /// </summary>
         /// <param name="dueDate"></param>
@@ -505,6 +563,7 @@ namespace KanbanTasker.ViewModels
                 MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
             CurrentTask.DueDate = dueDate;
+            CheckIfPassedDueDate();
         }
 
         /// <summary>
@@ -553,37 +612,51 @@ namespace KanbanTasker.ViewModels
                 MessagePump.Show("Failed to set time due.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
             CurrentTask.TimeDue = timeDue;
+            CheckIfPassedDueDate();
+        }
+
+        private ComboBoxItem GetComboBoxItemForColorKey(string colorKey) => ColorKeys.FirstOrDefault(x => x.Content.ToString() == colorKey);
+        private ComboBoxItem GetComboBoxItemForReminderTime(string reminderTime) => ReminderTimes.FirstOrDefault(x => x.Content.ToString() == reminderTime);
+
+        /// <summary>
+        /// Shows a local notification on the current board using message as the content.
+        /// </summary>
+        /// <param name="message"></param>
+        public void ShowInAppNotification(string message)
+        {
+            MessagePump.Show(message, MessageDuration);
         }
 
         /// <summary>
-        /// Inserts a tag to the current task's tag collection.
+        /// Checks to see if the current task's due date has already passed and sets the
+        /// due date background, respectively. <br />
+        /// If true, sets the background of the CalendarPicker red. <br /> 
+        /// Otherwise, sets the background to the default brush.
+        /// <para>Note: If no due date has been selected, no changes
+        /// will be made since the current task's date is null. </para>
         /// </summary>
-        /// <param name="tag"></param>
-        /// <returns>A bool containing whether the tag was successfully added or not.</returns>
-        public bool AddTag(string tag)
+        public void CheckIfPassedDueDate()
         {
-            bool result = false;
-
-            if (CurrentTask == null)
+            var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
+            if (!(dueDate == null))
             {
-                MessagePump.Show("Tag failed to be added.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
-                return result;
-            }
+                var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
+                DateTimeOffset today = DateTimeOffset.Now;
 
-            if (CurrentTask.Tags.Contains(tag))
-                MessagePump.Show("Tag already exists", 3000);
+                DateTimeOffset taskDueDate = new DateTimeOffset(
+                  dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
+                  timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
+                  timeDue.Value.Offset
+                );
+
+                if (DateTimeOffset.Compare(taskDueDate, today) < 0)
+                    DueDateBackground = new SolidColorBrush(Windows.UI.Colors.Red) { Opacity = 0.6 };
+                else
+                    DueDateBackground = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+            }
             else
-            {
-                CurrentTask.Tags.Add(tag);
-                if (!Board.TagsCollection.Contains(tag))
-                    Board.TagsCollection.Add(tag);
-                SuggestedTagsCollection.Remove(tag);
-                MessagePump.Show($"Tag {tag} added successfully", 3000);
-                result = true;
-            }
-            return result;
+                DueDateBackground = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
         }
-
 
         /// <summary>
         /// Updates the selected card category and column index after dragging it to
@@ -610,18 +683,6 @@ namespace KanbanTasker.ViewModels
             DataProvider.Call(x => x.TaskServices.UpdateCardIndex(iD, currentCardIndex));
         }
 
-        private ComboBoxItem GetComboBoxItemForColorKey(string colorKey) => ColorKeys.FirstOrDefault(x => x.Content.ToString() == colorKey);
-        private ComboBoxItem GetComboBoxItemForReminderTime(string reminderTime) => ReminderTimes.FirstOrDefault(x => x.Content.ToString() == reminderTime);
-
-        /// <summary>
-        /// Shows a local notification on the current board using message as the content.
-        /// </summary>
-        /// <param name="message"></param>
-        public void ShowInAppNotification(string message)
-        {
-            MessagePump.Show(message, MessageDuration);
-        }
-
-        #endregion
+        #endregion Methods
     }
 }

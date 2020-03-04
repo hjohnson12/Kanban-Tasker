@@ -801,7 +801,7 @@
                                             x:Name="DueDateCalendarPicker"
                                             Grid.Column="1"  
                                             Foreground="Red"
-                                            Background="{ThemeResource RegionBrush}"
+                                            Background="{x:Bind ViewModel.DueDateBackground, Mode=OneWay}"
                                             Date="{x:Bind ViewModel.CurrentTask.DueDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
                                             Margin="36,10,8,0"

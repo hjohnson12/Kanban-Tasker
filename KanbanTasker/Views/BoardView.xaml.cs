@@ -42,34 +42,6 @@ namespace KanbanTasker.Views
             ViewModel = selectedBoard;
         }
 
-        /// <summary>
-        /// Checks to see if the selected due date has already passed. <br />
-        /// If so, sets the background of the CalendarPicker red. <br /> 
-        /// Otherwise, sets the background to the normal brush.
-        /// <para>Note: If being called from TimePicker_TimeChanged event, no changes
-        /// will be made if the current task's due date is null. </para>
-        /// </summary>
-        private void CheckIfPassedDueDate()
-        {
-            var dueDate = ViewModel.CurrentTask.DueDate.ToNullableDateTimeOffset();
-            if (!(dueDate == null))
-            {
-                var timeDue = ViewModel.CurrentTask.TimeDue.ToNullableDateTimeOffset();
-                DateTimeOffset today = DateTimeOffset.Now;
-
-                DateTimeOffset taskDueDate = new DateTimeOffset(
-                  dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
-                  timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
-                  timeDue.Value.Offset
-                );
-
-                if (DateTimeOffset.Compare(taskDueDate, today) < 0)
-                    DueDateCalendarPicker.Background = new SolidColorBrush(Windows.UI.Colors.Red) { Opacity = 0.6 };
-                else
-                    DueDateCalendarPicker.Background = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
-            }
-        }
-
         #endregion Methods
 
         #region UIEvents
@@ -283,7 +255,6 @@ namespace KanbanTasker.Views
                 {
                     case "DueDateCalendarPicker":
                         ViewModel.SetDueDate(datePicked);
-                        CheckIfPassedDueDate();
                         break;
                     case "StartDateCalendarPicker":
                         ViewModel.SetStartDate(datePicked);
@@ -295,16 +266,12 @@ namespace KanbanTasker.Views
             }
         }
 
-       
         private void TaskReminderTimePicker_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.NewTime.ToString()))
                 return;
             else
-            {
                 ViewModel.SetTimeDue(e.NewTime.ToString());
-                CheckIfPassedDueDate();
-            }
         }
 
         private void autoSuggestBoxTags_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
