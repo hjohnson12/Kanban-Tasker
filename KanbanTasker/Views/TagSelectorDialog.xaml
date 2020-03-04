@@ -163,7 +163,8 @@
                                 HorizontalAlignment="Left"
                                 FontSize="18"
                                 FontWeight="Bold"
-                                Text="Select Existing Tags:" />
+                                Text="Select Tags:" />
+                            <!--  Keep This  -->
                             <!--<TextBlock
                                 Grid.Row="1"
                                 Margin="0,4,0,0"
@@ -178,26 +179,6 @@
                                 ItemsSource="{x:Bind ViewModel.SuggestedTagsCollection, Mode=OneWay}"
                                 SelectionChanged="lstViewTags_SelectionChanged"
                                 SelectionMode="Multiple">
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
-                                <ListViewItem Content="flsafdsa" />
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <controls:WrapPanel
@@ -224,6 +205,9 @@
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="viewmodels:BoardViewModel">
+                                        <!--  Bind TagBackgroundColor to Border background  -->
+                                        <!--  Bind TagForegroundColor to Textblock foreground  -->
+                                        <!--  Set default color to each tag if not specified when using textbox on EditPane  -->
                                         <Border
                                             Margin="4,0,2,0"
                                             Background="DarkCyan"
@@ -231,6 +215,7 @@
                                             <Grid>
                                                 <TextBlock Margin="4" Text="{Binding}" />
                                             </Grid>
+
                                             <!--<Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
@@ -269,92 +254,30 @@
                                                     </Button.Resources>
                                                 </Button>
                                             </Grid>-->
+
                                         </Border>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="2" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
                                 <TextBlock
                                     x:Name="txtCount"
+                                    Grid.Column="0"
                                     Margin="0,4,0,0"
-                                    Text="0 item(s) selected" />
+                                    Text="0 Item(s) Selected" />
+                                <Button
+                                    x:Name="btnAddTagsToTask"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Click="btnAddTagsToTask_Click"
+                                    Content="Add Selected to Task" />
                             </Grid>
-                            <!--<ListView
-                                x:Name="lstView"
-                                Grid.Row="1"
-                                Height="480"
-                                Margin="0,4,0,0"
-                                IsItemClickEnabled="True"
-                                SelectionMode="Multiple"
-                                Style="{StaticResource CustomListView}">
-                                <ListViewItem
-                                    Background="Red"
-                                    Content="test1"
-                                    CornerRadius="4" />
-                                <ListViewItem Background="Blue" Content="test2" />
-                                <ListViewItem Content="test3" />
-                                <ListViewItem Content="test4" />
-                                <ListView.Resources>
-                                    <ResourceDictionary>
-                                        <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
-                                        <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent" />
-                                        <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="Transparent" />
-                                        <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
-                                        <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="Transparent" />
-                                    </ResourceDictionary>
-                                </ListView.Resources>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:Name="TaskListView2">
-                                        <TextBlock Margin="12,0,0,0" Text="{Binding}" />
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="Padding" Value="0" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="Margin" Value="0,2,0,2" />
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>-->
                         </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
-
-            <!--  Tag Selector Footer  -->
-            <Grid Grid.Row="2" Margin="0,12,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border
-                    Grid.Row="0"
-                    HorizontalAlignment="Stretch"
-                    BorderBrush="Gray"
-                    BorderThickness="0.5" />
-                <Grid Grid.Row="1">
-                    <StackPanel
-                        Margin="0,4,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <AppBarButton
-                            x:Name="btnSaveTags"
-                            Grid.Column="0"
-                            Margin="0,8,12,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Click="btnSaveTags_Click"
-                            Icon="Save"
-                            Label="Save" />
-                        <AppBarButton
-                            Grid.Column="2"
-                            Margin="12,8,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Icon="Cancel"
-                            Label="Cancel" />
-                    </StackPanel>
                 </Grid>
             </Grid>
         </Grid>

@@ -111,12 +111,15 @@ namespace KanbanTasker.Views
             txtCount.Text = (sender as ListView).SelectedItems.Count.ToString() + " item(s) selected";
         }
 
-        private void btnSaveTags_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void btnCloseDialog_Click(object sender, RoutedEventArgs e)
         {
+            this.Hide();
+        }
+
+        private void btnAddTagsToTask_Click(object sender, RoutedEventArgs e)
+        {
+            // Get all of the selected items
+            // Then add to tags collection and close dialog
             this.Hide();
         }
     }
