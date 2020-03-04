@@ -346,7 +346,7 @@ namespace KanbanTasker.Views
 
         private async void btnAddTags_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new TagSelectorDialog();
+            var dialog = new TagSelectorDialog(ViewModel);
             await dialog.ShowAsync();
         }
     }
