@@ -16,7 +16,7 @@ namespace KanbanTasker.Services.MSSQL
 
         }
 
-        public virtual List<TaskDTO> GetTasks() => db.Tasks.ToList();
+        public virtual List<TaskDTO> GetTasks() => db.Tasks.Include(x => x.TaskTags).ThenInclude(x => x.Tag).ToList();
 
         public virtual RowOpResult<TaskDTO> SaveTask(TaskDTO task)
         {
@@ -31,6 +31,19 @@ namespace KanbanTasker.Services.MSSQL
                 return result;
 
             db.Entry(task).State = task.Id == 0 ? EntityState.Added : EntityState.Modified;
+
+            foreach (TaskTag tt in task.TaskTags) // test for null
+            {
+                if (tt.TagID == 0)
+                {
+                    // append
+                }
+                else
+                { 
+                    // update
+                }
+            }
+
             db.SaveChanges();
             result.Success = true;
             return result;

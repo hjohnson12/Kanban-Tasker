@@ -8,7 +8,7 @@ namespace KanbanTasker.Model
     {
         public int TaskID { get; set; }
         public int TagID { get; set; }
-        public TaskDTO Task { get; set; }
-        public Tag Tag { get; set; }
+        public virtual TaskDTO Task { get; set; }
+        public virtual Tag Tag { get; set; }
     }
 }
