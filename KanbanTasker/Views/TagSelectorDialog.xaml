@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls1="using:Windows.UI.Xaml.Controls"
+    xmlns:controls2="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:KanbanTasker.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -158,12 +159,27 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <TextBlock
-                                Grid.Row="0"
-                                HorizontalAlignment="Left"
-                                FontSize="18"
-                                FontWeight="Bold"
-                                Text="Select Tags:" />
+                            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    FontSize="18"
+                                    FontWeight="Bold"
+                                    Text="Select or Search for Tags:" />
+                                <controls1:TextBox
+                                    x:Name="txtBoxTagFilter"
+                                    Grid.Column="1"
+                                    Margin="8,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    Background="{ThemeResource RegionBrush}"
+                                    PlaceholderText="Search tag by name"
+                                    TextChanged="txtBoxTagFilter_TextChanged" />
+                            </Grid>
+
                             <!--  Keep This  -->
                             <!--<TextBlock
                                 Grid.Row="1"
@@ -284,12 +300,30 @@
                                     Content="Delete Tag(s)"
                                     ToolTipService.ToolTip="Delete selected tag(s)" />
                                 <Button
+                                    x:Name="btnEditTag"
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Margin="0,4,0,0"
                                     HorizontalAlignment="Center"
+                                    Click="btnEditTag_Click"
                                     Content="Edit Selected Tag"
-                                    ToolTipService.ToolTip="Update a single selected tag" />
+                                    ToolTipService.ToolTip="Update a single selected tag">
+                                    <Button.Resources>
+                                        <controls2:TeachingTip
+                                            x:Name="EditTagTeachingTip"
+                                            Title="Edit Tag"
+                                            Background="{ThemeResource RegionBrush}"
+                                            CornerRadius="3"
+                                            IsLightDismissEnabled="True"
+                                            PreferredPlacement="Top"
+                                            Subtitle="You have more than 1 tag selected. Only 1 tag is allowed to be edited at a time."
+                                            Target="{x:Bind btnEditTag}">
+                                            <controls2:TeachingTip.IconSource>
+                                                <controls2:SymbolIconSource Symbol="Important" />
+                                            </controls2:TeachingTip.IconSource>
+                                        </controls2:TeachingTip>
+                                    </Button.Resources>
+                                </Button>
                                 <Button
                                     x:Name="btnAddTagsToTask"
                                     Grid.Row="1"

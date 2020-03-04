@@ -122,5 +122,22 @@ namespace KanbanTasker.Views
             // Then add to tags collection and close dialog
             this.Hide();
         }
+
+        private void txtBoxTagFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var filtered = ViewModel.CurrentTask.Tags.Where(x => FilterText(x));
+            // TODO: Add in other functions from WinUI Example when finished with DB work
+        }
+
+        private bool FilterText(Models.PresentationTag tag)
+        {
+            return tag.TagName.Contains(txtBoxTagFilter.Text, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        private void btnEditTag_Click(object sender, RoutedEventArgs e)
+        {
+            if ((lstViewTags.SelectedItems.Count > 1))
+                EditTagTeachingTip.IsOpen = true;
+        }
     }
 }
