@@ -16,7 +16,7 @@ namespace KanbanTasker.Models
         private string _colorKey;
         private string _category;
         private int _columnIndex;
-        private ObservableCollection<string> _tags;
+        private ObservableCollection<PresentationTag> _tags;
         private string _description;
         private string _dateCreated;
         private string _dueDate;
@@ -71,7 +71,7 @@ namespace KanbanTasker.Models
         public string Category { get => _category; set { if (_category != value) { _category = value; OnPropertyChanged(); } } }
         public int ColumnIndex { get => _columnIndex; set { if (_columnIndex != value) { _columnIndex = value; OnPropertyChanged(); } } }
         public string ColorKey { get => _colorKey; set { if (_colorKey != value) { _colorKey = value; OnPropertyChanged(); } } }
-        public ObservableCollection<string> Tags { get => _tags; set { if (_tags != value) { _tags = value; OnPropertyChanged(); } } }
+        public ObservableCollection<PresentationTag> Tags { get => _tags; set { if (_tags != value) { _tags = value; OnPropertyChanged(); } } }
         public Uri ImageURL { get => _imageUrl; set { if (_imageUrl != value){ _imageUrl = value; OnPropertyChanged(); } } }
         public PresentationBoard Board { get => _Board; set { if(_Board != value){ _Board = value; OnPropertyChanged(); } } }
 
@@ -123,6 +123,7 @@ namespace KanbanTasker.Models
 
         public PresentationTask(TaskDTO dto)
         {
+            Tags = new ObservableCollection<PresentationTag>();
             ID = dto.Id;
             BoardId = dto.BoardId;
             DateCreated = dto.DateCreated;
@@ -141,6 +142,12 @@ namespace KanbanTasker.Models
             //    Tags = new ObservableCollection<string>(dto.Tags.Split(','));
             //else
             //    Tags = new ObservableCollection<string>();
+
+            if (dto.TaskTags?.Any() ?? false)
+            {
+                foreach (TaskTag tt in dto.TaskTags)
+                    Tags.Add(new PresentationTag(tt.Tag));
+            }
 
             Board = new PresentationBoard(dto?.Board ?? new BoardDTO());
         }
