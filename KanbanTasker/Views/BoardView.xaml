@@ -634,18 +634,36 @@
                                 PlaceholderText="Press enter to add tag"
                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                 Style="{StaticResource TextBoxStyle1}" />-->
-                            <AutoSuggestBox
-                                x:Name="autoSuggestBoxTags"
-                                Grid.Column="2"
-                                Margin="36,10,0,0"
-                                HorizontalAlignment="Stretch"
-                                GotFocus="autoSuggestBoxTags_GotFocus"
-                                ItemsSource="{x:Bind ViewModel.Board.TagsCollection, Mode=OneWay}"
-                                PlaceholderText="Press enter to add tag"
-                                QuerySubmitted="autoSuggestBoxTags_QuerySubmitted"
-                                Style="{StaticResource CustomAutoSuggestBoxStyle}"
-                                SuggestionChosen="autoSuggestBoxTags_SuggestionChosen"
-                                TextChanged="autoSuggestBoxTags_TextChanged" />
+                            <Grid Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <AutoSuggestBox
+                                    x:Name="autoSuggestBoxTags"
+                                    Grid.Column="0"
+                                    Margin="36,10,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    GotFocus="autoSuggestBoxTags_GotFocus"
+                                    ItemsSource="{x:Bind ViewModel.Board.TagsCollection, Mode=OneWay}"
+                                    PlaceholderText="Type or select tags"
+                                    QuerySubmitted="autoSuggestBoxTags_QuerySubmitted"
+                                    Style="{StaticResource CustomAutoSuggestBoxStyle}"
+                                    SuggestionChosen="autoSuggestBoxTags_SuggestionChosen"
+                                    TextChanged="autoSuggestBoxTags_TextChanged" />
+                                <Button
+                                    x:Name="btnAddTags"
+                                    Click="btnAddTags_Click"
+                                    Grid.Column="1"
+                                    ToolTipService.ToolTip="Add Tags"
+                                    Background="Transparent"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                                    Margin="4 10 0 0"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Content="&#xE109;"></Button>
+                            </Grid>
+                           
                         </Grid>
 
                         <!--  Grid for WrapPanel  -->

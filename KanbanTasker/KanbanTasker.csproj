@@ -175,6 +175,9 @@
     <Compile Include="Views\TagEditDialogView.xaml.cs">
       <DependentUpon>TagEditDialogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TagSelectorDialog.xaml.cs">
+      <DependentUpon>TagSelectorDialog.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -298,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TagEditDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagSelectorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

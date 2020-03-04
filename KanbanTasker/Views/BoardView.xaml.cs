@@ -343,6 +343,12 @@ namespace KanbanTasker.Views
             var dialog = new TagEditDialogView(ViewModel);
             await dialog.ShowAsync();
         }
+
+        private async void btnAddTags_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new TagSelectorDialog();
+            await dialog.ShowAsync();
+        }
     }
 }
 #endregion UIEvents

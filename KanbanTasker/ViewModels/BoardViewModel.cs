@@ -248,7 +248,7 @@ namespace KanbanTasker.ViewModels
             CurrentTask = new PresentationTask(new TaskDTO() { Category = category }) { Board = Board, BoardId = Board.ID,  ColorKeyComboBoxItem = ColorKeys[1], ReminderTimeComboBoxItem = ReminderTimes[0] };
             OriginalTask = null; 
             IsEditingTask = true;
-            InitializeSuggestedTags();
+        //    InitializeSuggestedTags();
         }
 
         public void EditTaskCommandHandler(int taskID)
@@ -256,7 +256,7 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "Edit Task";
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
             IsEditingTask = true;
-            InitializeSuggestedTags();
+          //  InitializeSuggestedTags();
             InitializeDateInformation();
             // clone a copy of CurrentTask so we can restore if user cancels
             OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
@@ -265,16 +265,16 @@ namespace KanbanTasker.ViewModels
         private void InitializeSuggestedTags()
         {
             // Removes tags from suggested list that are already on the tag, if any
-            SuggestedTagsCollection = Board.TagsCollection;
-            foreach(var tag in CurrentTask.Tags)
-            {
-                if (SuggestedTagsCollection.Contains(tag))
-                {
-                    SuggestedTagsCollection.Remove(tag);
-                }
-                else
-                    SuggestedTagsCollection = Board.TagsCollection;
-            }
+            //SuggestedTagsCollection = Board.TagsCollection;
+            //foreach(var tag in CurrentTask.Tags)
+            //{
+            //    if (SuggestedTagsCollection.Contains(tag))
+            //    {
+            //        SuggestedTagsCollection.Remove(tag);
+            //    }
+            //    else
+            //        SuggestedTagsCollection = Board.TagsCollection;
+            //}
         }
 
         private void InitializeDateInformation()
@@ -381,7 +381,7 @@ namespace KanbanTasker.ViewModels
                 MessagePump.Show("Tag failed to be deleted.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
                 return;
             }
-            CurrentTask.Tags.Remove(tag);
+         //   CurrentTask.Tags.Remove(tag);
             MessagePump.Show("Tag deleted successfully", MessageDuration);
         }
 
@@ -579,18 +579,18 @@ namespace KanbanTasker.ViewModels
                 return result;
             }
 
-            if (CurrentTask.Tags.Contains(tag))
-                MessagePump.Show("Tag already exists", 3000);
-            else
-            {
-                CurrentTask.Tags.Add(tag);
-                if (!Board.TagsCollection.Contains(tag))
-                    Board.TagsCollection.Add(tag);
-                SuggestedTagsCollection.Remove(tag);
-                Tags.Add(new ListViewItem { Content = tag });
-                MessagePump.Show($"Tag {tag} added successfully", 3000);
-                result = true;
-            }
+            //if (CurrentTask.Tags.Contains(tag))
+            //    MessagePump.Show("Tag already exists", 3000);
+            //else
+            //{
+            //    CurrentTask.Tags.Add(tag);
+            //    if (!Board.TagsCollection.Contains(tag))
+            //        Board.TagsCollection.Add(tag);
+            //    SuggestedTagsCollection.Remove(tag);
+            //    Tags.Add(new ListViewItem { Content = tag });
+            //    MessagePump.Show($"Tag {tag} added successfully", 3000);
+            //    result = true;
+            //}
             return result;
         }
 
