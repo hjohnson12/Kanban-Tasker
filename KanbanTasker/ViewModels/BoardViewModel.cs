@@ -73,7 +73,7 @@ namespace KanbanTasker.ViewModels
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
         private string _currentCategory;
-        private DispatcherTimer timer;
+        private DispatcherTimer dateCheckTimer;
         private IAdaptiveClient<IServiceManifest> DataProvider;
         public ICommand NewTaskCommand { get; set; }
         public ICommand EditTaskCommand { get; set; }
@@ -242,7 +242,9 @@ namespace KanbanTasker.ViewModels
         public void SaveTaskCommandHandler()
         {
             IsEditingTask = false;
-            timer.Stop();
+            
+            if (dateCheckTimer != null)
+                dateCheckTimer.Stop();
 
             if (CurrentTask == null)
                 return;
@@ -319,7 +321,9 @@ namespace KanbanTasker.ViewModels
         public void CancelEditCommandHandler()
         {
             IsEditingTask = false;
-            timer.Stop();
+            
+            if (dateCheckTimer != null)
+                dateCheckTimer.Stop();
 
             if (OriginalTask == null)
                 return;
@@ -510,10 +514,10 @@ namespace KanbanTasker.ViewModels
 
         private void StartDateCheckTimer()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMinutes(1);
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            dateCheckTimer = new DispatcherTimer();
+            dateCheckTimer.Interval = TimeSpan.FromMinutes(1);
+            dateCheckTimer.Tick += Timer_Tick;
+            dateCheckTimer.Start();
         }
 
         private void Timer_Tick(object sender, object e)

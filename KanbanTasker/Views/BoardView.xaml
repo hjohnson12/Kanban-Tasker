@@ -777,7 +777,7 @@
                                             IsEnabled="False"
                                             HorizontalAlignment="Stretch" 
                                             Date="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay, Converter={StaticResource stringToDateConverter}}"
-                                            PlaceholderText="Not created yet" />
+                                            PlaceholderText="" />
                                         
                                         <!-- Original, keep for now-->
                                         <!--<TextBlock

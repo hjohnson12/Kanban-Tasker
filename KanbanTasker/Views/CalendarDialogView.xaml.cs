@@ -38,18 +38,20 @@ namespace KanbanTasker.Views
 
         private void TaskCalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
-            if (sender.SelectedDates != null && sender.SelectedDates.Count != 0)
-                // Work-around: Fix using the AttachedProperty SelectedDate
-                CalendarViewModel.SelectedDate = sender.SelectedDates.First();
+            if(ViewModel.CurrentBoard != null)
+            {
+                if (sender.SelectedDates != null && sender.SelectedDates.Count != 0)
+                    // Work-around: Fix using the AttachedProperty SelectedDate
+                    CalendarViewModel.SelectedDate = sender.SelectedDates.First();
 
-            CalendarViewModel.ScheudledTasks = CalendarViewModel.GetAvailableTasks(ViewModel.CurrentBoard.Board);
+                CalendarViewModel.ScheudledTasks = CalendarViewModel.GetAvailableTasks(ViewModel.CurrentBoard.Board);
+            }
         }
 
         private void lstView_ItemClick(object sender, ItemClickEventArgs e)
         {
             SelectedTask = e.ClickedItem as PresentationTask;
             this.Hide();
-
         }
 
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
