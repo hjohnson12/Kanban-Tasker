@@ -70,11 +70,13 @@ namespace KanbanTasker.Views
             if (view.ViewMode == ApplicationViewMode.Default)
             {
                 btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE944);
+                btnOpenTaskCalendar.IsEnabled = false;
                 await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
             }
             else
             {
                 btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE8A7);
+                btnOpenTaskCalendar.IsEnabled = true;
                 await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
         }
