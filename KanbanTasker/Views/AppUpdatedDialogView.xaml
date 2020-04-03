@@ -128,6 +128,11 @@
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
+                            Text="- Functionality for touch features on the card to select edit/delete is currently being worked on, stylus pens or other accessories still work at the moment" />
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap"
                             Text="- Additional minor changes and refactors for better performance. Newest changes can be followed on Github" />
                 <TextBlock
                             Margin="0,12,0,0"
