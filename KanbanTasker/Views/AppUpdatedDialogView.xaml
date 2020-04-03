@@ -14,7 +14,7 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <ScrollViewer>
-        <Grid>
+        <Grid Margin="6">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -48,31 +48,65 @@
                             FontWeight="Bold"
                             FontSize="15"
                             TextDecorations="Underline"
-                            Text="Version 1.0.6.0 Update:" />
+                            Text="Version 1.1.0 Beta Update:" />
                 <TextBlock  
-                            Margin="0,8,0,0"
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap" >
+                    <Run>This version is being released early in beta due to some of its incomplete features.</Run>
+                    <LineBreak />
+                    <LineBreak /><Run>I'm releasing the work done so far in some of my development branches to ensure the new database migration features will work with users upon update, as well as</Run>
+                    <Run>hope it will help everyone out with work during this time and for those who would like to utilize the current functionality of new features so far. Changelog is below:</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- Date Information section added to task create/edit pane</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- Reminder notifications for a task's due date added</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- Option to set a due date, time due, notification reminder, start date, and finish date on a task</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- Tasks that are past due will have a red background in the Pane where you choose your due date (A due date will be added to the front of the card as well in
+                    the finished version of this update)</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- Task Calendar feature added to quickly view a list of due tasks on the specified date for the current board</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- AutoSuggestTextBox added for tags in this beta, but is currently being replaced again with a more customized tag selector and editor feature</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
-                            Text="- Bugs causing application crashing and latency when dragging tasks fixed" />
-
+                            Text="- New database implementation finished and this update includes the SQLite version with a modified table for the latest features. MSSQL and MySQL are available on developer branch update_multidatabase in the repository as of now." />
                 <TextBlock
-                            Margin="0,8,0,0"
+                            Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
-                            Text="- Compact Overlay (picture-in-picture) mode added to view your tasks while doing other work. This feature is in beta and still being worked on." />
+                            Text="- Additional minor changes and refactors for better performance. Newest changes can be followed on Github" />
                 <TextBlock
-                            Margin="0,8,0,0"
-                            HorizontalAlignment="Left"
-                            TextWrapping="Wrap"
-                            Text="- Additional minor changes. Newest changes can be followed on Github." />
-                <TextBlock
-                            Margin="0,8,0,0"
-                            HorizontalAlignment="Left"
-                            TextWrapping="Wrap"
-                            Text="- Working on testing another future update to make sure it modifies your current databases correctly to avoid complete database reconstruction." />
-
-                <TextBlock
-                            Margin="0,8,0,0"
+                            Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- If any bugs are encountered after updating, please report them using github issues or the feedback link in Settings with steps that led to the error, if possible!" />
@@ -88,7 +122,13 @@
                     Margin="0,8,0,0"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap" >
-                        <Run Text="- DeleteTask in the EditPane is not working and has been disabled until a solution is found. Deleting from the card itself is the recommended option until further update." />
+                        <Run Text="- Sometimes there is a flicker upon opening and closing of the Task Calendar due to the loading in of the control. This is currently being investigated" />
+                </TextBlock>
+                <TextBlock
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap" >
+                        <Run Text="- DeleteTask in the EditPane is not working and has been disabled until a solution is found. Deleting from the card itself is the recommended option until further update" />
                 </TextBlock>
                 <TextBlock
                     Margin="0,8,0,4"
@@ -96,7 +136,7 @@
                     TextWrapping="Wrap">
                         <Run Text="- In some cases, when cancelling the edit of a task, sometimes the current task will be moved to a location near the end of the column." />
                         <Run Text="It does not affect the database value since it's an internal issue with the control. If you restart the application it returns to its correct placement, but you're able to move it back as well!" />
-                        <Run Text="This is currently being investigated." />
+                        <Run Text="This is currently being investigated" />
                 </TextBlock>
 
             </StackPanel>
