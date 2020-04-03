@@ -83,8 +83,11 @@ namespace KanbanTasker.Views
 
         private async void btnOpenTaskCalendar_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new CalendarDialogView(ViewModel);
-            var result = await dialog.ShowAsync();
+            if (ViewModel.CurrentBoard != null)
+            {
+                var dialog = new CalendarDialogView(ViewModel);
+                var result = await dialog.ShowAsync();
+            }
         }
     }
 }
