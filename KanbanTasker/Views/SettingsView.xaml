@@ -54,7 +54,11 @@
                             Stretch="Uniform" />
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="2">
-
+                            <TextBlock
+                            Margin="0,4,0,4"
+                            HorizontalAlignment="Center"
+                            Text="Kanban Tasker v1.1.0 Beta"
+                            TextDecorations="Underline"/>
                             <TextBlock
                             Margin="0,4,0,4"
                             HorizontalAlignment="Center"

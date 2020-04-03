@@ -48,58 +48,77 @@
                             FontWeight="Bold"
                             FontSize="15"
                             TextDecorations="Underline"
-                            Text="Version 1.1.0 Beta Update:" />
+                            Text="Version 1.1.0 Beta Update Notes:" />
                 <TextBlock  
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap" >
-                    <Run>This version is being released early in beta due to some of its incomplete features.</Run>
+                    <Run>This version is being released early and is in beta due to some of its incomplete features.</Run>
                     <LineBreak />
-                    <LineBreak /><Run>I'm releasing the work done so far in some of my development branches to ensure the new database migration features will work with users upon update, as well as</Run>
-                    <Run>hope it will help everyone out with work during this time and for those who would like to utilize the current functionality of new features so far. Changelog is below:</Run>
+                    <LineBreak /><Run>I'm releasing the work done so far in some of my development branches to further test the new database features upon update, as well as</Run>
+                    <Run>hope it will help everyone out and for those who would like to utilize the current functionality of new features so far.</Run><LineBreak />
+                    <LineBreak /><Run>The following features are included in this beta and will be finished in the final version with additional features:</Run>
                 </TextBlock>
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap">
-                    <Run>- Date Information section added to task create/edit pane</Run>
+                    <Run>- New Date Information expander section added to task create/edit pane</Run>
                 </TextBlock>
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap">
-                    <Run>- Reminder notifications for a task's due date added</Run>
+                    <Run>- Option to set a due date, time due, reminder notification, start date, and finish date on a task</Run>
                 </TextBlock>
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap">
-                    <Run>- Option to set a due date, time due, notification reminder, start date, and finish date on a task</Run>
+                    <Run>- A reminder notification is sent to your Windows 10 device for a task determined by its due date, time due, and reminder type selected for that task when saving</Run>
                 </TextBlock>
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap">
-                    <Run>- Tasks that are past due will have a red background in the Pane where you choose your due date (A due date will be added to the front of the card as well in
-                    the finished version of this update)</Run>
+                    <Run>- Tasks that are past due will have a red background in the field where you choose your due date (a due date will be added to the front of the card as well next update)</Run>
                 </TextBlock>
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap">
-                    <Run>- Task Calendar feature added to quickly view a list of due tasks on the specified date for the current board</Run>
+                    <Run>- Tasks are determined if past due by its due date and time due selected</Run>
                 </TextBlock>
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap">
-                    <Run>- AutoSuggestTextBox added for tags in this beta, but is currently being replaced again with a more customized tag selector and editor feature</Run>
+                    <Run>- Task Calendar feature added to navigation menu to quickly view a list of due tasks on the specified date for the current board</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- Selecting a task from the Task Calendar dialog opens that task in the pane for editing</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- Date Information has a value that shows how many days since the task was created. There will be a spot in the future that displays how many days the task has been worked on so far</Run>
+                    <Run>since a the day a start date was selected on the task</Run>
+                </TextBlock>
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap">
+                    <Run>- AutoSuggestTextBox added for tags in this beta that shows you tags from tasks that you do not already have, but is currently being replaced again with a more customizable tag selector and editor feature</Run>
                 </TextBlock>
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
-                            Text="- New database implementation finished and this update includes the SQLite version with a modified table for the latest features. MSSQL and MySQL are available on developer branch update_multidatabase in the repository as of now." />
+                            Text="- New database implementation added and this update includes the SQLite version with a modified table for the latest features. MSSQL and MySQL endpoints are available on developer branch update_multidatabase in the repository as of now" />
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
@@ -109,7 +128,12 @@
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
-                            Text="- If any bugs are encountered after updating, please report them using github issues or the feedback link in Settings with steps that led to the error, if possible!" />
+                            Text="- Please feel free to leave feedback " />
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap"
+                            Text="- If any bugs are encountered after updating, please report them using GitHub issues or the feedback link in Settings with steps that led to the error, if possible!" />
                 <HyperlinkButton
                             Margin="0,8,0,0"
                             HorizontalAlignment="Left"
@@ -117,12 +141,12 @@
                             NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
                             Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                 <TextBlock Text="" />
-                <TextBlock Text="Known Issues:" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
+                <TextBlock Text="Known Issues in v1.1.0 Beta:" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
                 <TextBlock
                     Margin="0,8,0,0"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap" >
-                        <Run Text="- Sometimes there is a flicker upon opening and closing of the Task Calendar due to the loading in of the control. This is currently being investigated" />
+                        <Run Text="- Sometimes there is a quick flicker of the app UI upon opening and closing of the Task Calendar due to the loading in of the control. This is currently being investigated" />
                 </TextBlock>
                 <TextBlock
                     Margin="0,8,0,0"

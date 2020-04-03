@@ -1,5 +1,6 @@
 ﻿using KanbanTasker.ViewModels;
 using KanbanTasker.Views;
+using Microsoft.Services.Store.Engagement;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -54,6 +55,7 @@ namespace KanbanTasker
 
             // Added because was still prompting users from the store
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTMwNjE1QDMxMzcyZTMyMmUzMEFlSlpZMDNRQVFhUy9pOHQ4dzlObVNNbGNsQ3I2bE15NE50U2dzQ1lYK1k9");
+
            
 
             this.InitializeComponent();
@@ -156,8 +158,16 @@ namespace KanbanTasker
                 titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
                 titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
 
+                SetupStoreServices();
+
                 CheckForUpdateOrFirstRun();
             }
+        }
+
+        public async void SetupStoreServices()
+        {
+            StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
+            await engagementManager.RegisterNotificationChannelAsync();
         }
 
         public async void CheckForUpdateOrFirstRun()
