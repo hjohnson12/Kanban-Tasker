@@ -897,13 +897,11 @@
                                         <TextBlock
                                             Grid.Column="0"
                                             Margin="8"
-                                            Visibility="Collapsed"
                                             VerticalAlignment="Center"
                                             Text="Days Worked On:" />
                                         <TextBlock 
                                             Grid.Column="1"
                                             Margin="8"
-                                            Visibility="Collapsed"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
                                             Text="{x:Bind ViewModel.CurrentTask.DaysWorkedOn, Mode=OneWay}" />

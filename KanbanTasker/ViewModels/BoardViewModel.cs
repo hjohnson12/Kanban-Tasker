@@ -532,17 +532,17 @@ namespace KanbanTasker.ViewModels
             DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
             DateTimeOffset? finishDate = CurrentTask.FinishDate.ToNullableDateTimeOffset();
 
-            CheckIfPassedDueDate();
+            CheckIfPassedDueDate(); // Sets background of CalendarPicker red if past due
 
             // Update DaysWorkedOn
-            if (finishDate != null && startDate != null)
+            if (startDate != null)
             {
-                TimeSpan? ts = finishDate - startDate;
+                TimeSpan? ts = today - startDate;
 
                 if (ts != null)
                     // Difference in days, hous, mins
-                    CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
-                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+                    CurrentTask.DaysWorkedOn = String.Format("{0} day(s)",
+                        ts.Value.Days.ToString());
             }
 
             //  Update DaysSinceCreation
@@ -580,6 +580,18 @@ namespace KanbanTasker.ViewModels
                 MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
             CurrentTask.StartDate = startDate;
+
+            // Update DaysWorkedOn binding
+            DateTimeOffset? today = DateTimeOffset.Now;
+            if (startDate.ToNullableDateTimeOffset() != null)
+            {
+                TimeSpan? ts = today - startDate.ToNullableDateTimeOffset();
+
+                if (ts != null)
+                    // Difference in days, hous, mins
+                    CurrentTask.DaysWorkedOn = String.Format("{0} day(s)",
+                        ts.Value.Days.ToString());
+            }
         }
 
         /// <summary>
@@ -594,16 +606,16 @@ namespace KanbanTasker.ViewModels
             CurrentTask.FinishDate = finishDate;
 
             // Determine new DaysWorkedOn value to update binding
-            DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
-            if (finishDate != null && startDate != null)
-            {
-                TimeSpan? ts = finishDate.ToNullableDateTimeOffset() - startDate;
+            //DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
+            //if (finishDate != null && startDate != null)
+            //{
+            //    TimeSpan? ts = finishDate.ToNullableDateTimeOffset() - startDate;
 
-                if (ts != null)
-                    // Difference in days, hous, mins
-                    CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
-                        ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
-            }
+            //    if (ts != null)
+            //        // Difference in days, hous, mins
+            //        CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
+            //            ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
+            //}
         }
 
         /// <summary>

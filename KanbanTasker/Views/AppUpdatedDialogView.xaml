@@ -105,8 +105,8 @@
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap">
-                    <Run>- Date Information has a value that shows how many days since the task was created. There will be a spot in the future that displays how many days the task has been worked on so far</Run>
-                    <Run>since a the day a start date was selected on the task</Run>
+                    <Run>- Date Information has a value that shows how many days since the task was created. Also a spot that displays how many days the task has been worked on so far</Run>
+                    <Run>since start date (if start date is selected)</Run>
                 </TextBlock>
                 <TextBlock
                             Margin="0,12,0,0"
@@ -124,11 +124,6 @@
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- Additional minor changes and refactors for better performance. Newest changes can be followed on Github" />
-                <TextBlock
-                            Margin="0,12,0,0"
-                            HorizontalAlignment="Left"
-                            TextWrapping="Wrap"
-                            Text="- Please feel free to leave feedback " />
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
