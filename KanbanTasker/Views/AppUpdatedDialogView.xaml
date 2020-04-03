@@ -53,7 +53,7 @@
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap" >
-                    <Run>This version is being released early and is in beta due to some of its incomplete features.</Run>
+                    <Run>This version is being released early and is in public beta due to some of its incomplete features.</Run>
                     <LineBreak />
                     <LineBreak /><Run>I'm releasing the work done so far in some of my development branches to further test the new database features upon update, as well as</Run>
                     <Run>hope it will help everyone out and for those who would like to utilize the current functionality of new features so far.</Run><LineBreak />
@@ -119,6 +119,11 @@
                             HorizontalAlignment="Left"
                             TextWrapping="Wrap"
                             Text="- New database implementation added and this update includes the SQLite version with a modified table for the latest features. MSSQL and MySQL endpoints are available on developer branch update_multidatabase in the repository as of now" />
+                <TextBlock
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap"
+                            Text="- Compact overlay (picture-in-picture) mode is still available. Sizing is restricted due to it being a newer feature available through Microsoft" />
                 <TextBlock
                             Margin="0,12,0,0"
                             HorizontalAlignment="Left"
