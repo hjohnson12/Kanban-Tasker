@@ -37,9 +37,9 @@
             <TextBlock Text="- Modern, fluent user interface" />
             <TextBlock Text="- Input validation to avoid interruption" />
             <TextBlock Text="- Multi-board support" />
-            <TextBlock Text="- Multi-database support available on the GitHub repo with MSSQL and MySQL" />
+            <TextBlock Text="- Multi-database support available on the GitHub repo" />
             <TextBlock Text="- Reminder notifications for tasks" /> 
-            <TextBlock Text="- View the latest versions update list through Settings and the 'View Updates' button" />
+            <TextBlock Text="- View the latest versions update list through Settings" />
             <TextBlock Text="" />
             <TextBlock TextWrapping="Wrap" Text="Stay up to date with work being done on github using the links in Settings." />
         </StackPanel>
