@@ -287,5 +287,85 @@ namespace KanbanTasker.Views
         }
 
         #endregion UIEvents
+        public void ShowContextMenu(PresentationTask selectedModel)
+        {
+            // Workaround to show context menu next to selected card model
+            foreach (var col in kanbanBoard.ActualColumns)
+            {
+                if (col.Categories.Contains(selectedModel.Category.ToString()))
+                {
+                    // Find card inside column
+                    foreach (var card in col.Cards)
+                    {
+                        int cardIndex = 0;
+                        var cardModel = card.Content as PresentationTask;
+                        if (cardModel.ID == selectedModel.ID)
+                        {
+                            // Get current index of card and set on selected card
+                            cardIndex = col.Cards.IndexOf(card);
+                            FlyoutShowOptions myOption = new FlyoutShowOptions();
+                            myOption.ShowMode = FlyoutShowMode.Transient;
+                            taskFlyout.ShowAt(col.Cards[cardIndex], myOption);
+                        }
+                    }
+                }
+            }
+        }
+        private void Card_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            // Pre: Get information to pass to the dialog for displaying
+            //      Set corresponding properties in TaskDialog
+            // Post: Information passed, dialog opened
+
+            // Always show in standard mode
+            var originalSource = (FrameworkElement)sender;
+            var selectedCard = originalSource.DataContext as PresentationTask;
+            ViewModel.CurrentTask = selectedCard;
+            ShowContextMenu(selectedCard);
+        }
+
+        private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            // Hide flyout
+            taskFlyout.Hide();
+
+            // Open pane if closed
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
+
+            // Give title textbox focus once pane opens
+            txtBoxTitle.Focus(FocusState.Programmatic);
+            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
+            txtBoxTitle.SelectionLength = 0;
+        }
+
+        private void TappedFlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            // Hide flyout
+            taskFlyout.Hide();
+
+            // hack, command binding isn't working??
+            ViewModel.EditTaskCommandHandler(ViewModel.CurrentTask.ID); 
+
+            // Open pane if closed
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
+
+            // Give title textbox focus once pane opens
+            txtBoxTitle.Focus(FocusState.Programmatic);
+            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
+            txtBoxTitle.SelectionLength = 0;
+        }
+
+
+        private void tappedFlyoutBtnDeleteCardYes_Click(object sender, RoutedEventArgs e)
+        {
+            splitView.IsPaneOpen = false;
+            taskFlyout.Hide();
+            tappedFlyoutDeleteCard.Hide();
+
+            // hack, binding not working
+            ViewModel.DeleteTaskCommandHandler(ViewModel.CurrentTask.ID);
+        }
     }
 }
