@@ -461,21 +461,50 @@
             <CommandBarFlyout x:Name="taskFlyout" Placement="Right">
                 <AppBarButton
                     x:Name="flyoutBtnEdit"
-                    Click="FlyoutBtnEdit_Click"
-                    Command="{Binding ElementName=boardViewPage, Path=ViewModel.EditTaskCommand}"
-                    CommandParameter="{x:Bind ViewModel.CurrentTask.ID.ToString()}"
+                    AllowFocusOnInteraction="True"
+                    Click="TappedFlyoutBtnEdit_Click"
                     Icon="Edit"
+                    Style="{ThemeResource AppBarButtonCustomStyle}" 
+                    Margin="0"
+                    Padding="0"
                     Label="Edit Task"
                     ToolTipService.ToolTip="Edit" />
                 <AppBarButton
                     x:Name="flyoutBtnDelete"
-                    Click="FlyoutBtnDelete_Click"
+                    AllowFocusOnInteraction="True"
                     Icon="Delete"
                     Label="Delete"
-                    ToolTipService.ToolTip="Delete" />
-                <!--<CommandBarFlyout.SecondaryCommands>
-                <AppBarButton x:Name="MoveButton1" Label="Move" />
-            </CommandBarFlyout.SecondaryCommands>-->
+                    Padding="0"
+                    Margin="0"
+                    Style="{ThemeResource AppBarButtonCustomStyle}"
+                    ToolTipService.ToolTip="Delete">
+                    <AppBarButton.Flyout>
+                        <Flyout
+                            x:Name="tappedFlyoutDeleteCard"
+                            PickerFlyoutBase.Title="Delete Confirmation"
+                            Placement="Bottom">     
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="Delete Confirmation"
+                                    TextAlignment="Left" />
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    Text="Are you sure you wish to delete this task?"
+                                    TextAlignment="Left" />     
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        x:Name="tappedFlyoutBtnDeleteCardYes"
+                                        Margin="0,8,8,0"
+                                        Click="tappedFlyoutBtnDeleteCardYes_Click"
+                                        Content="Yes, delete this task"
+                                        CornerRadius="3" /> 
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
             </CommandBarFlyout>
         </ResourceDictionary>
     </Page.Resources>

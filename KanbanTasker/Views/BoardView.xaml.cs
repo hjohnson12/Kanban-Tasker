@@ -365,6 +365,7 @@ namespace KanbanTasker.Views
             // Always show in standard mode
             var originalSource = (FrameworkElement)sender;
             var selectedCard = originalSource.DataContext as PresentationTask;
+            ViewModel.CurrentTask = selectedCard;
             ShowContextMenu(selectedCard);
         }
 
@@ -383,9 +384,33 @@ namespace KanbanTasker.Views
             txtBoxTitle.SelectionLength = 0;
         }
 
-        private void FlyoutBtnDelete_Click(object sender, RoutedEventArgs e)
+        private void TappedFlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
         {
+            // Hide flyout
+            taskFlyout.Hide();
 
+            // hack, command binding isn't working??
+            ViewModel.EditTaskCommandHandler(ViewModel.CurrentTask.ID); 
+
+            // Open pane if closed
+            if (splitView.IsPaneOpen == false)
+                splitView.IsPaneOpen = true;
+
+            // Give title textbox focus once pane opens
+            txtBoxTitle.Focus(FocusState.Programmatic);
+            txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
+            txtBoxTitle.SelectionLength = 0;
+        }
+
+
+        private void tappedFlyoutBtnDeleteCardYes_Click(object sender, RoutedEventArgs e)
+        {
+            splitView.IsPaneOpen = false;
+            taskFlyout.Hide();
+            tappedFlyoutDeleteCard.Hide();
+
+            // hack, binding not working
+            ViewModel.DeleteTaskCommandHandler(ViewModel.CurrentTask.ID);
         }
     }
 }
