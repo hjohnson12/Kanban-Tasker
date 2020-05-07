@@ -393,5 +393,10 @@ namespace KanbanTasker.Views
         {
             ViewModel.NewColumnName = (sender as TextBox).Text;
         }
+
+        private void txtBoxColName_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).Select((sender as TextBox).Text.Length, 0);
+        }
     }
 }

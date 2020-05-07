@@ -1165,7 +1165,7 @@
                                                     x:FieldModifier="public"
                                                     MaxLength="24"
                                                     Text="{Binding Header}"
-                                                    TextChanged="txtBoxColName_TextChanged" />
+                                                    TextChanged="txtBoxColName_TextChanged" Loaded="txtBoxColName_Loaded" />
                                                 <Grid
                                                     Grid.Row="2"
                                                     Margin="0,8,0,0"
