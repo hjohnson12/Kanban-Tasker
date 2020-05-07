@@ -73,10 +73,12 @@ namespace KanbanTasker.ViewModels
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
         private string _currentCategory;
+        private List<string> categoryList;
         private DispatcherTimer dateCheckTimer;
         private IAdaptiveClient<IServiceManifest> DataProvider;
         public ICommand NewTaskCommand { get; set; }
         public ICommand EditTaskCommand { get; set; }
+        public ICommand EditColumnCommand { get; set; }
         public ICommand SaveTaskCommand { get; set; }
         public ICommand DeleteTaskCommand { get; set; }
         public ICommand DeleteTagCommand { get; set; }
@@ -111,7 +113,63 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        
+        public string ColOneName
+        {
+            get { return _ColOneName; }
+            set
+            {
+                _ColOneName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ColTwoName
+        {
+            get { return _ColTwoName; }
+            set
+            {
+                _ColTwoName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ColThreeName
+        {
+            get { return _ColThreeName; }
+            set
+            {
+                _ColThreeName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ColFourName
+        {
+            get { return _ColFourName; }
+            set
+            {
+                _ColFourName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ColFiveName
+        {
+            get { return _ColFiveName; }
+            set
+            {
+                _ColFiveName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string NewColumnName
+        {
+            get { return _NewColName; }
+            set
+            {
+                _NewColName = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string PaneTitle
         {
             get { return _paneTitle; }
@@ -166,6 +224,12 @@ namespace KanbanTasker.ViewModels
 
         private InAppNotification MessagePump;
         private ObservableCollection<string> _suggestedTagsCollection;
+        private string _ColFiveName;
+        private string _ColThreeName;
+        private string _ColTwoName;
+        private string _ColFourName;
+        private string _ColOneName;
+        private string _NewColName;
         private const int MessageDuration = 3000;
 
         #endregion Properties
@@ -179,9 +243,17 @@ namespace KanbanTasker.ViewModels
             DataProvider = dataProvider;
             MessagePump = messagePump;
 
+            NewColumnName = "";
+            ColOneName = "Backlog";
+            ColTwoName = "To Do";
+            ColThreeName = "In Progress";
+            ColFourName = "Review";
+            ColFiveName = "Completed";
+
             CurrentTask = new PresentationTask(new TaskDTO());
             NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
             EditTaskCommand = new RelayCommand<int>(EditTaskCommandHandler, () => true);
+            EditColumnCommand = new RelayCommand<ColumnTag>(EditColumnCommandHandler, () => true);
             SaveTaskCommand = new RelayCommand(SaveTaskCommandHandler, () => true);
             DeleteTaskCommand = new RelayCommand<int>(DeleteTaskCommandHandler, () => true);
             DeleteTagCommand = new RelayCommand<string>(DeleteTagCommandHandler, () => true);
@@ -211,10 +283,9 @@ namespace KanbanTasker.ViewModels
                 {
                     task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
                     task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
+                    
                 }
         }
-
-        
 
         #region CommandHandlers
 
@@ -226,6 +297,12 @@ namespace KanbanTasker.ViewModels
             OriginalTask = null; 
             IsEditingTask = true;
             InitializeSuggestedTags();
+        }
+
+        public void EditColumnCommandHandler(ColumnTag tag)
+        {
+            string category = tag?.Header?.ToString();
+
         }
 
         public void EditTaskCommandHandler(int taskID)
@@ -381,6 +458,20 @@ namespace KanbanTasker.ViewModels
                     case "2 Days Before":
                         CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[8];
                         break;
+                }
+            }
+        }
+
+        internal void EditColumnName(string originalColName, string newColName)
+        {
+            // TODO: Update column name on each task in that column & in the db
+            // and make sure Syncfusions control notices the changes
+            foreach (var task in Board.Tasks)
+            {
+                if (task.Category == originalColName)
+                {
+                    task.Category = newColName;
+                    DataProvider.Call(x => x.TaskServices.UpdateColumnName(task.ID, task.Category));
                 }
             }
         }

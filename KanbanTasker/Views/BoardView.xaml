@@ -13,7 +13,8 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Kanban"
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
-    mc:Ignorable="d" x:Name="boardViewPage">
+    x:Name="boardViewPage"
+    mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <RevealBackgroundBrush
@@ -135,12 +136,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
-                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}">
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                    Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -276,9 +277,9 @@
                                                             <Button
                                                                 x:Name="flyoutBtnDeleteCardYes"
                                                                 Margin="0,8,8,0"
+                                                                Click="FlyoutDeleteCardBtnYes_Click"
                                                                 Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTaskCommand}"
                                                                 CommandParameter="{Binding ID}"
-                                                                Click="FlyoutDeleteCardBtnYes_Click"
                                                                 Content="Yes, delete this task"
                                                                 CornerRadius="3" />
                                                         </StackPanel>
@@ -387,9 +388,9 @@
                                         </Border.Background>
                                     </Border>-->
                                 </Grid>
-                                
-                                <!-- Date Information Section on Kanban Card -->
-                                <!-- Set this section to be visible only if the respective card has a selected due date -->
+
+                                <!--  Date Information Section on Kanban Card  -->
+                                <!--  Set this section to be visible only if the respective card has a selected due date  -->
                                 <!--<Grid Grid.Row="3">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -400,20 +401,22 @@
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    --><!--<TextBlock 
-                                        Text="&#xE121;" 
+                                -->
+                                <!--<TextBlock
+                                        Text="&#xE121;"
                                         FontFamily="SegoeMDL2Assets"
                                         FontWeight="Bold"
-                                        FontSize="{Binding Tag.CardStyle.FontSize, 
-                                        RelativeSource={RelativeSource Mode=TemplatedParent}}"  
-                                        Grid.Column="0" 
-                                        Margin="0 0 12 0"/>--><!--
+                                        FontSize="{Binding Tag.CardStyle.FontSize,
+                                        RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                        Grid.Column="0"
+                                        Margin="0 0 12 0"/>-->
+                                <!--
                                     <Border Grid.Row="0" BorderThickness="0.25" Grid.ColumnSpan="3" BorderBrush="Gray" Margin="0 0 0 4"  HorizontalAlignment="Stretch" />
                                     <Border CornerRadius="4" Grid.Row="1"  Grid.Column="0" Background="Transparent">
                                         <StackPanel Orientation="Horizontal" Margin="3">
                                             <SymbolIcon Symbol="Clock" Grid.Column="0" VerticalAlignment="Center" Foreground="Red" />
-                                            <TextBlock 
-                                                Text="Due: " 
+                                            <TextBlock
+                                                Text="Due: "
                                                 Margin="4 0 4 0"
                                                 Foreground="Red"
                                                 FontWeight="Bold"
@@ -440,18 +443,20 @@
                                                 FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                 Foreground="Black"
                                                 Text="0 day(s) remaining"
-                                                TextWrapping="Wrap" />  
+                                                TextWrapping="Wrap" />
                                         </StackPanel>
                                     </Border>
-                                    
-                                    --><!--<TextBlock 
-                                        FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"  
-                                        Grid.Column="2" 
+
+                                -->
+                                <!--<TextBlock
+                                        FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                        Grid.Column="2"
                                         HorizontalAlignment="Right"
                                         Margin="0 0 12 0">
                                         <Run FontWeight="Bold" Text="Age:" />
                                         <Run Text="4d" />
-                                    </TextBlock>--><!--
+                                    </TextBlock>-->
+                                <!--
                                 </Grid>-->
                             </Grid>
                         </Grid>
@@ -461,28 +466,28 @@
             <CommandBarFlyout x:Name="taskFlyout" Placement="Right">
                 <AppBarButton
                     x:Name="flyoutBtnEdit"
+                    Margin="0"
+                    Padding="0"
                     AllowFocusOnInteraction="True"
                     Click="TappedFlyoutBtnEdit_Click"
                     Icon="Edit"
-                    Style="{ThemeResource AppBarButtonCustomStyle}" 
-                    Margin="0"
-                    Padding="0"
                     Label="Edit Task"
+                    Style="{ThemeResource AppBarButtonCustomStyle}"
                     ToolTipService.ToolTip="Edit" />
                 <AppBarButton
                     x:Name="flyoutBtnDelete"
+                    Margin="0"
+                    Padding="0"
                     AllowFocusOnInteraction="True"
                     Icon="Delete"
                     Label="Delete"
-                    Padding="0"
-                    Margin="0"
                     Style="{ThemeResource AppBarButtonCustomStyle}"
                     ToolTipService.ToolTip="Delete">
                     <AppBarButton.Flyout>
                         <Flyout
                             x:Name="tappedFlyoutDeleteCard"
                             PickerFlyoutBase.Title="Delete Confirmation"
-                            Placement="Bottom">     
+                            Placement="Bottom">
                             <StackPanel Orientation="Vertical">
                                 <TextBlock
                                     FontSize="16"
@@ -492,14 +497,14 @@
                                 <TextBlock
                                     Margin="0,4,0,0"
                                     Text="Are you sure you wish to delete this task?"
-                                    TextAlignment="Left" />     
+                                    TextAlignment="Left" />
                                 <StackPanel Orientation="Horizontal">
                                     <Button
                                         x:Name="tappedFlyoutBtnDeleteCardYes"
                                         Margin="0,8,8,0"
                                         Click="tappedFlyoutBtnDeleteCardYes_Click"
                                         Content="Yes, delete this task"
-                                        CornerRadius="3" /> 
+                                        CornerRadius="3" />
                                 </StackPanel>
                             </StackPanel>
                         </Flyout>
@@ -544,8 +549,8 @@
                         Margin="5,5,20,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Command="{Binding ElementName=boardViewPage, Path=ViewModel.SaveTaskCommand}"
                         Click="appBarBtnClosePane_Click"
+                        Command="{Binding ElementName=boardViewPage, Path=ViewModel.SaveTaskCommand}"
                         Icon="OpenPane"
                         Label="Close Pane" />
                 </Grid>
@@ -575,7 +580,7 @@
                             x:Name="txtBoxTitle"
                             PlaceholderText="Type your information here"
                             Style="{StaticResource TextBoxStyle1}"
-                            Text="{x:Bind ViewModel.CurrentTask.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            Text="{x:Bind ViewModel.CurrentTask.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <StackPanel Margin="0,15,0,2" Orientation="Horizontal">
                             <SymbolIcon Symbol="Page2" />
                             <TextBlock
@@ -633,18 +638,18 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Text="Priority: " />
-                            
+
                             <ComboBox
-                                x:Name="comboBoxColorKey" 
+                                x:Name="comboBoxColorKey"
                                 Grid.Row="1"
                                 Grid.Column="2"
-                                Margin="8,10,0,2" 
+                                Margin="8,10,0,2"
                                 HorizontalAlignment="Stretch"
                                 Background="{ThemeResource RegionBrush}"
                                 BorderThickness="1"
                                 CornerRadius="2"
-                                ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}" 
-                                PlaceholderText="Choose One:" 
+                                ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
+                                PlaceholderText="Choose One:"
                                 SelectedValue="{x:Bind ViewModel.CurrentTask.ColorKeyComboBoxItem, Mode=TwoWay}">
                                 <ComboBox.Resources>
                                     <muxc:TeachingTip
@@ -684,17 +689,18 @@
                                 PlaceholderText="Press enter to add tag"
                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                 Style="{StaticResource TextBoxStyle1}" />-->
-                            <AutoSuggestBox Style="{StaticResource CustomAutoSuggestBoxStyle}" 
+                            <AutoSuggestBox
                                 x:Name="autoSuggestBoxTags"
-                                TextChanged="autoSuggestBoxTags_TextChanged"
-                                SuggestionChosen="autoSuggestBoxTags_SuggestionChosen"            
-                                PlaceholderText="Press enter to add tag"
-                                ItemsSource="{x:Bind ViewModel.SuggestedTagsCollection,Mode=OneWay}"
-                                HorizontalAlignment="Stretch"
-                                QuerySubmitted="autoSuggestBoxTags_QuerySubmitted"
-                                Margin="36,10,0,0"
                                 Grid.Column="2"
-                                GotFocus="autoSuggestBoxTags_GotFocus" />
+                                Margin="36,10,0,0"
+                                HorizontalAlignment="Stretch"
+                                GotFocus="autoSuggestBoxTags_GotFocus"
+                                ItemsSource="{x:Bind ViewModel.SuggestedTagsCollection, Mode=OneWay}"
+                                PlaceholderText="Press enter to add tag"
+                                QuerySubmitted="autoSuggestBoxTags_QuerySubmitted"
+                                Style="{StaticResource CustomAutoSuggestBoxStyle}"
+                                SuggestionChosen="autoSuggestBoxTags_SuggestionChosen"
+                                TextChanged="autoSuggestBoxTags_TextChanged" />
                         </Grid>
 
                         <!--  Grid for WrapPanel  -->
@@ -779,18 +785,18 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </Grid>
-                           
-                        <!-- Date Information Section -->
+
+                        <!--  Date Information Section  -->
                         <Grid Margin="0,12,0,0">
-                            <controls:Expander 
-                               x:Name="dateInformationExpander" 
-                               VerticalAlignment="Top"
-                               Margin="0,0,0,10"
-                               Header="Date Information"
-                               Background="{ThemeResource RegionBrush}"
-                               HorizontalContentAlignment="Stretch"
-                               IsExpanded="False"
-                               ExpandDirection="Down" >
+                            <controls:Expander
+                                x:Name="dateInformationExpander"
+                                Margin="0,0,0,10"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Stretch"
+                                Background="{ThemeResource RegionBrush}"
+                                ExpandDirection="Down"
+                                Header="Date Information"
+                                IsExpanded="False">
                                 <controls:Expander.HeaderTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -799,11 +805,14 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <SymbolIcon Symbol="Calendar" />
-                                            <TextBlock Margin="8 0 0 0"  Text="Date Information" Grid.Column="1"/>
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="8,0,0,0"
+                                                Text="Date Information" />
                                         </Grid>
                                     </DataTemplate>
                                 </controls:Expander.HeaderTemplate>
-                                <Grid Margin="0 0 0 8">
+                                <Grid Margin="0,0,0,8">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition />
@@ -818,23 +827,27 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Date Created:" VerticalAlignment="Center" Margin="8 8 8 8" Grid.Column="0"/>
-                                        <CalendarDatePicker 
-                                            Grid.Column="1"  
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="8,8,8,8"
+                                            VerticalAlignment="Center"
+                                            Text="Date Created:" />
+                                        <CalendarDatePicker
+                                            Grid.Column="1"
+                                            Margin="12,10,8,0"
+                                            HorizontalAlignment="Stretch"
                                             Background="{ThemeResource RegionBrush}"
-                                            Margin="12,10,8,0" 
-                                            IsEnabled="False"
-                                            HorizontalAlignment="Stretch" 
                                             Date="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay, Converter={StaticResource stringToDateConverter}}"
+                                            IsEnabled="False"
                                             PlaceholderText="Not Available" />
-                                        
-                                        <!-- Original, keep for now-->
+
+                                        <!--  Original, keep for now  -->
                                         <!--<TextBlock
                                             Margin="8 8 8 0"
                                             Grid.Column="1"
                                             HorizontalAlignment="Center"
                                             FontWeight="Bold"
-                                            Text="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay}" />-->   
+                                            Text="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay}" />-->
                                     </Grid>
                                     <Grid Grid.Row="1">
                                         <Grid.ColumnDefinitions>
@@ -846,54 +859,53 @@
                                             Margin="8"
                                             VerticalAlignment="Center"
                                             Text="Due Date:" />
-                                        <CalendarDatePicker 
+                                        <CalendarDatePicker
                                             x:Name="DueDateCalendarPicker"
-                                            Grid.Column="1"  
-                                            Foreground="Red"
+                                            Grid.Column="1"
+                                            Margin="36,10,8,0"
+                                            HorizontalAlignment="Stretch"
                                             Background="{x:Bind ViewModel.DueDateBackground, Mode=OneWay}"
                                             Date="{x:Bind ViewModel.CurrentTask.DueDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
-                                            Margin="36,10,8,0"
-                                            HorizontalAlignment="Stretch" 
+                                            Foreground="Red"
                                             PlaceholderText="Pick a date" />
                                     </Grid>
                                     <Grid Grid.Row="2" Margin="8">
                                         <StackPanel Orientation="Vertical">
-                                            <TimePicker 
-                                                x:Name="TaskReminderTimePicker"  
-                                                Margin="0 3 0 0"
-                                                TimeChanged="TaskReminderTimePicker_TimeChanged" 
-                                                Style="{ThemeResource CustomTimePickerStyle}" 
+                                            <TimePicker
+                                                x:Name="TaskReminderTimePicker"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,3,0,0"
+                                                HorizontalAlignment="Stretch"
+                                                Style="{ThemeResource CustomTimePickerStyle}"
                                                 Time="{x:Bind ViewModel.CurrentTask.TimeDue, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
-                                                Grid.ColumnSpan="2" 
-                                                HorizontalAlignment="Stretch" />
-                                            <Grid Margin="0 12 0 0" HorizontalAlignment="Stretch">
+                                                TimeChanged="TaskReminderTimePicker_TimeChanged" />
+                                            <Grid Margin="0,12,0,0" HorizontalAlignment="Stretch">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition  Width="*"/>
+                                                    <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <ComboBox 
+                                                <ComboBox
                                                     x:Name="ReminderComboBox"
-                                                    BorderThickness="1"  
                                                     Grid.Column="0"
-                                                    ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}" 
-                                                    Header="Set Reminder:"
-                                                    Width="175" 
+                                                    Width="175"
                                                     Background="{ThemeResource RegionBrush}"
-                                                    SelectedValue="{x:Bind ViewModel.CurrentTask.ReminderTimeComboBoxItem, Mode=TwoWay}">
-                                                </ComboBox>
-                                                <Button 
-                                                    Content="Remove" 
-                                                    ToolTipService.ToolTip="Remove scheduled notification" 
-                                                    x:Name="btnDeleteToastNotification" 
+                                                    BorderThickness="1"
+                                                    Header="Set Reminder:"
+                                                    ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}"
+                                                    SelectedValue="{x:Bind ViewModel.CurrentTask.ReminderTimeComboBoxItem, Mode=TwoWay}" />
+                                                <Button
+                                                    x:Name="btnDeleteToastNotification"
                                                     Grid.Column="1"
+                                                    Margin="4,0,0,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Bottom"
                                                     Command="{Binding ElementName=boardViewPage, Path=ViewModel.RemoveScheduledNotificationCommand}"
                                                     CommandParameter="{Binding}"
-                                                    Margin="4 0 0 0"  
-                                                    VerticalAlignment="Bottom" 
-                                                    HorizontalAlignment="Stretch"/>
+                                                    Content="Remove"
+                                                    ToolTipService.ToolTip="Remove scheduled notification" />
                                             </Grid>
-                                            
+
                                             <!--<Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>-->
                                         </StackPanel>
                                     </Grid>
@@ -907,14 +919,14 @@
                                             Margin="8"
                                             VerticalAlignment="Center"
                                             Text="Start Date:" />
-                                        <CalendarDatePicker 
+                                        <CalendarDatePicker
                                             x:Name="StartDateCalendarPicker"
-                                            Grid.Column="1"  
-                                            DateChanged="CalendarPicker_DateChanged"
+                                            Grid.Column="1"
+                                            Margin="32,10,8,0"
+                                            HorizontalAlignment="Stretch"
                                             Background="{ThemeResource RegionBrush}"
-                                            Margin="32,10,8,0" 
                                             Date="{x:Bind ViewModel.CurrentTask.StartDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
-                                            HorizontalAlignment="Stretch" 
+                                            DateChanged="CalendarPicker_DateChanged"
                                             PlaceholderText="Pick a date" />
                                     </Grid>
                                     <Grid Grid.Row="4">
@@ -927,15 +939,15 @@
                                             Margin="8"
                                             VerticalAlignment="Center"
                                             Text="Finish Date:" />
-                                        <CalendarDatePicker 
+                                        <CalendarDatePicker
                                             x:Name="FinishDateCalendarPicker"
-                                            Grid.Column="1"  
+                                            Grid.Column="1"
+                                            Margin="24,10,8,0"
+                                            HorizontalAlignment="Stretch"
+                                            Background="{ThemeResource RegionBrush}"
+                                            Date="{x:Bind ViewModel.CurrentTask.FinishDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
                                             MinDate="{x:Bind StartDateCalendarPicker.Date.Value, Mode=OneWay}"
-                                            Date="{x:Bind ViewModel.CurrentTask.FinishDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
-                                            Margin="24,10,8,0" 
-                                            Background="{ThemeResource RegionBrush}"
-                                            HorizontalAlignment="Stretch" 
                                             PlaceholderText="Pick a date" />
                                     </Grid>
                                     <Grid Grid.Row="5">
@@ -948,13 +960,13 @@
                                             Margin="8"
                                             VerticalAlignment="Center"
                                             Text="Days Worked On:" />
-                                        <TextBlock 
+                                        <TextBlock
                                             Grid.Column="1"
                                             Margin="8"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
                                             Text="{x:Bind ViewModel.CurrentTask.DaysWorkedOn, Mode=OneWay}" />
-                                    </Grid>  
+                                    </Grid>
                                     <Grid Grid.Row="6">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -965,7 +977,7 @@
                                             Margin="8"
                                             VerticalAlignment="Center"
                                             Text="Days Since Creation:" />
-                                        <TextBlock 
+                                        <TextBlock
                                             Grid.Column="1"
                                             Margin="8"
                                             HorizontalAlignment="Right"
@@ -974,7 +986,8 @@
                                     </Grid>
                                 </Grid>
                             </controls:Expander>
-                        </Grid> <!-- END Date Information Section -->
+                        </Grid>
+                        <!--  END Date Information Section  -->
 
                         <!--  Later Implementation, choose pic  -->
                         <!--<TextBox
@@ -1004,43 +1017,43 @@
                         <AppBarButton
                             x:Name="btnSaveTask"
                             Margin="20,17,20,20"
-                            Command="{Binding ElementName=boardViewPage, Path=ViewModel.SaveTaskCommand}"
                             Click="BtnSaveTask_Click"
+                            Command="{Binding ElementName=boardViewPage, Path=ViewModel.SaveTaskCommand}"
                             Icon="Save"
                             Label="Save Task" />
                         <AppBarButton
                             x:Name="btnDeleteTask"
                             Margin="22,17,20,20"
                             AllowFocusOnInteraction="True"
-                            Style="{ThemeResource AppBarButtonCustomStyle}"
-                            Icon="Delete"
                             Click="btnDeleteTask_Click"
-                            Label="Delete Task">
+                            Icon="Delete"
+                            Label="Delete Task"
+                            Style="{ThemeResource AppBarButtonCustomStyle}">
                             <AppBarButton.Flyout>
                                 <Flyout
-                                x:Name="PaneBtnDeleteTaskConfirmationFlyout"
-                                PickerFlyoutBase.Title="Delete Board Confirmation"
-                                Placement="Top">
+                                    x:Name="PaneBtnDeleteTaskConfirmationFlyout"
+                                    PickerFlyoutBase.Title="Delete Board Confirmation"
+                                    Placement="Top">
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock
-                                        FontSize="16"
-                                        FontWeight="Bold"
-                                        Text="Delete Task Disabled"
-                                        TextAlignment="Left" />
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Text="Delete Task Disabled"
+                                            TextAlignment="Left" />
                                         <TextBlock
-                                        Margin="0,4,0,0"
-                                        Text="This control is experiencing issues. Please use delete option on card."
-                                        TextAlignment="Left" />
+                                            Margin="0,4,0,0"
+                                            Text="This control is experiencing issues. Please use delete option on card."
+                                            TextAlignment="Left" />
                                         <StackPanel Orientation="Horizontal">
                                             <Button
-                                            x:Name="flyoutBtnDeleteCardYes"
-                                            Margin="0,8,8,0"
-                                                IsEnabled="False"
-                                            Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTaskCommand}"
-                                            CommandParameter="{Binding CurrentTask.ID}"
-                                            Click="PaneBtnDeleteTaskYes_Click"
-                                            Content="Yes, delete this"
-                                            CornerRadius="3" />
+                                                x:Name="flyoutBtnDeleteCardYes"
+                                                Margin="0,8,8,0"
+                                                Click="PaneBtnDeleteTaskYes_Click"
+                                                Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTaskCommand}"
+                                                CommandParameter="{Binding CurrentTask.ID}"
+                                                Content="Yes, delete this"
+                                                CornerRadius="3"
+                                                IsEnabled="False" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Flyout>
@@ -1081,7 +1094,7 @@
             </Rectangle>
             <!--  KANBAN BOARD  -->
             <syncfusion:SfKanban
-                x:Name="kanbanBoard" 
+                x:Name="kanbanBoard"
                 Grid.Row="1"
                 Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
@@ -1095,7 +1108,7 @@
                 ItemsSource="{x:Bind ViewModel.Board.Tasks, Mode=OneWay}">
 
                 <syncfusion:SfKanban.ColumnHeaderTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="viewmodels:BoardViewModel">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="9*" />
@@ -1122,13 +1135,62 @@
                                     Text="{Binding Header}"
                                     TextWrapping="NoWrap" />
                                 <Button
+                                    x:Name="btnEditColumn"
+                                    Margin="8,5,0,0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Content="&#xE104;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    ToolTipService.ToolTip="Edit column name">
+                                    <Button.Flyout>
+                                        <Flyout Placement="Bottom">
+                                            <Grid Width="200">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel
+                                                    Grid.Row="0"
+                                                    Margin="4,0,4,8"
+                                                    Orientation="Vertical">
+                                                    <TextBlock
+                                                        FontSize="14"
+                                                        FontWeight="Bold"
+                                                        Text="Edit Column Name:" />
+                                                </StackPanel>
+                                                <TextBox
+                                                    x:Name="txtBoxColName"
+                                                    Grid.Row="1"
+                                                    x:FieldModifier="public"
+                                                    MaxLength="24"
+                                                    Text="{Binding Header}"
+                                                    TextChanged="txtBoxColName_TextChanged" />
+                                                <Grid
+                                                    Grid.Row="2"
+                                                    Margin="0,8,0,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Center">
+                                                    <Button
+                                                        x:Name="btnSaveColChanges"
+                                                        x:FieldModifier="public"
+                                                        Click="btnSaveColChanges_Click"
+                                                        CommandParameter="{Binding}"
+                                                        Content="Save Changes" />
+                                                </Grid>
+                                            </Grid>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                                <Button
                                     x:Name="btnNewTask"
-                                    Margin="5,5,0,0"
+                                    Margin="2,5,0,0"
                                     HorizontalAlignment="Right"
                                     Background="Transparent"
                                     BorderThickness="0"
-                                    Command="{Binding ElementName=boardViewPage, Path=ViewModel.NewTaskCommand}" CommandParameter="{Binding}"
                                     Click="BtnNewTaskCurrentColumn_Click"
+                                    Command="{Binding ElementName=boardViewPage, Path=ViewModel.NewTaskCommand}"
+                                    CommandParameter="{Binding}"
                                     Content="&#xE710;"
                                     CornerRadius="2"
                                     FontFamily="Segoe MDL2 Assets"
@@ -1199,21 +1261,8 @@
 
                 <helpers:CustomKanbanColumn
                     x:Name="Backlog"
-                    Title="Backlog"
-                    Categories="Backlog" 
-                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}" 
-                    MaximumLimit="100">
-                    <helpers:CustomKanbanColumn.ErrorBarSettings>
-                        <syncfusion:ErrorBarSettings 
-                            MaxValidationColor="Red"
-                            MinValidationColor="Green"
-                            Color="Gray" />
-                    </helpers:CustomKanbanColumn.ErrorBarSettings>
-                </helpers:CustomKanbanColumn>
-
-                <helpers:CustomKanbanColumn
-                    Title="To Do"
-                    Categories="To Do"
+                    Title="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="100">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
@@ -1225,8 +1274,8 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="In Progress" 
-                    Categories="In Progress"
+                    Title="{x:Bind ViewModel.ColTwoName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColTwoName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="100">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
@@ -1238,8 +1287,8 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="Review"
-                    Categories="Review"
+                    Title="{x:Bind ViewModel.ColThreeName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColThreeName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="100">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
@@ -1251,8 +1300,21 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="Completed"
-                    Categories="Completed"
+                    Title="{x:Bind ViewModel.ColFourName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColFourName, Mode=OneWay}"
+                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                    MaximumLimit="100">
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
+                            MaxValidationColor="Red"
+                            MinValidationColor="Green"
+                            Color="Gray" />
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
+
+                <helpers:CustomKanbanColumn
+                    Title="{x:Bind ViewModel.ColFiveName}"
+                    Categories="{x:Bind ViewModel.ColFiveName}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="100">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>

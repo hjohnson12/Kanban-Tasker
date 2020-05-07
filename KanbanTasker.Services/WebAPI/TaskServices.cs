@@ -56,5 +56,10 @@ namespace KanbanTasker.Services.WebAPI
                 }
             }
         }
+
+        public void UpdateColumnName(int iD, string newColName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

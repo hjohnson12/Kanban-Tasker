@@ -217,5 +217,24 @@ namespace KanbanTasker.Services.SQLite
                 db.Close();
             }
         }
+
+        public void UpdateColumnName(int iD, string newName)
+        {
+            using (SqliteConnection db =
+               new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
+            {
+                db.Open();
+
+                // Update card  index
+                SqliteCommand updateCommand = new SqliteCommand
+                    ("UPDATE tblTasks SET Category=@category WHERE Id=@id", db);
+
+                updateCommand.Parameters.AddWithValue("@id", iD);
+                updateCommand.Parameters.AddWithValue("@category", newName);
+                updateCommand.ExecuteNonQuery();
+
+                db.Close();
+            }
+        }
     }
 }
