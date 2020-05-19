@@ -299,6 +299,8 @@
                                         x:Name="KANBAN_Description"
                                         Height="Auto"
                                         Margin="0,8,0,8"
+                                        MaxLines="4"
+                                        TextTrimming="CharacterEllipsis"
                                         VerticalAlignment="Center"
                                         FontSize="{Binding Tag.CardStyle.FontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                         Foreground="{Binding Tag.CardStyle.Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}}"
