@@ -14,14 +14,14 @@ namespace KanbanTasker.Helpers.Authentication
     /// <summary>
     /// Authentication Provider for Microsoft Graph SDK
     /// </summary>
-    public class AuthProvider : IAuthenticationProvider
+    public class AuthenticationProvider : IAuthenticationProvider
     {
         private IPublicClientApplication _msalClient;
         private string[] _scopes;
         private IAccount _userAccount;
         private AuthenticationResult authResult { get; set; }
 
-        public AuthProvider(string appId, string[] scopes)
+        public AuthenticationProvider(string appId, string[] scopes)
         {
             _scopes = scopes;
 

@@ -22,7 +22,7 @@ namespace KanbanTasker.Views
         private string appClientId;
         private string[] scopes = new string[] { "files.readwrite"};
         private string appId = "422b281b-be2b-4d8a-9410-7605c92e4ff1";
-        private AuthProvider authProvider;
+        private AuthenticationProvider authProvider;
         public IPublicClientApplication MsalClient { get; }
         public const string DataFilename = "ktdatabase.db";
         public const string BackupFolderName = "Kanban Tasker";
@@ -59,27 +59,27 @@ namespace KanbanTasker.Views
             progressRing.IsActive = true;
 
             // Initialize Authentication Provider
-            authProvider = new AuthProvider(appId, scopes);
+            authProvider = new AuthenticationProvider(appId, scopes);
 
             // Request a token to sign in the user
             var accessToken = await authProvider.GetAccessToken();
           
             // Initialize Graph Client
-            GraphHelper.Initialize(authProvider);
+            GraphServiceHelper.Initialize(authProvider);
             var graphClient = new GraphServiceClient(authProvider);
-            var user = await GraphHelper.GetMeAsync();
-            var backupFolder = await GraphHelper.GetOneDriveFolderAsync("Kanban Tasker");
+            var user = await GraphServiceHelper.GetMeAsync();
+            var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
 
             // Create backup folder in OneDrive if not exists
             if (backupFolder == null)
-                backupFolder = await GraphHelper.CreateNewOneDriveFolder("Kanban Tasker") as DriveItem;
+                backupFolder = await GraphServiceHelper.CreateNewOneDriveFolder("Kanban Tasker") as DriveItem;
            
             // Backup datafile (or overwrite)
-            var uploadedFile = await GraphHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
+            var uploadedFile = await GraphServiceHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
 
             // Debug Results
             progressRing.IsActive = false;
-            var displayName = await GraphHelper.GetMyDisplayName();
+            var displayName = await GraphServiceHelper.GetMyDisplayName();
             txtResults.Text = "Welcome, " + displayName;
             await DisplayMessageAsync("Data backed up successfully.");
             #region OLD

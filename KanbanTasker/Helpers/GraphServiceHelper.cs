@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KanbanTasker.Helpers
 {
-    public class GraphHelper
+    public class GraphServiceHelper
     {
         public static GraphServiceClient GraphClient { get; set; }
         public static void Initialize(IAuthenticationProvider authProvider)
