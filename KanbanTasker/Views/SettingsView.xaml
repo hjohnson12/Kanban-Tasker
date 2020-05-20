@@ -47,32 +47,111 @@
             <!--  TO-DO: Finish implementation after first release  -->
             <PivotItem Header="General">
                 <Grid Margin="0,8,0,0">
-                    <StackPanel Orientation="Vertical">
-                        <!--<wgt:LoginButton  />-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Image
+                            Width="90"
+                            Height="90"
+                            Source="ms-appx:///Assets/icon_onedrive.png"
+                            Stretch="Fill" />
                         <TextBlock
                             Margin="4"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="24"
                             FontWeight="Bold"
-                            Text="Backup Database to OneDrive:" />
-                        <Button
-                            x:Name="btnBackupDb"
-                            Margin="4,2,4,4"
-                            Click="btnBackupDb_Click"
-                            Content="Backup" />
-                        <TextBlock
-                            Margin="4"
-                            FontWeight="Bold"
-                            Text="Restore Database from OneDrive:" />
-                        <Button
-                            x:Name="btnRestoreDb"
-                            Margin="4,2,4,4"
-                            Click="btnRestoreDb_Click"
-                            Content="Restore" />
-                        <TextBlock
-                            x:Name="txtResults"
-                            Margin="4"
-                            FontWeight="Bold"
-                            Text="Results" />
+                            Text="OneDrive Services" />
                     </StackPanel>
+                    <Grid
+                        x:Name="resultsGrid"
+                        Grid.Row="1"
+                        Margin="0,-8,0,16"
+                        VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <StackPanel
+                            Grid.Row="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Orientation="Horizontal">
+
+                            <TextBlock
+                                x:Name="txtResults"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                TextDecorations="Underline" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="1"
+                            Margin="0,8,0,0"
+                            Orientation="Vertical">
+                            <TextBlock Text="Backup or restore your local data through your preferred Microsoft Account using one of the options below." TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="0,8,0,0"
+                                Text="Switch accounts if you're already signed in to backup or restore using another Microsoft Account."
+                                TextWrapping="Wrap" />
+                            <TextBlock Margin="0,8,0,0" Text="* Note: Application may require a restart when restoring from a backup" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <!--<wgt:LoginButton  />-->
+                        <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+
+                            <Button
+                                x:Name="btnBackupDb"
+                                Margin="4,2,4,4"
+                                Click="btnBackupDb_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72C;" />
+                                    <TextBlock Margin="4,0,0,0" Text="Backup to OneDrive" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+
+                            <Button x:Name="btnRestoreDb" Margin="4,2,4,4">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE777;" />
+                                    <TextBlock Margin="4,0,0,0" Text="Restore from OneDrive" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+
+                            <Button
+                                Margin="4,2,4,4"
+                                HorizontalAlignment="Stretch"
+                                Click="btnSignOut_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF3B1;" />
+                                    <TextBlock Margin="4,0,0,0" Text="Sign Out" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                    </Grid>
+
                 </Grid>
             </PivotItem>
 
@@ -100,6 +179,7 @@
                             Grid.ColumnSpan="2"
                             HorizontalAlignment="Center"
                             Orientation="Vertical">
+
                             <TextBlock
                                 Margin="0,4,0,4"
                                 HorizontalAlignment="Center"
@@ -135,6 +215,12 @@
             </PivotItem>
 
         </Pivot>
-
+        <ProgressRing
+            x:Name="progressRing"
+            Width="100"
+            Height="100"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsActive="False" />
     </Grid>
 </ContentDialog>

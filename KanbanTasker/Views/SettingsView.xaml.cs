@@ -23,22 +23,16 @@ namespace KanbanTasker.Views
         private string appId = "422b281b-be2b-4d8a-9410-7605c92e4ff1";
         private AuthProvider authProvider;
         public IPublicClientApplication MsalClient { get; }
+        public const string DataFilename = "ktdatabase.db";
+        public const string BackupFolderName = "Kanban Tasker";
+        public User CurrentUser { get; set; }
 
         public SettingsView()
         {
             this.InitializeComponent();
+            txtResults.Text = "Not Logged In";
 
-            MsalClient = PublicClientApplicationBuilder.Create(appId)
-                            .WithAuthority("https://login.microsoftonline.com/common")
-                            .WithLogging((level, message, containsPii) =>
-                            {
-                                Debug.WriteLine($"MSAL: {level} {message} ");
-                            }, LogLevel.Warning, enablePiiLogging: false, enableDefaultPlatformLogging: true)
-                            .WithUseCorporateNetwork(true)
-                            .WithRedirectUri("https://login.microsoftonline.com/common/oauth2/nativeclient")
-                            .Build();
-
-            //authProvider = new AuthProvider(appId, scopes);
+            // Initialize the Authentication  Provider
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -61,92 +55,39 @@ namespace KanbanTasker.Views
         {
             AuthenticationResult authResult = null;
 
-            //var authProvider = new AuthProvider(appId, scopes);
-            //var authResult2 = authProvider.Login();
-            //var authResult = GraphHelper.Login();
+            progressRing.IsActive = true;
 
-            //       var userr = GraphHelper.GetMeAsync().Result;
-            //        var graphClient = new GraphServiceClient(authProvider);
-            //        var user = await graphClient.Me
-            //.Request()
-            //.GetAsync();
-            //var children = await graphClient.Me.Drive.Root.Children
-            //                .Request()
-            //                .GetAsync();
-
-            //foreach (var child in children)
-            //{
-            //    var test = child.Name;
-            //}
-
-            // Works
-            // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
-            //IEnumerable<IAccount> accounts = await MsalClient.GetAccountsAsync().ConfigureAwait(false);
-            //IAccount firstAccount = accounts.FirstOrDefault();
-
-            //try
-            //{
-            //    authResult = await MsalClient.AcquireTokenSilent(scopes, firstAccount)
-            //                                      .ExecuteAsync();
-            //}
-            //catch (MsalUiRequiredException ex)
-            //{
-            //    // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
-            //    System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
-
-            //    try
-            //    {
-            //        authResult = await MsalClient.AcquireTokenInteractive(scopes)
-            //                                          .ExecuteAsync()
-            //                                          .ConfigureAwait(false);
-            //    }
-            //    catch (MsalException msalex)
-            //    {
-            //        await DisplayMessageAsync($"Error Acquiring Token:{System.Environment.NewLine}{msalex}");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    await DisplayMessageAsync($"Error Acquiring Token Silently:{System.Environment.NewLine}{ex}");
-            //    return;
-            //}
-
-            //if (authResult != null)
-            //{
-            //    // Backup to OneDrive
-
-            //    //var content = await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken).ConfigureAwait(false);
-            //    // Go back to the UI thread to make changes to the UI
-            //    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            //    {
-            //        txtResults.Text = "THERES A RESULT";
-            //        //DisplayBasicTokenInfo(authResult);
-            //        //this.SignOutButton.Visibility = Visibility.Visible;
-            //    });
-            //}
-
-            // KEEP
-
-            // Initialize the auth provider with values
-            var authProvider = new AuthProvider(appId, scopes);
+            // Initialize Authentication Provider
+            authProvider = new AuthProvider(appId, scopes);
 
             // Request a token to sign in the user
             var accessToken = await authProvider.GetAccessToken();
-            var graphClient = new GraphServiceClient(authProvider);
-            var children = await graphClient.Me.Drive.Root.Children
-                            .Request()
-                            .GetAsync();
-
+          
             // Initialize Graph Client
             GraphHelper.Initialize(authProvider);
-
-            // didn't return correctly
-            //// Signed-in user
-            //var user = Task.Run(() => GraphHelper.GetMeAsync()).Result;
+            var graphClient = new GraphServiceClient(authProvider);
             var user = await GraphHelper.GetMeAsync();
+            var backupFolder = await GraphHelper.GetOneDriveFolderAsync("Kanban Tasker");
+
+            // Create backup folder in OneDrive if not exists
+            if (backupFolder == null)
+                backupFolder = await GraphHelper.CreateNewOneDriveFolder("Kanban Tasker") as DriveItem;
+           
+            // Backup datafile (or overwrite)
+            var uploadedFile = await GraphHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
+
+            // Debug Results
+            progressRing.IsActive = false;
+            var displayName = await GraphHelper.GetMyDisplayName();
+            txtResults.Text = "Welcome, " + displayName;
+            #region OLD
+            // Signed-in user
+            //var user = Task.Run(() => GraphHelper.GetMeAsync()).Result;
+            //var user = await GraphHelper.GetMeAsync();
 
             //var test = user.AboutMe;
 
+            // Windows Community Toolkit Version
             //var provider = ProviderManager.Instance.GlobalProvider;
 
             //if (provider != null && provider.State == ProviderState.SignedIn)
@@ -199,27 +140,19 @@ namespace KanbanTasker.Views
             //    //Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification message = new Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification();
             //    //message.Show("Login failed. Please try again.", 3000);
             //}
+            #endregion OLD
         }
 
-        private async void btnRestoreDb_Click(object sender, RoutedEventArgs e)
+        private async void btnSignOut_Click(object sender, RoutedEventArgs e)
         {
-            IEnumerable<IAccount> accounts = await MsalClient.GetAccountsAsync().ConfigureAwait(false);
-            IAccount firstAccount = accounts.FirstOrDefault();
+            await authProvider.SignOut();
 
-            try
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                await MsalClient.RemoveAsync(firstAccount).ConfigureAwait(false);
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    txtResults.Text = "User has signed-out";
-                    //this.CallGraphButton.Visibility = Visibility.Visible;
-                    //this.SignOutButton.Visibility = Visibility.Collapsed;
-                });
-            }
-            catch (MsalException ex)
-            {
-                txtResults.Text = $"Error signing-out user: {ex.Message}";
-            }
+                txtResults.Text = "User has signed-out";
+                //this.CallGraphButton.Visibility = Visibility.Visible;
+                //this.SignOutButton.Visibility = Visibility.Collapsed;
+            });
         }
 
 
@@ -235,29 +168,5 @@ namespace KanbanTasker.Views
                    });
         }
 
-        /// <summary>
-        /// Perform an HTTP GET request to a URL using an HTTP Authorization header
-        /// </summary>
-        /// <param name="url">The URL</param>
-        /// <param name="token">The token</param>
-        /// <returns>String containing the results of the GET operation</returns>
-        //private async Task<string> GetHttpContentWithToken(string url, string token)
-        //{
-        //    var httpClient = new System.Net.Http.HttpClient();
-        //    System.Net.Http.HttpResponseMessage response;
-        //    try
-        //    {
-        //        var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
-        //        //Add the token in Authorization header
-        //        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-        //        response = await httpClient.SendAsync(request).ConfigureAwait(false);
-        //        var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        //        return content;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return ex.ToString();
-        //    }
-        //}
     }
 }

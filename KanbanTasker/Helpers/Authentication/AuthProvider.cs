@@ -42,11 +42,6 @@ namespace KanbanTasker.Helpers.Authentication
                 .Build();
 
             authResult = null;
-
-            //_msalClient = PublicClientApplicationBuilder
-            //    .Create(appId)
-            //    .WithRedirectUri("https://login.microsoftonline.com/common/oauth2/nativeclient")
-            //    .Build();
         }
 
         public async Task<string> GetAccessToken()
@@ -54,19 +49,12 @@ namespace KanbanTasker.Helpers.Authentication
             // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
             IAccount firstAccount = accounts.FirstOrDefault();
+
             // If there is no saved user account, the user must sign-in
             if (_userAccount == null)
             {
                 try
                 {
-                    // Invoke device code flow so user can sign-in with a browser
-                    //var result = await _msalClient.AcquireTokenWithDeviceCode(_scopes, callback => {
-                    //    Console.WriteLine(callback.Message);
-                    //    return Task.FromResult(0);
-                    //}).ExecuteAsync();
-
-                    //_userAccount = result.Account;
-
                     authResult = await _msalClient.AcquireTokenSilent(_scopes, firstAccount)
                                                       .ExecuteAsync();
                     _userAccount = authResult.Account;
@@ -182,6 +170,27 @@ namespace KanbanTasker.Helpers.Authentication
         {
             requestMessage.Headers.Authorization =
                 new AuthenticationHeaderValue("bearer", await GetAccessToken());
+        }
+
+        public async Task SignOut()
+        {
+            IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
+            IAccount firstAccount = accounts.FirstOrDefault();
+
+            try
+            {
+                await _msalClient.RemoveAsync(firstAccount).ConfigureAwait(false);
+                //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                //{
+                //    txtResults.Text = "User has signed-out";
+                //    //this.CallGraphButton.Visibility = Visibility.Visible;
+                //    //this.SignOutButton.Visibility = Visibility.Collapsed;
+                //});
+            }
+            catch (MsalException ex)
+            {
+                // txtResults.Text = $"Error signing-out user: {ex.Message}";
+            }
         }
     }
 }
