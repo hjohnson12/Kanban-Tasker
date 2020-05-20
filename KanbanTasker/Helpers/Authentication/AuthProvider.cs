@@ -9,8 +9,11 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanTasker.Helpers
+namespace KanbanTasker.Helpers.Authentication
 {
+    /// <summary>
+    /// Authentication Provider for Microsoft Graph SDK
+    /// </summary>
     public class AuthProvider : IAuthenticationProvider
     {
         private IPublicClientApplication _msalClient;
@@ -73,7 +76,7 @@ namespace KanbanTasker.Helpers
                 {
                     // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
                     System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
-
+                
                     try
                     {
                         authResult = await _msalClient.AcquireTokenInteractive(_scopes)
@@ -172,60 +175,6 @@ namespace KanbanTasker.Helpers
 
         }
 
-        public async Task<AuthenticationResult> Login()
-        {
-            AuthenticationResult authResult = null;
-
-            // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
-            IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
-            IAccount firstAccount = accounts.FirstOrDefault();
-
-            try
-            {
-                authResult = await _msalClient.AcquireTokenSilent(_scopes, firstAccount)
-                                                  .ExecuteAsync().ConfigureAwait(false);
-
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
-                System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
-
-                try
-                {
-                    authResult = await _msalClient.AcquireTokenInteractive(_scopes)
-                                                      .ExecuteAsync()
-                                                      .ConfigureAwait(false);
-                }
-                catch (MsalException msalex)
-                {
-                    var test = "";
-                    //await DisplayMessageAsync($"Error Acquiring Token:{System.Environment.NewLine}{msalex}");
-                }
-            }
-            catch (Exception ex)
-            {
-                // await DisplayMessageAsync($"Error Acquiring Token Silently:{System.Environment.NewLine}{ex}");
-                //return;
-            }
-
-            if (authResult != null)
-            {
-                // Backup to OneDrive
-                return authResult;
-
-
-                //var content = await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken).ConfigureAwait(false);
-                // Go back to the UI thread to make changes to the UI
-                //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                //{
-                //    ResultText.Text = content;
-                //    DisplayBasicTokenInfo(authResult);
-                //    this.SignOutButton.Visibility = Visibility.Visible;
-                //});
-            }
-            return authResult;
-        }
         // This is the required function to implement IAuthenticationProvider
         // The Graph SDK will call this function each time it makes a Graph
         // call.

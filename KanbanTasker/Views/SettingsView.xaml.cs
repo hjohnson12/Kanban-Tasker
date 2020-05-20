@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
+using KanbanTasker.Helpers.Authentication;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -80,64 +81,71 @@ namespace KanbanTasker.Views
 
             // Works
             // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
-            IEnumerable<IAccount> accounts = await MsalClient.GetAccountsAsync().ConfigureAwait(false);
-            IAccount firstAccount = accounts.FirstOrDefault();
+            //IEnumerable<IAccount> accounts = await MsalClient.GetAccountsAsync().ConfigureAwait(false);
+            //IAccount firstAccount = accounts.FirstOrDefault();
 
-            try
-            {
-                authResult = await MsalClient.AcquireTokenSilent(scopes, firstAccount)
-                                                  .ExecuteAsync();
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
-                System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
+            //try
+            //{
+            //    authResult = await MsalClient.AcquireTokenSilent(scopes, firstAccount)
+            //                                      .ExecuteAsync();
+            //}
+            //catch (MsalUiRequiredException ex)
+            //{
+            //    // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
+            //    System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
 
-                try
-                {
-                    authResult = await MsalClient.AcquireTokenInteractive(scopes)
-                                                      .ExecuteAsync()
-                                                      .ConfigureAwait(false);
-                }
-                catch (MsalException msalex)
-                {
-                    await DisplayMessageAsync($"Error Acquiring Token:{System.Environment.NewLine}{msalex}");
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayMessageAsync($"Error Acquiring Token Silently:{System.Environment.NewLine}{ex}");
-                return;
-            }
+            //    try
+            //    {
+            //        authResult = await MsalClient.AcquireTokenInteractive(scopes)
+            //                                          .ExecuteAsync()
+            //                                          .ConfigureAwait(false);
+            //    }
+            //    catch (MsalException msalex)
+            //    {
+            //        await DisplayMessageAsync($"Error Acquiring Token:{System.Environment.NewLine}{msalex}");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayMessageAsync($"Error Acquiring Token Silently:{System.Environment.NewLine}{ex}");
+            //    return;
+            //}
 
-            if (authResult != null)
-            {
-                // Backup to OneDrive
+            //if (authResult != null)
+            //{
+            //    // Backup to OneDrive
 
-                //var content = await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken).ConfigureAwait(false);
-                // Go back to the UI thread to make changes to the UI
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    txtResults.Text = "THERES A RESULT";
-                    //DisplayBasicTokenInfo(authResult);
-                    //this.SignOutButton.Visibility = Visibility.Visible;
-                });
-            }
+            //    //var content = await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken).ConfigureAwait(false);
+            //    // Go back to the UI thread to make changes to the UI
+            //    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            //    {
+            //        txtResults.Text = "THERES A RESULT";
+            //        //DisplayBasicTokenInfo(authResult);
+            //        //this.SignOutButton.Visibility = Visibility.Visible;
+            //    });
+            //}
 
             // KEEP
-            // Initialize the auth provider with values from appsettings.json
 
-            //var authProvider = new DeviceCodeAuthProvider(appId, scopes);
+            // Initialize the auth provider with values
+            var authProvider = new AuthProvider(appId, scopes);
 
-            ////Request a token to sign in the user
-            //var accessToken = authProvider.GetAccessToken().Result;
+            // Request a token to sign in the user
+            var accessToken = await authProvider.GetAccessToken();
+            var graphClient = new GraphServiceClient(authProvider);
+            var children = await graphClient.Me.Drive.Root.Children
+                            .Request()
+                            .GetAsync();
 
-            //// Initialize Graph Client
-            //GraphHelper.Initialize(authProvider);
+            // Initialize Graph Client
+            GraphHelper.Initialize(authProvider);
 
+            // didn't return correctly
             //// Signed-in user
-            //var user = GraphHelper.GetMeAsync().Result;
+            //var user = Task.Run(() => GraphHelper.GetMeAsync()).Result;
+            var user = await GraphHelper.GetMeAsync();
 
+            //var test = user.AboutMe;
 
             //var provider = ProviderManager.Instance.GlobalProvider;
 

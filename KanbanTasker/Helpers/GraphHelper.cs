@@ -9,10 +9,10 @@ namespace KanbanTasker.Helpers
 {
     public class GraphHelper
     {
-        private static GraphServiceClient graphClient;
+        public static GraphServiceClient GraphClient { get; set; }
         public static void Initialize(IAuthenticationProvider authProvider)
         {
-            graphClient = new GraphServiceClient(authProvider);
+            GraphClient = new GraphServiceClient(authProvider);
         }
 
         public static async Task<User> GetMeAsync()
@@ -20,11 +20,25 @@ namespace KanbanTasker.Helpers
             try
             {
                 // GET /me
-                return await graphClient.Me.Request().GetAsync();
+                return await GraphClient.Me.Request().GetAsync();
             }
             catch (ServiceException ex)
             {
                 Console.WriteLine($"Error getting signed-in user: {ex.Message}");
+                return null;
+            }
+        }
+
+        public static async Task<DriveItem> GetUsersOneDriveRoot()
+        {
+            try
+            {
+                // GET /me/drive/root ???
+                return await GraphClient.Me.Drive.Root.Request().GetAsync();
+            }
+            catch (ServiceException ex)
+            {
+                Console.WriteLine($"Error getting signed-in users one drive root: {ex.Message}");
                 return null;
             }
         }
@@ -35,7 +49,7 @@ namespace KanbanTasker.Helpers
             try
             {
                 // GET /me/events
-                var resultPage = await graphClient.Me.Events.Request()
+                var resultPage = await GraphClient.Me.Events.Request()
                     // Only return the fields used by the application
                     .Select(e => new {
                         e.Subject,
