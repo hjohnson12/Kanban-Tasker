@@ -16,7 +16,7 @@
                             x:Name="LayoutRoot"
                             Background="{ThemeResource SystemControlPageBackgroundMediumAltMediumBrush}"
                             Visibility="Collapsed">
-                            <!--MaxHeight="{ThemeResource ContentDialogMaxHeight}"-->
+                            <!--  MaxHeight="{ThemeResource ContentDialogMaxHeight}"  -->
                             <Border
                                 x:Name="BackgroundElement"
                                 MinWidth="{ThemeResource ContentDialogMinWidth}"
@@ -108,12 +108,12 @@
                                             Margin="0,0,2,0"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
-                                            ToolTipService.ToolTip="Coming Soon"
                                             Content="{TemplateBinding PrimaryButtonText}"
                                             CornerRadius="2"
                                             ElementSoundMode="FocusOnly"
                                             IsEnabled="{TemplateBinding IsPrimaryButtonEnabled}"
-                                            Style="{TemplateBinding PrimaryButtonStyle}" />
+                                            Style="{TemplateBinding PrimaryButtonStyle}"
+                                            ToolTipService.ToolTip="Coming Soon" />
                                         <Button
                                             x:Name="SecondaryButton"
                                             Grid.Column="1"
