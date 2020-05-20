@@ -11,6 +11,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
 using KanbanTasker.Helpers.Authentication;
+using KanbanTasker.ViewModels;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,7 +27,7 @@ namespace KanbanTasker.Views
         public const string DataFilename = "ktdatabase.db";
         public const string BackupFolderName = "Kanban Tasker";
         public User CurrentUser { get; set; }
-
+        public BoardViewModel CurrentViewModel { get; set; }
         public SettingsView()
         {
             this.InitializeComponent();
@@ -80,6 +81,7 @@ namespace KanbanTasker.Views
             progressRing.IsActive = false;
             var displayName = await GraphHelper.GetMyDisplayName();
             txtResults.Text = "Welcome, " + displayName;
+            await DisplayMessageAsync("Data backed up successfully.");
             #region OLD
             // Signed-in user
             //var user = Task.Run(() => GraphHelper.GetMeAsync()).Result;
@@ -157,14 +159,16 @@ namespace KanbanTasker.Views
 
 
         /// <summary>
-        /// Displays a message in the ResultText. Can be called from any thread.
+        /// Displays a message in the InAppNotification. Can be called from any thread.
         /// </summary>
         private async Task DisplayMessageAsync(string message)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                    () =>
                    {
-                       txtResults.Text = message;
+                       var frame = (Frame)Window.Current.Content;
+                       (frame.Content as MainView).KanbanInAppNotification.Show(message, 3000);
+                       //SettingsAppNotification.Show(message, 3000);
                    });
         }
 

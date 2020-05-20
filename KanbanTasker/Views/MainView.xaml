@@ -216,6 +216,7 @@
                     Width="550"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
+                    x:FieldModifier="public"
                     BorderThickness="1"
                     Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
             </Grid>
