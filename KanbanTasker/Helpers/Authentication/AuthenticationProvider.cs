@@ -82,70 +82,7 @@ namespace KanbanTasker.Helpers.Authentication
                     return null;
                 }
 
-                //if (authResult != null)
-                //{
-                //    // Backup to OneDrive
-
-                //    //var content = await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken).ConfigureAwait(false);
-                //    // Go back to the UI thread to make changes to the UI
-                //    //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                //    //{
-                //    //    ResultText.Text = content;
-                //    //    DisplayBasicTokenInfo(authResult);
-                //    //    this.SignOutButton.Visibility = Visibility.Visible;
-                //    //});
-                //}
                 return authResult == null ? "" : authResult.AccessToken;
-                //catch (Exception exception)
-                //{
-                //    Console.WriteLine($"Error getting access token: {exception.Message}");
-                //    return null;
-                //}
-
-                //try
-                //{
-                //    authResult = await _msalClient.AcquireTokenSilent(_scopes, firstAccount)
-                //                                      .ExecuteAsync();
-
-                //}
-                //catch (MsalUiRequiredException ex)
-                //{
-                //    // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
-                //    System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
-
-                //    try
-                //    {
-                //        authResult = await _msalClient.AcquireTokenInteractive(_scopes)
-                //                                          .ExecuteAsync()
-                //                                          .ConfigureAwait(false);
-                //    }
-                //    catch (MsalException msalex)
-                //    {
-                //        var test = "";
-                //        //await DisplayMessageAsync($"Error Acquiring Token:{System.Environment.NewLine}{msalex}");
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    // await DisplayMessageAsync($"Error Acquiring Token Silently:{System.Environment.NewLine}{ex}");
-                //    //return;
-                //}
-
-                //if (authResult != null)
-                //{
-                //    // Backup to OneDrive
-                //    return authResult;
-
-
-                //    //var content = await GetHttpContentWithToken(graphAPIEndpoint, authResult.AccessToken).ConfigureAwait(false);
-                //    // Go back to the UI thread to make changes to the UI
-                //    //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                //    //{
-                //    //    ResultText.Text = content;
-                //    //    DisplayBasicTokenInfo(authResult);
-                //    //    this.SignOutButton.Visibility = Visibility.Visible;
-                //    //});
-                //}
             }
             else
             {
@@ -159,8 +96,6 @@ namespace KanbanTasker.Helpers.Authentication
 
                 return result.AccessToken;
             }
-
-
         }
 
         // This is the required function to implement IAuthenticationProvider

@@ -1,10 +1,14 @@
-﻿using Microsoft.Graph;
+﻿using KanbanTasker.Helpers.Extensions;
+using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace KanbanTasker.Helpers
 {
@@ -128,6 +132,50 @@ namespace KanbanTasker.Helpers
             }
         }
 
+        public static async Task RestoreFileFromOneDrive(string itemId, string filename)
+        {
+            try
+            {
+                // Local storage folder
+                Windows.Storage.StorageFolder storageFolder =
+                    Windows.Storage.ApplicationData.Current.LocalFolder;
+
+                // Our local ktdatabase.db file
+                Windows.Storage.StorageFile localFile =
+                    await storageFolder.GetFileAsync(filename);
+
+                // Stream for the backed up data file
+                var backedUpFileStream = await GraphClient.Me.Drive.Items[itemId].ItemWithPath(filename).Content
+                            .Request()
+                            .GetAsync();
+                
+                // Backed up file
+                var backedUpFile = await storageFolder.CreateFileAsync("temp", CreationCollisionOption.ReplaceExisting);
+                var newStream = await backedUpFile.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite);
+
+                // Write data to new file
+                using (var outputStream =  newStream.GetOutputStreamAt(0))
+                {
+                    using (var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream))
+                    {
+                        var buffer = backedUpFileStream.ToByteArray();
+                        dataWriter.WriteBytes(buffer);
+
+                        await dataWriter.StoreAsync();
+                        await outputStream.FlushAsync();
+                    }
+                }
+                // Copy and replace local file
+                await backedUpFile.CopyAsync(storageFolder, "ktdatabase.db", NameCollisionOption.ReplaceExisting);
+            }
+
+            catch (ServiceException ex)
+            {
+                Console.WriteLine($"Error uploading file to signed-in users one drive: {ex.Message}");
+               // return null;
+            }
+        }
+     
         /// <summary>
         /// Get the current user's email address from their profile.
         /// </summary>

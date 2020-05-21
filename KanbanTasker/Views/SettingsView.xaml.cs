@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
 using KanbanTasker.Helpers.Authentication;
 using KanbanTasker.ViewModels;
+using System.Threading;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -52,97 +53,9 @@ namespace KanbanTasker.Views
             var result = await dialog.ShowAsync();
         }
 
-        private async void btnBackupDb_Click(object sender, RoutedEventArgs e)
+        private async void btnBackupTip_Click(object sender, RoutedEventArgs e)
         {
-            AuthenticationResult authResult = null;
-
-            progressRing.IsActive = true;
-
-            // Initialize Authentication Provider
-            authProvider = new AuthenticationProvider(appId, scopes);
-
-            // Request a token to sign in the user
-            var accessToken = await authProvider.GetAccessToken();
-          
-            // Initialize Graph Client
-            GraphServiceHelper.Initialize(authProvider);
-            var graphClient = new GraphServiceClient(authProvider);
-            var user = await GraphServiceHelper.GetMeAsync();
-            var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
-
-            // Create backup folder in OneDrive if not exists
-            if (backupFolder == null)
-                backupFolder = await GraphServiceHelper.CreateNewOneDriveFolder("Kanban Tasker") as DriveItem;
-           
-            // Backup datafile (or overwrite)
-            var uploadedFile = await GraphServiceHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
-
-            // Debug Results
-            progressRing.IsActive = false;
-            var displayName = await GraphServiceHelper.GetMyDisplayName();
-            txtResults.Text = "Welcome, " + displayName;
-            await DisplayMessageAsync("Data backed up successfully.");
-            #region OLD
-            // Signed-in user
-            //var user = Task.Run(() => GraphHelper.GetMeAsync()).Result;
-            //var user = await GraphHelper.GetMeAsync();
-
-            //var test = user.AboutMe;
-
-            // Windows Community Toolkit Version
-            //var provider = ProviderManager.Instance.GlobalProvider;
-
-            //if (provider != null && provider.State == ProviderState.SignedIn)
-            //{
-            //    // Do graph call here with provider.Graph...
-            //    //var graphClient = provider.Graph;
-            //    //var children = await graphClient.Me.Drive.Root.Children
-            //    //                .Request()
-            //    //                .GetAsync();
-
-            //    //foreach (var child in children)
-            //    //{
-            //    //    var test = child.Name;
-            //    //}
-
-            //    // Search for folder inside of OneDrive
-            //    //var search = await graphClient.Me.Drive.Root
-            //    //    .Search("Documents")
-            //    //    .Request()
-            //    //    .GetAsync();
-            //    //            var driveItem = await graphClient.Me.Drive.Root
-            //    //.Request()
-            //    //.GetAsync();
-            //    //var stream = "The contents of the file goes here.";
-
-            //    //await graphClient.Me.Drive.Items["test.txt"].Content
-            //    //    .Request()
-            //    //    .PutAsync(stream);
-            //    //var test = children.Count;
-
-            //    // Create new folder in OneDrive Root Folder
-            //    //            var driveItem = new Microsoft.Graph.DriveItem
-            //    //            {
-            //    //                Name = "KanbanTasker",
-            //    //                Folder = new Microsoft.Graph.Folder
-            //    //                {
-            //    //                },
-            //    //                AdditionalData = new Dictionary<string, object>()
-            //    //{
-            //    //    {"@microsoft.graph.conflictBehavior","rename"}
-            //    //}
-            //    //            };
-
-            //    //            await graphClient.Me.Drive.Root.Children
-            //    //                .Request()
-            //    //                .AddAsync(driveItem);
-            //}
-            //else
-            //{
-            //    //Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification message = new Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification();
-            //    //message.Show("Login failed. Please try again.", 3000);
-            //}
-            #endregion OLD
+            BackupTip.IsOpen = true;
         }
 
         private async void btnSignOut_Click(object sender, RoutedEventArgs e)
@@ -172,5 +85,112 @@ namespace KanbanTasker.Views
                    });
         }
 
+        private async void btnRestoreDb_Click(object sender, RoutedEventArgs e)
+        {
+            progressRing.IsActive = true;
+
+            // Initialize Authentication Provider
+            authProvider = new AuthenticationProvider(appId, scopes);
+
+            // Request a token to sign in the user
+            var accessToken = await authProvider.GetAccessToken();
+
+            // Initialize Graph Client
+            GraphServiceHelper.Initialize(authProvider);
+            var graphClient = new GraphServiceClient(authProvider);
+            var user = await GraphServiceHelper.GetMeAsync();
+            var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+
+            await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
+
+            // Debug Results
+            progressRing.IsActive = false;
+            var displayName = await GraphServiceHelper.GetMyDisplayName();
+            txtResults.Text = "Welcome, " + displayName;
+            await DisplayMessageAsync("Data restored successfully.");
+
+            // test
+            Thread.Sleep(4000);
+            var result = await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
+
+        }
+
+        private void btnRestoreTip_Click(object sender, RoutedEventArgs e)
+        {
+            RestoreTip.IsOpen = true;
+        }
+
+        private async void RestoreTip_ActionButtonClick(Microsoft.UI.Xaml.Controls.TeachingTip sender, object args)
+        {
+            CloseTeachingTips();
+
+            progressRing.IsActive = true;
+
+            // Initialize Authentication Provider
+            authProvider = new AuthenticationProvider(appId, scopes);
+
+            // Request a token to sign in the user
+            var accessToken = await authProvider.GetAccessToken();
+
+            // Initialize Graph Client
+            GraphServiceHelper.Initialize(authProvider);
+            var graphClient = new GraphServiceClient(authProvider);
+            var user = await GraphServiceHelper.GetMeAsync();
+            var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+
+            await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
+
+            // Debug Results
+            progressRing.IsActive = false;
+            var displayName = await GraphServiceHelper.GetMyDisplayName();
+            txtResults.Text = "Welcome, " + displayName;
+            await DisplayMessageAsync("Data restored successfully.");
+
+            // test
+            Thread.Sleep(4000);
+            var result = await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
+        }
+
+        public void CloseTeachingTips()
+        {
+            // Close teaching tips
+            if (RestoreTip.IsOpen)
+                RestoreTip.IsOpen = false;
+            if (BackupTip.IsOpen)
+                BackupTip.IsOpen = false;
+        }
+
+        private async void BackupTip_ActionButtonClick(Microsoft.UI.Xaml.Controls.TeachingTip sender, object args)
+        {
+            AuthenticationResult authResult = null;
+            CloseTeachingTips();
+            progressRing.IsActive = true;
+
+            // Initialize Authentication Provider
+            authProvider = new AuthenticationProvider(appId, scopes);
+
+            // Request a token to sign in the user
+            var accessToken = await authProvider.GetAccessToken();
+
+            // Initialize Graph Client
+            GraphServiceHelper.Initialize(authProvider);
+            var graphClient = new GraphServiceClient(authProvider);
+            var user = await GraphServiceHelper.GetMeAsync();
+            var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+
+            // Create backup folder in OneDrive if not exists
+            if (backupFolder == null)
+                backupFolder = await GraphServiceHelper.CreateNewOneDriveFolder("Kanban Tasker") as DriveItem;
+
+            // Backup datafile (or overwrite)
+            var uploadedFile = await GraphServiceHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
+
+            // Debug Results
+            var displayName = await GraphServiceHelper.GetMyDisplayName();
+            txtResults.Text = "Welcome, " + displayName;
+            await DisplayMessageAsync("Data backed up successfully.");
+
+            progressRing.IsActive = false;
+        }
     }
 }

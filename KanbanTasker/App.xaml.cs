@@ -56,17 +56,14 @@ namespace KanbanTasker
             // Added because was still prompting users from the store
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTMwNjE1QDMxMzcyZTMyMmUzMEFlSlpZMDNRQVFhUy9pOHQ4dzlObVNNbGNsQ3I2bE15NE50U2dzQ1lYK1k9");
 
-           
-
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-
 
             // build the Autofac container
             IEnumerable<IEndPointConfiguration> endPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
             string fileRoot = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
             // Commented out because I'm  currently not running MySQL
-           // KanbanTasker.Services.ConnectionstringUtility.PopulateConnectionStrings(fileRoot, endPoints); 
+            // KanbanTasker.Services.ConnectionstringUtility.PopulateConnectionStrings(fileRoot, endPoints); 
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             builder.RegisterModule(new AutofacModule());
@@ -77,13 +74,11 @@ namespace KanbanTasker
                 .RegisterEndPoints(endPoints)
                 .RegisterModule(new KanbanTasker.Services.AdaptiveClientModule());
 
-
             container = builder.Build();
 
             IDatabaseUtilities databaseUtilities = container.Resolve<IDatabaseUtilities>();
 
             // Create all databases or apply migrations
-                     
 
             foreach (IEndPointConfiguration ep in endPoints.Where(x => x.EndPointType == EndPointType.DBMS))
                 Task.Run(() => databaseUtilities.CreateOrUpdateDatabase(ep)).Wait();
