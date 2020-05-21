@@ -20,6 +20,10 @@ namespace KanbanTasker.Helpers
             GraphClient = new GraphServiceClient(authProvider);
         }
 
+        /// <summary>
+        /// Get the current user.
+        /// </summary>
+        /// <returns>A user object representing the current user.</returns>
         public static async Task<User> GetMeAsync()
         {
             try
@@ -34,11 +38,15 @@ namespace KanbanTasker.Helpers
             }
         }
 
+        /// <summary>
+        /// Get current user's OneDrive root folder.
+        /// </summary>
+        /// <returns>A DriveItem representing the root folder.</returns>
         public static async Task<DriveItem> GetOneDriveRootAsync()
         {
             try
             {
-                // GET /me/drive/root ???
+                // GET /me/drive/root
                 return await GraphClient.Me.Drive.Root.Request().GetAsync();
             }
             catch (ServiceException ex)
@@ -48,12 +56,15 @@ namespace KanbanTasker.Helpers
             }
         }
 
-
+        /// <summary>
+        /// Gets the children of the current user's OneDrive root folder.
+        /// </summary>
+        /// <returns>A collection of DriveItems.</returns>
         public static async Task<IDriveItemChildrenCollectionPage> GetOneDriveRootChildrenAsync()
         {
             try
             {
-                // GET /me/drive/root/children ???
+                // GET /me/drive/root/children 
                 return await GraphClient.Me.Drive.Root.Children.Request().GetAsync();
             }
             catch (ServiceException ex)
@@ -63,6 +74,11 @@ namespace KanbanTasker.Helpers
             }
         }
 
+        /// <summary>
+        /// Get the specified folder as a DriveItem. 
+        /// </summary>
+        /// <param name="folderPath">Path to the data file starting from your local application folder.</param>
+        /// <returns>A DriveItem representing the specified folder. Returns null if folder doesn't exist.</returns>
         public static async Task<DriveItem> GetOneDriveFolderAsync(string folderPath)
         {
             try
@@ -81,6 +97,11 @@ namespace KanbanTasker.Helpers
             }
         }
 
+        /// <summary>
+        /// Creates a new folder in the current user's OneDrive root folder.
+        /// </summary>
+        /// <param name="folderName">Name of the folder to create.</param>
+        /// <returns>A DriveItem representing the newly created Folder.</returns>
         public static async Task<DriveItem> CreateNewOneDriveFolder(string folderName)
         {
             try
@@ -108,7 +129,13 @@ namespace KanbanTasker.Helpers
             }
         }
 
-
+        /// <summary>
+        /// Uploads a file in the current user's OneDrive root folder from this applications local folder
+        /// using its specified itemId and filename.
+        /// </summary>
+        /// <param name="itemId">Unique item identifier within a DriveItem (folder/file).</param>
+        /// <param name="filename">Name of the datafile.</param>
+        /// <returns>A DriveItem representing the newly uploaded file.</returns>
         public static async Task<DriveItem> UploadFileToOneDrive(string itemId, string filename)
         {
             try
@@ -132,6 +159,13 @@ namespace KanbanTasker.Helpers
             }
         }
 
+        /// <summary>
+        /// Restores the applications data using a backup from the current user's OneDrive. 
+        /// <para>Note: Application requires restart after restoring data</para>
+        /// </summary>
+        /// <param name="itemId">Unique item identifier within a DriveItem (folder/file).</param>
+        /// <param name="filename">Name of the datafile.</param>
+        /// <returns></returns>
         public static async Task RestoreFileFromOneDrive(string itemId, string filename)
         {
             try
@@ -190,7 +224,7 @@ namespace KanbanTasker.Helpers
         }
 
         /// <summary>
-        /// Get the current user's display name from their profile
+        /// Get the current user's display name from their profile.
         /// </summary>
         /// <returns></returns>
         public static async Task<string> GetMyDisplayName()
@@ -253,6 +287,5 @@ namespace KanbanTasker.Helpers
                 return ex.ToString();
             }
         }
-
     }
 }
