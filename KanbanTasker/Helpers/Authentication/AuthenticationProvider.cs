@@ -62,7 +62,8 @@ namespace KanbanTasker.Helpers.Authentication
                 }
                 catch (MsalUiRequiredException ex)
                 {
-                    // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
+                    // A MsalUiRequiredException happened on AcquireTokenSilentAsync. 
+                    // This indicates you need to call AcquireTokenAsync to acquire a token
                     System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
                 
                     try
@@ -98,15 +99,22 @@ namespace KanbanTasker.Helpers.Authentication
             }
         }
 
-        // This is the required function to implement IAuthenticationProvider
-        // The Graph SDK will call this function each time it makes a Graph
-        // call.
+        /// <summary>
+        /// Required function to implement IAuthenticationProvider. 
+        /// <para>The Graph SDK will call this function each time it makes a Graph call.</para>
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
         public async Task AuthenticateRequestAsync(HttpRequestMessage requestMessage)
         {
             requestMessage.Headers.Authorization =
                 new AuthenticationHeaderValue("bearer", await GetAccessToken());
         }
 
+        /// <summary>
+        /// Sign the current user out and remove its access token.
+        /// </summary>
+        /// <returns></returns>
         public async Task SignOut()
         {
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
