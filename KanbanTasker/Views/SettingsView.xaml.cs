@@ -37,7 +37,7 @@ namespace KanbanTasker.Views
             if (App.CurrentUser != null)
                 txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
             else
-                txtResults.Text = "Welcome, please authenticate login";
+                txtResults.Text = "Welcome, please login to authenticate";
 
             DataContext = ViewModel;
 
