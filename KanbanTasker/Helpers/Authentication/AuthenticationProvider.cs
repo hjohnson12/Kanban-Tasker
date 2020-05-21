@@ -18,7 +18,10 @@ namespace KanbanTasker.Helpers.Authentication
     {
         private IPublicClientApplication _msalClient;
         private string[] _scopes;
+
+        // Represents information about a single account
         private IAccount _userAccount;
+
         private AuthenticationResult authResult { get; set; }
 
         public AuthenticationProvider(string appId, string[] scopes)
@@ -44,6 +47,7 @@ namespace KanbanTasker.Helpers.Authentication
             authResult = null;
         }
 
+
         public async Task<string> GetAccessToken()
         {
             // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
@@ -55,6 +59,7 @@ namespace KanbanTasker.Helpers.Authentication
             {
                 try
                 {
+                    // Attempts to acquire access token for the account from the user token cache
                     authResult = await _msalClient.AcquireTokenSilent(_scopes, firstAccount)
                                                       .ExecuteAsync();
                     _userAccount = authResult.Account;
@@ -63,11 +68,14 @@ namespace KanbanTasker.Helpers.Authentication
                 catch (MsalUiRequiredException ex)
                 {
                     // A MsalUiRequiredException happened on AcquireTokenSilentAsync. 
-                    // This indicates you need to call AcquireTokenAsync to acquire a token
+                    // This indicates you need to call AcquireTokenAsync to acquire a token,
+                    // consent, or re-sign-in (password expiration), or two-factor authentication
                     System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
                 
                     try
                     {
+                        // Request for interactive window to allow the user to select 
+                        // an account, which aquires a token for the scopes if sucessful
                         authResult = await _msalClient.AcquireTokenInteractive(_scopes)
                                                           .ExecuteAsync();
                     }
@@ -112,7 +120,7 @@ namespace KanbanTasker.Helpers.Authentication
         }
 
         /// <summary>
-        /// Sign the current user out and remove its access token.
+        /// Sign the current user out and remove its access tokens.
         /// </summary>
         /// <returns></returns>
         public async Task SignOut()
@@ -123,12 +131,7 @@ namespace KanbanTasker.Helpers.Authentication
             try
             {
                 await _msalClient.RemoveAsync(firstAccount).ConfigureAwait(false);
-                //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                //{
-                //    txtResults.Text = "User has signed-out";
-                //    //this.CallGraphButton.Visibility = Visibility.Visible;
-                //    //this.SignOutButton.Visibility = Visibility.Collapsed;
-                //});
+                _userAccount = null;
             }
             catch (MsalException ex)
             {

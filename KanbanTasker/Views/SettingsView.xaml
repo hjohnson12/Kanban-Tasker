@@ -16,8 +16,6 @@
     BorderThickness="1"
     CloseButtonText="Close"
     CornerRadius="4"
-    PrimaryButtonClick="SettingsDialog_ViewUpdatesClick"
-    PrimaryButtonText="View Updates"
     Style="{ThemeResource SettingsDialogStyle}"
     mc:Ignorable="d">
     <!--<Interactivity:Interaction.Behaviors>
@@ -44,11 +42,10 @@
             </Grid>
         </DataTemplate>
     </ContentDialog.TitleTemplate>
-    <ScrollViewer>
-        <Grid Margin="0,8,0,0">
-            <Pivot>
-                <!--  TO-DO: Finish implementation after first release  -->
-                <PivotItem Header="General">
+    <Grid Margin="0,8,0,0">
+        <Pivot>
+            <PivotItem Header="General">
+                <ScrollViewer>
                     <Grid Margin="0,8,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -90,8 +87,7 @@
                                 <TextBlock
                                     x:Name="txtResults"
                                     VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    TextDecorations="Underline" />
+                                    FontWeight="Bold" />
                             </StackPanel>
                             <StackPanel
                                 Grid.Row="1"
@@ -101,7 +97,7 @@
 
                                 <TextBlock
                                     Margin="0,8,0,0"
-                                    Text="Switch accounts if you're already signed in to backup or restore using another Microsoft Account."
+                                    Text="Credentials are saved for a certain time, so you can switch accounts by signing out if you're already signed in to backup or restore using another Microsoft Account."
                                     TextWrapping="Wrap" />
                                 <TextBlock Margin="0,8,0,0" Text="* Note: Application will require a restart when restoring from a backup" />
                             </StackPanel>
@@ -182,83 +178,229 @@
                             </StackPanel>
 
                         </Grid>
-
                     </Grid>
-                </PivotItem>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Recent Updates">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="6,6,20,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-                <PivotItem Header="About">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel
-                                Grid.Column="0"
+                        <StackPanel
+                            Grid.Row="0"
+                            HorizontalAlignment="Right"
+                            Orientation="Vertical">
+
+                            <TextBlock Text="" />
+                            <TextBlock
+                                Margin="0,2,0,0"
+                                HorizontalAlignment="Left"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Text="Version 1.1.0 Beta Update Notes:"
+                                TextDecorations="Underline"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>This version is being released early and is in public beta due to some of its incomplete features.</Run>
+                                <LineBreak />
+                                <LineBreak /><Run>I'm releasing the work done so far in some of my development branches to further test the new database features upon update, as well as</Run>
+                                <Run>hope it will help everyone out and for those who would like to utilize the current functionality of new features so far.</Run><LineBreak />
+                                <LineBreak /><Run>The following features are included in this beta and will be finished in the final version with additional features:</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- New Date Information expander section added to task create/edit pane</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Option to set a due date, time due, reminder notification, start date, and finish date on a task</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- A reminder notification is sent to your Windows 10 device for a task determined by its due date, time due, and reminder type selected for that task when saving</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Tasks that are past due will have a red background in the field where you choose your due date (a due date will be added to the front of the card as well next update)</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Tasks are determined if past due by its due date and time due selected</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Task Calendar feature added to navigation menu to quickly view a list of due tasks on the specified date for the current board</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Selecting a task from the Task Calendar dialog opens that task in the pane for editing</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Date Information has a value that shows how many days since the task was created. Also a spot that displays how many days the task has been worked on so far</Run>
+                                <Run>since start date (if start date is selected)</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- AutoSuggestTextBox added for tags in this beta that shows you tags from tasks that you do not already have, but is currently being replaced again with a more customizable tag selector and editor feature</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                Text="- New database implementation added and this update includes the SQLite version with a modified table for the latest features. MSSQL and MySQL endpoints are available on developer branch update_multidatabase in the repository as of now"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                Text="- Compact overlay (picture-in-picture) mode is still available. Sizing is restricted due to it being a newer feature available through Microsoft"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                Text="- Functionality for touch features on the card to select edit/delete is currently being worked on, stylus pens or other accessories still work at the moment"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                Text="- Additional minor changes and refactors for better performance. Newest changes can be followed on Github"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                Text="- If any bugs are encountered after updating, please report them using GitHub issues or the feedback link in Settings with steps that led to the error, if possible!"
+                                TextWrapping="Wrap" />
+                            <HyperlinkButton
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Left"
+                                Content="Github Issues Link"
+                                NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                            <TextBlock Text="" />
+                            <TextBlock
+                                FontStyle="Italic"
+                                Text="Known Issues in v1.1.0 Beta:"
+                                TextDecorations="Underline" />
+                            <TextBlock
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run Text="- Sometimes there is a quick flicker of the app UI upon opening and closing of the Task Calendar due to the loading in of the control. This is currently being investigated" />
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run Text="- DeleteTask in the EditPane is not working and has been disabled until a solution is found. Deleting from the card itself is the recommended option until further update" />
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,8,0,4"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run Text="- In some cases, when cancelling the edit of a task, sometimes the current task will be moved to a location near the end of the column." />
+                                <Run Text="It does not affect the database value since it's an internal issue with the control. If you restart the application it returns to its correct placement, but you're able to move it back as well!" />
+                                <Run Text="This is currently being investigated" />
+                            </TextBlock>
+
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="About">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="0,16,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="125" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel
+                            Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <Image
+                                Height="75"
                                 HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Orientation="Vertical">
-                                <Image
-                                    Height="75"
-                                    HorizontalAlignment="Right"
-                                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
-                                    Stretch="Uniform" />
-                            </StackPanel>
-                            <StackPanel
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
+                                Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
+                                Stretch="Uniform" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Margin="48,0,0,0"
+                            HorizontalAlignment="Left"
+                            Orientation="Vertical">
+
+                            <TextBlock
+                                Margin="0,4,0,4"
                                 HorizontalAlignment="Center"
-                                Orientation="Vertical">
+                                Text="Kanban Tasker v1.1.0 Beta"
+                                TextDecorations="Underline" />
+                            <TextBlock
+                                Margin="0,4,0,4"
+                                HorizontalAlignment="Center"
+                                Text="Developed by Hunter Johnson" />
+                            <TextBlock
+                                Margin="0,2,0,0"
+                                HorizontalAlignment="Center"
+                                Text="Icon design by Joshua Askharoun" />
+                            <HyperlinkButton
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Center"
+                                Content="Kanban Tasker's source code"
+                                NavigateUri="https://github.com/hjohnson12/Kanban-Tasker"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                            <HyperlinkButton
+                                HorizontalAlignment="Center"
+                                Content="Feedback"
+                                NavigateUri="https://feedback.userreport.com/7d4ef159-95d2-4cf0-a068-b50adbe514a6/#ideas/popular"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                            <HyperlinkButton
+                                HorizontalAlignment="Center"
+                                Content="Rate and Review"
+                                NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem>
 
-                                <TextBlock
-                                    Margin="0,4,0,4"
-                                    HorizontalAlignment="Center"
-                                    Text="Kanban Tasker v1.1.0 Beta"
-                                    TextDecorations="Underline" />
-                                <TextBlock
-                                    Margin="0,4,0,4"
-                                    HorizontalAlignment="Center"
-                                    Text="Developed by Hunter Johnson" />
-                                <TextBlock
-                                    Margin="0,2,0,0"
-                                    HorizontalAlignment="Center"
-                                    Text="Icon design by Joshua Askharoun" />
-                                <HyperlinkButton
-                                    Margin="0,8,0,0"
-                                    HorizontalAlignment="Center"
-                                    Content="Kanban Tasker's source code"
-                                    NavigateUri="https://github.com/hjohnson12/Kanban-Tasker"
-                                    Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-                                <HyperlinkButton
-                                    HorizontalAlignment="Center"
-                                    Content="Feedback"
-                                    NavigateUri="https://feedback.userreport.com/7d4ef159-95d2-4cf0-a068-b50adbe514a6/#ideas/popular"
-                                    Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-                                <HyperlinkButton
-                                    HorizontalAlignment="Center"
-                                    Content="Rate and Review"
-                                    NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
-                                    Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-                            </StackPanel>
-                        </Grid>
-                    </ScrollViewer>
-                </PivotItem>
-
-            </Pivot>
-            <ProgressRing
-                x:Name="progressRing"
-                Width="100"
-                Height="100"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                IsActive="False" />
-            <controls:InAppNotification
-                x:Name="SettingsAppNotification"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                x:FieldModifier="public"
-                BorderThickness="1" />
-        </Grid>
-    </ScrollViewer>
+        </Pivot>
+        <ProgressRing
+            x:Name="progressRing"
+            Width="100"
+            Height="100"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsActive="False" />
+        <controls:InAppNotification
+            x:Name="SettingsAppNotification"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            x:FieldModifier="public"
+            BorderThickness="1" />
+    </Grid>
 </ContentDialog>

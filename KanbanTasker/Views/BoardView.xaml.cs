@@ -15,6 +15,7 @@ using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -33,6 +34,10 @@ namespace KanbanTasker.Views
             DataContext = ViewModel;
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(3);
             MySplitView = splitView;
+
+            //Paragraph para = new Paragraph();
+            //para.Inlines.Add(new Run { Text = sample, FontSize = 15 });
+            //rtb.Blocks.Add(para);
         }
 
         #region Methods

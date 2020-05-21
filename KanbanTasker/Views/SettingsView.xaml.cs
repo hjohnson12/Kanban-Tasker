@@ -20,40 +20,39 @@ namespace KanbanTasker.Views
 {
     public sealed partial class SettingsView : ContentDialog
     {
-        private string appClientId;
+        // Properties
         private string[] scopes = new string[] { "files.readwrite"};
-        private string appId = "422b281b-be2b-4d8a-9410-7605c92e4ff1";
+        private string appClientId = "422b281b-be2b-4d8a-9410-7605c92e4ff1";
         private AuthenticationProvider authProvider;
-        public IPublicClientApplication MsalClient { get; }
         public const string DataFilename = "ktdatabase.db";
         public const string BackupFolderName = "Kanban Tasker";
         public User CurrentUser { get; set; }
         public BoardViewModel CurrentViewModel { get; set; }
+        public SettingsViewModel ViewModel { get; set; }
+       
         public SettingsView()
         {
             this.InitializeComponent();
-            txtResults.Text = "Not Logged In";
 
-            // Initialize the Authentication  Provider
+            if (App.CurrentUser != null)
+                txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
+            else
+                txtResults.Text = "Welcome, please authenticate login";
+
+            DataContext = ViewModel;
+
+            // Get the Authentication Provider
+            authProvider = App.GetAuthenticationProvider();
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
+        // UI Events / Methods
+ 
         private void BtnCloseSettings_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
         }
 
-        private async void SettingsDialog_ViewUpdatesClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            this.Hide();
-            var dialog = new AppUpdatedDialogView();
-            var result = await dialog.ShowAsync();
-        }
-
-        private async void btnBackupTip_Click(object sender, RoutedEventArgs e)
+        private void btnBackupTip_Click(object sender, RoutedEventArgs e)
         {
             BackupTip.IsOpen = true;
         }
@@ -65,11 +64,11 @@ namespace KanbanTasker.Views
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 txtResults.Text = "User has signed-out";
+                App.CurrentUser = null;
                 //this.CallGraphButton.Visibility = Visibility.Visible;
                 //this.SignOutButton.Visibility = Visibility.Collapsed;
             });
         }
-
 
         /// <summary>
         /// Displays a message in the InAppNotification. Can be called from any thread.
@@ -85,36 +84,6 @@ namespace KanbanTasker.Views
                    });
         }
 
-        private async void btnRestoreDb_Click(object sender, RoutedEventArgs e)
-        {
-            progressRing.IsActive = true;
-
-            // Initialize Authentication Provider
-            authProvider = new AuthenticationProvider(appId, scopes);
-
-            // Request a token to sign in the user
-            var accessToken = await authProvider.GetAccessToken();
-
-            // Initialize Graph Client
-            GraphServiceHelper.Initialize(authProvider);
-            var graphClient = new GraphServiceClient(authProvider);
-            var user = await GraphServiceHelper.GetMeAsync();
-            var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
-
-            await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
-
-            // Debug Results
-            progressRing.IsActive = false;
-            var displayName = await GraphServiceHelper.GetMyDisplayName();
-            txtResults.Text = "Welcome, " + displayName;
-            await DisplayMessageAsync("Data restored successfully.");
-
-            // test
-            Thread.Sleep(4000);
-            var result = await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
-
-        }
-
         private void btnRestoreTip_Click(object sender, RoutedEventArgs e)
         {
             RestoreTip.IsOpen = true;
@@ -126,29 +95,30 @@ namespace KanbanTasker.Views
 
             progressRing.IsActive = true;
 
-            // Initialize Authentication Provider
-            authProvider = new AuthenticationProvider(appId, scopes);
-
             // Request a token to sign in the user
             var accessToken = await authProvider.GetAccessToken();
 
             // Initialize Graph Client
             GraphServiceHelper.Initialize(authProvider);
-            var graphClient = new GraphServiceClient(authProvider);
-            var user = await GraphServiceHelper.GetMeAsync();
+
+            // Set current user (temp)
+            App.CurrentUser = await GraphServiceHelper.GetMeAsync();
+            
+            // Find the backupFolder in OneDrive, if it exists
             var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
 
+            // Restore local data file using the backup file
             await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
 
-            // Debug Results
             progressRing.IsActive = false;
-            var displayName = await GraphServiceHelper.GetMyDisplayName();
-            txtResults.Text = "Welcome, " + displayName;
             await DisplayMessageAsync("Data restored successfully.");
 
+            // Debug results
+            var displayName = await GraphServiceHelper.GetMyDisplayName();
+            txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
+
             // test
-            Thread.Sleep(4000);
-            var result = await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
+            await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
         }
 
         public void CloseTeachingTips()
@@ -166,16 +136,16 @@ namespace KanbanTasker.Views
             CloseTeachingTips();
             progressRing.IsActive = true;
 
-            // Initialize Authentication Provider
-            authProvider = new AuthenticationProvider(appId, scopes);
-
             // Request a token to sign in the user
             var accessToken = await authProvider.GetAccessToken();
 
             // Initialize Graph Client
             GraphServiceHelper.Initialize(authProvider);
-            var graphClient = new GraphServiceClient(authProvider);
-            var user = await GraphServiceHelper.GetMeAsync();
+
+            // Set current user (temp)
+            App.CurrentUser = await GraphServiceHelper.GetMeAsync();
+            
+            // Find backupFolder in user's OneDrive, if it exists
             var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
 
             // Create backup folder in OneDrive if not exists
@@ -184,13 +154,13 @@ namespace KanbanTasker.Views
 
             // Backup datafile (or overwrite)
             var uploadedFile = await GraphServiceHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
+            
+            progressRing.IsActive = false;
+            await DisplayMessageAsync("Data backed up successfully.");
 
             // Debug Results
             var displayName = await GraphServiceHelper.GetMyDisplayName();
             txtResults.Text = "Welcome, " + displayName;
-            await DisplayMessageAsync("Data backed up successfully.");
-
-            progressRing.IsActive = false;
         }
     }
 }

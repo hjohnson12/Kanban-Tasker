@@ -151,6 +151,7 @@
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\AppUpdatedDialogView.xaml.cs">
       <DependentUpon>AppUpdatedDialogView.xaml</DependentUpon>
     </Compile>

@@ -17,12 +17,13 @@ using System.Collections.Generic;
 using LeaderAnalytics.AdaptiveClient;
 using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 using System.Threading.Tasks;
-using KanbanTasker.Views;
 using System.Linq;
 using KanbanTasker.Model;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using KanbanTasker.Helpers.Authentication;
+using Microsoft.Graph;
 
 namespace KanbanTasker
 {
@@ -37,6 +38,12 @@ namespace KanbanTasker
         /// </summary>
         /// 
         private static IContainer container;
+
+        private string[] scopes = new string[] { "files.readwrite" };
+        private string appId = "422b281b-be2b-4d8a-9410-7605c92e4ff1";
+        private static AuthenticationProvider authProvider;
+        public AuthenticationProvider AuthProvider { get; set; }
+        public static User CurrentUser { get; set; }
 
         public App()
         {
@@ -90,6 +97,17 @@ namespace KanbanTasker
         public static MainViewModel GetViewModel(Frame frame, InAppNotification messagePump)
         {
             return container.Resolve<MainViewModel>(new TypedParameter(typeof(Frame), frame), new TypedParameter(typeof(InAppNotification), messagePump));
+        }
+
+        public async void InitializeAuthProvider()
+        {
+            // Initialize Authentication Provider
+            authProvider = new AuthenticationProvider(appId, scopes);
+        }
+
+        public static AuthenticationProvider GetAuthenticationProvider()
+        {
+            return authProvider;
         }
 
         /// <summary>
@@ -154,6 +172,8 @@ namespace KanbanTasker
                 titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
 
                 SetupStoreServices();
+
+                InitializeAuthProvider();
 
                 CheckForUpdateOrFirstRun();
             }
