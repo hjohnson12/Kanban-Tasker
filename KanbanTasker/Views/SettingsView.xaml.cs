@@ -66,7 +66,7 @@ namespace KanbanTasker.Views
         }
 
         /// <summary>
-        /// Displays a message in the InAppNotification. Can be called from any thread.
+        /// Displays a message using the InAppNotification in MainView. Can be called from any thread.
         /// </summary>
         private async Task DisplayMessageAsync(string message)
         {
