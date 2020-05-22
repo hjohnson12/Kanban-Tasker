@@ -9,7 +9,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:providers="using:Microsoft.Toolkit.Graph.Providers"
-    xmlns:wgt="using:Microsoft.Toolkit.Graph.Controls"
     x:Name="SettingsDialog"
     Title="Settings"
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
@@ -97,7 +96,7 @@
 
                                 <TextBlock
                                     Margin="0,8,0,0"
-                                    Text="Credentials are saved for a certain time, so you can switch accounts by signing out if you're already signed in to backup or restore using another Microsoft Account."
+                                    Text="Credentials are saved for a certain amount of time. To backup or restore using another Microsoft Account, log out if already logged in."
                                     TextWrapping="Wrap" />
                                 <TextBlock Margin="0,8,0,0" Text="* Note: Application will require a restart when restoring from a backup" />
                             </StackPanel>

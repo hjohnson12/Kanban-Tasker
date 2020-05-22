@@ -74,7 +74,7 @@ namespace KanbanTasker.Views
                    () =>
                    {
                        var frame = (Frame)Window.Current.Content;
-                       (frame.Content as MainView).KanbanInAppNotification.Show(message, 3000);
+                       (frame.Content as MainView).KanbanInAppNotification.Show(message, 4000);
                        //SettingsAppNotification.Show(message, 3000);
                    });
         }
@@ -103,28 +103,36 @@ namespace KanbanTasker.Views
                 // Find the backupFolder in OneDrive, if it exists
                 var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
 
-                // Restore local data file using the backup file
-                await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
+                if (backupFolder != null)
+                {
+                    // Restore local data file using the backup file, if it exists
+                    await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
+
+                    await DisplayMessageAsync("Data restored successfully.");
+
+                    // Debug results
+                    var displayName = await GraphServiceHelper.GetMyDisplayName();
+                    txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                           () =>
+                           {
+                               btnSignOutTip.IsEnabled = true;
+                           });
+
+                    // test
+                    await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
+                }
+                else
+                    await DisplayMessageAsync("No backup folder found to restore from.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                await DisplayMessageAsync(ex.Message);
             }
-
-            progressRing.IsActive = false;
-            await DisplayMessageAsync("Data restored successfully.");
-
-            // Debug results
-            var displayName = await GraphServiceHelper.GetMyDisplayName();
-            txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
-                   () =>
-                   {
-                       btnSignOutTip.IsEnabled = true;
-                   });
-
-            // test
-            await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
+            finally
+            {
+                progressRing.IsActive = false;
+            }
         }
 
         public void CloseTeachingTips()
@@ -142,36 +150,46 @@ namespace KanbanTasker.Views
             CloseTeachingTips();
             progressRing.IsActive = true;
 
-            // Request a token to sign in the user
-            var accessToken = await authProvider.GetAccessToken();
+            try
+            {
+                // Request a token to sign in the user
+                var accessToken = await authProvider.GetAccessToken();
 
-            // Initialize Graph Client
-            GraphServiceHelper.Initialize(authProvider);
+                // Initialize Graph Client
+                GraphServiceHelper.Initialize(authProvider);
 
-            // Set current user (temp)
-            App.CurrentUser = await GraphServiceHelper.GetMeAsync();
-            
-            // Find backupFolder in user's OneDrive, if it exists
-            var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+                // Set current user (temp)
+                App.CurrentUser = await GraphServiceHelper.GetMeAsync();
 
-            // Create backup folder in OneDrive if not exists
-            if (backupFolder == null)
-                backupFolder = await GraphServiceHelper.CreateNewOneDriveFolder("Kanban Tasker") as DriveItem;
+                // Find backupFolder in user's OneDrive, if it exists
+                var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
 
-            // Backup datafile (or overwrite)
-            var uploadedFile = await GraphServiceHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
-            
-            progressRing.IsActive = false;
-            await DisplayMessageAsync("Data backed up successfully.");
+                // Create backup folder in OneDrive if not exists
+                if (backupFolder == null)
+                    backupFolder = await GraphServiceHelper.CreateNewOneDriveFolder("Kanban Tasker") as DriveItem;
 
-            // Debug Results
-            var displayName = await GraphServiceHelper.GetMyDisplayName();
-            txtResults.Text = "Welcome, " + displayName;
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
-                   () =>
-                   {
-                       btnSignOutTip.IsEnabled = true;
-                   });
+                // Backup datafile (or overwrite)
+                var uploadedFile = await GraphServiceHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
+
+                await DisplayMessageAsync("Data backed up successfully.");
+
+                // Debug Results
+                var displayName = await GraphServiceHelper.GetMyDisplayName();
+                txtResults.Text = "Welcome, " + displayName;
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                       () =>
+                       {
+                           btnSignOutTip.IsEnabled = true;
+                       });
+            }
+            catch (Exception ex)
+            {
+                await DisplayMessageAsync(ex.Message);
+            }
+            finally
+            {
+                progressRing.IsActive = false;
+            }
         }
 
         private async void SignOutPopup_ConfirmClick(Microsoft.UI.Xaml.Controls.TeachingTip sender, object args)
@@ -179,14 +197,21 @@ namespace KanbanTasker.Views
             if (SignOutPopup.IsOpen)
                 SignOutPopup.IsOpen = false;
 
-            await authProvider.SignOut();
-
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            try
             {
-                txtResults.Text = "User has signed-out";
-                this.btnSignOutTip.IsEnabled = false;
-                App.CurrentUser = null;
-            });
+                await authProvider.SignOut();
+
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    txtResults.Text = "User has signed-out";
+                    this.btnSignOutTip.IsEnabled = false;
+                    App.CurrentUser = null;
+                });
+            }
+            catch (MsalException ex)
+            {
+                await DisplayMessageAsync(ex.Message);
+            }
         }
     }
 }

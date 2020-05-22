@@ -86,7 +86,7 @@ namespace KanbanTasker.Helpers.Authentication
                             Debug.WriteLine($"Msal Authentication Failed:{System.Environment.NewLine}{msalex}");
                         else if (msalex.ErrorCode == MsalError.RequestTimeout)
                             Debug.WriteLine($"Msal Request Timeout:{System.Environment.NewLine}{msalex}");
-                        return null;
+                        throw;
                     }
                 }
                 catch (Exception ex)
@@ -140,6 +140,7 @@ namespace KanbanTasker.Helpers.Authentication
             catch (MsalException ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error signing-out user: {ex.Message}");
+                throw;
             }
         }
     }

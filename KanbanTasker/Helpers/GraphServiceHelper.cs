@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -155,7 +156,7 @@ namespace KanbanTasker.Helpers
             catch (ServiceException ex)
             {
                 Console.WriteLine($"Error uploading file to signed-in users one drive: {ex.Message}");
-                return null;
+                throw;
             }
         }
 
@@ -206,6 +207,9 @@ namespace KanbanTasker.Helpers
 
             catch (ServiceException ex)
             {
+                if (ex.StatusCode == HttpStatusCode.Forbidden)
+                    Console.WriteLine($"Access Denied: {ex.Message}");
+
                 Console.WriteLine($"Error uploading file to signed-in users one drive: {ex.Message}");
                // return null;
             }
@@ -277,7 +281,7 @@ namespace KanbanTasker.Helpers
             try
             {
                 var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
-
+                
                 //Add the token in Authorization header
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 response = await httpClient.SendAsync(request).ConfigureAwait(false);
