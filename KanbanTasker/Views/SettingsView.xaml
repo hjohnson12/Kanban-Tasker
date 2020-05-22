@@ -167,9 +167,22 @@
                                 Orientation="Vertical">
 
                                 <Button
+                                    x:Name="btnSignOutTip"
                                     Margin="4,2,4,4"
                                     HorizontalAlignment="Stretch"
                                     Click="btnSignOut_Click">
+                                    <Button.Resources>
+                                        <muxc:TeachingTip
+                                            x:Name="SignOutPopup"
+                                            Title="Confirm Sign Out"
+                                            ActionButtonClick="SignOutPopup_ConfirmClick"
+                                            ActionButtonContent="Yes"
+                                            CloseButtonContent="No"
+                                            IsLightDismissEnabled="True"
+                                            PreferredPlacement="Top"
+                                            Subtitle="Are you sure you wish to sign out?"
+                                            Target="{x:Bind btnSignOutTip}" />
+                                    </Button.Resources>
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF3B1;" />
                                         <TextBlock Margin="4,0,0,0" Text="Sign Out" />

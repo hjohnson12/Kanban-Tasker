@@ -47,7 +47,6 @@ namespace KanbanTasker.Helpers.Authentication
             authResult = null;
         }
 
-
         public async Task<string> GetAccessToken()
         {
             // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
@@ -81,19 +80,24 @@ namespace KanbanTasker.Helpers.Authentication
                     }
                     catch (MsalException msalex)
                     {
-                        var test = "";
+                        if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
+                            Debug.WriteLine($"Msal Authentication Canceled:{System.Environment.NewLine}{msalex}");
+                        if (msalex.ErrorCode == MsalError.AuthenticationFailed)
+                            Debug.WriteLine($"Msal Authentication Failed:{System.Environment.NewLine}{msalex}");
+                        else if (msalex.ErrorCode == MsalError.RequestTimeout)
+                            Debug.WriteLine($"Msal Request Timeout:{System.Environment.NewLine}{msalex}");
                         return null;
-                        //await DisplayMessageAsync($"Error Acquiring Token:{System.Environment.NewLine}{msalex}");
                     }
                 }
                 catch (Exception ex)
                 {
+                    Debug.Write("ERROR: " + ex.Message);
                     return null;
                 }
 
                 return authResult == null ? "" : authResult.AccessToken;
             }
-            else
+            else // Account Exists
             {
                 // If there is an account, call AcquireTokenSilent
                 // By doing this, MSAL will refresh the token automatically if
@@ -135,7 +139,7 @@ namespace KanbanTasker.Helpers.Authentication
             }
             catch (MsalException ex)
             {
-                // txtResults.Text = $"Error signing-out user: {ex.Message}";
+                System.Diagnostics.Debug.WriteLine($"Error signing-out user: {ex.Message}");
             }
         }
     }

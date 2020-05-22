@@ -163,7 +163,7 @@ namespace KanbanTasker.Helpers
         /// Restores the applications data using a backup from the current user's OneDrive. 
         /// <para>Note: Application requires restart after restoring data</para>
         /// </summary>
-        /// <param name="itemId">Unique item identifier within a DriveItem (folder/file).</param>
+        /// <param name="itemId">Unique item identifier within a DriveItem (i.e., a folder/file facet).</param>
         /// <param name="filename">Name of the datafile.</param>
         /// <returns></returns>
         public static async Task RestoreFileFromOneDrive(string itemId, string filename)
@@ -199,6 +199,7 @@ namespace KanbanTasker.Helpers
                         await outputStream.FlushAsync();
                     }
                 }
+
                 // Copy and replace local file
                 await backedUpFile.CopyAsync(storageFolder, "ktdatabase.db", NameCollisionOption.ReplaceExisting);
             }

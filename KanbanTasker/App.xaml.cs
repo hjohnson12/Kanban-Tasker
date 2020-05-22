@@ -99,7 +99,7 @@ namespace KanbanTasker
             return container.Resolve<MainViewModel>(new TypedParameter(typeof(Frame), frame), new TypedParameter(typeof(InAppNotification), messagePump));
         }
 
-        public async void InitializeAuthProvider()
+        public void InitializeAuthProvider()
         {
             // Initialize Authentication Provider
             authProvider = new AuthenticationProvider(appId, scopes);

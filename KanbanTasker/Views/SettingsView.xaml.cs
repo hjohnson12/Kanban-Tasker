@@ -37,7 +37,10 @@ namespace KanbanTasker.Views
             if (App.CurrentUser != null)
                 txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
             else
+            {
                 txtResults.Text = "Welcome, please login to authenticate";
+                btnSignOutTip.IsEnabled = false;
+            }
 
             DataContext = ViewModel;
 
@@ -57,17 +60,9 @@ namespace KanbanTasker.Views
             BackupTip.IsOpen = true;
         }
 
-        private async void btnSignOut_Click(object sender, RoutedEventArgs e)
+        private void btnSignOut_Click(object sender, RoutedEventArgs e)
         {
-            await authProvider.SignOut();
-
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                txtResults.Text = "User has signed-out";
-                App.CurrentUser = null;
-                //this.CallGraphButton.Visibility = Visibility.Visible;
-                //this.SignOutButton.Visibility = Visibility.Collapsed;
-            });
+            SignOutPopup.IsOpen = true;
         }
 
         /// <summary>
@@ -92,23 +87,29 @@ namespace KanbanTasker.Views
         private async void RestoreTip_ActionButtonClick(Microsoft.UI.Xaml.Controls.TeachingTip sender, object args)
         {
             CloseTeachingTips();
-
             progressRing.IsActive = true;
 
-            // Request a token to sign in the user
-            var accessToken = await authProvider.GetAccessToken();
+            try
+            {
+                // Request a token to sign in the user
+                var accessToken = await authProvider.GetAccessToken();
 
-            // Initialize Graph Client
-            GraphServiceHelper.Initialize(authProvider);
+                // Initialize Graph Client
+                GraphServiceHelper.Initialize(authProvider);
 
-            // Set current user (temp)
-            App.CurrentUser = await GraphServiceHelper.GetMeAsync();
-            
-            // Find the backupFolder in OneDrive, if it exists
-            var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+                // Set current user (temp)
+                App.CurrentUser = await GraphServiceHelper.GetMeAsync();
 
-            // Restore local data file using the backup file
-            await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
+                // Find the backupFolder in OneDrive, if it exists
+                var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+
+                // Restore local data file using the backup file
+                await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
 
             progressRing.IsActive = false;
             await DisplayMessageAsync("Data restored successfully.");
@@ -116,6 +117,11 @@ namespace KanbanTasker.Views
             // Debug results
             var displayName = await GraphServiceHelper.GetMyDisplayName();
             txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                   () =>
+                   {
+                       btnSignOutTip.IsEnabled = true;
+                   });
 
             // test
             await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
@@ -161,6 +167,26 @@ namespace KanbanTasker.Views
             // Debug Results
             var displayName = await GraphServiceHelper.GetMyDisplayName();
             txtResults.Text = "Welcome, " + displayName;
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                   () =>
+                   {
+                       btnSignOutTip.IsEnabled = true;
+                   });
+        }
+
+        private async void SignOutPopup_ConfirmClick(Microsoft.UI.Xaml.Controls.TeachingTip sender, object args)
+        {
+            if (SignOutPopup.IsOpen)
+                SignOutPopup.IsOpen = false;
+
+            await authProvider.SignOut();
+
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                txtResults.Text = "User has signed-out";
+                this.btnSignOutTip.IsEnabled = false;
+                App.CurrentUser = null;
+            });
         }
     }
 }
