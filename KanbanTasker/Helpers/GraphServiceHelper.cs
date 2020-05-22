@@ -13,6 +13,9 @@ using Windows.Storage.Streams;
 
 namespace KanbanTasker.Helpers
 {
+    /// <summary>
+    /// A helper class to interact with the Microsoft Graph SDK.
+    /// </summary>
     public class GraphServiceHelper
     {
         public static GraphServiceClient GraphClient { get; set; }
