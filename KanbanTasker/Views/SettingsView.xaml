@@ -16,9 +16,6 @@
     CornerRadius="4"
     Style="{ThemeResource SettingsDialogStyle}"
     mc:Ignorable="d">
-    <!--<Interactivity:Interaction.Behaviors>
-        <providers:InteractiveProviderBehavior ClientId="422b281b-be2b-4d8a-9410-7605c92e4ff1" Scopes="files.readwrite,User.Read,User.ReadBasic.All,People.Read,offline_access,onedrive.readwrite, onedrive.readonly,onedrive.appfolder" />
-    </Interactivity:Interaction.Behaviors>-->
     <ContentDialog.TitleTemplate>
         <DataTemplate>
             <Grid>
@@ -106,7 +103,6 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <!--<wgt:LoginButton  />-->
                             <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
 
                                 <Button

@@ -28,12 +28,6 @@ namespace KanbanTasker.Helpers.Authentication
         {
             _scopes = scopes;
 
-            //_msalClient = PublicClientApplicationBuilder
-            //    .Create(appId)
-            //    .WithAuthority(AadAuthorityAudience.AzureAdAndPersonalMicrosoftAccount, true)
-            //    .WithRedirectUri("https://login.microsoftonline.com/common/oauth2/nativeclient")
-            //    .Build();
-
             _msalClient = PublicClientApplicationBuilder.Create(appId)
                 .WithAuthority("https://login.microsoftonline.com/common")
                 .WithLogging((level, message, containsPii) =>
@@ -124,7 +118,7 @@ namespace KanbanTasker.Helpers.Authentication
         }
 
         /// <summary>
-        /// Sign the current user out and remove its access tokens.
+        /// Sign the current user out and remove their access tokens.
         /// </summary>
         /// <returns></returns>
         public async Task SignOut()

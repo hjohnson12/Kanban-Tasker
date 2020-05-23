@@ -19,6 +19,11 @@ namespace KanbanTasker.Helpers
     public class GraphServiceHelper
     {
         public static GraphServiceClient GraphClient { get; set; }
+
+        /// <summary>
+        /// Initializes the graph client service used to make calls to Microsoft Graph.
+        /// </summary>
+        /// <param name="authProvider"></param>
         public static void Initialize(IAuthenticationProvider authProvider)
         {
             GraphClient = new GraphServiceClient(authProvider);
@@ -40,6 +45,15 @@ namespace KanbanTasker.Helpers
                 Console.WriteLine($"Error getting signed-in user: {ex.Message}");
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Gets the graph client used to make calls to Microsoft Graph.
+        /// </summary>
+        /// <returns>A GraphServiceClient object.</returns>
+        public GraphServiceClient GetGraphClient()
+        {
+            return GraphClient;
         }
 
         /// <summary>
@@ -285,7 +299,7 @@ namespace KanbanTasker.Helpers
             {
                 var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
                 
-                //Add the token in Authorization header
+                // Add the token in Authorization header
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 response = await httpClient.SendAsync(request).ConfigureAwait(false);
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
