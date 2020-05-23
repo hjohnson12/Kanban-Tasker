@@ -95,6 +95,10 @@
                                     Text="Credentials are saved for a certain amount of time. To backup or restore using another Microsoft Account, log out if already logged in."
                                     TextWrapping="Wrap" />
                                 <TextBlock Margin="0,8,0,0" Text="* Note: Application will require a restart when restoring from a backup" />
+                                <TextBlock
+                                    Margin="0,8,0,0"
+                                    Text="* Note: Make sure you have logged into your Microsoft Account at least once for the initial setup."
+                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </Grid>
                         <Grid Grid.Row="2">

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace KanbanTasker.Helpers
+namespace KanbanTasker.Helpers.Microsoft_Graph
 {
     /// <summary>
     /// A helper class to interact with the Microsoft Graph SDK.

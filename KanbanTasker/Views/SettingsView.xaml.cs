@@ -10,10 +10,11 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
-using KanbanTasker.Helpers.Authentication;
 using KanbanTasker.ViewModels;
 using System.Threading;
 using Autofac.Core;
+using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
+using KanbanTasker.Helpers.Microsoft_Graph;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -190,7 +191,7 @@ namespace KanbanTasker.Views
 
                 // Debug Results
                 var displayName = await GraphServiceHelper.GetMyDisplayName();
-                txtResults.Text = "Welcome, " + displayName;
+                txtResults.Text = "Welcome " + displayName;
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                        () =>
                        {

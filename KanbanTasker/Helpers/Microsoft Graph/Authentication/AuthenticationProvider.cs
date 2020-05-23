@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanTasker.Helpers.Authentication
+namespace KanbanTasker.Helpers.Microsoft_Graph.Authentication
 {
     /// <summary>
     /// Authentication Provider for Microsoft Graph SDK

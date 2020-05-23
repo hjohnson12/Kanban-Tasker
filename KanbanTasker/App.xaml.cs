@@ -22,7 +22,7 @@ using KanbanTasker.Model;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using KanbanTasker.Helpers.Authentication;
+using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using Microsoft.Graph;
 
 namespace KanbanTasker
