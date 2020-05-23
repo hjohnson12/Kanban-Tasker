@@ -97,7 +97,7 @@ namespace KanbanTasker.Views
                 var accessToken = await authProvider.GetAccessToken();
 
                 // Initialize Graph Client
-                GraphServiceHelper.Initialize(authProvider);
+                GraphServiceHelper.InitializeClient(authProvider);
 
                 // Set current user (temp)
                 App.CurrentUser = await GraphServiceHelper.GetMeAsync();
@@ -172,7 +172,7 @@ namespace KanbanTasker.Views
                 var accessToken = await authProvider.GetAccessToken();
 
                 // Initialize Graph Client
-                GraphServiceHelper.Initialize(authProvider);
+                GraphServiceHelper.InitializeClient(authProvider);
 
                 // Set current user (temp)
                 App.CurrentUser = await GraphServiceHelper.GetMeAsync();

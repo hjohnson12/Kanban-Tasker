@@ -16,18 +16,29 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
     /// <summary>
     /// A helper class to interact with the Microsoft Graph SDK.
     /// </summary>
-    public class GraphServiceHelper
+    public static class GraphServiceHelper
     {
-        public static GraphServiceClient GraphClient { get; set; }
+        private static GraphServiceClient GraphClient { get; set; }
 
         /// <summary>
-        /// Initializes the graph client service used to make calls to Microsoft Graph.
+        /// Initializes the graph service client used to make calls to Microsoft Graph.
         /// </summary>
         /// <param name="authProvider"></param>
-        public static void Initialize(IAuthenticationProvider authProvider)
+        public static void InitializeClient(IAuthenticationProvider authProvider)
         {
             GraphClient = new GraphServiceClient(authProvider);
         }
+
+        /// <summary>
+        /// Gets the graph client used to make calls to Microsoft Graph.
+        /// </summary>
+        /// <returns>A GraphServiceClient object.</returns>
+        public static GraphServiceClient GetGraphClient()
+        {
+            return GraphClient;
+        }
+
+        #region UserRequests
 
         /// <summary>
         /// Get the current user.
@@ -48,13 +59,79 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         }
 
         /// <summary>
-        /// Gets the graph client used to make calls to Microsoft Graph.
+        /// Get the current user's email address from their profile.
         /// </summary>
-        /// <returns>A GraphServiceClient object.</returns>
-        public GraphServiceClient GetGraphClient()
+        /// <returns></returns>
+        public static async Task<string> GetMyEmailAddress()
         {
-            return GraphClient;
+            // Get the current user. 
+            // The app only needs the user's email address, so select the mail and userPrincipalName properties.
+            // If the mail property isn't defined, userPrincipalName should map to the email for all account types. 
+            User me = await GraphClient.Me.Request().Select("mail,userPrincipalName").GetAsync();
+            return me.Mail ?? me.UserPrincipalName;
         }
+
+        /// <summary>
+        /// Get the current user's display name from their profile.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<string> GetMyDisplayName()
+        {
+            // Get the current user. 
+            // The app only needs the user's displayName
+            User me;
+            try
+            {
+                me = await GraphClient.Me.Request().Select("displayName").GetAsync();
+                return me.GivenName ?? me.DisplayName;
+            }
+            catch (ServiceException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    // MS Graph Known Error 
+                    // Users need to sign into personal site / OneDrive at least once
+                    // https://docs.microsoft.com/en-us/graph/known-issues#files-onedrive
+                    throw;
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get events from the current user's calendar.
+        /// </summary>
+        /// <returns>Collection of events from a user's calendar.</returns>
+        public static async Task<IEnumerable<Event>> GetEventsAsync()
+        {
+            try
+            {
+                // GET /me/events
+                var resultPage = await GraphClient.Me.Events.Request()
+                    // Only return the fields used by the application
+                    .Select(e => new {
+                        e.Subject,
+                        e.Organizer,
+                        e.Start,
+                        e.End
+                    })
+                    // Sort results by when they were created, newest first
+                    .OrderBy("createdDateTime DESC")
+                    .GetAsync();
+
+                return resultPage.CurrentPage;
+            }
+            catch (ServiceException ex)
+            {
+                Console.WriteLine($"Error getting events: {ex.Message}");
+                return null;
+            }
+        }
+        // </GetEventsSnippet>
+
+        #endregion UserRequests
+
+        #region OneDriveRequests
 
         /// <summary>
         /// Get current user's OneDrive root folder.
@@ -184,7 +261,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         /// <param name="itemId">Unique item identifier within a DriveItem (i.e., a folder/file facet).</param>
         /// <param name="filename">Name of the datafile.</param>
         /// <returns></returns>
-        public static async Task RestoreFileFromOneDrive(string itemId, string filename)
+        public static async Task RestoreFileFromOneDrive(string itemId, string dataFilename)
         {
             try
             {
@@ -193,11 +270,11 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
                     Windows.Storage.ApplicationData.Current.LocalFolder;
 
                 // Our local ktdatabase.db file
-                Windows.Storage.StorageFile localFile =
-                    await storageFolder.GetFileAsync(filename);
+                Windows.Storage.StorageFile originalDataFile =
+                    await storageFolder.GetFileAsync(dataFilename);
 
                 // Stream for the backed up data file
-                var backedUpFileStream = await GraphClient.Me.Drive.Items[itemId].ItemWithPath(filename).Content
+                var backedUpFileStream = await GraphClient.Me.Drive.Items[itemId].ItemWithPath(dataFilename).Content
                             .Request()
                             .GetAsync();
                 
@@ -219,7 +296,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
                 }
 
                 // Copy and replace local file
-                await backedUpFile.CopyAsync(storageFolder, "ktdatabase.db", NameCollisionOption.ReplaceExisting);
+                await backedUpFile.CopyAsync(storageFolder, dataFilename, NameCollisionOption.ReplaceExisting);
             }
 
             catch (ServiceException ex)
@@ -231,74 +308,8 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
                // return null;
             }
         }
-     
-        /// <summary>
-        /// Get the current user's email address from their profile.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<string> GetMyEmailAddress()
-        {
-            // Get the current user. 
-            // The app only needs the user's email address, so select the mail and userPrincipalName properties.
-            // If the mail property isn't defined, userPrincipalName should map to the email for all account types. 
-            User me = await GraphClient.Me.Request().Select("mail,userPrincipalName").GetAsync();
-            return me.Mail ?? me.UserPrincipalName;
-        }
 
-        /// <summary>
-        /// Get the current user's display name from their profile.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<string> GetMyDisplayName()
-        {
-            // Get the current user. 
-            // The app only needs the user's displayName
-            User me;
-            try
-            {
-                me = await GraphClient.Me.Request().Select("displayName").GetAsync();
-                return me.GivenName ?? me.DisplayName;
-            }
-            catch (ServiceException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    // MS Graph Known Error 
-                    // Users need to sign into personal site / OneDrive at least once
-                    // https://docs.microsoft.com/en-us/graph/known-issues#files-onedrive
-                    throw;
-                }
-                return null;
-            }
-        }
-
-        // <GetEventsSnippet>
-        public static async Task<IEnumerable<Event>> GetEventsAsync()
-        {
-            try
-            {
-                // GET /me/events
-                var resultPage = await GraphClient.Me.Events.Request()
-                    // Only return the fields used by the application
-                    .Select(e => new {
-                        e.Subject,
-                        e.Organizer,
-                        e.Start,
-                        e.End
-                    })
-                    // Sort results by when they were created, newest first
-                    .OrderBy("createdDateTime DESC")
-                    .GetAsync();
-
-                return resultPage.CurrentPage;
-            }
-            catch (ServiceException ex)
-            {
-                Console.WriteLine($"Error getting events: {ex.Message}");
-                return null;
-            }
-        }
-        // </GetEventsSnippet>
+        #endregion OneDriveRequests
 
         /// <summary>
         /// Perform an HTTP GET request to a URL using an HTTP Authorization header
@@ -306,7 +317,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         /// <param name="url">The URL</param>
         /// <param name="token">The token</param>
         /// <returns>String containing the results of the GET operation</returns>
-        private async Task<string> GetHttpContentWithToken(string url, string token)
+        private static async Task<string> GetHttpContentWithToken(string url, string token)
         {
             var httpClient = new System.Net.Http.HttpClient();
             System.Net.Http.HttpResponseMessage response;
