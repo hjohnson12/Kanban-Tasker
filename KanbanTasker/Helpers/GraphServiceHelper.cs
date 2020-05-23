@@ -253,8 +253,23 @@ namespace KanbanTasker.Helpers
         {
             // Get the current user. 
             // The app only needs the user's displayName
-            User me = await GraphClient.Me.Request().Select("displayName").GetAsync();
-            return me.GivenName ?? me.DisplayName;
+            User me;
+            try
+            {
+                me = await GraphClient.Me.Request().Select("displayName").GetAsync();
+                return me.GivenName ?? me.DisplayName;
+            }
+            catch (ServiceException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    // MS Graph Known Error 
+                    // Users need to sign into personal site / OneDrive at least once
+                    // https://docs.microsoft.com/en-us/graph/known-issues#files-onedrive
+                    throw;
+                }
+                return null;
+            }
         }
 
         // <GetEventsSnippet>

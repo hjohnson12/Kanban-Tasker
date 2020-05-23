@@ -39,7 +39,7 @@ namespace KanbanTasker
         /// 
         private static IContainer container;
 
-        private string[] scopes = new string[] { "files.readwrite" };
+        private string[] scopes = new string[] { "files.readwrite", "user.read" };
         private string appId = "422b281b-be2b-4d8a-9410-7605c92e4ff1";
         private static AuthenticationProvider authProvider;
         public AuthenticationProvider AuthProvider { get; set; }

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using KanbanTasker.Helpers.Authentication;
 using KanbanTasker.ViewModels;
 using System.Threading;
+using Autofac.Core;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -125,6 +126,20 @@ namespace KanbanTasker.Views
                 else
                     await DisplayMessageAsync("No backup folder found to restore from.");
             }
+            catch (MsalException msalex)
+            {
+                if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
+                {
+                    await DisplayMessageAsync(msalex.Message);
+                }
+                else if (msalex.ErrorCode == MsalError.InvalidGrantError)
+                {
+                    // invalid_grant ErrorCode comes from no consent
+                    // for the correct scopes
+                    await DisplayMessageAsync("Invalid access scopes, please contact the developer.");
+                }
+
+            }
             catch (Exception ex)
             {
                 await DisplayMessageAsync(ex.Message);
@@ -182,8 +197,35 @@ namespace KanbanTasker.Views
                            btnSignOutTip.IsEnabled = true;
                        });
             }
-            catch (Exception ex)
+            catch (ServiceException ex)
             {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    // MS Graph Known Error 
+                    // Users need to sign into OneDrive at least once
+                    // https://docs.microsoft.com/en-us/graph/known-issues#files-onedrive
+
+                    // Empty all cached accounts / data to allow user to rety
+                    await authProvider.SignOut();
+
+                    await DisplayMessageAsync("Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once.");
+                }
+            }
+            catch (MsalException msalex)
+            {
+                if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
+                {
+                    await DisplayMessageAsync(msalex.Message);
+                }
+                else if (msalex.ErrorCode == MsalError.InvalidGrantError)
+                {
+                    // invalid_grant ErrorCode comes from no consent
+                    // for the correct scopes (todo: add interactive retry)
+                    await DisplayMessageAsync("Invalid access scopes, please contact the developer.");
+                }
+            }
+            catch (Exception ex)
+            {                
                 await DisplayMessageAsync(ex.Message);
             }
             finally
@@ -196,7 +238,6 @@ namespace KanbanTasker.Views
         {
             if (SignOutPopup.IsOpen)
                 SignOutPopup.IsOpen = false;
-
             try
             {
                 await authProvider.SignOut();
