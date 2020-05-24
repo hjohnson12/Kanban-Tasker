@@ -19,7 +19,6 @@ namespace KanbanTasker.Helpers.Microsoft_Graph.Authentication
         private IPublicClientApplication _msalClient;
         private string[] _scopes;
 
-        // Represents information about a single account
         private IAccount _userAccount;
 
         private AuthenticationResult authResult { get; set; }
@@ -93,7 +92,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph.Authentication
             }
             else // Account Exists
             {
-                // If there is an account, call AcquireTokenSilent
+                // Since there is an account, call AcquireTokenSilent.
                 // By doing this, MSAL will refresh the token automatically if
                 // it is expired. Otherwise it returns the cached token.
 

@@ -109,12 +109,12 @@ namespace KanbanTasker.Views
                 if (backupFolder != null)
                 {
                     // Restore local data file using the backup file, if it exists
-                    await GraphServiceHelper.RestoreFileFromOneDrive(backupFolder.Id, "ktdatabase.db");
+                    await GraphServiceHelper.RestoreFileFromOneDriveAsync(backupFolder.Id, "ktdatabase.db");
 
                     await DisplayMessageAsync("Data restored successfully.");
 
                     // Debug results
-                    var displayName = await GraphServiceHelper.GetMyDisplayName();
+                    var displayName = await GraphServiceHelper.GetMyDisplayNameAsync();
                     txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                            () =>
@@ -208,15 +208,15 @@ namespace KanbanTasker.Views
 
                 // Create backup folder in OneDrive if not exists
                 if (backupFolder == null)
-                    backupFolder = await GraphServiceHelper.CreateNewOneDriveFolder("Kanban Tasker") as DriveItem;
+                    backupFolder = await GraphServiceHelper.CreateNewOneDriveFolderAsync("Kanban Tasker") as DriveItem;
 
                 // Backup datafile (or overwrite)
-                var uploadedFile = await GraphServiceHelper.UploadFileToOneDrive(backupFolder.Id, DataFilename);
+                var uploadedFile = await GraphServiceHelper.UploadFileToOneDriveAsync(backupFolder.Id, DataFilename);
 
                 await DisplayMessageAsync("Data backed up successfully.");
 
                 // Debug Results
-                var displayName = await GraphServiceHelper.GetMyDisplayName();
+                var displayName = await GraphServiceHelper.GetMyDisplayNameAsync();
                 txtResults.Text = "Welcome " + displayName;
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                        () =>

@@ -62,7 +62,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         /// Get the current user's email address from their profile.
         /// </summary>
         /// <returns></returns>
-        public static async Task<string> GetMyEmailAddress()
+        public static async Task<string> GetMyEmailAddressAsync()
         {
             // Get the current user. 
             // The app only needs the user's email address, so select the mail and userPrincipalName properties.
@@ -75,7 +75,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         /// Get the current user's display name from their profile.
         /// </summary>
         /// <returns></returns>
-        public static async Task<string> GetMyDisplayName()
+        public static async Task<string> GetMyDisplayNameAsync()
         {
             // Get the current user. 
             // The app only needs the user's displayName
@@ -197,7 +197,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         /// </summary>
         /// <param name="folderName">Name of the folder to create.</param>
         /// <returns>A DriveItem representing the newly created Folder.</returns>
-        public static async Task<DriveItem> CreateNewOneDriveFolder(string folderName)
+        public static async Task<DriveItem> CreateNewOneDriveFolderAsync(string folderName)
         {
             try
             {
@@ -231,7 +231,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         /// <param name="itemId">Unique item identifier within a DriveItem (folder/file).</param>
         /// <param name="filename">Name of the datafile.</param>
         /// <returns>A DriveItem representing the newly uploaded file.</returns>
-        public static async Task<DriveItem> UploadFileToOneDrive(string itemId, string filename)
+        public static async Task<DriveItem> UploadFileToOneDriveAsync(string itemId, string filename)
         {
             try
             {
@@ -261,7 +261,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         /// <param name="itemId">Unique item identifier within a DriveItem (i.e., a folder/file facet).</param>
         /// <param name="filename">Name of the datafile.</param>
         /// <returns></returns>
-        public static async Task RestoreFileFromOneDrive(string itemId, string dataFilename)
+        public static async Task RestoreFileFromOneDriveAsync(string itemId, string dataFilename)
         {
             try
             {
