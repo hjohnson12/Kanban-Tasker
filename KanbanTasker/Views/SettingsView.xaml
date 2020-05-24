@@ -210,9 +210,10 @@
                                 HorizontalAlignment="Left"
                                 FontSize="15"
                                 FontWeight="Bold"
-                                Text="Version 1.1.0 Beta Update Notes:"
+                                Text="Version 1.2.0 Beta Update Notes:"
                                 TextDecorations="Underline"
                                 TextWrapping="Wrap" />
+
                             <TextBlock
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
@@ -222,6 +223,12 @@
                                 <LineBreak /><Run>I'm releasing the work done so far in some of my development branches to further test the new database features upon update, as well as</Run>
                                 <Run>hope it will help everyone out and for those who would like to utilize the current functionality of new features so far.</Run><LineBreak />
                                 <LineBreak /><Run>The following features are included in this beta and will be finished in the final version with additional features:</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Backup and restore your data with OneDrive and your Microsoft Account</Run>
                             </TextBlock>
                             <TextBlock
                                 Margin="0,12,0,0"
