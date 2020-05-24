@@ -15,6 +15,7 @@ using System.Threading;
 using Autofac.Core;
 using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using KanbanTasker.Helpers.Microsoft_Graph;
+using System.Net;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -121,11 +122,38 @@ namespace KanbanTasker.Views
                                btnSignOutTip.IsEnabled = true;
                            });
 
-                    // test
+                    // test - restart app 
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
                 }
                 else
                     await DisplayMessageAsync("No backup folder found to restore from.");
+            }
+            catch (ServiceException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    // MS Graph Known Error 
+                    // Users need to sign into OneDrive at least once
+                    // https://docs.microsoft.com/en-us/graph/known-issues#files-onedrive
+
+                    // Empty all cached accounts / data to allow user to rety
+                    await authProvider.SignOut();
+
+                    await DisplayMessageAsync("Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once.");
+                }
+                else if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    await DisplayMessageAsync("Resource requested is not available.");
+                }
+                else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
+                {
+                    // Todo: Retry rquest over a new HTTP connection
+                    await DisplayMessageAsync("Service unavailable due to high load or maintenance.\nPlease try again in a few.");
+                }
+                else if (ex.StatusCode == HttpStatusCode.Conflict)
+                {
+                    await DisplayMessageAsync("Error backing up, issue retrieving backup folder. Please try again.");
+                }
             }
             catch (MsalException msalex)
             {
@@ -135,8 +163,7 @@ namespace KanbanTasker.Views
                 }
                 else if (msalex.ErrorCode == MsalError.InvalidGrantError)
                 {
-                    // invalid_grant ErrorCode comes from no consent
-                    // for the correct scopes
+                    // invalid_grant ErrorCode comes from no consent to needed scopes
                     await DisplayMessageAsync("Invalid access scopes, please contact the developer.");
                 }
 
@@ -197,6 +224,7 @@ namespace KanbanTasker.Views
                        {
                            btnSignOutTip.IsEnabled = true;
                        });
+
             }
             catch (ServiceException ex)
             {
@@ -210,6 +238,19 @@ namespace KanbanTasker.Views
                     await authProvider.SignOut();
 
                     await DisplayMessageAsync("Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once.");
+                }
+                else if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    await DisplayMessageAsync("Resource requested is not available.");
+                }
+                else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
+                {
+                    // Todo: Retry rquest over a new HTTP connection
+                    await DisplayMessageAsync("Service unavailable due to high load or maintenance.\nPlease try again in a few.");
+                }
+                else if (ex.StatusCode == HttpStatusCode.Conflict)
+                {
+                    await DisplayMessageAsync("Error backing up, issue retrieving backup folder. Please try again.");
                 }
             }
             catch (MsalException msalex)

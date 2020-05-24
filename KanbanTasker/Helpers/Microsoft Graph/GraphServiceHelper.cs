@@ -21,7 +21,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
         private static GraphServiceClient GraphClient { get; set; }
 
         /// <summary>
-        /// Initializes the graph service client used to make calls to Microsoft Graph.
+        /// Initializes the graph service client used to make calls to the Microsoft Graph API.
         /// </summary>
         /// <param name="authProvider"></param>
         public static void InitializeClient(IAuthenticationProvider authProvider)
@@ -123,7 +123,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
             }
             catch (ServiceException ex)
             {
-                Console.WriteLine($"Error getting events: {ex.Message}");
+                Console.WriteLine($"Service Exception, Error getting events: {ex.Message}");
                 return null;
             }
         }
@@ -146,7 +146,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
             }
             catch (ServiceException ex)
             {
-                Console.WriteLine($"Error getting signed-in users one drive root: {ex.Message}");
+                Console.WriteLine($"Service Exception, Error getting signed-in users one drive root: {ex.Message}");
                 return null;
             }
         }
@@ -164,7 +164,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
             }
             catch (ServiceException ex)
             {
-                Console.WriteLine($"Error getting signed-in users one drive root children: {ex.Message}");
+                Console.WriteLine($"Service Exception, Error getting signed-in users one drive root children: {ex.Message}");
                 return null;
             }
         }
@@ -187,7 +187,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
             }
             catch (ServiceException ex)
             {
-                Console.WriteLine($"Error getting signed-in users one drive folder: {ex.Message}");
+                Console.WriteLine($"Service Exception, Error getting signed-in users one drive folder: {ex.Message}");
                 return null;
             }
         }
@@ -219,8 +219,8 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
             }
             catch (ServiceException ex)
             {
-                Console.WriteLine($"Error creating folder in signed-in users one drive root: {ex.Message}");
-                return null;
+                Console.WriteLine($"Service Exception, error creating folder in signed-in users one drive root: {ex.Message}");
+                throw;
             }
         }
 
@@ -249,7 +249,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
             }
             catch (ServiceException ex)
             {
-                Console.WriteLine($"Error uploading file to signed-in users one drive: {ex.Message}");
+                Console.WriteLine($"Service Expception, Error uploading file to signed-in users one drive: {ex.Message}");
                 throw;
             }
         }
@@ -304,7 +304,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
                 if (ex.StatusCode == HttpStatusCode.Forbidden)
                     Console.WriteLine($"Access Denied: {ex.Message}");
 
-                Console.WriteLine($"Error uploading file to signed-in users one drive: {ex.Message}");
+                Console.WriteLine($"Service Exception, Error uploading file to signed-in users one drive: {ex.Message}");
                // return null;
             }
         }

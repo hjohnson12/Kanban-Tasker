@@ -75,11 +75,11 @@ namespace KanbanTasker.Helpers.Microsoft_Graph.Authentication
                     catch (MsalException msalex)
                     {
                         if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
-                            Debug.WriteLine($"Msal Authentication Canceled:{System.Environment.NewLine}{msalex}");
+                            Debug.WriteLine($"MsalException, Authentication Canceled:{System.Environment.NewLine}{msalex}");
                         if (msalex.ErrorCode == MsalError.AuthenticationFailed)
-                            Debug.WriteLine($"Msal Authentication Failed:{System.Environment.NewLine}{msalex}");
+                            Debug.WriteLine($"MsalException, Authentication Failed:{System.Environment.NewLine}{msalex}");
                         else if (msalex.ErrorCode == MsalError.RequestTimeout)
-                            Debug.WriteLine($"Msal Request Timeout:{System.Environment.NewLine}{msalex}");
+                            Debug.WriteLine($"MsalException, Request Timeout:{System.Environment.NewLine}{msalex}");
                         throw;
                     }
                 }
@@ -118,7 +118,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph.Authentication
         }
 
         /// <summary>
-        /// Sign the current user out and remove their access tokens.
+        /// Sign the current user out and remove the cached access tokens.
         /// </summary>
         /// <returns></returns>
         public async Task SignOut()
@@ -133,7 +133,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph.Authentication
             }
             catch (MsalException ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error signing-out user: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"MsalException, Error signing-out user: {ex.Message}");
                 throw;
             }
         }
