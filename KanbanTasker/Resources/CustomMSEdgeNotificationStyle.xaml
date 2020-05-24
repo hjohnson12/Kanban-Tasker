@@ -125,7 +125,7 @@
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Center"
-                            TextWrapping="WrapWholeWords" />
+                            TextWrapping="Wrap" />
 
                         <Button
                             x:Name="PART_DismissButton"

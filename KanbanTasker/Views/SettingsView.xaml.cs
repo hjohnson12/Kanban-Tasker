@@ -180,7 +180,6 @@ namespace KanbanTasker.Views
 
         public void CloseTeachingTips()
         {
-            // Close teaching tips
             if (RestoreTip.IsOpen)
                 RestoreTip.IsOpen = false;
             if (BackupTip.IsOpen)
@@ -245,7 +244,6 @@ namespace KanbanTasker.Views
                 }
                 else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    // Todo: Retry rquest over a new HTTP connection
                     await DisplayMessageAsync("Service unavailable due to high load or maintenance.\nPlease try again in a few.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.Conflict)
