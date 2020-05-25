@@ -16,6 +16,7 @@ using Autofac.Core;
 using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using KanbanTasker.Helpers.Microsoft_Graph;
 using System.Net;
+using Microsoft.UI.Xaml.Media;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -122,8 +123,10 @@ namespace KanbanTasker.Views
                                btnSignOutTip.IsEnabled = true;
                            });
 
-                    // test - restart app 
-                    await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("Application Restart Programmatic");
+                    Thread.Sleep(2000);
+
+                    // Restart app to make changes
+                    await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("");
                 }
                 else
                     await DisplayMessageAsync("No backup folder found to restore from.");
