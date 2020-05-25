@@ -88,7 +88,7 @@
                                 Grid.Row="1"
                                 Margin="0,8,0,0"
                                 Orientation="Vertical">
-                                <TextBlock Text="Backup or restore your local data through your preferred Microsoft Account by logging in using one of the options below." TextWrapping="Wrap" />
+                                <TextBlock Text="Backup or restore your local data through your preferred Microsoft Account and OneDrive by logging in using one of the options below." TextWrapping="Wrap" />
 
                                 <TextBlock
                                     Margin="0,8,0,0"
@@ -96,12 +96,13 @@
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,8,0,0"
-                                    Text="* Note: Application will require a restart when restoring from a backup"
+                                    Text="* Make sure you have logged into your Microsoft Account and OneDrive at least once for the initial setup"
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,8,0,0"
-                                    Text="* Note: Make sure you have logged into your Microsoft Account at least once for the initial setup."
+                                    Text="* Application will require a restart when restoring from a backup"
                                     TextWrapping="Wrap" />
+
                             </StackPanel>
                         </Grid>
                         <Grid Grid.Row="2">
