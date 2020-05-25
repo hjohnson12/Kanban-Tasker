@@ -94,7 +94,10 @@
                                     Margin="0,8,0,0"
                                     Text="Credentials are saved for a certain amount of time. To backup or restore using another Microsoft Account, log out if already logged in."
                                     TextWrapping="Wrap" />
-                                <TextBlock Margin="0,8,0,0" Text="* Note: Application will require a restart when restoring from a backup" />
+                                <TextBlock
+                                    Margin="0,8,0,0"
+                                    Text="* Note: Application will require a restart when restoring from a backup"
+                                    TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,8,0,0"
                                     Text="* Note: Make sure you have logged into your Microsoft Account at least once for the initial setup."
@@ -107,7 +110,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                            <Grid Grid.Column="0" HorizontalAlignment="Center">
 
                                 <Button
                                     x:Name="btnBackupTip"
@@ -130,12 +133,8 @@
                                             Target="{x:Bind btnBackupTip}" />
                                     </Button.Resources>
                                 </Button>
-                            </StackPanel>
-                            <StackPanel
-                                Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                Orientation="Vertical">
-
+                            </Grid>
+                            <Grid Grid.Column="1" HorizontalAlignment="Center">
                                 <Button
                                     x:Name="btnRestoreTip"
                                     Margin="4,2,4,4"
@@ -156,14 +155,9 @@
                                             Subtitle="Are you sure you wish to overwrite your data? This requires the application to restart."
                                             Target="{x:Bind btnRestoreTip}" />
                                     </Button.Resources>
-
                                 </Button>
-                            </StackPanel>
-                            <StackPanel
-                                Grid.Column="2"
-                                HorizontalAlignment="Stretch"
-                                Orientation="Vertical">
-
+                            </Grid>
+                            <Grid Grid.Column="2" HorizontalAlignment="Stretch">
                                 <Button
                                     x:Name="btnSignOutTip"
                                     Margin="4,2,4,4"
@@ -186,7 +180,7 @@
                                         <TextBlock Margin="4,0,0,0" Text="Sign Out" />
                                     </StackPanel>
                                 </Button>
-                            </StackPanel>
+                            </Grid>
 
                         </Grid>
                     </Grid>
@@ -388,7 +382,7 @@
                             <HyperlinkButton
                                 Margin="0,8,0,0"
                                 HorizontalAlignment="Center"
-                                Content="Kanban Tasker's source code"
+                                Content="Kanban Tasker's Source Code"
                                 NavigateUri="https://github.com/hjohnson12/Kanban-Tasker"
                                 Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                             <HyperlinkButton

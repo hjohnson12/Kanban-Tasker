@@ -139,20 +139,19 @@ namespace KanbanTasker.Views
                     // Empty all cached accounts / data to allow user to rety
                     await authProvider.SignOut();
 
-                    await DisplayMessageAsync("Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once.");
+                    await DisplayMessageAsync("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
-                    await DisplayMessageAsync("Resource requested is not available.");
+                    await DisplayMessageAsync("Error 404. Resource requested is not available.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    // Todo: Retry rquest over a new HTTP connection
-                    await DisplayMessageAsync("Service unavailable due to high load or maintenance.\nPlease try again in a few.");
+                    await DisplayMessageAsync("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.Conflict)
                 {
-                    await DisplayMessageAsync("Error backing up, issue retrieving backup folder. Please try again.");
+                    await DisplayMessageAsync("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
                 }
             }
             catch (MsalException msalex)
@@ -236,19 +235,19 @@ namespace KanbanTasker.Views
                     // Empty all cached accounts / data to allow user to rety
                     await authProvider.SignOut();
 
-                    await DisplayMessageAsync("Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once.");
+                    await DisplayMessageAsync("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
-                    await DisplayMessageAsync("Resource requested is not available.");
+                    await DisplayMessageAsync("Error 404. Resource requested is not available.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    await DisplayMessageAsync("Service unavailable due to high load or maintenance.\nPlease try again in a few.");
+                    await DisplayMessageAsync("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.Conflict)
                 {
-                    await DisplayMessageAsync("Error backing up, issue retrieving backup folder. Please try again.");
+                    await DisplayMessageAsync("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
                 }
             }
             catch (MsalException msalex)
