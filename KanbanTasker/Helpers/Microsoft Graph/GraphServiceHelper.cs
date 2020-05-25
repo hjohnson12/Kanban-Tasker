@@ -187,8 +187,15 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
             }
             catch (ServiceException ex)
             {
-                Console.WriteLine($"Service Exception, Error getting signed-in users one drive folder: {ex.Message}");
-                return null;
+                if (ex.StatusCode == HttpStatusCode.BadGateway)
+                {
+                    Console.WriteLine($"Service Exception, Bad Gateway. Error getting signed-in users one drive folder: {ex.Message}");
+                }
+                else if (ex.IsMatch(GraphErrorCode.GeneralException.ToString()))
+                {
+                    Console.WriteLine($"General Exception, error getting folder. Please check internet connection.");
+                }
+                throw;
             }
         }
 

@@ -78,7 +78,7 @@ namespace KanbanTasker.Views
                    () =>
                    {
                        var frame = (Frame)Window.Current.Content;
-                       (frame.Content as MainView).KanbanInAppNotification.Show(message, 4000);
+                       (frame.Content as MainView).KanbanInAppNotification.Show(message, 5000);
                        //SettingsAppNotification.Show(message, 3000);
                    });
         }
@@ -148,13 +148,21 @@ namespace KanbanTasker.Views
                 {
                     await DisplayMessageAsync("Error 404. Resource requested is not available.");
                 }
+                else if (ex.StatusCode == HttpStatusCode.Conflict)
+                {
+                    await DisplayMessageAsync("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
+                }
+                else if (ex.StatusCode == HttpStatusCode.BadGateway)
+                {
+                    await DisplayMessageAsync("Error 502. Bad Gateway.\nPlease check your internet connection and try again in a few.");
+                }
                 else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
                     await DisplayMessageAsync("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
                 }
-                else if (ex.StatusCode == HttpStatusCode.Conflict)
+                else if (ex.IsMatch(GraphErrorCode.GeneralException.ToString()))
                 {
-                    await DisplayMessageAsync("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
+                    await DisplayMessageAsync("General Exception. Please check your internet connection and try again in a few.");
                 }
             }
             catch (MsalException msalex)
@@ -165,14 +173,13 @@ namespace KanbanTasker.Views
                 }
                 else if (msalex.ErrorCode == MsalError.InvalidGrantError)
                 {
-                    // invalid_grant ErrorCode comes from no consent to needed scopes
+                    // invalid_grant comes from no consent to needed scopes
                     await DisplayMessageAsync("Invalid access scopes, please contact the developer.");
                 }
-
             }
             catch (Exception ex)
             {
-                await DisplayMessageAsync(ex.Message);
+                await DisplayMessageAsync("ERROR: " + ex.Message);
             }
             finally
             {
@@ -244,13 +251,21 @@ namespace KanbanTasker.Views
                 {
                     await DisplayMessageAsync("Error 404. Resource requested is not available.");
                 }
+                else if (ex.StatusCode == HttpStatusCode.Conflict)
+                {
+                    await DisplayMessageAsync("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
+                }
+                else if (ex.StatusCode == HttpStatusCode.BadGateway)
+                {
+                    await DisplayMessageAsync("Error 502. Bad Gateway.\nPlease check your internet connection and try again in a few.");
+                }
                 else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
                     await DisplayMessageAsync("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
                 }
-                else if (ex.StatusCode == HttpStatusCode.Conflict)
+                else if (ex.IsMatch(GraphErrorCode.GeneralException.ToString()))
                 {
-                    await DisplayMessageAsync("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
+                    await DisplayMessageAsync("General Exception. Please check your internet connection and try again in a few.");
                 }
             }
             catch (MsalException msalex)
