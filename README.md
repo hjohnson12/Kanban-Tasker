@@ -1,10 +1,12 @@
 # Kanban Tasker
 
-This Windows 10 Universal Windows Platform (UWP) application uses a kanban board as a simple workflow visualization tool and allows dragging of individual tasks and multiple project boards.
+This Windows 10 Universal Windows Platform (UWP) application uses a kanban board as a simple workflow visualization tool and allows dragging of individual tasks and multiple project boards with syncing to OneDrive.
 
 ## Kanban Tasker Details
 
 Created with C#/XAML and the Windows 10 Universal Windows Platform. The UI is created with Extensible Application Markup Language (XAML) and backend is using C#. 
+
+*New Screenshots Coming Soon
 
 Uses a kanban control created by [Syncfusion](https://www.syncfusion.com) fully customized to Kanban Taskers style (see corresponding data templates in *BoardView.xaml, and App.xaml*). Also implemented with a Sqlite database to store the tasks/boards and uses create, read, update, and delete (CRUD) operations against the database.
 
@@ -25,6 +27,12 @@ Developers can read more here: [Getting Started](#getting-started)
    *  If light-holding the task on tablet mode and it does not register and open a context menu, right-click is enabled to work for the menu for editing or deleting.
  * Tags in the pane can range in width and height. If the tag is longer than the width of the pane, it will wrap to a new row and  increase the height
 ![Image of Program](KanbanTasker/Images/KT_01.png)
+
+#### Backup/Restore to and from the cloud using OneDrive and your Microsoft Account
+![Image of Program](KanbanTasker/Images/KT_OneDrive.png)
+
+#### Basic Task Calendar to see tasks due on a specified date
+![Image of Program](KanbanTasker/Images/KT_TaskCalendar.png)
 
 #### Adaptable Fluent Design Background and Card design
   * Background acrylic brush adapts to colors
