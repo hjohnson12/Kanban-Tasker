@@ -199,6 +199,19 @@
                             HorizontalAlignment="Right"
                             Orientation="Vertical">
 
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>The major feature in this update brings Backup/Restore functionality with OneDrive and your preferred Microsoft Account! See the General tab for instructions.</Run><LineBreak />
+                                <LineBreak /><Run>The data is automatically backed up to or restored from a folder inside the root folder of your OneDrive once logged in.</Run><LineBreak />
+                                <LineBreak /><Run>If you encounter any issues when backing up or restoring, feel free to report the issue on Github!</Run>
+                            </TextBlock>
+                            <HyperlinkButton
+                                Margin="0,8,0,0"
+                                Content="Github Issues Link"
+                                NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                             <TextBlock Text="" />
                             <TextBlock
                                 Margin="0,2,0,0"
@@ -213,23 +226,13 @@
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
                                 TextWrapping="Wrap">
-                                <Run>This version is being released early and is in public beta due to some of its incomplete features.</Run>
-                                <LineBreak />
-                                <LineBreak /><Run>I'm releasing the work done so far in some of my development branches to further test the new database features upon update, as well as</Run>
-                                <Run>hope it will help everyone out and for those who would like to utilize the current functionality of new features so far.</Run><LineBreak />
-                                <LineBreak /><Run>The following features are included in this beta and will be finished in the final version with additional features:</Run>
+                                <Run>- Backup and restore your data with OneDrive and your preferred Microsoft Account</Run>
                             </TextBlock>
                             <TextBlock
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
                                 TextWrapping="Wrap">
-                                <Run>- Backup and restore your data with OneDrive and your Microsoft Account</Run>
-                            </TextBlock>
-                            <TextBlock
-                                Margin="0,12,0,0"
-                                HorizontalAlignment="Left"
-                                TextWrapping="Wrap">
-                                <Run>- New Date Information expander section added to task create/edit pane</Run>
+                                <Run>- Slight changes to Date Information expander section and toast notification length</Run>
                             </TextBlock>
                             <TextBlock
                                 Margin="0,12,0,0"
@@ -259,41 +262,23 @@
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
                                 TextWrapping="Wrap">
-                                <Run>- Task Calendar feature added to navigation menu to quickly view a list of due tasks on the specified date for the current board</Run>
+                                <Run>- Bug fixes for Task Calendar</Run>
                             </TextBlock>
                             <TextBlock
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
                                 TextWrapping="Wrap">
-                                <Run>- Selecting a task from the Task Calendar dialog opens that task in the pane for editing</Run>
+                                <Run>- A few other features have been in development with more news coming soon!</Run>
                             </TextBlock>
                             <TextBlock
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
-                                TextWrapping="Wrap">
-                                <Run>- Date Information has a value that shows how many days since the task was created. Also a spot that displays how many days the task has been worked on so far</Run>
-                                <Run>since start date (if start date is selected)</Run>
-                            </TextBlock>
-                            <TextBlock
-                                Margin="0,12,0,0"
-                                HorizontalAlignment="Left"
-                                TextWrapping="Wrap">
-                                <Run>- AutoSuggestTextBox added for tags in this beta that shows you tags from tasks that you do not already have, but is currently being replaced again with a more customizable tag selector and editor feature</Run>
-                            </TextBlock>
-                            <TextBlock
-                                Margin="0,12,0,0"
-                                HorizontalAlignment="Left"
-                                Text="- New database implementation added and this update includes the SQLite version with a modified table for the latest features. MSSQL and MySQL endpoints are available on developer branch update_multidatabase in the repository as of now"
+                                Text="- MSSQL and MySQL endpoints are available on developer branch update_multidatabase in the repository, change configs in Endpoints.json"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
-                                Text="- Compact overlay (picture-in-picture) mode is still available. Sizing is restricted due to it being a newer feature available through Microsoft"
-                                TextWrapping="Wrap" />
-                            <TextBlock
-                                Margin="0,12,0,0"
-                                HorizontalAlignment="Left"
-                                Text="- Functionality for touch features on the card to select edit/delete is currently being worked on, stylus pens or other accessories still work at the moment"
+                                Text="- Compact overlay (picture-in-picture) mode's sizing is restricted due to it being a newer feature available through Microsoft"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="0,12,0,0"
@@ -314,7 +299,7 @@
                             <TextBlock Text="" />
                             <TextBlock
                                 FontStyle="Italic"
-                                Text="Known Issues in v1.1.0 Beta:"
+                                Text="Known Issues in v1.2.0 Beta:"
                                 TextDecorations="Underline" />
                             <TextBlock
                                 Margin="0,8,0,0"
@@ -370,7 +355,7 @@
                             <TextBlock
                                 Margin="0,4,0,4"
                                 HorizontalAlignment="Center"
-                                Text="Kanban Tasker v1.1.0 Beta"
+                                Text="Kanban Tasker v1.2.0 Beta"
                                 TextDecorations="Underline" />
                             <TextBlock
                                 Margin="0,4,0,4"

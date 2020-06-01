@@ -42,7 +42,7 @@ namespace KanbanTasker.Views
                 txtResults.Text = "Welcome " + App.CurrentUser.GivenName;
             else
             {
-                txtResults.Text = "Welcome, please login to authenticate";
+                txtResults.Text = "Welcome, please select an option below and sign in when prompted";
                 btnSignOutTip.IsEnabled = false;
             }
 

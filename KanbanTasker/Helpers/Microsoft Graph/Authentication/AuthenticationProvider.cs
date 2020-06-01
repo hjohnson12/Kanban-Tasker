@@ -127,8 +127,11 @@ namespace KanbanTasker.Helpers.Microsoft_Graph.Authentication
 
             try
             {
-                await _msalClient.RemoveAsync(firstAccount).ConfigureAwait(false);
-                _userAccount = null;
+                if (firstAccount != null)
+                {
+                    await _msalClient.RemoveAsync(firstAccount).ConfigureAwait(false);
+                    _userAccount = null;
+                }
             }
             catch (MsalException ex)
             {
