@@ -109,7 +109,7 @@ Target Version: Windows 10, Version 1903
 
 * **Hunter** - *Initial work* - [hjohnson012](https://github.com/hjohnson12)
 
-See also the list of [contributors](https://github.com/hjohnson12/KanbanTasker/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/hjohnson12/Kanban-Tasker/graphs/contributors) who participated in this project.
 
 ## License
 
