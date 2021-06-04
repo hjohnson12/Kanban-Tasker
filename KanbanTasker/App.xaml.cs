@@ -24,6 +24,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using Microsoft.Graph;
+using Application = Windows.UI.Xaml.Application;
 
 namespace KanbanTasker
 {
@@ -61,7 +62,7 @@ namespace KanbanTasker
             //}
 
             // Added because was still prompting users from the store
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTMwNjE1QDMxMzcyZTMyMmUzMEFlSlpZMDNRQVFhUy9pOHQ4dzlObVNNbGNsQ3I2bE15NE50U2dzQ1lYK1k9");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDU1NTIwQDMxMzkyZTMxMmUzME9UVExhQlpERC95UExwQlhRWVVtVm1mSmN0Z1ZWc3BzYU5oQmtYR0tyVk09");
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
@@ -190,12 +191,12 @@ namespace KanbanTasker
 
         public async void CheckForUpdateOrFirstRun()
         {
-            if (SystemInformation.IsAppUpdated)
+            if (SystemInformation.Instance.IsAppUpdated)
             {
                 var dialog = new AppUpdatedDialogView();
                 var result = await dialog.ShowAsync();
             }
-            else if (SystemInformation.IsFirstRun)
+            else if (SystemInformation.Instance.IsFirstRun)
             {
                 var dialog = new FirstRunDialogView();
                 var result = await dialog.ShowAsync();

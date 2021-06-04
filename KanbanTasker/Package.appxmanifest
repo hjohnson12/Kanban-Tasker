@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="17325HunterJohnson.KanbanTasker"
+    Name="17325HunterJohnson-Test.KanbanTasker"
     Publisher="CN=7E9AA0BA-92B9-4274-B9BB-343DA3A9765C"
     Version="1.2.0.0" />
 
