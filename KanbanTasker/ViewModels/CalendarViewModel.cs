@@ -13,9 +13,19 @@ namespace KanbanTasker.ViewModels
 {
     public class CalendarViewModel : Observable
     {
-
         private DispatcherTimer timer;
         private DateTime _currentTime;
+        private DateTimeOffset _selectedDate;
+        private ObservableCollection<PresentationTask> _scheduledTasks;
+        private bool _isResultsVisible;
+
+        public CalendarViewModel()
+        {
+            SelectedDate = DateTimeOffset.Now;
+            CurrentTime = DateTime.Now;
+            StartTimer();
+        }
+       
         public DateTime CurrentTime
         {
             get => _currentTime;
@@ -29,7 +39,6 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        private DateTimeOffset _selectedDate;
         public DateTimeOffset SelectedDate
         {
             get => _selectedDate;
@@ -43,39 +52,30 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        private ObservableCollection<PresentationTask> _ScheduledTasks;
         public ObservableCollection<PresentationTask> ScheudledTasks
         {
-            get => _ScheduledTasks;
+            get => _scheduledTasks;
             set
             {
-                if(_ScheduledTasks != value)
+                if(_scheduledTasks != value)
                 {
-                    _ScheduledTasks = value;
+                    _scheduledTasks = value;
                     OnPropertyChanged();
                     OnPropertyChanged("IsResultsVisible");
                 }
             }
         }
 
-        private bool _IsResultsVisible;
         public bool IsResultsVisible
         {
             get
             {
-                return _ScheduledTasks.Count == 0;
+                return _scheduledTasks.Count == 0;
             }
             set
             {
-                _IsResultsVisible = value;
+                _isResultsVisible = value;
             }
-        }
-
-        public CalendarViewModel()
-        {
-            SelectedDate = DateTimeOffset.Now;
-            CurrentTime = DateTime.Now;
-            StartTimer();
         }
 
         /// <summary>

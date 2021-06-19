@@ -17,6 +17,17 @@ namespace KanbanTasker.ViewModels
     public class MainViewModel : Observable
     {
         //private ObservableCollection<PresentationTask> allTasks;
+        private const int MessageDuration = 3000;
+        private ObservableCollection<BoardViewModel> _boardList;
+        private BoardViewModel _currentBoard;
+        private string _boardEditorTitle;
+        private InAppNotification messagePump;
+        // _tmpBoard is used to save the current board when a user clicks the Add button, than cancels.
+        // Should be able to remove this property when this ticket is fixed: https://github.com/microsoft/microsoft-ui-xaml/issues/1200
+        private BoardViewModel _tmpBoard;
+        private string _oldBoardName;
+        private string _oldBoardNotes;
+
         public Func<PresentationBoard, InAppNotification, BoardViewModel> boardViewModelFactory;
         private IAdaptiveClient<IServiceManifest> dataProvider;
         public ICommand NewBoardCommand { get; set; }
@@ -25,77 +36,10 @@ namespace KanbanTasker.ViewModels
         public ICommand CancelSaveBoardCommand { get; set; }
         public ICommand DeleteBoardCommand { get; set; }
 
-        #region Properties
-
         /// <summary>
-        /// List of all boards
-        /// </summary>
-        private ObservableCollection<BoardViewModel> _boardList;
-        public ObservableCollection<BoardViewModel> BoardList
-        {
-            get
-            {
-                return _boardList;
-            }
-            set
-            {
-                _boardList = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Currently selected board
-        /// </summary>
-        private BoardViewModel _CurrentBoard;
-        public BoardViewModel CurrentBoard
-        {
-            get
-            {
-                return _CurrentBoard;
-            }
-            set
-            {
-                _CurrentBoard = value;
-                OnPropertyChanged();
-            }
-
-        }
-        private string _BoardEditorTitle;
-        public string BoardEditorTitle
-        {
-            get => _BoardEditorTitle;
-            set
-            {
-                _BoardEditorTitle = value;
-                OnPropertyChanged();
-            }
-        }
-
-        internal void SetCurrentBoardOnClose()
-        {
-            if (BoardList.Count == 0) 
-                CurrentBoard = null; // Displays NoBoardsView after
-            else
-            {
-                CurrentBoard = null;
-                CurrentBoard = TmpBoard;
-            }
-        }
-
-        private Frame navigationFrame { get; set; }
-        private InAppNotification messagePump;
-        private const int MessageDuration = 3000;
-
-        // TmpBoard is used to save the current board when a user clicks the Add button, than cancels.  Should be able to remove this property when this ticket is fixed: https://github.com/microsoft/microsoft-ui-xaml/issues/1200
-        private BoardViewModel TmpBoard; 
-        #endregion Properties
-
-
-        /// <summary>
-        ///  Constructor / Initiliazation of boards and tasks.
+        ///  Initializes boards and tasks.
         ///  Sorts the tasks by column index so that they are
-        ///  loaded in as they were left when the app closed
+        ///  loaded in as they were left when the app was last closed.
         /// </summary>
         public MainViewModel(Func<PresentationBoard, InAppNotification, BoardViewModel> boardViewModelFactory, IAdaptiveClient<IServiceManifest> dataProvider, Frame navigationFrame, InAppNotification messagePump)
         {
@@ -136,7 +80,11 @@ namespace KanbanTasker.ViewModels
                 CurrentBoard = null;
         }
 
-        // We need to know when user selects a board on the NavigationView in MainView.xaml.
+        /// <summary>
+        /// Notifies us of a property change when a user selects a board on the NavigationView in MainView.xaml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(CurrentBoard))
@@ -148,16 +96,79 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-     
+        #region Properties
+
+        private Frame navigationFrame { get; set; }
+
+        /// <summary>
+        /// List of all boards
+        /// </summary>
+        public ObservableCollection<BoardViewModel> BoardList
+        {
+            get => _boardList;
+            set
+            {
+                _boardList = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Currently selected board
+        /// </summary>
+        public BoardViewModel CurrentBoard
+        {
+            get => _currentBoard;
+            set
+            {
+                _currentBoard = value;
+                OnPropertyChanged();
+            }
+
+        }
+
+        public string BoardEditorTitle
+        {
+            get => _boardEditorTitle;
+            set
+            {
+                _boardEditorTitle = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public string OldBoardNotes
+        {
+            get => _oldBoardNotes;
+            set
+            {
+                _oldBoardNotes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string OldBoardName
+        {
+            get => _oldBoardName;
+            set
+            {
+                _oldBoardName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion Properties
+
         public void NewBoardCommandHandler()
         {
             BoardEditorTitle = "New Board Editor";
             BoardViewModel newBoard = boardViewModelFactory(new PresentationBoard(new BoardDTO()), messagePump);
-            TmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
-            if (TmpBoard != null)
+            _tmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
+            if (_tmpBoard != null)
             {
-                OldBoardName = TmpBoard.Board.Name;
-                OldBoardNotes = TmpBoard.Board.Notes;
+                OldBoardName = _tmpBoard.Board.Name;
+                OldBoardNotes = _tmpBoard.Board.Notes;
             }
             CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
             CurrentBoard = newBoard;
@@ -166,9 +177,9 @@ namespace KanbanTasker.ViewModels
 
         public void EditBoardCommandHandler()
         {
-            TmpBoard = CurrentBoard;
-            OldBoardName = TmpBoard.Board.Name;
-            OldBoardNotes = TmpBoard.Board.Notes;
+            _tmpBoard = CurrentBoard;
+            OldBoardName = _tmpBoard.Board.Name;
+            OldBoardNotes = _tmpBoard.Board.Notes;
             BoardEditorTitle = "Edit Board";
         }
 
@@ -200,35 +211,14 @@ namespace KanbanTasker.ViewModels
             }
 
         }
-        private string _OldBoardName;
-        public string OldBoardName
-        {
-            get => _OldBoardName;
-            set
-            {
-                _OldBoardName = value;
-                OnPropertyChanged();
-            }
-        } 
-        
-        private string _OldBoardNotes;
-        public string OldBoardNotes
-        {
-            get => _OldBoardNotes;
-            set
-            {
-                _OldBoardNotes = value;
-                OnPropertyChanged();
-            }
-        }
 
         public void CancelSaveBoardCommandHandler()
         {
-            // BUG: Currently TmpBoard still holds edited version?
+            // BUG: Currently _tmpBoard still holds edited version?
             CurrentBoard.Board.Name = "";
             CurrentBoard.Board.Notes = "";
             CurrentBoard = null; 
-            CurrentBoard = TmpBoard;
+            CurrentBoard = _tmpBoard;
 
             // hack
             if (CurrentBoard != null)
@@ -250,6 +240,17 @@ namespace KanbanTasker.ViewModels
 
             CurrentBoard = null; // uwp bug
             CurrentBoard = BoardList.LastOrDefault();
+        }
+
+        internal void SetCurrentBoardOnClose()
+        {
+            if (BoardList.Count == 0)
+                CurrentBoard = null; // Displays NoBoardsView after
+            else
+            {
+                CurrentBoard = null;
+                CurrentBoard = _tmpBoard;
+            }
         }
     }
 }

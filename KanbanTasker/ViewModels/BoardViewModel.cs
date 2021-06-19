@@ -19,56 +19,9 @@ namespace KanbanTasker.ViewModels
 {
     public class BoardViewModel : Observable
     {
-        /// <summary>
-        /// Variables/Private backing fields
-        /// </summary>
-        ///
-        private PresentationBoard _Board;
-        public PresentationBoard Board
-        {
-            get => _Board;
-            set
-            {
-                _Board = value;
-                OnPropertyChanged();
-            }
-        }
-        private PresentationTask _CurrentTask;   
-        public PresentationTask CurrentTask
-        {
-            get => _CurrentTask;
-            set
-            {
-                _CurrentTask = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ObservableCollection<string> SuggestedTagsCollection 
-        {
-            get => _suggestedTagsCollection;
-            set
-            {
-                _suggestedTagsCollection = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private Brush _DueDateBackground;
-        public Brush DueDateBackground
-        {
-            get => _DueDateBackground;
-            set
-            {
-                if(_DueDateBackground != value)
-                {
-                    _DueDateBackground = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
+        private PresentationBoard _board;
+        private PresentationTask _currentTask;   
+        private Brush _dueDateBackgroundBrush;
         private string _paneTitle;
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
@@ -83,7 +36,94 @@ namespace KanbanTasker.ViewModels
         public ICommand CancelEditCommand { get; set; }
         public ICommand RemoveScheduledNotificationCommand { get; set; }
 
+        /// <summary>
+        /// Initializes the commands and tasks for the current board.
+        /// </summary>
+        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, InAppNotification messagePump)
+        {
+            Board = board;
+            DataProvider = dataProvider;
+            MessagePump = messagePump;
+
+            CurrentTask = new PresentationTask(new TaskDTO());
+            NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
+            EditTaskCommand = new RelayCommand<int>(EditTaskCommandHandler, () => true);
+            SaveTaskCommand = new RelayCommand(SaveTaskCommandHandler, () => true);
+            DeleteTaskCommand = new RelayCommand<int>(DeleteTaskCommandHandler, () => true);
+            DeleteTagCommand = new RelayCommand<string>(DeleteTagCommandHandler, () => true);
+            CancelEditCommand = new RelayCommand(CancelEditCommandHandler, () => true);
+            RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotficationCommandHandler, () => true);
+
+            DueDateBackgroundBrush = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+
+            ColorKeys = new ObservableCollection<ComboBoxItem>();
+            ColorKeys.Add(new ComboBoxItem { Content = "High" });
+            ColorKeys.Add(new ComboBoxItem { Content = "Normal" });
+            ColorKeys.Add(new ComboBoxItem { Content = "Low" });
+
+            ReminderTimes = new ObservableCollection<ComboBoxItem>();
+            ReminderTimes.Add(new ComboBoxItem { Content = "None" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "At Time of Due Date" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "5 Minutes Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "10 Minutes Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "15 Minutes Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "1 Hour Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "2 Hours Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "1 Day Before" });
+            ReminderTimes.Add(new ComboBoxItem { Content = "2 Days Before" });
+
+            if (Board.Tasks != null && board.Tasks.Any())   // hack
+                foreach (PresentationTask task in Board.Tasks)
+                {
+                    task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
+                    task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
+                }
+        }
+
         #region Properties
+
+        public PresentationBoard Board
+        {
+            get => _board;
+            set
+            {
+                _board = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public PresentationTask CurrentTask
+        {
+            get => _currentTask;
+            set
+            {
+                _currentTask = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<string> SuggestedTagsCollection
+        {
+            get => _suggestedTagsCollection;
+            set
+            {
+                _suggestedTagsCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Brush DueDateBackgroundBrush
+        {
+            get => _dueDateBackgroundBrush;
+            set
+            {
+                if (_dueDateBackgroundBrush != value)
+                {
+                    _dueDateBackgroundBrush = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Used to fill indicator key combo box
@@ -111,7 +151,7 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        
+
         public string PaneTitle
         {
             get { return _paneTitle; }
@@ -169,52 +209,6 @@ namespace KanbanTasker.ViewModels
         private const int MessageDuration = 3000;
 
         #endregion Properties
-
-        /// <summary>
-        /// Constructor / Initialization of tasks.
-        /// </summary>
-        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, InAppNotification messagePump)
-        {
-            Board = board;
-            DataProvider = dataProvider;
-            MessagePump = messagePump;
-
-            CurrentTask = new PresentationTask(new TaskDTO());
-            NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
-            EditTaskCommand = new RelayCommand<int>(EditTaskCommandHandler, () => true);
-            SaveTaskCommand = new RelayCommand(SaveTaskCommandHandler, () => true);
-            DeleteTaskCommand = new RelayCommand<int>(DeleteTaskCommandHandler, () => true);
-            DeleteTagCommand = new RelayCommand<string>(DeleteTagCommandHandler, () => true);
-            CancelEditCommand = new RelayCommand(CancelEditCommandHandler, () => true);
-            RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotficationCommandHandler, () => true);
-
-            DueDateBackground = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
-
-            ColorKeys = new ObservableCollection<ComboBoxItem>();
-            ColorKeys.Add(new ComboBoxItem { Content = "High" });
-            ColorKeys.Add(new ComboBoxItem { Content = "Normal" });
-            ColorKeys.Add(new ComboBoxItem { Content = "Low" });
-
-            ReminderTimes = new ObservableCollection<ComboBoxItem>();
-            ReminderTimes.Add(new ComboBoxItem { Content = "None" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "At Time of Due Date" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "5 Minutes Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "10 Minutes Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "15 Minutes Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "1 Hour Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "2 Hours Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "1 Day Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "2 Days Before" });
-
-            if (Board.Tasks != null && board.Tasks.Any())   // hack
-                foreach (PresentationTask task in Board.Tasks)
-                {
-                    task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
-                    task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
-                }
-        }
-
-        
 
         #region CommandHandlers
 
@@ -458,8 +452,6 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-
-
         /// <summary>
         /// Schedules a toast notification using <see cref="ToastHelper"/> if the current task 
         /// has a selected due date, time due, reminder time when called.
@@ -680,12 +672,12 @@ namespace KanbanTasker.ViewModels
                 );
 
                 if (DateTimeOffset.Compare(taskDueDate, today) < 0)
-                    DueDateBackground = new SolidColorBrush(Windows.UI.Colors.Red) { Opacity = 0.6 };
+                    DueDateBackgroundBrush = new SolidColorBrush(Windows.UI.Colors.Red) { Opacity = 0.6 };
                 else
-                    DueDateBackground = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+                    DueDateBackgroundBrush = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
             }
             else
-                DueDateBackground = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+                DueDateBackgroundBrush = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
         }
 
         /// <summary>
