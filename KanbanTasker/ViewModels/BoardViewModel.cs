@@ -222,7 +222,14 @@ namespace KanbanTasker.ViewModels
         {
             PaneTitle = "New Task";
             string category = tag?.Header?.ToString();
-            CurrentTask = new PresentationTask(new TaskDTO() { Category = category }) { Board = Board, BoardId = Board.ID,  ColorKeyComboBoxItem = ColorKeys[1], ReminderTimeComboBoxItem = ReminderTimes[0] };
+
+            CurrentTask = new PresentationTask(new TaskDTO() { Category = category }) { 
+                Board = Board, 
+                BoardId = Board.ID,
+                ColorKeyComboBoxItem = ColorKeys[1],
+                ReminderTimeComboBoxItem = ReminderTimes[0] 
+            };
+
             OriginalTask = null; 
             IsEditingTask = true;
             InitializeSuggestedTags();
@@ -269,9 +276,16 @@ namespace KanbanTasker.ViewModels
                 Board.Tasks.Add(CurrentTask);
             }
 
-            PrepareToastNotification();
+            if (IsReminderInformationNull())
+                PrepareAndScheduleToastNotification();
 
             MessagePump.Show("Task was saved successfully", MessageDuration);
+        }
+
+        public bool IsReminderInformationNull()
+        {
+            return (CurrentTask.DueDate != null && CurrentTask.TimeDue != null &&
+                CurrentTask.ReminderTime != "None" && CurrentTask.ReminderTime != "");
         }
 
         public void DeleteTaskCommandHandler(int taskID)
@@ -337,7 +351,7 @@ namespace KanbanTasker.ViewModels
 
                 // Check if a toast notification was deleted
                 if (OriginalTask.ReminderTime != "None")
-                    PrepareToastNotification();
+                    PrepareAndScheduleToastNotification();
 
                 // Reset combo box selected item since UWP Combobox doesn't bind correctly
                 switch (OriginalTask.ColorKey)
@@ -450,14 +464,16 @@ namespace KanbanTasker.ViewModels
         /// Schedules a toast notification using <see cref="ToastHelper"/> if the current task 
         /// has a selected due date, time due, reminder time when called.
         /// </summary>
-        private void PrepareToastNotification()
+        private void PrepareAndScheduleToastNotification()
         {
             // Note: UWP TimePicker doesn't support Nullable values, defaults to a value either way
             var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
             var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
             var reminderTime = CurrentTask.ReminderTime;
 
-            if (dueDate != null && timeDue != null && reminderTime != "None" && reminderTime != "")
+            if (reminderTime.Equals("None"))
+                ToastHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
+            else
             {
                 // Combine due date and time due
                 // ToastNotifications require a non-nullable DateTimeOffset
@@ -497,8 +513,6 @@ namespace KanbanTasker.ViewModels
                 ToastHelper.ScheduleTaskDueNotification(CurrentTask.ID.ToString(), CurrentTask.Title,
                     CurrentTask.Description, scheduledTime, taskDueDate);
             }
-            else if (reminderTime == "None")
-                ToastHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
         }
 
         /// <summary>
