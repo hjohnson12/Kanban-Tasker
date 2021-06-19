@@ -1,5 +1,5 @@
 ﻿using KanbanTasker.Base;
-using KanbanTasker.Helpers.Extensions;
+using KanbanTasker.Extensions;
 using KanbanTasker.Models;
 using System;
 using System.Collections.Generic;

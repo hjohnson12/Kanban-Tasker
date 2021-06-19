@@ -1,4 +1,4 @@
-﻿using KanbanTasker.Helpers.Extensions;
+﻿using KanbanTasker.Extensions;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;

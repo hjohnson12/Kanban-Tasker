@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KanbanTasker.Helpers.Extensions;
+using KanbanTasker.Extensions;
 using Windows.UI.Xaml.Data;
 
 namespace KanbanTasker.Converters.Text

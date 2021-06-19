@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Navigation;
 using Autofac;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using LeaderAnalytics.AdaptiveClient.Utilities;
 using System.Collections.Generic;
 using LeaderAnalytics.AdaptiveClient;
 using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;

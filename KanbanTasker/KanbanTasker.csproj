@@ -143,7 +143,7 @@
     <Compile Include="Helpers\CalendarViewHelper.cs" />
     <Compile Include="Helpers\CustomKanbanColumn.cs" />
     <Compile Include="Helpers\Microsoft Graph\Authentication\AuthenticationProvider.cs" />
-    <Compile Include="Helpers\Extensions\CustomExtensionMethods.cs" />
+    <Compile Include="Extensions\CustomExtensionMethods.cs" />
     <Compile Include="Helpers\Microsoft Graph\GraphServiceHelper.cs" />
     <Compile Include="Helpers\ToastHelper.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
@@ -364,9 +364,7 @@
       <Version>19.1.0.66</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataAccess\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\KanbanTasker.Model\KanbanTasker.Model.csproj">
       <Project>{f02c8182-e2c1-4d7e-957a-353fc45494f9}</Project>

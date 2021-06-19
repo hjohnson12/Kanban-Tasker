@@ -1,22 +1,14 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using KanbanTasker.Services.SQLite;
-using KanbanTasker.Helpers;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
-using System.Diagnostics;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
 using KanbanTasker.ViewModels;
 using System.Threading;
-using Autofac.Core;
 using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using KanbanTasker.Helpers.Microsoft_Graph;
 using System.Net;
-using Microsoft.UI.Xaml.Media;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

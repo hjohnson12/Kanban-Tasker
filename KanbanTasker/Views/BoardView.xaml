@@ -136,12 +136,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
-                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}">
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                    Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -879,7 +879,7 @@
                                             Grid.Column="1"
                                             Margin="36,10,8,0"
                                             HorizontalAlignment="Stretch"
-                                            Background="{x:Bind ViewModel.DueDateBackground, Mode=OneWay}"
+                                            Background="{x:Bind ViewModel.DueDateBackgroundBrush, Mode=OneWay}"
                                             Date="{x:Bind ViewModel.CurrentTask.DueDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
                                             Foreground="Red"

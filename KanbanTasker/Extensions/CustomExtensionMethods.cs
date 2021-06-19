@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanTasker.Helpers.Extensions
+namespace KanbanTasker.Extensions
 {
     public static class CustomExtensionMethods
     {

@@ -9,7 +9,7 @@ using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Syncfusion.UI.Xaml.Kanban;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using KanbanTasker.Helpers.Extensions;
+using KanbanTasker.Extensions;
 using KanbanTasker.Helpers;
 using LeaderAnalytics.AdaptiveClient;
 using Windows.UI.Xaml;
