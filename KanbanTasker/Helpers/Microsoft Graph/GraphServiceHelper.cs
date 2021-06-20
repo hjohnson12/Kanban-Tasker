@@ -210,6 +210,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
             {
                 var driveItem = new DriveItem
                 {
+                    
                     Name = folderName,
                     Folder = new Folder
                     {
@@ -220,7 +221,7 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
                     }
                 };
 
-                return await GraphClient.Me.Drive.Root.Children
+                return await GraphClient.Me.Drive.Root.ItemWithPath("Applications").Children
                     .Request()
                     .AddAsync(driveItem);
             }
@@ -281,9 +282,11 @@ namespace KanbanTasker.Helpers.Microsoft_Graph
                     await storageFolder.GetFileAsync(dataFilename);
 
                 // Stream for the backed up data file
-                var backedUpFileStream = await GraphClient.Me.Drive.Items[itemId].ItemWithPath(dataFilename).Content
-                            .Request()
-                            .GetAsync();
+                var backedUpFileStream = await GraphClient.Me.Drive.Items[itemId]
+                    .ItemWithPath(dataFilename)
+                    .Content
+                    .Request()
+                    .GetAsync();
                 
                 // Backed up file
                 var backedUpFile = await storageFolder.CreateFileAsync("temp", CreationCollisionOption.ReplaceExisting);
