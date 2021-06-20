@@ -6,6 +6,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -33,9 +34,10 @@ namespace KanbanTasker.Views
         private async void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new SettingsView();
+            CloseAllOpenPopups();
             var result = await dialog.ShowAsync();
         }
-
+       
         // This is a hack - works for the moment but there are other ways to show / hide flyouts
         private void ShowFlyout(object sender, RoutedEventArgs e)
         {
@@ -54,6 +56,7 @@ namespace KanbanTasker.Views
             // Hides the EditConfirmationFlyout if user chose to edit board
             if (ActiveFlyout != null)
                 ActiveFlyout.Hide();
+            CloseAllOpenPopups();
 
             var dialog = new EditBoardDialogView(ViewModel);
             var result = await dialog.ShowAsync();
@@ -88,8 +91,21 @@ namespace KanbanTasker.Views
         {
             if (ViewModel.CurrentBoard != null)
             {
+                CloseAllOpenPopups();
                 var dialog = new CalendarDialogView(ViewModel);
                 var result = await dialog.ShowAsync();
+            }
+        }
+
+        private static void CloseAllOpenPopups()
+        {
+            var popups = VisualTreeHelper.GetOpenPopups(Window.Current);
+            foreach (var popup in popups)
+            {
+                if (popup.Child is ContentDialog dialog)
+                {
+                    dialog.Hide();
+                }
             }
         }
     }
