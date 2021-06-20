@@ -1,4 +1,6 @@
-﻿using KanbanTasker.ViewModels;
+﻿using Autofac;
+using KanbanTasker.Services;
+using KanbanTasker.ViewModels;
 using System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -16,14 +18,16 @@ namespace KanbanTasker.Views
     {
         public MainViewModel ViewModel { get; set; }
         private FlyoutBase ActiveFlyout;
-
+        
         public MainView()
         {
             this.InitializeComponent();
 
             // Set XAML element as a draggable region.
             Window.Current.SetTitleBar(AppTitleBar);
-            ViewModel = App.GetViewModel(contentFrame, KanbanInAppNotification);
+
+            var appNotificationService = App.container.Resolve<IAppNotificationService>();
+            ViewModel = App.GetViewModel(contentFrame, appNotificationService);
         }
 
         private async void BtnSettings_Click(object sender, RoutedEventArgs e)

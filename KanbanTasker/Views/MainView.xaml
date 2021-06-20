@@ -215,6 +215,7 @@
                     VerticalAlignment="Bottom"
                     x:FieldModifier="public"
                     BorderThickness="1"
+                    Foreground="White"
                     Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
             </Grid>
         </NavigationView>

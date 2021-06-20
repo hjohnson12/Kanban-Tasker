@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="AdaptiveClient" Version="1.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
-    <PackageReference Include="Microsoft.Toolkit" Version="7.0.2" />
+    <PackageReference Include="Microsoft.Toolkit" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

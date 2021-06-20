@@ -187,7 +187,7 @@
 
     <Style x:Key="CustomKanbanInAppNotificationStyle" TargetType="controls:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="Visibility" Value="Collapsed" />
         <Setter Property="BorderThickness" Value="0" />

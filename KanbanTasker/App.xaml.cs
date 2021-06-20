@@ -24,6 +24,7 @@ using Microsoft.AppCenter.Crashes;
 using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using Microsoft.Graph;
 using Application = Windows.UI.Xaml.Application;
+using KanbanTasker.Services;
 
 namespace KanbanTasker
 {
@@ -37,8 +38,7 @@ namespace KanbanTasker
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         /// 
-        private static IContainer container;
-
+        public static IContainer container;
         private string[] scopes = new string[] { "files.readwrite", "user.read" };
         private string appId = "422b281b-be2b-4d8a-9410-7605c92e4ff1";
         private static AuthenticationProvider authProvider;
@@ -94,9 +94,9 @@ namespace KanbanTasker
                    typeof(Analytics), typeof(Crashes));
         }
 
-        public static MainViewModel GetViewModel(Frame frame, InAppNotification messagePump)
+        public static MainViewModel GetViewModel(Frame frame, IAppNotificationService messagePump)
         {
-            return container.Resolve<MainViewModel>(new TypedParameter(typeof(Frame), frame), new TypedParameter(typeof(InAppNotification), messagePump));
+            return container.Resolve<MainViewModel>(new TypedParameter(typeof(Frame), frame), new TypedParameter(typeof(IAppNotificationService), messagePump));
         }
 
         public async void InitializeAuthProvider()

@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using LeaderAnalytics.AdaptiveClient;
+using KanbanTasker.Services;
 
 namespace KanbanTasker.ViewModels
 {
@@ -19,14 +20,14 @@ namespace KanbanTasker.ViewModels
         private ObservableCollection<BoardViewModel> _boardList;
         private BoardViewModel _currentBoard;
         private string _boardEditorTitle;
-        private InAppNotification messagePump;
+        private IAppNotificationService messagePump;
         // _tmpBoard is used to save the current board when a user clicks the Add button, than cancels.
         // Should be able to remove this property when this ticket is fixed: https://github.com/microsoft/microsoft-ui-xaml/issues/1200
         private BoardViewModel _tmpBoard;
         private string _oldBoardName;
         private string _oldBoardNotes;
 
-        public Func<PresentationBoard, InAppNotification, BoardViewModel> boardViewModelFactory;
+        public Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory;
         private IAdaptiveClient<IServiceManifest> dataProvider;
         public ICommand NewBoardCommand { get; set; }
         public ICommand EditBoardCommand { get; set; }
@@ -39,7 +40,7 @@ namespace KanbanTasker.ViewModels
         ///  Sorts the tasks by column index so that they are
         ///  loaded in as they were left when the app was last closed.
         /// </summary>
-        public MainViewModel(Func<PresentationBoard, InAppNotification, BoardViewModel> boardViewModelFactory, IAdaptiveClient<IServiceManifest> dataProvider, Frame navigationFrame, InAppNotification messagePump)
+        public MainViewModel(Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory, IAdaptiveClient<IServiceManifest> dataProvider, Frame navigationFrame, IAppNotificationService messagePump)
         {
             this.navigationFrame = navigationFrame;
             this.messagePump = messagePump;
@@ -201,7 +202,7 @@ namespace KanbanTasker.ViewModels
             RowOpResult<BoardDTO> result = null;
             // Add board to db and collection
             result = dataProvider.Call(x => x.BoardServices.SaveBoard(dto));
-            messagePump.Show(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
+            messagePump.DisplayNotificationAsync(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
             if (isNew && result.Success)
             {
                 CurrentBoard.Board.ID = result.Entity.Id;

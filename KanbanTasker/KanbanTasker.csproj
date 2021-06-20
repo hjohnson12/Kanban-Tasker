@@ -148,6 +148,8 @@
     <Compile Include="Helpers\ToastHelper.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
     <Compile Include="Models\PresentationTask.cs" />
+    <Compile Include="Services\AppNotificationService.cs" />
+    <Compile Include="Services\IAppNotificationService.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

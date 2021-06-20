@@ -14,6 +14,7 @@ using KanbanTasker.Helpers;
 using LeaderAnalytics.AdaptiveClient;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using KanbanTasker.Services;
 
 namespace KanbanTasker.ViewModels
 {
@@ -39,7 +40,7 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// Initializes the commands and tasks for the current board.
         /// </summary>
-        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, InAppNotification messagePump)
+        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, IAppNotificationService messagePump)
         {
             Board = board;
             DataProvider = dataProvider;
@@ -204,7 +205,7 @@ namespace KanbanTasker.ViewModels
             set;
         }
 
-        private InAppNotification MessagePump;
+        private IAppNotificationService MessagePump;
         private ObservableCollection<string> _suggestedTagsCollection;
         private const int MessageDuration = 3000;
 
@@ -273,7 +274,7 @@ namespace KanbanTasker.ViewModels
             if (IsReminderInformationNull())
                 PrepareAndScheduleToastNotification();
 
-            MessagePump.Show("Task was saved successfully", MessageDuration);
+            MessagePump.DisplayNotificationAsync("Task was saved successfully", MessageDuration);
         }
 
         public bool IsReminderInformationNull()
@@ -309,21 +310,21 @@ namespace KanbanTasker.ViewModels
                     //otherTask.ColumnIndex -= 1;
                     UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
                 }
-                MessagePump.Show("Task deleted from board successfully", MessageDuration);
+                MessagePump.DisplayNotificationAsync("Task deleted from board successfully", MessageDuration);
             }
             else
-                MessagePump.Show("Task failed to be deleted. Please try again or restart the application.", MessageDuration);
+                MessagePump.DisplayNotificationAsync("Task failed to be deleted. Please try again or restart the application.", MessageDuration);
         }
 
         public void DeleteTagCommandHandler(string tag)
         {
             if (CurrentTask == null)
             {
-                MessagePump.Show("Tag failed to be deleted.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                MessagePump.DisplayNotificationAsync("Tag failed to be deleted.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
                 return;
             }
             CurrentTask.Tags.Remove(tag);
-            MessagePump.Show("Tag deleted successfully", MessageDuration);
+            MessagePump.DisplayNotificationAsync("Tag deleted successfully", MessageDuration);
         }
 
         public void CancelEditCommandHandler()
@@ -408,19 +409,19 @@ namespace KanbanTasker.ViewModels
 
             if (CurrentTask == null)
             {
-                MessagePump.Show("Tag failed to be added.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                MessagePump.DisplayNotificationAsync("Tag failed to be added.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
                 return result;
             }
 
             if (CurrentTask.Tags.Contains(tag))
-                MessagePump.Show("Tag already exists", 3000);
+                MessagePump.DisplayNotificationAsync("Tag already exists", 3000);
             else
             {
                 CurrentTask.Tags.Add(tag);
                 if (!Board.TagsCollection.Contains(tag))
                     Board.TagsCollection.Add(tag);
                 SuggestedTagsCollection.Remove(tag);
-                MessagePump.Show($"Tag {tag} added successfully", 3000);
+                MessagePump.DisplayNotificationAsync($"Tag {tag} added successfully", 3000);
                 result = true;
             }
             return result;
@@ -570,7 +571,7 @@ namespace KanbanTasker.ViewModels
         public void SetDueDate(string dueDate)
         {
             if (CurrentTask == null)
-                MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                MessagePump.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
             CurrentTask.DueDate = dueDate;
             CheckIfPassedDueDate();
@@ -583,7 +584,7 @@ namespace KanbanTasker.ViewModels
         public void SetStartDate(string startDate)
         {
             if (CurrentTask == null)
-                MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                MessagePump.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
             CurrentTask.StartDate = startDate;
 
@@ -607,7 +608,7 @@ namespace KanbanTasker.ViewModels
         public void SetFinishDate(string finishDate)
         {
             if (CurrentTask == null)
-                MessagePump.Show("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                MessagePump.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
             CurrentTask.FinishDate = finishDate;
 
@@ -631,7 +632,7 @@ namespace KanbanTasker.ViewModels
         public void SetTimeDue(string timeDue)
         {
             if (CurrentTask == null)
-                MessagePump.Show("Failed to set time due.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                MessagePump.DisplayNotificationAsync("Failed to set time due.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
 
             CurrentTask.TimeDue = timeDue;
             CheckIfPassedDueDate();
@@ -646,7 +647,7 @@ namespace KanbanTasker.ViewModels
         /// <param name="message"></param>
         public void ShowInAppNotification(string message)
         {
-            MessagePump.Show(message, MessageDuration);
+            MessagePump.DisplayNotificationAsync(message, MessageDuration);
         }
 
         /// <summary>

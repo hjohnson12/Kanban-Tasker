@@ -14,6 +14,8 @@ namespace KanbanTasker
             base.Load(builder);
             builder.RegisterType<ViewModels.BoardViewModel>();
             builder.RegisterType<ViewModels.MainViewModel>();
+            builder.RegisterType<Services.AppNotificationService>().As<Services.IAppNotificationService>()
+                .SingleInstance();
         }
     }
 }
