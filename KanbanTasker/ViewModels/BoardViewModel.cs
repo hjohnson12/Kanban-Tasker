@@ -21,7 +21,10 @@ namespace KanbanTasker.ViewModels
     public class BoardViewModel : Observable
     {
         private PresentationBoard _board;
-        private PresentationTask _currentTask;   
+        private PresentationTask _currentTask;
+        private readonly IAppNotificationService _appNotificationService;
+        private const int NOTIFICATION_DURATION = 3000;
+        private ObservableCollection<string> _suggestedTagsCollection;
         private Brush _dueDateBackgroundBrush;
         private string _paneTitle;
         private bool _isPointerEntered = false;
@@ -40,11 +43,11 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// Initializes the commands and tasks for the current board.
         /// </summary>
-        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, IAppNotificationService messagePump)
+        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, IAppNotificationService appNotificationService)
         {
             Board = board;
             DataProvider = dataProvider;
-            MessagePump = messagePump;
+            _appNotificationService = appNotificationService;
 
             CurrentTask = new PresentationTask(new TaskDTO());
             NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
@@ -205,10 +208,6 @@ namespace KanbanTasker.ViewModels
             set;
         }
 
-        private IAppNotificationService MessagePump;
-        private ObservableCollection<string> _suggestedTagsCollection;
-        private const int MessageDuration = 3000;
-
         #endregion Properties
 
         #region CommandHandlers
@@ -274,7 +273,7 @@ namespace KanbanTasker.ViewModels
             if (IsReminderInformationNull())
                 PrepareAndScheduleToastNotification();
 
-            MessagePump.DisplayNotificationAsync("Task was saved successfully", MessageDuration);
+            _appNotificationService.DisplayNotificationAsync("Task was saved successfully", NOTIFICATION_DURATION);
         }
 
         public bool IsReminderInformationNull()
@@ -310,21 +309,21 @@ namespace KanbanTasker.ViewModels
                     //otherTask.ColumnIndex -= 1;
                     UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
                 }
-                MessagePump.DisplayNotificationAsync("Task deleted from board successfully", MessageDuration);
+                _appNotificationService.DisplayNotificationAsync("Task deleted from board successfully", NOTIFICATION_DURATION);
             }
             else
-                MessagePump.DisplayNotificationAsync("Task failed to be deleted. Please try again or restart the application.", MessageDuration);
+                _appNotificationService.DisplayNotificationAsync("Task failed to be deleted. Please try again or restart the application.", NOTIFICATION_DURATION);
         }
 
         public void DeleteTagCommandHandler(string tag)
         {
             if (CurrentTask == null)
             {
-                MessagePump.DisplayNotificationAsync("Tag failed to be deleted.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                _appNotificationService.DisplayNotificationAsync("Tag failed to be deleted.  CurrentTask is null. Please try again or restart the application.", NOTIFICATION_DURATION);
                 return;
             }
             CurrentTask.Tags.Remove(tag);
-            MessagePump.DisplayNotificationAsync("Tag deleted successfully", MessageDuration);
+            _appNotificationService.DisplayNotificationAsync("Tag deleted successfully", NOTIFICATION_DURATION);
         }
 
         public void CancelEditCommandHandler()
@@ -409,19 +408,19 @@ namespace KanbanTasker.ViewModels
 
             if (CurrentTask == null)
             {
-                MessagePump.DisplayNotificationAsync("Tag failed to be added.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                _appNotificationService.DisplayNotificationAsync("Tag failed to be added.  CurrentTask is null. Please try again or restart the application.", NOTIFICATION_DURATION);
                 return result;
             }
 
             if (CurrentTask.Tags.Contains(tag))
-                MessagePump.DisplayNotificationAsync("Tag already exists", 3000);
+                _appNotificationService.DisplayNotificationAsync("Tag already exists", 3000);
             else
             {
                 CurrentTask.Tags.Add(tag);
                 if (!Board.TagsCollection.Contains(tag))
                     Board.TagsCollection.Add(tag);
                 SuggestedTagsCollection.Remove(tag);
-                MessagePump.DisplayNotificationAsync($"Tag {tag} added successfully", 3000);
+                _appNotificationService.DisplayNotificationAsync($"Tag {tag} added successfully", 3000);
                 result = true;
             }
             return result;
@@ -571,7 +570,7 @@ namespace KanbanTasker.ViewModels
         public void SetDueDate(string dueDate)
         {
             if (CurrentTask == null)
-                MessagePump.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                _appNotificationService.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", NOTIFICATION_DURATION);
 
             CurrentTask.DueDate = dueDate;
             CheckIfPassedDueDate();
@@ -584,7 +583,7 @@ namespace KanbanTasker.ViewModels
         public void SetStartDate(string startDate)
         {
             if (CurrentTask == null)
-                MessagePump.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                _appNotificationService.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", NOTIFICATION_DURATION);
 
             CurrentTask.StartDate = startDate;
 
@@ -608,7 +607,7 @@ namespace KanbanTasker.ViewModels
         public void SetFinishDate(string finishDate)
         {
             if (CurrentTask == null)
-                MessagePump.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                _appNotificationService.DisplayNotificationAsync("Failed to set due date.  CurrentTask is null. Please try again or restart the application.", NOTIFICATION_DURATION);
 
             CurrentTask.FinishDate = finishDate;
 
@@ -632,7 +631,7 @@ namespace KanbanTasker.ViewModels
         public void SetTimeDue(string timeDue)
         {
             if (CurrentTask == null)
-                MessagePump.DisplayNotificationAsync("Failed to set time due.  CurrentTask is null. Please try again or restart the application.", MessageDuration);
+                _appNotificationService.DisplayNotificationAsync("Failed to set time due.  CurrentTask is null. Please try again or restart the application.", NOTIFICATION_DURATION);
 
             CurrentTask.TimeDue = timeDue;
             CheckIfPassedDueDate();
@@ -647,7 +646,7 @@ namespace KanbanTasker.ViewModels
         /// <param name="message"></param>
         public void ShowInAppNotification(string message)
         {
-            MessagePump.DisplayNotificationAsync(message, MessageDuration);
+            _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
         }
 
         /// <summary>
