@@ -14,6 +14,33 @@
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
     mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
+            <UserControl>
+                <Grid>
+                    <Grid x:Name="RootGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            x:Name="TextBlock"
+                            Grid.RowSpan="2"
+                            VerticalAlignment="Center"
+                            Text="Do you like it?" />
+
+
+                    </Grid>
+                </Grid>
+            </UserControl>
+        </DataTemplate>
+    </Page.Resources>
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -214,9 +241,12 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     x:FieldModifier="public"
+                    Background="#FF1D1D1D"
                     BorderThickness="1"
+                    CornerRadius="4"
+                    FontSize="15"
                     Foreground="White"
-                    Style="{StaticResource CustomKanbanInAppNotificationStyle}" />
+                    ShowDismissButton="False" />
             </Grid>
         </NavigationView>
         <ContentDialog />
