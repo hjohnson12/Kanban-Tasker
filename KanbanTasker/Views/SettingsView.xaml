@@ -82,7 +82,8 @@
                                 <TextBlock
                                     x:Name="txtResults"
                                     VerticalAlignment="Center"
-                                    FontWeight="Bold" />
+                                    FontWeight="Bold"
+                                    Text="{x:Bind ViewModel.WelcomeText, Mode=OneWay}" />
                             </StackPanel>
                             <StackPanel
                                 Grid.Row="1"
@@ -126,6 +127,7 @@
                                             x:Name="BackupTip"
                                             Title="Confirm Data Backup"
                                             ActionButtonClick="BackupTip_ActionButtonClick"
+                                            ActionButtonCommand="{x:Bind ViewModel.BackupDatabaseCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
@@ -149,6 +151,7 @@
                                             x:Name="RestoreTip"
                                             Title="Confirm Data Restore"
                                             ActionButtonClick="RestoreTip_ActionButtonClick"
+                                            ActionButtonCommand="{x:Bind ViewModel.RestoreDatabaseCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
@@ -163,12 +166,14 @@
                                     x:Name="btnSignOutTip"
                                     Margin="4,2,4,4"
                                     HorizontalAlignment="Stretch"
-                                    Click="btnSignOut_Click">
+                                    Click="btnSignOut_Click"
+                                    IsEnabled="{x:Bind ViewModel.IsSignoutEnabled, Mode=OneWay}">
                                     <Button.Resources>
                                         <muxc:TeachingTip
                                             x:Name="SignOutPopup"
                                             Title="Confirm Sign Out"
                                             ActionButtonClick="SignOutPopup_ConfirmClick"
+                                            ActionButtonCommand="{x:Bind ViewModel.SignoutUserCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
@@ -393,7 +398,7 @@
             Height="100"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsActive="False" />
+            IsActive="{x:Bind ViewModel.IsProgressRingActive, Mode=Oneway}" />
         <controls:InAppNotification
             x:Name="SettingsAppNotification"
             HorizontalAlignment="Right"

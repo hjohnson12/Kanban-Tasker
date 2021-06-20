@@ -40,11 +40,20 @@ namespace KanbanTasker.Helpers.Microsoft_Graph.Authentication
             authResult = null;
         }
 
+        public async Task<IAccount> GetSignedInUser()
+        {
+            IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
+            IAccount firstAccount = accounts.FirstOrDefault();
+            return firstAccount;
+        }
+
         public async Task<string> GetAccessToken()
         {
             // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
             IAccount firstAccount = accounts.FirstOrDefault();
+
+            _userAccount = firstAccount;
 
             // If there is no saved user account, the user must sign-in
             if (_userAccount == null)

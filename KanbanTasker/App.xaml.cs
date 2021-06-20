@@ -25,6 +25,7 @@ using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using Microsoft.Graph;
 using Application = Windows.UI.Xaml.Application;
 using KanbanTasker.Services;
+using KanbanTasker.Helpers.Microsoft_Graph;
 
 namespace KanbanTasker
 {
@@ -99,13 +100,19 @@ namespace KanbanTasker
             return container.Resolve<MainViewModel>(new TypedParameter(typeof(Frame), frame), new TypedParameter(typeof(IAppNotificationService), messagePump));
         }
 
-        public async void InitializeAuthProvider()
+        /// <summary>
+        /// Gets the current user from Microsoft Graph if they are still authenticated with the application.
+        /// </summary>
+        public async void GetCurrentUserIfSignedIn()
         {
-            // Initialize Authentication Provider
             authProvider = new AuthenticationProvider(appId, scopes);
-
-            // Remove any old cached accounts
-            //await authProvider.SignOut();
+            GraphServiceHelper.InitializeClient(authProvider);
+            var account = await authProvider.GetSignedInUser();
+            if (account != null)
+            {
+                await authProvider.GetAccessToken();
+                CurrentUser = await GraphServiceHelper.GetMeAsync();
+            }
         }
 
         public static AuthenticationProvider GetAuthenticationProvider()
@@ -176,7 +183,7 @@ namespace KanbanTasker
 
                 SetupStoreServices();
 
-                InitializeAuthProvider();
+                GetCurrentUserIfSignedIn();
 
                 CheckForUpdateOrFirstRun();
             }
