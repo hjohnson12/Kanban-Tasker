@@ -1231,7 +1231,7 @@
                     Title="Backlog"
                     Categories="Backlog"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="100">
+                    MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1244,7 +1244,7 @@
                     Title="To Do"
                     Categories="To Do"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="100">
+                    MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1257,7 +1257,7 @@
                     Title="In Progress"
                     Categories="In Progress"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="100">
+                    MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1270,7 +1270,7 @@
                     Title="Review"
                     Categories="Review"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="100">
+                    MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1283,7 +1283,7 @@
                     Title="Completed"
                     Categories="Completed"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="100">
+                    MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
