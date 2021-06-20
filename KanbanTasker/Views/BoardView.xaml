@@ -808,7 +808,7 @@
                                 x:Name="dateInformationExpander"
                                 Margin="0,0,0,10"
                                 VerticalAlignment="Top"
-                                HorizontalContentAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
                                 Background="{ThemeResource RegionBrush}"
                                 ExpandDirection="Down"
                                 Header="Date Information"
@@ -817,13 +817,13 @@
                                     <DataTemplate>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <SymbolIcon Symbol="Calendar" />
                                             <TextBlock
                                                 Grid.Column="1"
-                                                Margin="8,0,0,0"
+                                                Margin="16,0,0,0"
                                                 Text="Date Information" />
                                         </Grid>
                                     </DataTemplate>
