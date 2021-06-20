@@ -43,7 +43,10 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// Initializes the commands and tasks for the current board.
         /// </summary>
-        public BoardViewModel(PresentationBoard board, IAdaptiveClient<IServiceManifest> dataProvider, IAppNotificationService appNotificationService)
+        public BoardViewModel(
+            PresentationBoard board,
+            IAdaptiveClient<IServiceManifest> dataProvider,
+            IAppNotificationService appNotificationService)
         {
             Board = board;
             DataProvider = dataProvider;

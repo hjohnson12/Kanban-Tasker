@@ -40,7 +40,10 @@ namespace KanbanTasker.ViewModels
         ///  Sorts the tasks by column index so that they are
         ///  loaded in as they were left when the app was last closed.
         /// </summary>
-        public MainViewModel(Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory, IAdaptiveClient<IServiceManifest> dataProvider, Frame navigationFrame, IAppNotificationService appNotificationService)
+        public MainViewModel(Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory,
+            IAdaptiveClient<IServiceManifest> dataProvider,
+            Frame navigationFrame,
+            IAppNotificationService appNotificationService)
         {
             this.navigationFrame = navigationFrame;
             this._appNotificationService = appNotificationService;
