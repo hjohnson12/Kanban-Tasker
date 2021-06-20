@@ -36,6 +36,7 @@ namespace KanbanTasker.Views
         {
             var selectedBoard = e.Parameter as BoardViewModel;
             ViewModel = selectedBoard;
+            DataContext = ViewModel;
         }
 
         #endregion Methods

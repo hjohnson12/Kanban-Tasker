@@ -14,6 +14,7 @@
     xmlns:textconverters="using:KanbanTasker.Converters.Text"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
     x:Name="boardViewPage"
+    d:DataContext="{d:DesignInstance Type=viewmodels:BoardViewModel}"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -1053,22 +1054,21 @@
                                         <TextBlock
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Text="Delete Task Disabled"
+                                            Text="Delete Task Confirmation"
                                             TextAlignment="Left" />
                                         <TextBlock
                                             Margin="0,4,0,0"
-                                            Text="This control is experiencing issues. Please use delete option on card."
+                                            Text="Are you sure you wish to delete this task?"
                                             TextAlignment="Left" />
                                         <StackPanel Orientation="Horizontal">
                                             <Button
                                                 x:Name="flyoutBtnDeleteCardYes"
                                                 Margin="0,8,8,0"
                                                 Click="PaneBtnDeleteTaskYes_Click"
-                                                Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTaskCommand}"
-                                                CommandParameter="{Binding CurrentTask.ID}"
+                                                Command="{x:Bind ViewModel.DeleteTaskCommand}"
+                                                CommandParameter="{x:Bind ViewModel.CurrentTask.ID, Mode=OneWay}"
                                                 Content="Yes, delete this"
-                                                CornerRadius="3"
-                                                IsEnabled="False" />
+                                                CornerRadius="3" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Flyout>

@@ -51,12 +51,13 @@ namespace KanbanTasker.ViewModels
             Board = board;
             DataProvider = dataProvider;
             _appNotificationService = appNotificationService;
+            PaneTitle = "New Task";
 
             CurrentTask = new PresentationTask(new TaskDTO());
             NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
             EditTaskCommand = new RelayCommand<int>(EditTaskCommandHandler, () => true);
             SaveTaskCommand = new RelayCommand(SaveTaskCommandHandler, () => true);
-            DeleteTaskCommand = new RelayCommand<int>(DeleteTaskCommandHandler, () => true);
+            DeleteTaskCommand = new RelayCommand<int>(DeleteTaskCommandHandler, () => PaneTitle.Equals("Edit Task") || PaneTitle.Equals(""));
             DeleteTagCommand = new RelayCommand<string>(DeleteTagCommandHandler, () => true);
             CancelEditCommand = new RelayCommand(CancelEditCommandHandler, () => true);
             RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotficationCommandHandler, () => true);
@@ -246,7 +247,7 @@ namespace KanbanTasker.ViewModels
         public void SaveTaskCommandHandler()
         {
             IsEditingTask = false;
-            
+            PaneTitle = "";
             if (dateCheckTimer != null)
                 dateCheckTimer.Stop();
 
@@ -287,6 +288,9 @@ namespace KanbanTasker.ViewModels
 
         public void DeleteTaskCommandHandler(int taskID)
         {
+            if (dateCheckTimer != null)
+                dateCheckTimer.Stop();
+
             PresentationTask task = Board.Tasks.First(x => x.ID == taskID);
             RowOpResult result = DataProvider.Call(x => x.TaskServices.DeleteTask(taskID));
 
@@ -332,7 +336,7 @@ namespace KanbanTasker.ViewModels
         public void CancelEditCommandHandler()
         {
             IsEditingTask = false;
-            
+            PaneTitle = "";
             if (dateCheckTimer != null)
                 dateCheckTimer.Stop();
 
