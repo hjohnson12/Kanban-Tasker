@@ -566,7 +566,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="appBarBtnClosePane_Click"
-                        Command="{Binding ElementName=boardViewPage, Path=ViewModel.SaveTaskCommand}"
+                        Command="{Binding ElementName=boardViewPage, Path=ViewModel.CancelEditCommand}"
                         Icon="OpenPane"
                         Label="Close Pane" />
                 </Grid>

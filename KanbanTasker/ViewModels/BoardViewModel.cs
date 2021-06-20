@@ -337,6 +337,7 @@ namespace KanbanTasker.ViewModels
         {
             IsEditingTask = false;
             PaneTitle = "";
+
             if (dateCheckTimer != null)
                 dateCheckTimer.Stop();
 
