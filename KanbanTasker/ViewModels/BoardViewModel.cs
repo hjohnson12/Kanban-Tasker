@@ -15,6 +15,7 @@ using LeaderAnalytics.AdaptiveClient;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using KanbanTasker.Services;
+using System.Threading.Tasks;
 
 namespace KanbanTasker.ViewModels
 {
@@ -30,6 +31,7 @@ namespace KanbanTasker.ViewModels
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
         private string _currentCategory;
+        private bool _isProgressRingActive = false;
         private DispatcherTimer dateCheckTimer;
         private IAdaptiveClient<IServiceManifest> DataProvider;
         public ICommand NewTaskCommand { get; set; }
@@ -130,6 +132,17 @@ namespace KanbanTasker.ViewModels
                     _dueDateBackgroundBrush = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        public bool IsProgressRingActive
+        {
+            get => _isProgressRingActive;
+            set
+            {
+                if (_isProgressRingActive != value)
+                    _isProgressRingActive = value;
+                OnPropertyChanged();
             }
         }
 
@@ -333,8 +346,10 @@ namespace KanbanTasker.ViewModels
             _appNotificationService.DisplayNotificationAsync("Tag deleted successfully", NOTIFICATION_DURATION);
         }
 
-        public void CancelEditCommandHandler()
+        public async void CancelEditCommandHandler()
         {
+            IsProgressRingActive = true;
+
             IsEditingTask = false;
             PaneTitle = "";
 
@@ -342,14 +357,18 @@ namespace KanbanTasker.ViewModels
                 dateCheckTimer.Stop();
 
             if (OriginalTask == null)
+            {
+                IsProgressRingActive = false;
                 return;
+            }
             // roll back changes to CurrentTask
             else
             {
                 int index = Board.Tasks.IndexOf(CurrentTask);
-                Board.Tasks.Remove(CurrentTask);
-                CurrentTask = new PresentationTask(OriginalTask.To_TaskDTO());
-                Board.Tasks.Insert(index, CurrentTask);
+                var tmp = new PresentationTask(OriginalTask.To_TaskDTO());
+                Board.Tasks[index] = tmp;
+                Board.Tasks = new ObservableCollection<PresentationTask>(
+                    Board.Tasks.OrderBy(x => x.ColumnIndex));
 
                 // Check if a toast notification was deleted
                 if (OriginalTask.ReminderTime != "None")
@@ -399,6 +418,7 @@ namespace KanbanTasker.ViewModels
                         break;
                 }
             }
+            IsProgressRingActive = false;
         }
 
         #endregion CommandHandlers

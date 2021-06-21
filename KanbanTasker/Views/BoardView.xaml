@@ -1292,7 +1292,14 @@
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>
             </syncfusion:SfKanban>
-
+            <ProgressRing
+                x:Name="progressRing"
+                Grid.Row="1"
+                Width="300"
+                Height="100"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsActive="{x:Bind ViewModel.IsProgressRingActive, Mode=Oneway}" />
             <!--  Shadow on left side of pane  -->
             <Rectangle
                 Grid.RowSpan="2"
