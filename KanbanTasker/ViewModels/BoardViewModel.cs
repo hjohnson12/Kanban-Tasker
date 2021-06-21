@@ -346,7 +346,7 @@ namespace KanbanTasker.ViewModels
             _appNotificationService.DisplayNotificationAsync("Tag deleted successfully", NOTIFICATION_DURATION);
         }
 
-        public async void CancelEditCommandHandler()
+        public void CancelEditCommandHandler()
         {
             IsProgressRingActive = true;
 
