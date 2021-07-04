@@ -1,12 +1,12 @@
-﻿using Autofac;
-using KanbanTasker.Services;
-using KanbanTasker.ViewModels;
-using System;
+﻿using System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
+using Autofac;
+using KanbanTasker.Services;
+using KanbanTasker.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,6 +28,7 @@ namespace KanbanTasker.Views
             Window.Current.SetTitleBar(AppTitleBar);
 
             var appNotificationService = App.container.Resolve<IAppNotificationService>();
+
             ViewModel = App.GetViewModel(contentFrame, appNotificationService);
         }
 

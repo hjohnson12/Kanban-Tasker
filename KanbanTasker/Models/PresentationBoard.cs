@@ -10,76 +10,11 @@ namespace KanbanTasker.Models
 {
     public class PresentationBoard : Base.Observable
     {
-        private int _Id;
-        private string _Name;
-        private string _Notes;
-        
-
-      //  public int ID { get => _Id; set { _Id = value; OnPropertyChanged(); } }
-        public int ID
-        {
-            get => _Id;
-            set
-            {
-                if (_Id != value)
-                {
-                    _Id = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public string Name
-        {
-            get => _Name;
-            set
-            {
-                if (_Name != value)
-                {
-                    _Name = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public string Notes
-        {
-            get { return _Notes; }
-            set
-            {
-                if (_Notes != value)
-                {
-                    _Notes = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private ObservableCollection<PresentationTask> _Tasks;
-        public ObservableCollection<PresentationTask> Tasks
-        {
-            get => _Tasks;
-            set
-            {
-                if (_Tasks != value)
-                {
-                    _Tasks = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private ObservableCollection<string> _TagsCollection;
-        public ObservableCollection<string> TagsCollection 
-        { 
-            get => _TagsCollection;
-            set
-            {
-                if(_TagsCollection != value)
-                {
-                    _TagsCollection = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        private int _id;
+        private string _name;
+        private string _notes;
+        private ObservableCollection<PresentationTask> _tasks;
+        private ObservableCollection<string> _tagsCollection;
 
         public PresentationBoard(BoardDTO dto)
         {
@@ -88,6 +23,51 @@ namespace KanbanTasker.Models
             Notes = dto.Notes;
             Tasks = new ObservableCollection<PresentationTask>();
             TagsCollection = new ObservableCollection<string>();
+        }
+
+        /// <summary>
+        /// The board ID
+        /// </summary>
+        public int ID
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+
+        /// <summary>
+        /// Name of the kanban board
+        /// </summary>
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        /// <summary>
+        /// A description of the board
+        /// </summary>
+        public string Notes
+        {
+            get => _notes;
+            set => SetProperty(ref _notes, value);
+        }
+
+        /// <summary>
+        /// A collection of tasks pertaining to a board's instance
+        /// </summary>
+        public ObservableCollection<PresentationTask> Tasks
+        {
+            get => _tasks;
+            set => SetProperty(ref _tasks, value);
+        }
+
+        /// <summary>
+        /// A collection of tags for a task available to this board
+        /// </summary>
+        public ObservableCollection<string> TagsCollection 
+        { 
+            get => _tagsCollection;
+            set => SetProperty(ref _tagsCollection, value);
         }
 
         public BoardDTO To_BoardDTO()

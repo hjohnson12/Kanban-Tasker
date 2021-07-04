@@ -28,80 +28,9 @@ namespace KanbanTasker.Models
         private string _daysSinceCreation;
         private int _id;
         private int _boardId;
-        private PresentationBoard _Board;
-
-        public int ID { get => _id; set { if (_id != value) { _id = value; OnPropertyChanged(); } } }
-        public int BoardId
-        {
-            get => _boardId;
-            set
-            {
-                if(_boardId != value)
-                {
-                    _boardId = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-     //   public string DateCreated { get => _dateCreated; set { _dateCreated = value; OnPropertyChanged(); } }
-        public string DateCreated
-        {
-            get => _dateCreated;
-            set
-            {
-                if (_dateCreated != value)
-                {
-                    _dateCreated = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public string DueDate { get => _dueDate; set { if (_dueDate != value) { _dueDate = value; OnPropertyChanged(); } } }
-        public string StartDate { get => _startDate; set { if (_startDate != value) { _startDate = value; OnPropertyChanged(); } } }
-        public string FinishDate { get => _finishDate; set { if (_finishDate != value) { _finishDate = value; OnPropertyChanged(); } } }
-        public string ReminderTime { get => _reminderTime; set { if (_reminderTime != value) { _reminderTime = value; OnPropertyChanged(); } } }
-        public string TimeDue { get => _timeDue; set { if (_timeDue != value) { _timeDue = value; OnPropertyChanged(); } } }
-        public string DaysWorkedOn { get => _daysWorkedOn; set { if (_daysWorkedOn != value) { _daysWorkedOn = value; OnPropertyChanged(); } } }
-        public string DaysSinceCreation { get => _daysSinceCreation; set { if (_daysSinceCreation != value) { _daysSinceCreation = value; OnPropertyChanged(); } } }
-        
-        public string Title { get => _title; set { if (_title != value) { _title = value; OnPropertyChanged(); } } }
-        public string Description { get => _description; set { if(_description != value) { _description = value; OnPropertyChanged(); } } }
-        public string Category { get => _category; set { if (_category != value) { _category = value; OnPropertyChanged(); } } }
-        public int ColumnIndex { get => _columnIndex; set { if (_columnIndex != value) { _columnIndex = value; OnPropertyChanged(); } } }
-        public string ColorKey { get => _colorKey; set { if (_colorKey != value) { _colorKey = value; OnPropertyChanged(); } } }
-        public ObservableCollection<string> Tags { get => _tags; set { if (_tags != value) { _tags = value; OnPropertyChanged(); } } }
-        public Uri ImageURL { get => _imageUrl; set { if (_imageUrl != value){ _imageUrl = value; OnPropertyChanged(); } } }
-        public PresentationBoard Board { get => _Board; set { if(_Board != value){ _Board = value; OnPropertyChanged(); } } }
-
-        private object _ColorKeyComboBoxItem;
-        public object ColorKeyComboBoxItem
-        {
-            get => _ColorKeyComboBoxItem;
-            set
-            {
-                if (_ColorKeyComboBoxItem != value)
-                {
-                    ColorKey = value == null ? null : ((ComboBoxItem)value).Content?.ToString();
-                    _ColorKeyComboBoxItem = value;
-                    OnPropertyChanged();
-                }
-            }
-        } // Hack --- Combobox cannot bind correctly.
-
-        private object _ReminderTimeComboBoxItem;
-        public object ReminderTimeComboBoxItem
-        {
-            get => _ReminderTimeComboBoxItem;
-            set
-            {
-                if (_ReminderTimeComboBoxItem != value)
-                {
-                    ReminderTime = value == null ? null : ((ComboBoxItem)value).Content?.ToString();
-                    _ReminderTimeComboBoxItem = value;
-                    OnPropertyChanged();
-                }
-            }
-        } // Hack --- Combobox cannot bind correctly.
+        private PresentationBoard _board;
+        private object _colorKeyComboBoxItem;
+        private object _reminderTimeComboBoxItem;
 
         public PresentationTask(TaskDTO dto)
         {
@@ -127,6 +56,142 @@ namespace KanbanTasker.Models
             Board = new PresentationBoard(dto?.Board ?? new BoardDTO());
         }
 
+        public PresentationBoard Board
+        {
+            get => _board;
+            set => SetProperty(ref _board, value);
+        }
+
+        public int ID 
+        { 
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+        
+        public int BoardId
+        {
+            get => _boardId;
+            set => SetProperty(ref _boardId, value);
+        }
+
+        public string Title 
+        { 
+            get => _title;
+            set => SetProperty(ref _title, value); 
+        }
+
+        public string Description 
+        { 
+            get => _description;
+            set => SetProperty(ref _description, value); 
+        }
+
+        public string Category 
+        { 
+            get => _category;
+            set => SetProperty(ref _category, value); 
+        }
+
+        public int ColumnIndex 
+        { 
+            get => _columnIndex;
+            set => SetProperty(ref _columnIndex, value);
+        }
+
+        public string ColorKey 
+        { 
+            get => _colorKey;
+            set => SetProperty(ref _colorKey, value);
+        }
+
+        public ObservableCollection<string> Tags 
+        { 
+            get => _tags;
+            set => SetProperty(ref _tags, value);
+        }
+
+        public Uri ImageURL 
+        { 
+            get => _imageUrl;
+            set => SetProperty(ref _imageUrl, value);
+        }
+
+        public string DateCreated
+        {
+            get => _dateCreated;
+            set => SetProperty(ref _dateCreated, value);
+        }
+
+        public string DueDate 
+        { 
+            get => _dueDate;
+            set => SetProperty(ref _dueDate, value);
+        }
+
+        public string StartDate 
+        { 
+            get => _startDate;
+            set => SetProperty(ref _startDate, value); 
+        }
+
+        public string FinishDate 
+        { 
+            get => _finishDate;
+            set => SetProperty(ref _finishDate, value); 
+        }
+
+        public string ReminderTime 
+        { 
+            get => _reminderTime;
+            set => SetProperty(ref _reminderTime, value); 
+        }
+
+        public string TimeDue 
+        { 
+            get => _timeDue;
+            set => SetProperty(ref _timeDue, value); 
+        }
+
+        public string DaysWorkedOn 
+        { 
+            get => _daysWorkedOn;
+            set => SetProperty(ref _daysWorkedOn, value); 
+        }
+
+        public string DaysSinceCreation 
+        { 
+            get => _daysSinceCreation;
+            set => SetProperty(ref _daysSinceCreation, value); 
+        }
+        
+        public object ColorKeyComboBoxItem
+        {
+            get => _colorKeyComboBoxItem;
+            set
+            {
+                if (_colorKeyComboBoxItem != value)
+                {
+                    ColorKey = value == null ? null : ((ComboBoxItem)value).Content?.ToString();
+                    _colorKeyComboBoxItem = value;
+                    OnPropertyChanged();
+                }
+            }
+        } // Hack --- Combobox cannot bind correctly.
+
+        public object ReminderTimeComboBoxItem
+        {
+            get => _reminderTimeComboBoxItem;
+            set
+            {
+                if (_reminderTimeComboBoxItem != value)
+                {
+                    ReminderTime = value == null ? null : ((ComboBoxItem)value).Content?.ToString();
+                    _reminderTimeComboBoxItem = value;
+                    OnPropertyChanged();
+                }
+            }
+        } // Hack --- Combobox cannot bind correctly.
+       
         public TaskDTO To_TaskDTO()
         {
             return new TaskDTO

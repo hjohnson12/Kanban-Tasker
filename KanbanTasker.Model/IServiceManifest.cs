@@ -4,8 +4,10 @@ using System.Text;
 
 namespace KanbanTasker.Model
 {
-    // This is a manifest, or list, of services available to Kanban.  It allows us to conveniently inject multiple services and also to call one service from within another.
-
+    /// <summary>
+    /// A manifest, or list, of services availble to Kanban to allow convenient
+    /// injection of multiple services and to call one service from within another.
+    /// </summary>
     public interface IServiceManifest
     {
         ITaskServices TaskServices { get; }

@@ -1,23 +1,23 @@
-﻿using KanbanTasker.Base;
-using System;
+﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Graph;
 using System.Text;
 using System.Threading.Tasks;
-using KanbanTasker.Services;
 using System.Windows.Input;
-using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
+using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using KanbanTasker.Base;
+using KanbanTasker.Services;
 using KanbanTasker.Helpers.Microsoft_Graph;
-using System.Net;
+using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 
 namespace KanbanTasker.ViewModels
 {
     public class SettingsViewModel : Observable
     {
-        private readonly IAppNotificationService _appNotificationService;
         private const int NOTIFICATION_DURATION = 3000;
+        private readonly IAppNotificationService _appNotificationService;
         public const string DataFilename = "ktdatabase.db";
         public const string BackupFolderName = "Kanban Tasker";
         private AuthenticationProvider authProvider;
@@ -37,6 +37,7 @@ namespace KanbanTasker.ViewModels
             SignoutUserCommand = new RelayCommand(SignOut, () => IsSignoutEnabled != false);
 
             _appNotificationService = appNotificationService;
+
             authProvider = App.GetAuthenticationProvider();
 
             if (App.CurrentUser != null)
@@ -54,35 +55,19 @@ namespace KanbanTasker.ViewModels
         public string WelcomeText
         {
             get => _welcomeText;
-            set
-            {
-                if (_welcomeText != value)
-                    _welcomeText = value;
-                OnPropertyChanged();
-
-            }
+            set => SetProperty(ref _welcomeText, value);
         }
 
         public bool IsSignoutEnabled
         {
             get => _isSignoutEnabled;
-            set
-            {
-                if (_isSignoutEnabled != value)
-                    _isSignoutEnabled = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _isSignoutEnabled, value);
         }
 
         public bool IsProgressRingActive
         {
             get => _isProgressRingActive;
-            set
-            {
-                if (_isProgressRingActive != value)
-                    _isProgressRingActive = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _isProgressRingActive, value);
         }
 
         /// <summary>

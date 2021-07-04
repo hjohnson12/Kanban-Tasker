@@ -1,22 +1,18 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using Windows.UI.Notifications;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace KanbanTasker.Helpers
 {
     /// <summary>
-    /// A static class used to work with toast notifications.
+    /// A helper class used to work with Windows 10 toast notifications.
     /// </summary>
-    public static class ToastHelper
+    public static class ToastNotificationHelper
     {
         /// <summary>
-        /// Schedules a reminder notification at the specified time for a task that's due or soon-to-be due.
+        /// Schedules a reminder notification at the specified time for a task that's due or soon-to-be due. <br />
         /// The scheduled alarm time must be at least 5 seconds later than the current day
-        /// and time, otherwise it will not be scheduled.
+        /// and time otherwise it will not be scheduled.
         /// </summary>
         /// <param name="taskId"></param>
         /// <param name="taskTitle"></param>
@@ -28,14 +24,13 @@ namespace KanbanTasker.Helpers
             // Verify that the scheduled alarm is after the current time
             if (scheduledAlarmTime > DateTime.Now.AddSeconds(5))
             {
-                // Construct toast notification content
                 var toastContent = ConstructToastContent(taskTitle, taskDescription, taskDueDate);
 
                 // Create the toast notification and scheudle it
                 // Use the task's unique ID as the tag to reference the toast later on
-                var scheduledNotif = new ScheduledToastNotification(toastContent.GetXml(), scheduledAlarmTime);
-                scheduledNotif.Tag = taskId;
-                ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotif);
+                var scheduledNotification = new ScheduledToastNotification(toastContent.GetXml(), scheduledAlarmTime);
+                scheduledNotification.Tag = taskId;
+                ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotification);
             }
         }
 
@@ -46,11 +41,11 @@ namespace KanbanTasker.Helpers
         /// <param name="tag"></param>
         public static void RemoveScheduledNotification(string tag)
         {
-            var scheduledNotifs = ToastNotificationManager.CreateToastNotifier().GetScheduledToastNotifications();
-            foreach (var notif in scheduledNotifs) 
+            var scheduledNotifications = ToastNotificationManager.CreateToastNotifier().GetScheduledToastNotifications();
+            foreach (var notif in scheduledNotifications) 
             {
                 // The tag value is the unique ScheduledTileNotification.Id assigned to the 
-                // notification when it was created.
+                // notification when it was created
                 if (notif.Tag == tag)
                     ToastNotificationManager.CreateToastNotifier().RemoveFromSchedule(notif);
             }

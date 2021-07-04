@@ -4,7 +4,6 @@ using System.Text;
 
 namespace KanbanTasker.Model
 {
-
     public class RowOpResult<T> : RowOpResult
     {
         public T Entity { get; set; }
@@ -15,11 +14,9 @@ namespace KanbanTasker.Model
         }
     }
 
-
     public class RowOpResult
     {
         public string ErrorMessage { get; set; }
         public bool Success { get; set; }
     }
-
 }

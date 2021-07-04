@@ -145,7 +145,7 @@
     <Compile Include="Helpers\Microsoft Graph\Authentication\AuthenticationProvider.cs" />
     <Compile Include="Extensions\CustomExtensionMethods.cs" />
     <Compile Include="Helpers\Microsoft Graph\GraphServiceHelper.cs" />
-    <Compile Include="Helpers\ToastHelper.cs" />
+    <Compile Include="Helpers\ToastNotificationHelper.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
     <Compile Include="Models\PresentationTask.cs" />
     <Compile Include="Services\AppNotificationService.cs" />

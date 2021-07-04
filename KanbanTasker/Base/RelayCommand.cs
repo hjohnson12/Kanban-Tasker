@@ -7,46 +7,6 @@ using System.Windows.Input;
 
 namespace KanbanTasker.Base
 {
-   
-    public class RelayCommand<T> : ICommand
-    {
-        public event EventHandler CanExecuteChanged;
-        private readonly Action<T> action;
-        private readonly Func<bool> _canExecute;
-
-        public RelayCommand(Action<T> action)
-        {
-            this.action = action;
-        }
-
-        public RelayCommand(Action<T> action, Func<bool> canExecute)
-        {
-
-            this.action = action;
-            this._canExecute = canExecute;
-        }
-
-        public bool CanExecute(object arg)
-        {
-            return _canExecute == null ? true : _canExecute();
-        }
-
-        public void Execute(object parameter) 
-        {
-            T t = (T)parameter;
-            action(t);
-        }
-
-        public void RaiseCanExecuteChanged()
-        {
-            var handler = CanExecuteChanged;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
-        }
-    }
-
     /// <summary>
     /// A command whose sole purpose is to relay its functionality 
     /// to other objects by invoking delegates. 
@@ -71,6 +31,7 @@ namespace KanbanTasker.Base
             : this(execute, null)
         {
         }
+
         /// <summary>
         /// Creates a new command.
         /// </summary>
@@ -123,5 +84,45 @@ namespace KanbanTasker.Base
             }
         }
     }
+
+    public class RelayCommand<T> : ICommand
+    {
+        public event EventHandler CanExecuteChanged;
+        private readonly Action<T> action;
+        private readonly Func<bool> _canExecute;
+
+        public RelayCommand(Action<T> action)
+        {
+            this.action = action;
+        }
+
+        public RelayCommand(Action<T> action, Func<bool> canExecute)
+        {
+
+            this.action = action;
+            this._canExecute = canExecute;
+        }
+
+        public bool CanExecute(object arg)
+        {
+            return _canExecute == null ? true : _canExecute();
+        }
+
+        public void Execute(object parameter) 
+        {
+            T t = (T)parameter;
+            action(t);
+        }
+
+        public void RaiseCanExecuteChanged()
+        {
+            var handler = CanExecuteChanged;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+    }
+
 }
 

@@ -1,19 +1,19 @@
-﻿using KanbanTasker.Base;
-using KanbanTasker.Extensions;
-using KanbanTasker.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using KanbanTasker.Base;
+using KanbanTasker.Extensions;
+using KanbanTasker.Models;
 
 namespace KanbanTasker.ViewModels
 {
     public class CalendarViewModel : Observable
     {
-        private DispatcherTimer timer;
+        private DispatcherTimer _timer;
         private DateTime _currentTime;
         private DateTimeOffset _selectedDate;
         private ObservableCollection<PresentationTask> _scheduledTasks;
@@ -29,27 +29,13 @@ namespace KanbanTasker.ViewModels
         public DateTime CurrentTime
         {
             get => _currentTime;
-            set
-            {
-                if(_currentTime != value)
-                {
-                    _currentTime = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _currentTime, value);
         }
 
         public DateTimeOffset SelectedDate
         {
             get => _selectedDate;
-            set
-            {
-                if (_selectedDate != value)
-                {
-                    _selectedDate = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _selectedDate, value);
         }
 
         public ObservableCollection<PresentationTask> ScheudledTasks
@@ -107,15 +93,15 @@ namespace KanbanTasker.ViewModels
 
         private void StartTimer()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += timer_tick;
-            timer.Start();
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += timer_tick;
+            _timer.Start();
         }
 
         public void StopTimer()
         {
-            timer.Stop();
+            _timer.Stop();
         }
 
         private void timer_tick(object sender, object e)

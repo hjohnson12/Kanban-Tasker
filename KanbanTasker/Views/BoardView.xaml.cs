@@ -1,7 +1,4 @@
-﻿using KanbanTasker.Models;
-using KanbanTasker.ViewModels;
-using Syncfusion.UI.Xaml.Kanban;
-using System;
+﻿using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -9,6 +6,9 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Syncfusion.UI.Xaml.Kanban;
+using KanbanTasker.Models;
+using KanbanTasker.ViewModels;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -24,10 +24,6 @@ namespace KanbanTasker.Views
             DataContext = ViewModel;
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(3);
             MySplitView = splitView;
-
-            //Paragraph para = new Paragraph();
-            //para.Inlines.Add(new Run { Text = sample, FontSize = 15 });
-            //rtb.Blocks.Add(para);
         }
 
         #region Methods
@@ -307,6 +303,7 @@ namespace KanbanTasker.Views
                 }
             }
         }
+
         private void Card_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             // Pre: Get information to pass to the dialog for displaying
@@ -352,7 +349,6 @@ namespace KanbanTasker.Views
             txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
             txtBoxTitle.SelectionLength = 0;
         }
-
 
         private void tappedFlyoutBtnDeleteCardYes_Click(object sender, RoutedEventArgs e)
         {

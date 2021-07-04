@@ -1,14 +1,14 @@
-﻿using KanbanTasker.Base;
-using KanbanTasker.Models;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using KanbanTasker.Model;
-using System;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using LeaderAnalytics.AdaptiveClient;
+using KanbanTasker.Base;
+using KanbanTasker.Model;
+using KanbanTasker.Models;
 using KanbanTasker.Services;
 
 namespace KanbanTasker.ViewModels
@@ -17,18 +17,18 @@ namespace KanbanTasker.ViewModels
     {
         //private ObservableCollection<PresentationTask> allTasks;
         private const int MessageDuration = 3000;
+        private readonly IAppNotificationService _appNotificationService;
+        public Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory;
+        private IAdaptiveClient<IServiceManifest> dataProvider;
         private ObservableCollection<BoardViewModel> _boardList;
         private BoardViewModel _currentBoard;
         private string _boardEditorTitle;
-        private readonly IAppNotificationService _appNotificationService;
         // _tmpBoard is used to save the current board when a user clicks the Add button, than cancels.
         // Should be able to remove this property when this ticket is fixed: https://github.com/microsoft/microsoft-ui-xaml/issues/1200
         private BoardViewModel _tmpBoard;
         private string _oldBoardName;
         private string _oldBoardNotes;
-
-        public Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory;
-        private IAdaptiveClient<IServiceManifest> dataProvider;
+       
         public ICommand NewBoardCommand { get; set; }
         public ICommand EditBoardCommand { get; set; }
         public ICommand SaveBoardCommand { get; set; }
@@ -40,29 +40,33 @@ namespace KanbanTasker.ViewModels
         ///  Sorts the tasks by column index so that they are
         ///  loaded in as they were left when the app was last closed.
         /// </summary>
-        public MainViewModel(Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory,
+        public MainViewModel(
+            Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory,
             IAdaptiveClient<IServiceManifest> dataProvider,
             Frame navigationFrame,
             IAppNotificationService appNotificationService)
         {
-            this.navigationFrame = navigationFrame;
+            this.NavigationFrame = navigationFrame;
             this._appNotificationService = appNotificationService;
+            this.dataProvider = dataProvider;
+            this.boardViewModelFactory = boardViewModelFactory;
+
             PropertyChanged += MainViewModel_PropertyChanged;
             NewBoardCommand = new RelayCommand(NewBoardCommandHandler, () => true);
             EditBoardCommand = new RelayCommand(EditBoardCommandHandler, () => CurrentBoard != null);
             SaveBoardCommand = new RelayCommand(SaveBoardCommandHandler, () => true);
             CancelSaveBoardCommand = new RelayCommand(CancelSaveBoardCommandHandler, () => true);
             DeleteBoardCommand = new RelayCommand(DeleteBoardCommandHandler, () => CurrentBoard != null);
-            this.dataProvider = dataProvider;
-            this.boardViewModelFactory = boardViewModelFactory;
+
+            // Load Board Taskss
             BoardList = new ObservableCollection<BoardViewModel>();
             List<BoardDTO> boardDTOs = dataProvider.Call(x => x.BoardServices.GetBoards());
-
             foreach (BoardDTO dto in boardDTOs)
             {
                 PresentationBoard presBoard = new PresentationBoard(dto);
 
                 if (dto.Tasks?.Any() ?? false)
+                {
                     foreach (TaskDTO taskDTO in dto.Tasks.OrderBy(x => x.ColumnIndex))
                     {
                         presBoard.Tasks.Add(new PresentationTask(taskDTO));
@@ -72,14 +76,12 @@ namespace KanbanTasker.ViewModels
                             if (!string.IsNullOrEmpty(tag) && !presBoard.TagsCollection.Contains(tag))
                                 presBoard.TagsCollection.Add(tag);
                     }
+                }
 
                 BoardList.Add(boardViewModelFactory(presBoard, appNotificationService));
             }
 
-            if (BoardList.Any())
-                CurrentBoard = BoardList.First();
-            else
-                CurrentBoard = null;
+            CurrentBoard = BoardList.Any() ? BoardList.First() : null;
         }
 
         /// <summary>
@@ -92,15 +94,15 @@ namespace KanbanTasker.ViewModels
             if (e.PropertyName == nameof(CurrentBoard))
             {
                 if (CurrentBoard == null)
-                    navigationFrame.Navigate(typeof(Views.NoBoardsMessageView));
+                    NavigationFrame.Navigate(typeof(Views.NoBoardsMessageView));
                 else
-                    navigationFrame.Navigate(typeof(Views.BoardView), CurrentBoard);
+                    NavigationFrame.Navigate(typeof(Views.BoardView), CurrentBoard);
             }
         }
 
         #region Properties
 
-        private Frame navigationFrame { get; set; }
+        private Frame NavigationFrame { get; set; }
 
         /// <summary>
         /// List of all boards
@@ -108,11 +110,7 @@ namespace KanbanTasker.ViewModels
         public ObservableCollection<BoardViewModel> BoardList
         {
             get => _boardList;
-            set
-            {
-                _boardList = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _boardList, value);
         }
 
         /// <summary>
@@ -121,43 +119,25 @@ namespace KanbanTasker.ViewModels
         public BoardViewModel CurrentBoard
         {
             get => _currentBoard;
-            set
-            {
-                _currentBoard = value;
-                OnPropertyChanged();
-            }
-
+            set => SetProperty(ref _currentBoard, value);
         }
 
         public string BoardEditorTitle
         {
             get => _boardEditorTitle;
-            set
-            {
-                _boardEditorTitle = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        public string OldBoardNotes
-        {
-            get => _oldBoardNotes;
-            set
-            {
-                _oldBoardNotes = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _boardEditorTitle, value);
         }
 
         public string OldBoardName
         {
             get => _oldBoardName;
-            set
-            {
-                _oldBoardName = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _oldBoardName, value);
+        }
+
+        public string OldBoardNotes
+        {
+            get => _oldBoardNotes;
+            set => SetProperty(ref _oldBoardNotes, value);
         }
 
         #endregion Properties

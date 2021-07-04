@@ -4,6 +4,9 @@ using System.Text;
 
 namespace KanbanTasker.Model
 {
+    /// <summary>
+    /// Interface for a service that interacts with the board in Kanban.
+    /// </summary>
     public interface IBoardServices
     {
         RowOpResult<BoardDTO> SaveBoard(BoardDTO board);

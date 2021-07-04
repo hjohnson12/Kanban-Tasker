@@ -10,6 +10,5 @@ namespace KanbanTasker.Model
         public const string SQLite = "SQLite";
         public const string MySQL = "MySQL";
         public const string WebAPI = "WebAPI";
-
     }
 }
