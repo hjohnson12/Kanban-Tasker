@@ -12,13 +12,14 @@ namespace KanbanTasker.Converters.Text
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             
-            string colorKey = value?.ToString() ?? "Normal";
+            string colorKey = value?.ToString() ?? "Medium";
             RevealBorderBrush revealBorderBrush = null;
+            if (colorKey.Equals("Normal")) colorKey = "Medium";
 
             switch (colorKey)
             {
-                case "Normal":
-                    // Normal Priority - Reveal Brush
+                case "Medium":
+                    // Medium Priority - Reveal Brush
                     revealBorderBrush = new RevealBorderBrush
                     {
                         Color = Colors.Orange,

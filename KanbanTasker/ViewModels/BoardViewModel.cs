@@ -21,6 +21,7 @@ namespace KanbanTasker.ViewModels
     public class BoardViewModel : Observable
     {
         private const int NOTIFICATION_DURATION = 3000;
+        private const string DEFAULT_COLOR_KEY = "Low";
         private readonly IAppNotificationService _appNotificationService;
         private IAdaptiveClient<IServiceManifest> DataProvider;
         private PresentationBoard _board;
@@ -33,7 +34,7 @@ namespace KanbanTasker.ViewModels
         private bool _isEditingTask;
         private bool _isProgressRingActive = false;
         private DispatcherTimer _dateCheckTimer;
-        private ObservableCollection<ComboBoxItem> _colorKeys;
+        private ObservableCollection<string> _colorKeys;
         private ObservableCollection<ComboBoxItem> _reminderTimes;
 
         public ICommand NewTaskCommand { get; set; }
@@ -42,6 +43,7 @@ namespace KanbanTasker.ViewModels
         public ICommand DeleteTaskCommand { get; set; }
         public ICommand DeleteTagCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
+        public ICommand UpdateColorKeyCommand { get; set; }
         public ICommand RemoveScheduledNotificationCommand { get; set; }
 
         /// <summary>
@@ -58,20 +60,21 @@ namespace KanbanTasker.ViewModels
             _appNotificationService = appNotificationService;
 
             CurrentTask = new PresentationTask(new TaskDTO());
-            NewTaskCommand = new RelayCommand<ColumnTag>(NewTask, () => true); // CanExecuteChanged is not working 
+            NewTaskCommand = new RelayCommand<ColumnTag>(NewTask, () => true);
             EditTaskCommand = new RelayCommand<int>(EditTask, () => true);
             SaveTaskCommand = new RelayCommand(SaveTask, () => true);
             DeleteTaskCommand = new RelayCommand<int>(DeleteTask, () => PaneTitle.Equals("Edit Task") || PaneTitle.Equals(""));
             DeleteTagCommand = new RelayCommand<string>(DeleteTag, () => true);
             CancelEditCommand = new RelayCommand(CancelEdit, () => true);
+            UpdateColorKeyCommand = new RelayCommand<string>(UpdateSelectedColorKey, () => true);
             RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotfication, () => true);
 
             DueDateBackgroundBrush = Application.Current.Resources["RegionBrush"] as AcrylicBrush;
 
-            ColorKeys = new ObservableCollection<ComboBoxItem>();
-            ColorKeys.Add(new ComboBoxItem { Content = "High" });
-            ColorKeys.Add(new ComboBoxItem { Content = "Normal" });
-            ColorKeys.Add(new ComboBoxItem { Content = "Low" });
+            ColorKeys = new ObservableCollection<string>
+            {
+                "Low", "Medium", "High"
+            };
 
             ReminderTimes = new ObservableCollection<ComboBoxItem>();
             ReminderTimes.Add(new ComboBoxItem { Content = "None" });
@@ -83,14 +86,6 @@ namespace KanbanTasker.ViewModels
             ReminderTimes.Add(new ComboBoxItem { Content = "2 Hours Before" });
             ReminderTimes.Add(new ComboBoxItem { Content = "1 Day Before" });
             ReminderTimes.Add(new ComboBoxItem { Content = "2 Days Before" });
-
-            // Hack - set color keys / reminder items 
-            if (Board.Tasks != null && board.Tasks.Any())  
-                foreach (PresentationTask task in Board.Tasks)
-                {
-                    task.ColorKeyComboBoxItem = GetComboBoxItemForColorKey(task.ColorKey);
-                    task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
-                }
         }
 
         /// <summary>
@@ -135,7 +130,7 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// The color keys for a task
         /// </summary>
-        public ObservableCollection<ComboBoxItem> ColorKeys
+        public ObservableCollection<string> ColorKeys
         {
             get => _colorKeys;
             set => SetProperty(ref _colorKeys, value);
@@ -187,6 +182,39 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _currentCategory, value);
         }
 
+        /// <summary>
+        /// Gets or sets the selected item of the color key combo box. 
+        /// Updates the current tasks color key.
+        /// </summary>
+        public string SelectedColorKey
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(CurrentTask.ColorKey))
+                    return "Low";
+                else
+                    return CurrentTask.ColorKey;
+            }
+            set
+            {
+                CurrentTask.ColorKey = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected item of the reminder time combo box.
+        /// Updates the current tasks reminder time.
+        /// </summary>
+        public string SelectedReminderTime
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Used to make a copy of the current task to revert changes when cancelling editing
+        /// </summary>
         public PresentationTask OriginalTask { get; set; }
 
         public void NewTask(ColumnTag tag)
@@ -196,12 +224,12 @@ namespace KanbanTasker.ViewModels
 
             CurrentTask = new PresentationTask(new TaskDTO() { Category = category })
             {
-                Board = Board, 
+                Board = Board,
                 BoardId = Board.ID,
-                ColorKeyComboBoxItem = ColorKeys[1],
                 ReminderTimeComboBoxItem = ReminderTimes[0]
             };
 
+            SelectedColorKey = DEFAULT_COLOR_KEY;
             OriginalTask = null; 
             IsEditingTask = true;
             InitializeSuggestedTags();
@@ -212,6 +240,7 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "Edit Task";
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
             IsEditingTask = true;
+            SelectedColorKey = CurrentTask.ColorKey;
             InitializeSuggestedTags();
             InitializeDateInformation();
             // clone a copy of CurrentTask so we can restore if user cancels
@@ -230,8 +259,7 @@ namespace KanbanTasker.ViewModels
                 return;
 
             TaskDTO dto = CurrentTask.To_TaskDTO();
-            dto.ColorKey =
-                ((ComboBoxItem)CurrentTask.ColorKeyComboBoxItem)?.Content.ToString() ?? "Normal"; // hack
+            //dto.ColorKey = SelectedColorKey ?? "Normal"; // hack
             dto.ReminderTime = 
                 ((ComboBoxItem)CurrentTask.ReminderTimeComboBoxItem)?.Content.ToString() ?? "None";
 
@@ -348,19 +376,6 @@ namespace KanbanTasker.ViewModels
                 if (OriginalTask.ReminderTime != "None")
                     PrepareAndScheduleToastNotification();
 
-                // Reset combo box selected item since UWP Combobox doesn't bind correctly
-                switch (OriginalTask.ColorKey)
-                {
-                    case "Low":
-                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[2];
-                        break;
-                    case "Normal":
-                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[1];
-                        break;
-                    case "High":
-                        CurrentTask.ColorKeyComboBoxItem = ColorKeys[0];
-                        break;
-                }
                 switch (OriginalTask.ReminderTime)
                 {
                     case "None":
@@ -457,6 +472,11 @@ namespace KanbanTasker.ViewModels
                 StartDateCheckTimer();
                 UpdateDateInformation();
             }
+        }
+
+        public void UpdateSelectedColorKey(string colorKey)
+        {
+            CurrentTask.ColorKey = colorKey;
         }
 
         /// <summary>
@@ -658,9 +678,9 @@ namespace KanbanTasker.ViewModels
             CheckIfPassedDueDate();
         }
 
-        private ComboBoxItem GetComboBoxItemForColorKey(string colorKey) => ColorKeys.FirstOrDefault(x => x.Content.ToString() == colorKey);
         private ComboBoxItem GetComboBoxItemForReminderTime(string reminderTime) => ReminderTimes.FirstOrDefault(x => x.Content.ToString() == reminderTime);
-
+        
+        
         /// <summary>
         /// Shows a local notification on the current board using message as the content.
         /// </summary>

@@ -666,7 +666,10 @@
                                 CornerRadius="2"
                                 ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
-                                SelectedValue="{x:Bind ViewModel.CurrentTask.ColorKeyComboBoxItem, Mode=TwoWay}">
+                                SelectedItem="{Binding SelectedColorKey, Mode=TwoWay}">
+                                <!--<Interactivity:Interaction.Behaviors>
+                                    <helpers:ComboBoxSelectionChangedTriggerBehavior Command="{x:Bind ViewModel.UpdateColorKeyCommand}" />
+                                </Interactivity:Interaction.Behaviors>-->
                                 <ComboBox.Resources>
                                     <muxc:TeachingTip
                                         x:Name="ChoosePriorityInidcatorTeachingTip"
@@ -1222,7 +1225,7 @@
                 <!--  KANBAN BOARD PRIORITY INDICATOR PALLETTE  -->
                 <syncfusion:SfKanban.IndicatorColorPalette>
                     <syncfusion:ColorMapping Key="Low" Color="Green" />
-                    <syncfusion:ColorMapping Key="Normal" Color="Orange" />
+                    <syncfusion:ColorMapping Key="Medium" Color="Orange" />
                     <syncfusion:ColorMapping Key="High" Color="Red" />
                 </syncfusion:SfKanban.IndicatorColorPalette>
 
