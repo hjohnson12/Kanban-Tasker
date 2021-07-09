@@ -192,7 +192,7 @@ namespace KanbanTasker.ViewModels
             get
             {
                 if (string.IsNullOrEmpty(CurrentTask.ColorKey))
-                    return "Low";
+                    return DEFAULT_COLOR_KEY;
                 else
                     return CurrentTask.ColorKey;
             }
@@ -212,7 +212,7 @@ namespace KanbanTasker.ViewModels
             get
             {
                 if (string.IsNullOrEmpty(CurrentTask.ReminderTime))
-                    return "None";
+                    return DEFAULT_REMINDER_TIME;
                 else
                     return CurrentTask.ReminderTime;
             }
@@ -228,6 +228,11 @@ namespace KanbanTasker.ViewModels
         /// </summary>
         public PresentationTask OriginalTask { get; set; }
 
+        /// <summary>
+        /// Prepares a task to be created in the given column
+        /// and initializes <see cref="CurrentTask"/>
+        /// </summary>
+        /// <param name="tag"></param>
         public void NewTask(ColumnTag tag)
         {
             IsEditingTask = true;
@@ -246,6 +251,10 @@ namespace KanbanTasker.ViewModels
             InitializeSuggestedTags();
         }
 
+        /// <summary>
+        /// Prepares a task with the given ID for editing and initalizes <see cref="CurrentTask"/>
+        /// </summary>
+        /// <param name="taskID"></param>
         public void EditTask(int taskID)
         {
             IsEditingTask = true;
@@ -259,6 +268,9 @@ namespace KanbanTasker.ViewModels
             OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
         }
 
+        /// <summary>
+        /// Saves the current task instance being created or edited and updates database.
+        /// </summary>
         public void SaveTask()
         {
             IsEditingTask = false;
@@ -303,6 +315,10 @@ namespace KanbanTasker.ViewModels
                 CurrentTask.ReminderTime != "";
         }
 
+        /// <summary>
+        /// Deletes a task with the given ID from the list and updates the database.
+        /// </summary>
+        /// <param name="taskID"></param>
         public void DeleteTask(int taskID)
         {
             if (_dateCheckTimer != null)
@@ -343,6 +359,10 @@ namespace KanbanTasker.ViewModels
             }
         }
 
+        /// <summary>
+        /// Delete's the specified tag from the current task's tag collection
+        /// </summary>
+        /// <param name="tag"></param>
         public void DeleteTag(string tag)
         {
             if (CurrentTask == null)
@@ -357,6 +377,9 @@ namespace KanbanTasker.ViewModels
             _appNotificationService.DisplayNotificationAsync("Tag deleted successfully", NOTIFICATION_DURATION);
         }
 
+        /// <summary>
+        /// Cancels editing for the CurrentTask and reverts changes
+        /// </summary>
         public void CancelEdit()
         {
             IsProgressRingActive = true;
@@ -366,8 +389,8 @@ namespace KanbanTasker.ViewModels
             if (_dateCheckTimer != null)
                 _dateCheckTimer.Stop();
 
-            // Roll back changes to Current Task
-            // when the original task exists
+            // Revert changes to Current Task from OriginalTask, a 
+            // copy created when the EditTask command is called
             if (OriginalTask != null)
             {
                 int index = Board.Tasks.IndexOf(CurrentTask);
