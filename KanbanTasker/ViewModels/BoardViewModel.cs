@@ -58,13 +58,13 @@ namespace KanbanTasker.ViewModels
             _appNotificationService = appNotificationService;
 
             CurrentTask = new PresentationTask(new TaskDTO());
-            NewTaskCommand = new RelayCommand<ColumnTag>(NewTaskCommandHandler, () => true); // CanExecuteChanged is not working 
-            EditTaskCommand = new RelayCommand<int>(EditTaskCommandHandler, () => true);
-            SaveTaskCommand = new RelayCommand(SaveTaskCommandHandler, () => true);
-            DeleteTaskCommand = new RelayCommand<int>(DeleteTaskCommandHandler, () => PaneTitle.Equals("Edit Task") || PaneTitle.Equals(""));
-            DeleteTagCommand = new RelayCommand<string>(DeleteTagCommandHandler, () => true);
-            CancelEditCommand = new RelayCommand(CancelEditCommandHandler, () => true);
-            RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotficationCommandHandler, () => true);
+            NewTaskCommand = new RelayCommand<ColumnTag>(NewTask, () => true); // CanExecuteChanged is not working 
+            EditTaskCommand = new RelayCommand<int>(EditTask, () => true);
+            SaveTaskCommand = new RelayCommand(SaveTask, () => true);
+            DeleteTaskCommand = new RelayCommand<int>(DeleteTask, () => PaneTitle.Equals("Edit Task") || PaneTitle.Equals(""));
+            DeleteTagCommand = new RelayCommand<string>(DeleteTag, () => true);
+            CancelEditCommand = new RelayCommand(CancelEdit, () => true);
+            RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotfication, () => true);
 
             DueDateBackgroundBrush = Application.Current.Resources["RegionBrush"] as AcrylicBrush;
 
@@ -189,7 +189,7 @@ namespace KanbanTasker.ViewModels
 
         public PresentationTask OriginalTask { get; set; }
 
-        public void NewTaskCommandHandler(ColumnTag tag)
+        public void NewTask(ColumnTag tag)
         {
             PaneTitle = "New Task";
             string category = tag?.Header?.ToString();
@@ -207,7 +207,7 @@ namespace KanbanTasker.ViewModels
             InitializeSuggestedTags();
         }
 
-        public void EditTaskCommandHandler(int taskID)
+        public void EditTask(int taskID)
         {
             PaneTitle = "Edit Task";
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
@@ -218,7 +218,7 @@ namespace KanbanTasker.ViewModels
             OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
         }
 
-        public void SaveTaskCommandHandler()
+        public void SaveTask()
         {
             IsEditingTask = false;
             PaneTitle = "";
@@ -266,7 +266,7 @@ namespace KanbanTasker.ViewModels
                 CurrentTask.ReminderTime != "";
         }
 
-        public void DeleteTaskCommandHandler(int taskID)
+        public void DeleteTask(int taskID)
         {
             if (_dateCheckTimer != null)
             {
@@ -306,7 +306,7 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public void DeleteTagCommandHandler(string tag)
+        public void DeleteTag(string tag)
         {
             if (CurrentTask == null)
             {
@@ -320,7 +320,7 @@ namespace KanbanTasker.ViewModels
             _appNotificationService.DisplayNotificationAsync("Tag deleted successfully", NOTIFICATION_DURATION);
         }
 
-        public void CancelEditCommandHandler()
+        public void CancelEdit()
         {
             IsProgressRingActive = true;
 
@@ -400,7 +400,7 @@ namespace KanbanTasker.ViewModels
         /// uniqely identified by its tag. <br />
         /// In this case, the tag is the task's unique ID.
         /// </summary>
-        private void RemoveScheduledNotficationCommandHandler()
+        private void RemoveScheduledNotfication()
         {
             ToastNotificationHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
             CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[0];

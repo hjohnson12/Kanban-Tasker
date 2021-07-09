@@ -52,11 +52,11 @@ namespace KanbanTasker.ViewModels
             this.boardViewModelFactory = boardViewModelFactory;
 
             PropertyChanged += MainViewModel_PropertyChanged;
-            NewBoardCommand = new RelayCommand(NewBoardCommandHandler, () => true);
-            EditBoardCommand = new RelayCommand(EditBoardCommandHandler, () => CurrentBoard != null);
-            SaveBoardCommand = new RelayCommand(SaveBoardCommandHandler, () => true);
-            CancelSaveBoardCommand = new RelayCommand(CancelSaveBoardCommandHandler, () => true);
-            DeleteBoardCommand = new RelayCommand(DeleteBoardCommandHandler, () => CurrentBoard != null);
+            NewBoardCommand = new RelayCommand(NewBoard, () => true);
+            EditBoardCommand = new RelayCommand(EditBoard, () => CurrentBoard != null);
+            SaveBoardCommand = new RelayCommand(SaveBoard, () => true);
+            CancelSaveBoardCommand = new RelayCommand(CancelSaveBoard, () => true);
+            DeleteBoardCommand = new RelayCommand(DeleteBoard, () => CurrentBoard != null);
 
             // Load Board Taskss
             BoardList = new ObservableCollection<BoardViewModel>();
@@ -138,7 +138,7 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _oldBoardNotes, value);
         }
 
-        public void NewBoardCommandHandler()
+        public void NewBoard()
         {
             BoardEditorTitle = "New Board Editor";
             BoardViewModel newBoard = boardViewModelFactory(new PresentationBoard(new BoardDTO()), _appNotificationService);
@@ -153,7 +153,7 @@ namespace KanbanTasker.ViewModels
             // Don't add to BoardList here.  Wait till user saves.
         }
 
-        public void EditBoardCommandHandler()
+        public void EditBoard()
         {
             _tmpBoard = CurrentBoard;
             OldBoardName = _tmpBoard.Board.Name;
@@ -161,7 +161,7 @@ namespace KanbanTasker.ViewModels
             BoardEditorTitle = "Edit Board";
         }
 
-        public void SaveBoardCommandHandler()
+        public void SaveBoard()
         {
             if (CurrentBoard.Board == null)
                 return;
@@ -190,7 +190,7 @@ namespace KanbanTasker.ViewModels
 
         }
 
-        public void CancelSaveBoardCommandHandler()
+        public void CancelSaveBoard()
         {
             // BUG: Currently _tmpBoard still holds edited version?
             CurrentBoard.Board.Name = "";
@@ -206,7 +206,7 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public void DeleteBoardCommandHandler()
+        public void DeleteBoard()
         {
             if (CurrentBoard == null)
                 return;

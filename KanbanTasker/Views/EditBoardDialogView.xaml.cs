@@ -30,7 +30,6 @@ namespace KanbanTasker.Views
             {
                 this.Hide();
             }
-           
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
