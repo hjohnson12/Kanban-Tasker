@@ -304,7 +304,7 @@ namespace KanbanTasker.Views
             taskFlyout.Hide();
 
             // hack, command binding isn't working??
-            ViewModel.EditTaskCommandHandler(ViewModel.CurrentTask.ID); 
+            ViewModel.EditTask(ViewModel.CurrentTask.ID); 
 
             // Open pane if closed
             if (splitView.IsPaneOpen == false)
@@ -323,7 +323,7 @@ namespace KanbanTasker.Views
             tappedFlyoutDeleteCard.Hide();
 
             // hack, binding not working
-            ViewModel.DeleteTaskCommandHandler(ViewModel.CurrentTask.ID);
+            ViewModel.DeleteTask(ViewModel.CurrentTask.ID);
         }
 
         public void ShowContextMenu(PresentationTask selectedModel)
