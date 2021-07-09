@@ -912,7 +912,7 @@
                                                     BorderThickness="1"
                                                     Header="Set Reminder:"
                                                     ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}"
-                                                    SelectedValue="{x:Bind ViewModel.CurrentTask.ReminderTimeComboBoxItem, Mode=TwoWay}" />
+                                                    SelectedItem="{Binding SelectedReminderTime, Mode=TwoWay}" />
                                                 <Button
                                                     x:Name="btnDeleteToastNotification"
                                                     Grid.Column="1"

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using KanbanTasker.Model;
-using Windows.UI.Xaml.Controls;
 
 namespace KanbanTasker.Models
 {
@@ -29,8 +26,6 @@ namespace KanbanTasker.Models
         private int _id;
         private int _boardId;
         private PresentationBoard _board;
-        private object _colorKeyComboBoxItem;
-        private object _reminderTimeComboBoxItem;
 
         public PresentationTask(TaskDTO dto)
         {
@@ -163,35 +158,7 @@ namespace KanbanTasker.Models
             get => _daysSinceCreation;
             set => SetProperty(ref _daysSinceCreation, value); 
         }
-        
-        public object ColorKeyComboBoxItem
-        {
-            get => _colorKeyComboBoxItem;
-            set
-            {
-                if (_colorKeyComboBoxItem != value)
-                {
-                    ColorKey = value == null ? null : ((ComboBoxItem)value).Content?.ToString();
-                    _colorKeyComboBoxItem = value;
-                    OnPropertyChanged();
-                }
-            }
-        } // Hack --- Combobox cannot bind correctly.
 
-        public object ReminderTimeComboBoxItem
-        {
-            get => _reminderTimeComboBoxItem;
-            set
-            {
-                if (_reminderTimeComboBoxItem != value)
-                {
-                    ReminderTime = value == null ? null : ((ComboBoxItem)value).Content?.ToString();
-                    _reminderTimeComboBoxItem = value;
-                    OnPropertyChanged();
-                }
-            }
-        } // Hack --- Combobox cannot bind correctly.
-       
         public TaskDTO To_TaskDTO()
         {
             return new TaskDTO

@@ -6,7 +6,6 @@ using System.Windows.Input;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Controls;
 using Syncfusion.UI.Xaml.Kanban;
 using LeaderAnalytics.AdaptiveClient;
 using KanbanTasker.Base;
@@ -22,6 +21,7 @@ namespace KanbanTasker.ViewModels
     {
         private const int NOTIFICATION_DURATION = 3000;
         private const string DEFAULT_COLOR_KEY = "Low";
+        private const string DEFAULT_REMINDER_TIME = "None";
         private readonly IAppNotificationService _appNotificationService;
         private IAdaptiveClient<IServiceManifest> DataProvider;
         private PresentationBoard _board;
@@ -35,7 +35,7 @@ namespace KanbanTasker.ViewModels
         private bool _isProgressRingActive = false;
         private DispatcherTimer _dateCheckTimer;
         private ObservableCollection<string> _colorKeys;
-        private ObservableCollection<ComboBoxItem> _reminderTimes;
+        private ObservableCollection<string> _reminderTimes;
 
         public ICommand NewTaskCommand { get; set; }
         public ICommand EditTaskCommand { get; set; }
@@ -43,7 +43,6 @@ namespace KanbanTasker.ViewModels
         public ICommand DeleteTaskCommand { get; set; }
         public ICommand DeleteTagCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
-        public ICommand UpdateColorKeyCommand { get; set; }
         public ICommand RemoveScheduledNotificationCommand { get; set; }
 
         /// <summary>
@@ -54,7 +53,6 @@ namespace KanbanTasker.ViewModels
             IAdaptiveClient<IServiceManifest> dataProvider,
             IAppNotificationService appNotificationService)
         {
-            PaneTitle = "New Task";
             Board = board;
             DataProvider = dataProvider;
             _appNotificationService = appNotificationService;
@@ -66,7 +64,6 @@ namespace KanbanTasker.ViewModels
             DeleteTaskCommand = new RelayCommand<int>(DeleteTask, () => PaneTitle.Equals("Edit Task") || PaneTitle.Equals(""));
             DeleteTagCommand = new RelayCommand<string>(DeleteTag, () => true);
             CancelEditCommand = new RelayCommand(CancelEdit, () => true);
-            UpdateColorKeyCommand = new RelayCommand<string>(UpdateSelectedColorKey, () => true);
             RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotfication, () => true);
 
             DueDateBackgroundBrush = Application.Current.Resources["RegionBrush"] as AcrylicBrush;
@@ -76,16 +73,20 @@ namespace KanbanTasker.ViewModels
                 "Low", "Medium", "High"
             };
 
-            ReminderTimes = new ObservableCollection<ComboBoxItem>();
-            ReminderTimes.Add(new ComboBoxItem { Content = "None" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "At Time of Due Date" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "5 Minutes Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "10 Minutes Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "15 Minutes Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "1 Hour Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "2 Hours Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "1 Day Before" });
-            ReminderTimes.Add(new ComboBoxItem { Content = "2 Days Before" });
+            ReminderTimes = new ObservableCollection<string>
+            {
+                "None",
+                "At Time of Due Date",
+                "5 Minutes Before",
+                "10 Minutes Before",
+                "15 Mintues Before",
+                "1 Hour Before",
+                "2 Hours Before",
+                "1 Day Before",
+                "2 Days Before"
+            };
+
+            PaneTitle = "New Task";
         }
 
         /// <summary>
@@ -139,7 +140,7 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// The possible reminder times for a task 
         /// </summary>
-        public ObservableCollection<ComboBoxItem> ReminderTimes
+        public ObservableCollection<string> ReminderTimes
         {
             get => _reminderTimes;
             set => SetProperty(ref _reminderTimes, value);
@@ -208,8 +209,18 @@ namespace KanbanTasker.ViewModels
         /// </summary>
         public string SelectedReminderTime
         {
-            get;
-            set;
+            get
+            {
+                if (string.IsNullOrEmpty(CurrentTask.ReminderTime))
+                    return "None";
+                else
+                    return CurrentTask.ReminderTime;
+            }
+            set
+            {
+                CurrentTask.ReminderTime = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -219,28 +230,29 @@ namespace KanbanTasker.ViewModels
 
         public void NewTask(ColumnTag tag)
         {
+            IsEditingTask = true;
             PaneTitle = "New Task";
             string category = tag?.Header?.ToString();
 
             CurrentTask = new PresentationTask(new TaskDTO() { Category = category })
             {
                 Board = Board,
-                BoardId = Board.ID,
-                ReminderTimeComboBoxItem = ReminderTimes[0]
+                BoardId = Board.ID
             };
 
             SelectedColorKey = DEFAULT_COLOR_KEY;
+            SelectedReminderTime = DEFAULT_REMINDER_TIME;
             OriginalTask = null; 
-            IsEditingTask = true;
             InitializeSuggestedTags();
         }
 
         public void EditTask(int taskID)
         {
+            IsEditingTask = true;
             PaneTitle = "Edit Task";
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
-            IsEditingTask = true;
             SelectedColorKey = CurrentTask.ColorKey;
+            SelectedReminderTime = CurrentTask.ReminderTime;
             InitializeSuggestedTags();
             InitializeDateInformation();
             // clone a copy of CurrentTask so we can restore if user cancels
@@ -258,23 +270,20 @@ namespace KanbanTasker.ViewModels
             if (CurrentTask == null)
                 return;
 
-            TaskDTO dto = CurrentTask.To_TaskDTO();
-            //dto.ColorKey = SelectedColorKey ?? "Normal"; // hack
-            dto.ReminderTime = 
-                ((ComboBoxItem)CurrentTask.ReminderTimeComboBoxItem)?.Content.ToString() ?? "None";
+            TaskDTO taskDTO = CurrentTask.To_TaskDTO();
 
-            bool isNew = dto.Id == 0;
+            bool isNew = taskDTO.Id == 0;
             if (isNew)
             {
-                dto.ColumnIndex = Board.Tasks?.Where(x => x.Category == dto.Category).Count() ?? 0;
-                dto.DateCreated = DateTime.Now.ToString();
+                taskDTO.ColumnIndex = Board.Tasks?.Where(x => x.Category == taskDTO.Category).Count() ?? 0;
+                taskDTO.DateCreated = DateTime.Now.ToString();
             }
-            dto.Id = DataProvider.Call(x => x.TaskServices.SaveTask(dto)).Entity.Id;
+            taskDTO.Id = DataProvider.Call(x => x.TaskServices.SaveTask(taskDTO)).Entity.Id;
 
             if (isNew)
             {
-                CurrentTask.ID = dto.Id;
-                CurrentTask.ColumnIndex = dto.ColumnIndex;
+                CurrentTask.ID = taskDTO.Id;
+                CurrentTask.ColumnIndex = taskDTO.ColumnIndex;
                 Board.Tasks.Add(CurrentTask);
             }
 
@@ -375,37 +384,6 @@ namespace KanbanTasker.ViewModels
                 // Check if a toast notification was deleted
                 if (OriginalTask.ReminderTime != "None")
                     PrepareAndScheduleToastNotification();
-
-                switch (OriginalTask.ReminderTime)
-                {
-                    case "None":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[0];
-                        break;
-                    case "At Time of Due Date":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[1];
-                        break;
-                    case "5 Minutes Before":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[2];
-                        break;
-                    case "10 Minutes Before":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[3];
-                        break;
-                    case "15 Minutes Before":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[4];
-                        break;
-                    case "1 Hour Before":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[5];
-                        break;
-                    case "2 Hours Before":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[6];
-                        break;
-                    case "1 Day Before":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[7];
-                        break;
-                    case "2 Days Before":
-                        CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[8];
-                        break;
-                }
             }
             IsProgressRingActive = false;
         }
@@ -418,7 +396,7 @@ namespace KanbanTasker.ViewModels
         private void RemoveScheduledNotfication()
         {
             ToastNotificationHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
-            CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[0];
+            CurrentTask.ReminderTime = DEFAULT_REMINDER_TIME;
         }
 
         /// <summary>
@@ -474,11 +452,6 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public void UpdateSelectedColorKey(string colorKey)
-        {
-            CurrentTask.ColorKey = colorKey;
-        }
-
         /// <summary>
         /// Schedules a toast notification using <see cref="ToastNotificationHelper"/> if the current task 
         /// has a selected due date, time due, reminder time when called.
@@ -490,13 +463,13 @@ namespace KanbanTasker.ViewModels
             var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
             string reminderTime = CurrentTask.ReminderTime;
 
-            if (reminderTime.Equals("None"))
+            if (reminderTime.Equals(DEFAULT_REMINDER_TIME))
                 ToastNotificationHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
             else
             {
                 // Combine due date and time due
                 // ToastNotifications require a non-nullable DateTimeOffset
-                DateTimeOffset taskDueDate = new DateTimeOffset(
+                var taskDueDate = new DateTimeOffset(
                    dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
                    timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
                    timeDue.Value.Offset
@@ -529,7 +502,9 @@ namespace KanbanTasker.ViewModels
                         scheduledTime = taskDueDate.AddDays(-2);
                         break;
                 }
-                ToastNotificationHelper.ScheduleTaskDueNotification(CurrentTask.ID.ToString(),
+
+                ToastNotificationHelper.ScheduleTaskDueNotification(
+                    CurrentTask.ID.ToString(),
                     CurrentTask.Title,
                     CurrentTask.Description,
                     scheduledTime,
@@ -678,18 +653,6 @@ namespace KanbanTasker.ViewModels
             CheckIfPassedDueDate();
         }
 
-        private ComboBoxItem GetComboBoxItemForReminderTime(string reminderTime) => ReminderTimes.FirstOrDefault(x => x.Content.ToString() == reminderTime);
-        
-        
-        /// <summary>
-        /// Shows a local notification on the current board using message as the content.
-        /// </summary>
-        /// <param name="message"></param>
-        public void ShowInAppNotification(string message)
-        {
-            _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
-        }
-
         /// <summary>
         /// Checks to see if the current task's due date has already passed and sets the
         /// due date background, respectively. <br />
@@ -719,6 +682,15 @@ namespace KanbanTasker.ViewModels
             }
             else
                 DueDateBackgroundBrush = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+        }
+
+        /// <summary>
+        /// Shows a local notification on the current board using message as the content.
+        /// </summary>
+        /// <param name="message"></param>
+        public void ShowInAppNotification(string message)
+        {
+            _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
         }
 
         /// <summary>

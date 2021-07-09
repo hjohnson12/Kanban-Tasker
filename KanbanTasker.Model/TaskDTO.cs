@@ -2,6 +2,7 @@
 
 namespace KanbanTasker.Model
 {
+    // A data transfer object for a task
     public class TaskDTO
     {
         public int Id { get; set; }

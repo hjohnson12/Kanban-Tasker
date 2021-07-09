@@ -4,6 +4,9 @@ using System.Text;
 
 namespace KanbanTasker.Model
 {
+    /// <summary>
+    /// A data transfer object for a kanban board
+    /// </summary>
     public class BoardDTO
     {
         public int Id { get; set; }
