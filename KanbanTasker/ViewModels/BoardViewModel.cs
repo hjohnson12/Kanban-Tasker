@@ -360,31 +360,27 @@ namespace KanbanTasker.ViewModels
         public void CancelEdit()
         {
             IsProgressRingActive = true;
-
             IsEditingTask = false;
             PaneTitle = "";
 
             if (_dateCheckTimer != null)
                 _dateCheckTimer.Stop();
 
-            if (OriginalTask == null)
-            {
-                IsProgressRingActive = false;
-                return;
-            }
-            // roll back changes to CurrentTask
-            else
+            // Roll back changes to Current Task
+            // when the original task exists
+            if (OriginalTask != null)
             {
                 int index = Board.Tasks.IndexOf(CurrentTask);
-                var tmp = new PresentationTask(OriginalTask.To_TaskDTO());
-                Board.Tasks[index] = tmp;
+                var tempTask = new PresentationTask(OriginalTask.To_TaskDTO());
+                Board.Tasks[index] = tempTask;
                 Board.Tasks = new ObservableCollection<PresentationTask>(
                     Board.Tasks.OrderBy(x => x.ColumnIndex));
 
                 // Check if a toast notification was deleted
-                if (OriginalTask.ReminderTime != "None")
+                if (OriginalTask.ReminderTime != DEFAULT_REMINDER_TIME)
                     PrepareAndScheduleToastNotification();
             }
+
             IsProgressRingActive = false;
         }
 
