@@ -26,18 +26,12 @@ namespace KanbanTasker.Views
             MySplitView = splitView;
         }
 
-        #region Methods
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var selectedBoard = e.Parameter as BoardViewModel;
             ViewModel = selectedBoard;
             DataContext = ViewModel;
         }
-
-        #endregion Methods
-
-        #region UIEvents
 
         private void CardBtnEdit_Click(object sender, RoutedEventArgs e)
         {
@@ -52,8 +46,6 @@ namespace KanbanTasker.Views
 
         private void CardBtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var originalSource = (FrameworkElement)sender;
-
             // Show flyout attached to button
             // Delete task if "Yes" button is clicked inside flyout
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
@@ -278,32 +270,6 @@ namespace KanbanTasker.Views
             (sender as AutoSuggestBox).IsSuggestionListOpen = true;
         }
 
-        #endregion UIEvents
-        public void ShowContextMenu(PresentationTask selectedModel)
-        {
-            // Workaround to show context menu next to selected card model
-            foreach (var col in kanbanBoard.ActualColumns)
-            {
-                if (col.Categories.Contains(selectedModel.Category.ToString()))
-                {
-                    // Find card inside column
-                    foreach (var card in col.Cards)
-                    {
-                        int cardIndex = 0;
-                        var cardModel = card.Content as PresentationTask;
-                        if (cardModel.ID == selectedModel.ID)
-                        {
-                            // Get current index of card and set on selected card
-                            cardIndex = col.Cards.IndexOf(card);
-                            FlyoutShowOptions myOption = new FlyoutShowOptions();
-                            myOption.ShowMode = FlyoutShowMode.Transient;
-                            taskFlyout.ShowAt(col.Cards[cardIndex], myOption);
-                        }
-                    }
-                }
-            }
-        }
-
         private void Card_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             // Pre: Get information to pass to the dialog for displaying
@@ -358,6 +324,31 @@ namespace KanbanTasker.Views
 
             // hack, binding not working
             ViewModel.DeleteTaskCommandHandler(ViewModel.CurrentTask.ID);
+        }
+
+        public void ShowContextMenu(PresentationTask selectedModel)
+        {
+            // Workaround to show context menu next to selected card model
+            foreach (var col in kanbanBoard.ActualColumns)
+            {
+                if (col.Categories.Contains(selectedModel.Category.ToString()))
+                {
+                    // Find card inside column
+                    foreach (var card in col.Cards)
+                    {
+                        int cardIndex = 0;
+                        var cardModel = card.Content as PresentationTask;
+                        if (cardModel.ID == selectedModel.ID)
+                        {
+                            // Get current index of card and set on selected card
+                            cardIndex = col.Cards.IndexOf(card);
+                            FlyoutShowOptions myOption = new FlyoutShowOptions();
+                            myOption.ShowMode = FlyoutShowMode.Transient;
+                            taskFlyout.ShowAt(col.Cards[cardIndex], myOption);
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -15,14 +15,6 @@ namespace KanbanTasker.Views
             ViewModel = viewModel;
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
         private void btnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();

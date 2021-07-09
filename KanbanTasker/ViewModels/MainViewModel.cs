@@ -100,8 +100,6 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        #region Properties
-
         private Frame NavigationFrame { get; set; }
 
         /// <summary>
@@ -139,8 +137,6 @@ namespace KanbanTasker.ViewModels
             get => _oldBoardNotes;
             set => SetProperty(ref _oldBoardNotes, value);
         }
-
-        #endregion Properties
 
         public void NewBoardCommandHandler()
         {

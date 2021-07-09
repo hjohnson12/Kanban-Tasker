@@ -8,9 +8,7 @@
     Title="Welcome to Kanban Tasker"
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     CornerRadius="4"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="Close"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     mc:Ignorable="d">
 
     <Grid>

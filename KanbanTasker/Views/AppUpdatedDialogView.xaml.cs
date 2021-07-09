@@ -13,23 +13,16 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace KanbanTasker.Views
 {
+    /// <summary>
+    /// A view for displaying a message when the app is updated
+    /// </summary>
     public sealed partial class AppUpdatedDialogView : ContentDialog
     {
         public AppUpdatedDialogView()
         {
             this.InitializeComponent();
-        }
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
         }
     }
 }

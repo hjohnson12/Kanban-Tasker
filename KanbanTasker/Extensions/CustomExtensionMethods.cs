@@ -9,7 +9,7 @@ namespace KanbanTasker.Extensions
     public static class CustomExtensionMethods
     {
         /// <summary>
-        /// 
+        /// Converts a string in date format into a nullable DateTimeOffset type
         /// </summary>
         /// <param name="dateTimeStr"></param>
         /// <returns></returns>
@@ -19,7 +19,6 @@ namespace KanbanTasker.Extensions
             DateTime dt2;
             if (dateTimeStr != null && dateTimeStr is string)
             {
-                var stringToConvert = dateTimeStr as string;
                 bool success = DateTime.TryParse(dateTimeStr, out dt2);
                 if (success)
                     dt = dt2;

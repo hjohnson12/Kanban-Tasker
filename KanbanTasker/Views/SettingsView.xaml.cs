@@ -8,8 +8,6 @@ using KanbanTasker.ViewModels;
 using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using KanbanTasker.Services;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace KanbanTasker.Views
 {
     public sealed partial class SettingsView : ContentDialog

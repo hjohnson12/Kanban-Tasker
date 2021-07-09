@@ -8,9 +8,7 @@
     Title="App Updated"
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     CornerRadius="4"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="Close"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     mc:Ignorable="d">
 
     <ScrollViewer>

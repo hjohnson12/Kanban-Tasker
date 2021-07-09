@@ -36,10 +36,9 @@ namespace KanbanTasker.Views
         {
             var dialog = new SettingsView();
             CloseAllOpenPopups();
-            var result = await dialog.ShowAsync();
+            await dialog.ShowAsync();
         }
        
-        // This is a hack - works for the moment but there are other ways to show / hide flyouts
         private void ShowFlyout(object sender, RoutedEventArgs e)
         {
             ActiveFlyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
@@ -60,7 +59,7 @@ namespace KanbanTasker.Views
             CloseAllOpenPopups();
 
             var dialog = new EditBoardDialogView(ViewModel);
-            var result = await dialog.ShowAsync();
+            await dialog.ShowAsync();
         }
 
         private void HideFlyout(object sender, RoutedEventArgs e)
@@ -73,7 +72,7 @@ namespace KanbanTasker.Views
 
         private async void BtnCompactOverlay_Click(object sender, RoutedEventArgs e)
         {
-            var view = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+            var view = ApplicationView.GetForCurrentView();
             if (view.ViewMode == ApplicationViewMode.Default)
             {
                 btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE944);
@@ -93,11 +92,15 @@ namespace KanbanTasker.Views
             if (ViewModel.CurrentBoard != null)
             {
                 CloseAllOpenPopups();
+
                 var dialog = new CalendarDialogView(ViewModel);
-                var result = await dialog.ShowAsync();
+                await dialog.ShowAsync();
             }
         }
 
+        /// <summary>
+        /// Closes all open content dialogs in the Visual Tree
+        /// </summary>
         private static void CloseAllOpenPopups()
         {
             var popups = VisualTreeHelper.GetOpenPopups(Window.Current);

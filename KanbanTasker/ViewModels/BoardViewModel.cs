@@ -8,7 +8,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls;
 using Syncfusion.UI.Xaml.Kanban;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using LeaderAnalytics.AdaptiveClient;
 using KanbanTasker.Base;
 using KanbanTasker.Model;
@@ -93,8 +92,6 @@ namespace KanbanTasker.ViewModels
                     task.ReminderTimeComboBoxItem = GetComboBoxItemForReminderTime(task.ReminderTime);
                 }
         }
-
-        #region Properties
 
         /// <summary>
         /// An instance of the current board
@@ -191,10 +188,6 @@ namespace KanbanTasker.ViewModels
         }
 
         public PresentationTask OriginalTask { get; set; }
-
-        #endregion Properties
-
-        #region CommandHandlers
 
         public void NewTaskCommandHandler(ColumnTag tag)
         {
@@ -413,10 +406,6 @@ namespace KanbanTasker.ViewModels
             CurrentTask.ReminderTimeComboBoxItem = ReminderTimes[0];
         }
 
-        #endregion CommandHandlers
-
-        #region Methods
-
         /// <summary>
         /// Inserts a tag to the current task's tag collection.
         /// </summary>
@@ -479,7 +468,7 @@ namespace KanbanTasker.ViewModels
             // UWP TimePicker doesn't support Nullable values, defaults to a value either way
             var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
             var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
-            var reminderTime = CurrentTask.ReminderTime;
+            string reminderTime = CurrentTask.ReminderTime;
 
             if (reminderTime.Equals("None"))
                 ToastNotificationHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
@@ -493,7 +482,7 @@ namespace KanbanTasker.ViewModels
                    timeDue.Value.Offset
                 );
 
-                var scheduledTime = taskDueDate;
+                DateTimeOffset scheduledTime = taskDueDate;
                 switch (reminderTime)
                 {
                     case "At Time of Due Date":
@@ -564,15 +553,15 @@ namespace KanbanTasker.ViewModels
             //  Update DaysSinceCreation
             if (dateCreated != null && today != null)
             {
-                TimeSpan? ts = today - dateCreated;
+                TimeSpan? timeSpan = today - dateCreated;
 
-                if (ts != null)
+                if (timeSpan != null)
                 {
                     // Difference in days, hours, mins
                     CurrentTask.DaysSinceCreation = string.Format("{0}d, {1}hrs, {2}min",
-                        ts.Value.Days.ToString(),
-                        ts.Value.Hours.ToString(),
-                        ts.Value.Minutes.ToString());
+                        timeSpan.Value.Days.ToString(),
+                        timeSpan.Value.Hours.ToString(),
+                        timeSpan.Value.Minutes.ToString());
                 }
             }
         }
@@ -736,7 +725,5 @@ namespace KanbanTasker.ViewModels
         {
             DataProvider.Call(x => x.TaskServices.UpdateCardIndex(iD, currentCardIndex));
         }
-
-        #endregion Methods
     }
 }

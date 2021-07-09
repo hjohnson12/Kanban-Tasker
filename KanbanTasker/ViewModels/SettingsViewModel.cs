@@ -200,7 +200,7 @@ namespace KanbanTasker.ViewModels
             }
             catch (ServiceException ex)
             {
-                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     // MS Graph Known Error 
                     // Users need to sign into OneDrive at least once
