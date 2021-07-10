@@ -348,9 +348,6 @@
     <PackageReference Include="Microsoft.Toolkit">
       <Version>7.0.2</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Services">
-      <Version>6.1.1</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>7.0.2</Version>
     </PackageReference>
