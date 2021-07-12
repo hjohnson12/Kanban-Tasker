@@ -44,6 +44,7 @@
             <textconverters:StringToNullableDateTimeOffsetConverter x:Key="stringToDateConverter" />
             <textconverters:StringToTimeSpanConverter x:Key="stringToTimeSpanConverter" />
             <textconverters:IsNullConverter x:Key="isNullConverter" />
+            <textconverters:BoolToBrushConverter x:Key="BoolToBrushConverter" />
             <syncfusion:CollapsedHeader x:Key="HeaderConverter" />
             <syncfusion:CollapsedHeaderMargin x:Key="CollapsedHeaderMarginConverter" />
             <ControlTemplate x:Key="CollapsedColumnTemplate" TargetType="helpers:CustomKanbanColumn">
@@ -883,7 +884,7 @@
                                             Grid.Column="1"
                                             Margin="36,10,8,0"
                                             HorizontalAlignment="Stretch"
-                                            Background="{x:Bind ViewModel.DueDateBackgroundBrush, Mode=OneWay}"
+                                            Background="{x:Bind ViewModel.IsPassedDue, Mode=OneWay, Converter={StaticResource BoolToBrushConverter}}"
                                             Date="{x:Bind ViewModel.CurrentTask.DueDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
                                             Foreground="Red"

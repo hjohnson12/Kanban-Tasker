@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Linq;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 using Syncfusion.UI.Xaml.Kanban;
 using LeaderAnalytics.AdaptiveClient;
 using KanbanTasker.Base;
@@ -27,12 +26,12 @@ namespace KanbanTasker.ViewModels
         private PresentationBoard _board;
         private PresentationTask _currentTask;
         private ObservableCollection<string> _suggestedTagsCollection;
-        private Brush _dueDateBackgroundBrush;
         private string _paneTitle;
         private string _currentCategory;
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
         private bool _isProgressRingActive = false;
+        private bool _isPassedDue = false;
         private DispatcherTimer _dateCheckTimer;
         private ObservableCollection<string> _colorKeys;
         private ObservableCollection<string> _reminderTimes;
@@ -65,8 +64,6 @@ namespace KanbanTasker.ViewModels
             DeleteTagCommand = new RelayCommand<string>(DeleteTag, () => true);
             CancelEditCommand = new RelayCommand(CancelEdit, () => true);
             RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotfication, () => true);
-
-            DueDateBackgroundBrush = Application.Current.Resources["RegionBrush"] as AcrylicBrush;
 
             ColorKeys = new ObservableCollection<string>
             {
@@ -111,12 +108,6 @@ namespace KanbanTasker.ViewModels
         {
             get => _suggestedTagsCollection;
             set => SetProperty(ref _suggestedTagsCollection, value);
-        }
-
-        public Brush DueDateBackgroundBrush
-        {
-            get => _dueDateBackgroundBrush;
-            set => SetProperty(ref _dueDateBackgroundBrush, value);
         }
 
         /// <summary>
@@ -221,6 +212,15 @@ namespace KanbanTasker.ViewModels
                 CurrentTask.ReminderTime = value;
                 OnPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Flag for determining if the current task is passed due. 
+        /// </summary>
+        public bool IsPassedDue
+        {
+            get => _isPassedDue;
+            set => SetProperty(ref _isPassedDue, value);
         }
 
         /// <summary>
@@ -551,7 +551,7 @@ namespace KanbanTasker.ViewModels
             DateTimeOffset? startDate = CurrentTask.StartDate.ToNullableDateTimeOffset();
             DateTimeOffset? finishDate = CurrentTask.FinishDate.ToNullableDateTimeOffset();
 
-            CheckIfPassedDueDate(); // Sets background of CalendarPicker red if past due
+            IsPassedDue = CheckIfPastDue(); 
 
             // Update DaysWorkedOn
             if (startDate != null)
@@ -594,7 +594,7 @@ namespace KanbanTasker.ViewModels
             }
 
             CurrentTask.DueDate = dueDate;
-            CheckIfPassedDueDate();
+            IsPassedDue = CheckIfPastDue();
         }
 
         /// <summary>
@@ -669,18 +669,14 @@ namespace KanbanTasker.ViewModels
             }
 
             CurrentTask.TimeDue = timeDue;
-            CheckIfPassedDueDate();
+            IsPassedDue = CheckIfPastDue();
         }
 
         /// <summary>
-        /// Checks to see if the current task's due date has already passed and sets the
-        /// due date background, respectively. <br />
-        /// If true, sets the background of the CalendarPicker red. <br /> 
-        /// Otherwise, sets the background to the default brush.
-        /// <para>Note: If no due date has been selected, no changes
-        /// will be made since the current task's date is null. </para>
+        /// Checks if the current tasks due date is past due and returns the result.
         /// </summary>
-        public void CheckIfPassedDueDate()
+        /// <returns>A value indicating if the current task is past due</returns>
+        public bool CheckIfPastDue()
         {
             var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
             if (!(dueDate == null))
@@ -695,12 +691,12 @@ namespace KanbanTasker.ViewModels
                 );
 
                 if (DateTimeOffset.Compare(taskDueDate, today) < 0)
-                    DueDateBackgroundBrush = new SolidColorBrush(Windows.UI.Colors.Red) { Opacity = 0.6 };
+                    return true;
                 else
-                    DueDateBackgroundBrush = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+                    return false;
             }
             else
-                DueDateBackgroundBrush = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
+                return false;
         }
 
         /// <summary>

@@ -131,6 +131,7 @@
     <Compile Include="AutofacModule.cs" />
     <Compile Include="Base\Observable.cs" />
     <Compile Include="Base\RelayCommand.cs" />
+    <Compile Include="Converters\Text\BoolToBrushConverter.cs" />
     <Compile Include="Converters\Text\CardCountConverter.cs" />
     <Compile Include="Converters\Text\CardTemplateConverter.cs" />
     <Compile Include="Converters\Text\CollapsedMarginHeader.cs" />
