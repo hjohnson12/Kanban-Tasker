@@ -117,7 +117,7 @@ namespace KanbanTasker.ViewModels
         public BoardViewModel CurrentBoard
         {
             get => _currentBoard;
-            set => SetProperty(ref _currentBoard, value);
+            set { _currentBoard = value; OnPropertyChanged(); }
         }
 
         public string BoardEditorTitle
