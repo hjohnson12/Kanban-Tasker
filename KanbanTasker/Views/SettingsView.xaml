@@ -198,7 +198,6 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-
                         <StackPanel
                             Grid.Row="0"
                             HorizontalAlignment="Right"
@@ -223,7 +222,7 @@
                                 HorizontalAlignment="Left"
                                 FontSize="15"
                                 FontWeight="Bold"
-                                Text="Version 1.2.0 Beta Update Notes:"
+                                Text="Previous Version Update Notes:"
                                 TextDecorations="Underline"
                                 TextWrapping="Wrap" />
 
@@ -302,31 +301,6 @@
                                 NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
                                 Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                             <TextBlock Text="" />
-                            <TextBlock
-                                FontStyle="Italic"
-                                Text="Known Issues in v1.2.0 Beta:"
-                                TextDecorations="Underline" />
-                            <TextBlock
-                                Margin="0,8,0,0"
-                                HorizontalAlignment="Left"
-                                TextWrapping="Wrap">
-                                <Run Text="- Sometimes there is a quick flicker of the app UI upon opening and closing of the Task Calendar due to the loading in of the control. This is currently being investigated" />
-                            </TextBlock>
-                            <TextBlock
-                                Margin="0,8,0,0"
-                                HorizontalAlignment="Left"
-                                TextWrapping="Wrap">
-                                <Run Text="- DeleteTask in the EditPane is not working and has been disabled until a solution is found. Deleting from the card itself is the recommended option until further update" />
-                            </TextBlock>
-                            <TextBlock
-                                Margin="0,8,0,4"
-                                HorizontalAlignment="Left"
-                                TextWrapping="Wrap">
-                                <Run Text="- In some cases, when cancelling the edit of a task, sometimes the current task will be moved to a location near the end of the column." />
-                                <Run Text="It does not affect the database value since it's an internal issue with the control. If you restart the application it returns to its correct placement, but you're able to move it back as well!" />
-                                <Run Text="This is currently being investigated" />
-                            </TextBlock>
-
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
@@ -360,7 +334,7 @@
                             <TextBlock
                                 Margin="0,4,0,4"
                                 HorizontalAlignment="Center"
-                                Text="Kanban Tasker v1.2.0 Beta"
+                                Text="Kanban Tasker v1.2.1"
                                 TextDecorations="Underline" />
                             <TextBlock
                                 Margin="0,4,0,4"
