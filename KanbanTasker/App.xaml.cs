@@ -103,7 +103,7 @@ namespace KanbanTasker
         /// <summary>
         /// Gets the current user from Microsoft Graph if they are still authenticated with the application.
         /// </summary>
-        public async void GetCurrentUserIfSignedIn()
+        public async Task GetCurrentUserIfSignedIn()
         {
             authProvider = new AuthenticationProvider(appId, scopes);
             GraphServiceHelper.InitializeClient(authProvider);
@@ -125,7 +125,7 @@ namespace KanbanTasker
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -181,21 +181,21 @@ namespace KanbanTasker
                 titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
                 titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
 
-                SetupStoreServices();
+                await SetupStoreServices();
 
-                GetCurrentUserIfSignedIn();
+                await GetCurrentUserIfSignedIn();
 
-                CheckForUpdateOrFirstRun();
+                await CheckForUpdateOrFirstRun();
             }
         }
 
-        public async void SetupStoreServices()
+        public async Task SetupStoreServices()
         {
             StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
             await engagementManager.RegisterNotificationChannelAsync();
         }
 
-        public async void CheckForUpdateOrFirstRun()
+        public async Task CheckForUpdateOrFirstRun()
         {
             if (SystemInformation.Instance.IsAppUpdated)
             {
