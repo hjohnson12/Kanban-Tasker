@@ -61,9 +61,15 @@ namespace KanbanTasker.ViewModels
             // Load Board Taskss
             BoardList = new ObservableCollection<BoardViewModel>();
             List<BoardDTO> boardDTOs = dataProvider.Call(x => x.BoardServices.GetBoards());
+
             foreach (BoardDTO dto in boardDTOs)
             {
                 PresentationBoard presBoard = new PresentationBoard(dto);
+
+                //List<ColumnDTO> columnNames = dataProvider.Call(x => x.BoardServices.GetColumnNames(presBoard.ID));
+
+                // Set column names
+
 
                 if (dto.Tasks?.Any() ?? false)
                 {

@@ -153,6 +153,56 @@ namespace KanbanTasker.Services.SQLite
                 }
             }
         }
+
+        public List<ColumnDTO> GetColumnNames(int boardId)
+        {
+            List<ColumnDTO> columnNames = new List<ColumnDTO>();
+
+            // Get column names from db
+            using (SqliteConnection db =
+                new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
+            {
+                db.Open();
+
+                try
+                {
+                    SqliteCommand selectCommand1 = new SqliteCommand
+                        ("SELECT count(*) from tblColumns", db);
+
+                    SqliteDataReader query = selectCommand1.ExecuteReader();
+
+                    while (query.Read())
+                    {
+                        int t = Convert.ToInt32(query.GetString(0));
+                    }
+
+                   // SqliteCommand selectCommand = new SqliteCommand
+                   //("SELECT Id, ColumnName, Index from tblColumns WHERE BoardID=@boardId", db);
+                   // selectCommand.Parameters.AddWithValue("boardId", boardId);
+                   // selectCommand.ExecuteNonQuery();
+
+                   // selectCommand = new SqliteCommand
+                   //("SELECT FROM tblBoards WHERE Id=@id", db);
+                   // selectCommand.Parameters.AddWithValue("id", boardId);
+                   // selectCommand.ExecuteNonQuery();
+
+
+                   // SqliteCommand initTblColumns = new SqliteCommand(
+                   //     "SELECT count(*) from tblColumns", db);
+
+                   // SqliteDataReader query = initTblColumns.ExecuteReader();
+
+                   // columnNames.Add(new ColumnDTO { BoardId = })
+
+                    return columnNames;
+                }
+
+                finally
+                {
+                    db.Close();
+                }
+            }
+        }
     }
 }
 

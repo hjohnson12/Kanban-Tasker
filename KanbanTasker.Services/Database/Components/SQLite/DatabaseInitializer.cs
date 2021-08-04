@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 using KanbanTasker.Services.Database;
 using Microsoft.Data.Sqlite;
+using KanbanTasker.Model;
 
 namespace KanbanTasker.Services.Database.Components.SQLite
 {
@@ -45,10 +46,21 @@ namespace KanbanTasker.Services.Database.Components.SQLite
                     "Name NVARCHAR(2048) NULL, " +
                     "Notes NVARCHAR(2048) NULL)";
 
+                string tblColumnsCommand = "CREATE TABLE IF NOT " +
+                    "EXISTS tblColumns (" +
+                    "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "BoardID INTEGER NULL, " +
+                    "ColumnName NVARCHAR(2048) NULL, " +
+                    "Index INTEGER NULL)";
+
                 SqliteCommand createTblTasks = new SqliteCommand(tblTasksCommand, db);
                 SqliteCommand createTblBoards = new SqliteCommand(tblBoardsCommand, db);
+                SqliteCommand createTblColumns = new SqliteCommand(tblColumnsCommand, db);
+
                 createTblTasks.ExecuteReader();
                 createTblBoards.ExecuteReader();
+                createTblColumns.ExecuteReader(); 
+
                 db.Close();
             }
         }

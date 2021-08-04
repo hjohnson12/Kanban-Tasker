@@ -21,6 +21,7 @@ namespace KanbanTasker.Services.Database
             base.OnModelCreating(mb);
             mb.Entity<BoardDTO>().ToTable("tblBoards");
             mb.Entity<TaskDTO>().ToTable("tblTasks");
+            mb.Entity<ColumnDTO>().ToTable("tblColumns");
         }
     }
 }

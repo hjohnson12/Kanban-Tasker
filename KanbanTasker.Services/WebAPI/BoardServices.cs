@@ -22,6 +22,11 @@ namespace KanbanTasker.Services.WebAPI
         public RowOpResult<BoardDTO> SaveBoard(BoardDTO board) => Task.Run(() => Post<BoardDTO, RowOpResult<BoardDTO>>("Boards/SaveBoard", board)).Result;
        
         public RowOpResult DeleteBoard(int boardID) => Task.Run(() => Post<int, RowOpResult>("Boards/DeleteBoard", boardID)).Result;
+
+        public List<ColumnDTO> GetColumnNames(int boardId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

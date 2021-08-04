@@ -14,7 +14,7 @@ namespace KanbanTasker.Services.MSSQL
         public BoardServices(Db db, IServiceManifest serviceManifest) :base(db, serviceManifest) { }
 
         public virtual List<BoardDTO> GetBoards() => db.Boards.Include(x => x.Tasks).ToList();
-       
+
         public virtual RowOpResult<BoardDTO> SaveBoard(BoardDTO board)
         {
             RowOpResult<BoardDTO> result = new RowOpResult<BoardDTO>(board);
@@ -45,6 +45,11 @@ namespace KanbanTasker.Services.MSSQL
             db.SaveChanges();
             result.Success = true;
             return result;
+        }
+
+        public List<ColumnDTO> GetColumnNames(int boardId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
