@@ -18,6 +18,7 @@ namespace KanbanTasker.Views
     {
         public BoardViewModel ViewModel { get; set; }
         public static SplitView MySplitView { get; set; }
+        public string NewColumnName { get; set; }
         public BoardView()
         {
             this.InitializeComponent();
@@ -349,6 +350,36 @@ namespace KanbanTasker.Views
                     }
                 }
             }
+        }
+
+        private void btnSaveColChanges_Click(object sender, RoutedEventArgs e)
+        {
+            var originalColName = ((sender as Button).CommandParameter as ColumnTag).Header.ToString();
+            var newColName = ViewModel.NewColumnName;
+
+            if (originalColName == ViewModel.ColOneName)
+                ViewModel.ColOneName = newColName;
+            else if (originalColName == ViewModel.ColTwoName)
+                ViewModel.ColTwoName = newColName;
+            else if (originalColName == ViewModel.ColThreeName)
+                ViewModel.ColThreeName = newColName;
+            else if (originalColName == ViewModel.ColFourName)
+                ViewModel.ColFourName = newColName;
+            else if (originalColName == ViewModel.ColFiveName)
+                ViewModel.ColFiveName = newColName;
+
+            //((sender as Button).CommandParameter as ColumnTag).Header = ViewModel.NewColumnName;
+            ViewModel.EditColumnName(originalColName, newColName);
+        }
+
+        private void txtBoxColName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ViewModel.NewColumnName = (sender as TextBox).Text;
+        }
+
+        private void txtBoxColName_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).Select((sender as TextBox).Text.Length, 0);
         }
     }
 }

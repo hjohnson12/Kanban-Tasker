@@ -32,11 +32,18 @@ namespace KanbanTasker.ViewModels
         private bool _isEditingTask;
         private bool _isProgressRingActive = false;
         private bool _isPassedDue = false;
+        private string _ColFiveName;
+        private string _ColThreeName;
+        private string _ColTwoName;
+        private string _ColFourName;
+        private string _ColOneName;
+        private string _NewColName;
         private DispatcherTimer _dateCheckTimer;
         private ObservableCollection<string> _colorKeys;
         private ObservableCollection<string> _reminderTimes;
 
         public ICommand NewTaskCommand { get; set; }
+        public ICommand EditColumnCommand { get; set; }
         public ICommand EditTaskCommand { get; set; }
         public ICommand SaveTaskCommand { get; set; }
         public ICommand DeleteTaskCommand { get; set; }
@@ -82,6 +89,13 @@ namespace KanbanTasker.ViewModels
                 "1 Day Before",
                 "2 Days Before"
             };
+
+            NewColumnName = "";
+            ColOneName = "Backlog";
+            ColTwoName = "To Do";
+            ColThreeName = "In Progress";
+            ColFourName = "Review";
+            ColFiveName = "Completed";
 
             PaneTitle = "New Task";
         }
@@ -137,9 +151,63 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _reminderTimes, value);
         }
 
-        /// <summary>
-        /// The name of the editing pane
-        /// </summary>
+        public string ColOneName
+        {
+            get { return _ColOneName; }
+            set
+            {
+                _ColOneName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ColTwoName
+        {
+            get { return _ColTwoName; }
+            set
+            {
+                _ColTwoName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ColThreeName
+        {
+            get { return _ColThreeName; }
+            set
+            {
+                _ColThreeName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ColFourName
+        {
+            get { return _ColFourName; }
+            set
+            {
+                _ColFourName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ColFiveName
+        {
+            get { return _ColFiveName; }
+            set
+            {
+                _ColFiveName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string NewColumnName
+        {
+            get { return _NewColName; }
+            set
+            {
+                _NewColName = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string PaneTitle
         {
             get => _paneTitle;
@@ -213,6 +281,7 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged();
             }
         }
+     
 
         /// <summary>
         /// Flag for determining if the current task is passed due. 
@@ -249,6 +318,12 @@ namespace KanbanTasker.ViewModels
             SelectedReminderTime = DEFAULT_REMINDER_TIME;
             OriginalTask = null; 
             InitializeSuggestedTags();
+        }
+
+        public void EditColumnCommandHandler(ColumnTag tag)
+        {
+            string category = tag?.Header?.ToString();
+
         }
 
         /// <summary>
@@ -416,6 +491,20 @@ namespace KanbanTasker.ViewModels
         {
             ToastNotificationHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
             CurrentTask.ReminderTime = DEFAULT_REMINDER_TIME;
+        }
+
+        internal void EditColumnName(string originalColName, string newColName)
+        {
+            // TODO: Update column name on each task in that column & in the db
+            // and make sure Syncfusions control notices the changes
+            foreach (var task in Board.Tasks)
+            {
+                if (task.Category == originalColName)
+                {
+                    task.Category = newColName;
+                    DataProvider.Call(x => x.TaskServices.UpdateColumnName(task.ID, task.Category));
+                }
+            }
         }
 
         /// <summary>

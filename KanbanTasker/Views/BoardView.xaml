@@ -138,12 +138,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
-                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}">
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                    Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -1127,7 +1127,7 @@
                 ItemsSource="{x:Bind ViewModel.Board.Tasks, Mode=OneWay}">
 
                 <syncfusion:SfKanban.ColumnHeaderTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="viewmodels:BoardViewModel">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="9*" />
@@ -1154,8 +1154,56 @@
                                     Text="{Binding Header}"
                                     TextWrapping="NoWrap" />
                                 <Button
+                                    x:Name="btnEditColumn"
+                                    Margin="8,5,0,0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Content="&#xE104;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    ToolTipService.ToolTip="Edit column name">
+                                    <Button.Flyout>
+                                        <Flyout Placement="Bottom">
+                                            <Grid Width="200">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel
+                                                    Grid.Row="0"
+                                                    Margin="4,0,4,8"
+                                                    Orientation="Vertical">
+                                                    <TextBlock
+                                                        FontSize="14"
+                                                        FontWeight="Bold"
+                                                        Text="Edit Column Name:" />
+                                                </StackPanel>
+                                                <TextBox
+                                                    x:Name="txtBoxColName"
+                                                    Grid.Row="1"
+                                                    x:FieldModifier="public"
+                                                    MaxLength="24"
+                                                    Text="{Binding Header}"
+                                                    TextChanged="txtBoxColName_TextChanged" Loaded="txtBoxColName_Loaded" />
+                                                <Grid
+                                                    Grid.Row="2"
+                                                    Margin="0,8,0,0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Center">
+                                                    <Button
+                                                        x:Name="btnSaveColChanges"
+                                                        x:FieldModifier="public"
+                                                        Click="btnSaveColChanges_Click"
+                                                        CommandParameter="{Binding}"
+                                                        Content="Save Changes" />
+                                                </Grid>
+                                            </Grid>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                                <Button
                                     x:Name="btnNewTask"
-                                    Margin="5,5,0,0"
+                                    Margin="2,5,0,0"
                                     HorizontalAlignment="Right"
                                     Background="Transparent"
                                     BorderThickness="0"
@@ -1232,8 +1280,21 @@
 
                 <helpers:CustomKanbanColumn
                     x:Name="Backlog"
-                    Title="Backlog"
-                    Categories="Backlog"
+                    Title="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
+                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
+                    MaximumLimit="100">
+                    <helpers:CustomKanbanColumn.ErrorBarSettings>
+                        <syncfusion:ErrorBarSettings
+                            MaxValidationColor="Red"
+                            MinValidationColor="Green"
+                            Color="Gray" />
+                    </helpers:CustomKanbanColumn.ErrorBarSettings>
+                </helpers:CustomKanbanColumn>
+
+                <helpers:CustomKanbanColumn
+                    Title="{x:Bind ViewModel.ColTwoName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColTwoName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
@@ -1245,8 +1306,8 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="To Do"
-                    Categories="To Do"
+                    Title="{x:Bind ViewModel.ColThreeName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColThreeName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
@@ -1258,8 +1319,8 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="In Progress"
-                    Categories="In Progress"
+                    Title="{x:Bind ViewModel.ColFourName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColFourName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
@@ -1271,21 +1332,8 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="Review"
-                    Categories="Review"
-                    CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="20">
-                    <helpers:CustomKanbanColumn.ErrorBarSettings>
-                        <syncfusion:ErrorBarSettings
-                            MaxValidationColor="Red"
-                            MinValidationColor="Green"
-                            Color="Gray" />
-                    </helpers:CustomKanbanColumn.ErrorBarSettings>
-                </helpers:CustomKanbanColumn>
-
-                <helpers:CustomKanbanColumn
-                    Title="Completed"
-                    Categories="Completed"
+                    Title="{x:Bind ViewModel.ColFiveName}"
+                    Categories="{x:Bind ViewModel.ColFiveName}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>

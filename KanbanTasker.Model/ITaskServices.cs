@@ -14,6 +14,7 @@ namespace KanbanTasker.Model
         List<TaskDTO> GetTasks();
         void UpdateCardIndex(int iD, int currentCardIndex);
         void UpdateColumnData(TaskDTO task);
+        void UpdateColumnName(int iD, string newColName);
         RowOpResult<TaskDTO> ValidateTask(RowOpResult<TaskDTO> result);
     }
 }

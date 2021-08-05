@@ -61,5 +61,10 @@ namespace KanbanTasker.Services.MSSQL
             task.ColumnIndex = currentCardIndex;
             SaveTask(task);
         }
+
+        public void UpdateColumnName(int iD, string newColName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
