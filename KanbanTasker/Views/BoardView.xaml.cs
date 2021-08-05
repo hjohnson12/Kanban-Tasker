@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Navigation;
 using Syncfusion.UI.Xaml.Kanban;
 using KanbanTasker.Models;
 using KanbanTasker.ViewModels;
+using System.Collections.Generic;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -108,8 +109,13 @@ namespace KanbanTasker.Views
             var selectedCardModel = e.SelectedCard.Content as PresentationTask;
             int sourceCardIndex = e.SelectedCardIndex;
             int targetCardIndex = e.TargetCardIndex;
+
+            // Update item in collection and database
+            var selectedTask = ViewModel.Board.Tasks.FirstOrDefault(x => x.ID == selectedCardModel.ID);
+            selectedTask.ColumnIndex = targetCardIndex;
+            //t2.Category = targetCategory;
+
             ViewModel.UpdateCardColumn(targetCategory, selectedCardModel, targetCardIndex);
-            var tempTasks = ViewModel.Board.Tasks;
 
             // Reorder cards when dragging to & from same column
             if (e.TargetColumn.Title.ToString() == e.SelectedColumn.Title.ToString())
@@ -121,14 +127,16 @@ namespace KanbanTasker.Views
                     if (currentIndex != Convert.ToInt32(targetCardIndex))
                     {
                         var currentModel = card.Content as PresentationTask;
-                        currentModel.ColumnIndex = currentIndex;
+
+                        if (currentModel == null) 
+                            return;
+
+                        // Update task in collection, otherwise stale data
+                        var task = ViewModel.Board.Tasks
+                            .FirstOrDefault(x => x.ID == currentModel.ID);
+                        task.ColumnIndex = currentIndex;
+
                         ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
-
-                        // NOTE FROM DEBUGGING:
-
-                        //  After its updated in the database, it's not updating the Tasks list? so next iteration when I delete second card, it's using old tasks?
-                        // Found inside of (this) at runtime by viewing the ViewModel and PresentationBoard inside it
-                        // Part of the bug explained in BoardViewModel.cs, Line 222. Low severity, current fixes stops the major crashing, this is just a hidden issue
                     }
                 }
             }
@@ -145,7 +153,15 @@ namespace KanbanTasker.Views
                         if (currentIndex > Convert.ToInt32(targetCardIndex))
                         {
                             var currentModel = card.Content as PresentationTask;
-                            currentModel.ColumnIndex = currentIndex;
+
+                            if (currentModel == null)
+                                return;
+
+                            // Update task in collection, otherwise stale data
+                            var task = ViewModel.Board.Tasks
+                                .FirstOrDefault(x => x.ID == currentModel.ID);
+                            task.ColumnIndex = currentIndex;
+
                             ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
                         }
                     }
@@ -158,7 +174,12 @@ namespace KanbanTasker.Views
                     {
                         int currentIndex = e.SelectedColumn.Cards.IndexOf(card);
                         var currentModel = card.Content as PresentationTask;
-                        currentModel.ColumnIndex = currentIndex;
+
+                        // Update task in collection, otherwise stale data
+                        var task = ViewModel.Board.Tasks
+                            .FirstOrDefault(x => x.ID == currentModel.ID);
+                        task.ColumnIndex = currentIndex;
+                        
                         ViewModel.UpdateCardIndex(currentModel.ID, currentIndex);
                     }
                 }
