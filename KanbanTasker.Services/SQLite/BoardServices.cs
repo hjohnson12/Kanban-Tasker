@@ -231,6 +231,7 @@ namespace KanbanTasker.Services.SQLite
                                 "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
                             columnOne.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
+                            insertCommand.Parameters.Clear();
                             insertCommand.Parameters.AddWithValue("@boardId", columnTwo.BoardId);
                             insertCommand.Parameters.AddWithValue("@columnName", columnTwo.ColumnName);
                             insertCommand.Parameters.AddWithValue("@indx", columnTwo.Indx);
@@ -238,6 +239,7 @@ namespace KanbanTasker.Services.SQLite
                                 "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
                             columnTwo.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
+                            insertCommand.Parameters.Clear();
                             insertCommand.Parameters.AddWithValue("@boardId", columnThree.BoardId);
                             insertCommand.Parameters.AddWithValue("@columnName", columnThree.ColumnName);
                             insertCommand.Parameters.AddWithValue("@indx", columnThree.Indx);
@@ -245,6 +247,7 @@ namespace KanbanTasker.Services.SQLite
                                 "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
                             columnThree.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
+                            insertCommand.Parameters.Clear();
                             insertCommand.Parameters.AddWithValue("@boardId", columnFour.BoardId);
                             insertCommand.Parameters.AddWithValue("@columnName", columnFour.ColumnName);
                             insertCommand.Parameters.AddWithValue("@indx", columnFour.Indx);
@@ -252,6 +255,7 @@ namespace KanbanTasker.Services.SQLite
                                 "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
                             columnFour.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
+                            insertCommand.Parameters.Clear();
                             insertCommand.Parameters.AddWithValue("@boardId", columnFive.BoardId);
                             insertCommand.Parameters.AddWithValue("@columnName", columnFive.ColumnName);
                             insertCommand.Parameters.AddWithValue("@indx", columnFive.Indx);
