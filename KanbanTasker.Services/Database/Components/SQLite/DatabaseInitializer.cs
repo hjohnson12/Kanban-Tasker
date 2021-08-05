@@ -51,7 +51,7 @@ namespace KanbanTasker.Services.Database.Components.SQLite
                     "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "BoardID INTEGER NULL, " +
                     "ColumnName NVARCHAR(2048) NULL, " +
-                    "Index INTEGER NULL)";
+                    "Indx INTEGER NULL)";
 
                 SqliteCommand createTblTasks = new SqliteCommand(tblTasksCommand, db);
                 SqliteCommand createTblBoards = new SqliteCommand(tblBoardsCommand, db);

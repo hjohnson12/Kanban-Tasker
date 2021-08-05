@@ -66,7 +66,7 @@ namespace KanbanTasker.ViewModels
             {
                 PresentationBoard presBoard = new PresentationBoard(dto);
 
-                //List<ColumnDTO> columnNames = dataProvider.Call(x => x.BoardServices.GetColumnNames(presBoard.ID));
+                List<ColumnDTO> columnNames = dataProvider.Call(x => x.BoardServices.GetColumnNames(presBoard.ID));
 
                 // Set column names
 

@@ -2,14 +2,16 @@
 using KanbanTasker.Services.Database.Components.SQLite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KanbanTasker.Services.Database.Migrations.SQLite
 {
     [DbContext(typeof(Db_SQLite))]
-    partial class Db_SQLiteModelSnapshot : ModelSnapshot
+    [Migration("20210805013435_CreateNewTable")]
+    partial class CreateNewTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
