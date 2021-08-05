@@ -26,6 +26,7 @@ namespace KanbanTasker.ViewModels
         private PresentationBoard _board;
         private PresentationTask _currentTask;
         private ObservableCollection<string> _suggestedTagsCollection;
+        List<ColumnDTO> columnNames;
         private string _paneTitle;
         private string _currentCategory;
         private bool _isPointerEntered = false;
@@ -90,12 +91,31 @@ namespace KanbanTasker.ViewModels
                 "2 Days Before"
             };
 
+            bool isNew = Board.ID == 0;
+            columnNames = new List<ColumnDTO>();
+            if (!isNew)
+            {
+                columnNames = dataProvider.Call(x => x.BoardServices.GetColumnNames(Board.ID));
+            }
+
             NewColumnName = "";
-            ColOneName = "Backlog";
-            ColTwoName = "To Do";
-            ColThreeName = "In Progress";
-            ColFourName = "Review";
-            ColFiveName = "Completed";
+
+            if (!isNew && columnNames.Count != 0)
+            {
+                ColOneName = columnNames.Find(x => x.Indx == 0).ColumnName;
+                ColTwoName = columnNames.Find(x => x.Indx == 1).ColumnName;
+                ColThreeName = columnNames.Find(x => x.Indx == 2).ColumnName;
+                ColFourName = columnNames.Find(x => x.Indx == 3).ColumnName;
+                ColFiveName = columnNames.Find(x => x.Indx == 4).ColumnName;
+            }
+            else
+            {
+                ColOneName = "Backlog";
+                ColTwoName = "To Do";
+                ColThreeName = "In Progress";
+                ColFourName = "Review";
+                ColFiveName = "Completed";
+            }
 
             PaneTitle = "New Task";
         }
@@ -473,6 +493,7 @@ namespace KanbanTasker.ViewModels
                 Board.Tasks[index] = tempTask;
                 Board.Tasks = new ObservableCollection<PresentationTask>(
                     Board.Tasks.OrderBy(x => x.ColumnIndex));
+                //Board.Tasks.OrderBy(x => x.ColumnIndex);
 
                 // Check if a toast notification was deleted
                 if (OriginalTask.ReminderTime != DEFAULT_REMINDER_TIME)
@@ -493,11 +514,26 @@ namespace KanbanTasker.ViewModels
             CurrentTask.ReminderTime = DEFAULT_REMINDER_TIME;
         }
 
+        /// <summary>
+        /// Updates the column name in the database with its new name and renames
+        /// each tasks category to the updated name.
+        /// </summary>
+        /// <param name="originalColName"></param>
+        /// <param name="newColName"></param>
         internal void EditColumnName(string originalColName, string newColName)
         {
-            // TODO: Update column name on each task in that column & in the db
-            // and make sure Syncfusions control notices the changes
-            foreach (var task in Board.Tasks)
+            // Update column
+            if (columnNames.Count == 0)
+                columnNames = DataProvider.Call(x => x.BoardServices.GetColumnNames(Board.ID));
+
+            ColumnDTO columnDTO = columnNames.Find(x => x.ColumnName.Equals(originalColName));
+            columnDTO.ColumnName = newColName;
+
+            DataProvider.Call(x => x.BoardServices.SaveColumn(columnDTO));
+
+            // Update tasks category name to new column
+            var tasksCopy = new ObservableCollection<PresentationTask>(Board.Tasks);
+            foreach (var task in tasksCopy)
             {
                 if (task.Category == originalColName)
                 {
@@ -505,6 +541,8 @@ namespace KanbanTasker.ViewModels
                     DataProvider.Call(x => x.TaskServices.UpdateColumnName(task.ID, task.Category));
                 }
             }
+            Board.Tasks = new ObservableCollection<PresentationTask>(tasksCopy.OrderBy(x => x.ColumnIndex));
+            Board.Tasks.OrderBy(x => x.ColumnIndex);
         }
 
         /// <summary>
@@ -809,6 +847,11 @@ namespace KanbanTasker.ViewModels
             TaskDTO task = selectedCardModel.To_TaskDTO();
             task.Category = targetCategory;
             task.ColumnIndex = targetIndex;
+
+            //var updatedTask = new PresentationTask(task);
+            //var index = Board.Tasks.IndexOf(selectedCardModel);
+            //Board.Tasks[index] = updatedTask;
+
             DataProvider.Call(x => x.TaskServices.UpdateColumnData(task));
         }
 
@@ -819,6 +862,11 @@ namespace KanbanTasker.ViewModels
         /// <param name="currentCardIndex"></param>
         internal void UpdateCardIndex(int iD, int currentCardIndex)
         {
+            //var task = Board.Tasks.Single(x => x.ID == iD);
+            //var index = Board.Tasks.IndexOf(task);
+            //task.ColumnIndex = currentCardIndex;
+            //Board.Tasks[index] = task;
+
             DataProvider.Call(x => x.TaskServices.UpdateCardIndex(iD, currentCardIndex));
         }
     }

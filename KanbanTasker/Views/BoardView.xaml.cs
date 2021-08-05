@@ -109,6 +109,7 @@ namespace KanbanTasker.Views
             int sourceCardIndex = e.SelectedCardIndex;
             int targetCardIndex = e.TargetCardIndex;
             ViewModel.UpdateCardColumn(targetCategory, selectedCardModel, targetCardIndex);
+            var tempTasks = ViewModel.Board.Tasks;
 
             // Reorder cards when dragging to & from same column
             if (e.TargetColumn.Title.ToString() == e.SelectedColumn.Title.ToString())

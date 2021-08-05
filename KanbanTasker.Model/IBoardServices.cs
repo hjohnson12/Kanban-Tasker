@@ -13,6 +13,8 @@ namespace KanbanTasker.Model
         RowOpResult DeleteBoard(int boardId);
         List<BoardDTO> GetBoards();
         List<ColumnDTO> GetColumnNames(int boardId);
+        RowOpResult CreateColumns(int boardId);
+        RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column);
         RowOpResult<BoardDTO> ValidateBoard(RowOpResult<BoardDTO> result);
     }
 }

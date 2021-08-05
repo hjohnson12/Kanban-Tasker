@@ -138,12 +138,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
+                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                    Text="{TemplateBinding Title}">
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -1332,8 +1332,8 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="{x:Bind ViewModel.ColFiveName}"
-                    Categories="{x:Bind ViewModel.ColFiveName}"
+                    Title="{x:Bind ViewModel.ColFiveName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.ColFiveName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
                     MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>

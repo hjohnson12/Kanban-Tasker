@@ -66,7 +66,7 @@ namespace KanbanTasker.ViewModels
             {
                 PresentationBoard presBoard = new PresentationBoard(dto);
 
-                List<ColumnDTO> columnNames = dataProvider.Call(x => x.BoardServices.GetColumnNames(presBoard.ID));
+                //List<ColumnDTO> columnNames = dataProvider.Call(x => x.BoardServices.GetColumnNames(presBoard.ID));
 
                 // Set column names
 
@@ -194,6 +194,7 @@ namespace KanbanTasker.ViewModels
                 BoardList.Add(CurrentBoard);
             }
 
+            RowOpResult createResult = dataProvider.Call(x => x.BoardServices.CreateColumns(CurrentBoard.Board.ID));
         }
 
         public void CancelSaveBoard()

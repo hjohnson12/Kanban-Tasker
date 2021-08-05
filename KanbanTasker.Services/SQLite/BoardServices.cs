@@ -134,19 +134,123 @@ namespace KanbanTasker.Services.SQLite
                 try
                 {
                     SqliteCommand deleteCommand = new SqliteCommand
-                   ("DELETE FROM tblTasks WHERE BoardID=@boardId", db);
+                        ("DELETE FROM tblTasks WHERE BoardID=@boardId", db);
                     deleteCommand.Parameters.AddWithValue("boardId", boardId);
                     deleteCommand.ExecuteNonQuery();
 
                     deleteCommand = new SqliteCommand
-                   ("DELETE FROM tblBoards WHERE Id=@id", db);
+                        ("DELETE FROM tblBoards WHERE Id=@id", db);
                     deleteCommand.Parameters.AddWithValue("id", boardId);
                     deleteCommand.ExecuteNonQuery();
+
+                    deleteCommand = new SqliteCommand
+                        ("DELETE FROM tblColumns WHERE BoardID=@boardId", db);
+                    deleteCommand.Parameters.AddWithValue("@boardId", boardId);
+                    deleteCommand.ExecuteNonQuery();
+
+                    result.Success = true;
+                }
+                finally
+                {
+                    db.Close();
+                }
+                return result;
+            }
+        }
+
+        public RowOpResult CreateColumns(int boardId)
+        {
+            RowOpResult result = new RowOpResult();
+
+            using (SqliteConnection db =
+                new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
+            {
+                db.Open();
+
+                try
+                {
+                    // Set default columns for new board
+                    ColumnDTO columnOne, columnTwo, columnThree, columnFour, columnFive;
+                    columnOne = new ColumnDTO
+                    {
+                        BoardId = boardId,
+                        ColumnName = "Backlog",
+                        Indx = 0
+                    };
+
+                    columnTwo = new ColumnDTO
+                    {
+                        BoardId = boardId,
+                        ColumnName = "To Do",
+                        Indx = 1
+                    };
+
+                    columnThree = new ColumnDTO
+                    {
+                        BoardId = boardId,
+                        ColumnName = "In Progress",
+                        Indx = 2
+                    };
+
+                    columnFour = new ColumnDTO
+                    {
+                        BoardId = boardId,
+                        ColumnName = "Review",
+                        Indx = 3
+                    };
+
+                    columnFive = new ColumnDTO
+                    {
+                        BoardId = boardId,
+                        ColumnName = "Completed",
+                        Indx = 4
+                    };
+
+                    // Insert columns and return id
+                    SqliteCommand insertCommand = new SqliteCommand { Connection = db };
+                    insertCommand.Parameters.AddWithValue("@boardId", columnOne.BoardId);
+                    insertCommand.Parameters.AddWithValue("@columnName", columnOne.ColumnName);
+                    insertCommand.Parameters.AddWithValue("@indx", columnOne.Indx);
+                    insertCommand.CommandText =
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                    columnOne.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+
+                    insertCommand.Parameters.Clear();
+                    insertCommand.Parameters.AddWithValue("@boardId", columnTwo.BoardId);
+                    insertCommand.Parameters.AddWithValue("@columnName", columnTwo.ColumnName);
+                    insertCommand.Parameters.AddWithValue("@indx", columnTwo.Indx);
+                    insertCommand.CommandText =
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                    columnTwo.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+
+                    insertCommand.Parameters.Clear();
+                    insertCommand.Parameters.AddWithValue("@boardId", columnThree.BoardId);
+                    insertCommand.Parameters.AddWithValue("@columnName", columnThree.ColumnName);
+                    insertCommand.Parameters.AddWithValue("@indx", columnThree.Indx);
+                    insertCommand.CommandText =
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                    columnThree.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+
+                    insertCommand.Parameters.Clear();
+                    insertCommand.Parameters.AddWithValue("@boardId", columnFour.BoardId);
+                    insertCommand.Parameters.AddWithValue("@columnName", columnFour.ColumnName);
+                    insertCommand.Parameters.AddWithValue("@indx", columnFour.Indx);
+                    insertCommand.CommandText =
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                    columnFour.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+
+                    insertCommand.Parameters.Clear();
+                    insertCommand.Parameters.AddWithValue("@boardId", columnFive.BoardId);
+                    insertCommand.Parameters.AddWithValue("@columnName", columnFive.ColumnName);
+                    insertCommand.Parameters.AddWithValue("@indx", columnFive.Indx);
+                    insertCommand.CommandText =
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                    columnFive.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                     result.Success = true;
                     return result;
                 }
-                
+
                 finally
                 {
                     db.Close();
@@ -166,8 +270,9 @@ namespace KanbanTasker.Services.SQLite
 
                 try
                 {
-                    SqliteCommand selectCommand1 = new SqliteCommand
-                        ("SELECT count(*) from tblColumns", db);
+                    SqliteCommand selectCommand1 = new SqliteCommand { Connection = db };
+                    selectCommand1.Parameters.AddWithValue("@boardId", boardId);
+                    selectCommand1.CommandText = "SELECT count(*) from tblColumns WHERE BoardID=@boardId";
 
                     SqliteDataReader query = selectCommand1.ExecuteReader();
 
@@ -181,101 +286,96 @@ namespace KanbanTasker.Services.SQLite
 
                     if (count == 0)
                     {
-                        var boards = ServiceManifest.BoardServices.GetBoards();
-
-                        // Set default columns
-
-                        if (boards.Count != 0)
+                        // Create default columns for existing boards
+                        columnOne = new ColumnDTO
                         {
-                            columnOne = new ColumnDTO
-                            {
-                                BoardId = boards[0].Id,
-                                ColumnName = "Backlog",
-                                Indx = 0
-                            };
+                            BoardId = boardId,
+                            ColumnName = "Backlog",
+                            Indx = 0
+                        };
 
-                            columnTwo = new ColumnDTO
-                            {
-                                BoardId = boards[0].Id,
-                                ColumnName = "To Do",
-                                Indx = 1
-                            };
+                        columnTwo = new ColumnDTO
+                        {
+                            BoardId = boardId,
+                            ColumnName = "To Do",
+                            Indx = 1
+                        };
 
-                            columnThree = new ColumnDTO
-                            {
-                                BoardId = boards[0].Id,
-                                ColumnName = "In Progress",
-                                Indx = 2
-                            };
+                        columnThree = new ColumnDTO
+                        {
+                            BoardId = boardId,
+                            ColumnName = "In Progress",
+                            Indx = 2
+                        };
 
-                            columnFour = new ColumnDTO
-                            {
-                                BoardId = boards[0].Id,
-                                ColumnName = "Review",
-                                Indx = 3
-                            };
+                        columnFour = new ColumnDTO
+                        {
+                            BoardId = boardId,
+                            ColumnName = "Review",
+                            Indx = 3
+                        };
 
-                            columnFive = new ColumnDTO
-                            {
-                                BoardId = boards[0].Id,
-                                ColumnName = "Completed",
-                                Indx = 4
-                            };
+                        columnFive = new ColumnDTO
+                        {
+                            BoardId = boardId,
+                            ColumnName = "Completed",
+                            Indx = 4
+                        };
 
-                            // Insert columns and return id
-                            SqliteCommand insertCommand = new SqliteCommand { Connection = db };
-                            insertCommand.Parameters.AddWithValue("@boardId", columnOne.BoardId);
-                            insertCommand.Parameters.AddWithValue("@columnName", columnOne.ColumnName);
-                            insertCommand.Parameters.AddWithValue("@indx", columnOne.Indx);
-                            insertCommand.CommandText = 
-                                "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
-                            columnOne.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+                        // Insert columns and return id
+                        SqliteCommand insertCommand = new SqliteCommand { Connection = db };
+                        insertCommand.Parameters.AddWithValue("@boardId", columnOne.BoardId);
+                        insertCommand.Parameters.AddWithValue("@columnName", columnOne.ColumnName);
+                        insertCommand.Parameters.AddWithValue("@indx", columnOne.Indx);
+                        insertCommand.CommandText =
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        columnOne.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
-                            insertCommand.Parameters.Clear();
-                            insertCommand.Parameters.AddWithValue("@boardId", columnTwo.BoardId);
-                            insertCommand.Parameters.AddWithValue("@columnName", columnTwo.ColumnName);
-                            insertCommand.Parameters.AddWithValue("@indx", columnTwo.Indx);
-                            insertCommand.CommandText =
-                                "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
-                            columnTwo.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+                        insertCommand.Parameters.Clear();
+                        insertCommand.Parameters.AddWithValue("@boardId", columnTwo.BoardId);
+                        insertCommand.Parameters.AddWithValue("@columnName", columnTwo.ColumnName);
+                        insertCommand.Parameters.AddWithValue("@indx", columnTwo.Indx);
+                        insertCommand.CommandText =
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        columnTwo.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
-                            insertCommand.Parameters.Clear();
-                            insertCommand.Parameters.AddWithValue("@boardId", columnThree.BoardId);
-                            insertCommand.Parameters.AddWithValue("@columnName", columnThree.ColumnName);
-                            insertCommand.Parameters.AddWithValue("@indx", columnThree.Indx);
-                            insertCommand.CommandText =
-                                "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
-                            columnThree.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+                        insertCommand.Parameters.Clear();
+                        insertCommand.Parameters.AddWithValue("@boardId", columnThree.BoardId);
+                        insertCommand.Parameters.AddWithValue("@columnName", columnThree.ColumnName);
+                        insertCommand.Parameters.AddWithValue("@indx", columnThree.Indx);
+                        insertCommand.CommandText =
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        columnThree.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
-                            insertCommand.Parameters.Clear();
-                            insertCommand.Parameters.AddWithValue("@boardId", columnFour.BoardId);
-                            insertCommand.Parameters.AddWithValue("@columnName", columnFour.ColumnName);
-                            insertCommand.Parameters.AddWithValue("@indx", columnFour.Indx);
-                            insertCommand.CommandText =
-                                "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
-                            columnFour.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+                        insertCommand.Parameters.Clear();
+                        insertCommand.Parameters.AddWithValue("@boardId", columnFour.BoardId);
+                        insertCommand.Parameters.AddWithValue("@columnName", columnFour.ColumnName);
+                        insertCommand.Parameters.AddWithValue("@indx", columnFour.Indx);
+                        insertCommand.CommandText =
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        columnFour.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
-                            insertCommand.Parameters.Clear();
-                            insertCommand.Parameters.AddWithValue("@boardId", columnFive.BoardId);
-                            insertCommand.Parameters.AddWithValue("@columnName", columnFive.ColumnName);
-                            insertCommand.Parameters.AddWithValue("@indx", columnFive.Indx);
-                            insertCommand.CommandText =
-                                "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
-                            columnFive.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+                        insertCommand.Parameters.Clear();
+                        insertCommand.Parameters.AddWithValue("@boardId", columnFive.BoardId);
+                        insertCommand.Parameters.AddWithValue("@columnName", columnFive.ColumnName);
+                        insertCommand.Parameters.AddWithValue("@indx", columnFive.Indx);
+                        insertCommand.CommandText =
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        columnFive.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
-                            // Add columns to list
-                            columnNames.Add(columnOne);
-                            columnNames.Add(columnTwo);
-                            columnNames.Add(columnThree);
-                            columnNames.Add(columnFour);
-                            columnNames.Add(columnFive);
-                        }
+                        // Add columns to list
+                        columnNames.Add(columnOne);
+                        columnNames.Add(columnTwo);
+                        columnNames.Add(columnThree);
+                        columnNames.Add(columnFour);
+                        columnNames.Add(columnFive);
                     }
                     else // Count != 0
                     {
                         // Get existing columns
                         SqliteCommand selectCommand = new SqliteCommand(
-                            "SELECT Id, BoardId, ColumnName, Indx from tblColumns", db);
+                            "SELECT Id, BoardId, ColumnName, Indx from tblColumns WHERE BoardId=@boardId", db);
+                        selectCommand.Parameters.AddWithValue("@boardId", boardId);
 
                         query = selectCommand.ExecuteReader();
 
@@ -291,16 +391,39 @@ namespace KanbanTasker.Services.SQLite
                             columnNames.Add(row);
                         }
                     }
-
-                    return columnNames;
                 }
+                finally
+                {
+                    db.Close();
+                }
+                return columnNames;
+            }
+        }
 
+        public RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column)
+        {
+            RowOpResult<ColumnDTO> result = new RowOpResult<ColumnDTO>(column);
+
+            using (SqliteConnection db = new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
+            {
+                try
+                {
+                    db.Open();
+                    SqliteCommand command = new SqliteCommand { Connection = db };
+                    command.Parameters.AddWithValue("@id", column.Id);
+                    command.Parameters.AddWithValue("@boardId", column.BoardId);
+                    command.Parameters.AddWithValue("@columnName", column.ColumnName);
+                    command.CommandText = "UPDATE tblColumns SET ColumnName=@columnName WHERE Id=@id AND BoardID=@boardId";
+                    command.ExecuteNonQuery();
+
+                    result.Success = true;
+                }
                 finally
                 {
                     db.Close();
                 }
             }
+            return result;
         }
     }
 }
-

@@ -27,6 +27,16 @@ namespace KanbanTasker.Services.WebAPI
         {
             throw new NotImplementedException();
         }
+
+        public RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RowOpResult CreateColumns(int boardId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
