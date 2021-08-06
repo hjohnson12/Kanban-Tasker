@@ -176,12 +176,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
-                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}">
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                    Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -1283,7 +1283,7 @@
                     Title="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
                     Categories="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="100">
+                    MaximumLimit="20">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
