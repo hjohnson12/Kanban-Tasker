@@ -205,12 +205,17 @@
                             Grid.Row="0"
                             HorizontalAlignment="Right"
                             Orientation="Vertical">
-
                             <TextBlock
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
                                 TextWrapping="Wrap">
                                 <Run>- Added ability to edit column names on a board</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Added ability to edit column's max task limit</Run>
                             </TextBlock>
                             <TextBlock
                                 Margin="0,12,0,0"

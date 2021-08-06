@@ -55,6 +55,7 @@
             <TextBlock Text="- Modern and fluent user interface" />
             <TextBlock Text="- Multi-board support" />
             <TextBlock Text="- Edit column names on a board" />
+            <TextBlock Text="- Edit column max task limit" />
             <TextBlock Text="- Backup or restore data with OneDrive and your preferred Microsoft Account" TextWrapping="Wrap" />
             <TextBlock Text="- Reminder notifications for tasks" />
             <TextBlock Text="- Mini task calendar that shows tasks with due dates" />
