@@ -396,8 +396,10 @@ namespace KanbanTasker.Views
 
             // Update category if creating new task
             if (splitView.IsPaneOpen && ViewModel.PaneTitle.Equals("New Task"))
-                ViewModel.CurrentTask.Category = newColName;
-
+            {
+                if (ViewModel.CurrentTask.Category.Equals(originalColName))
+                    ViewModel.CurrentTask.Category = newColName;
+            }
         }
 
         private void txtBoxColName_TextChanged(object sender, TextChangedEventArgs e)
