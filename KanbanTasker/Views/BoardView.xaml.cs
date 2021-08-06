@@ -379,6 +379,8 @@ namespace KanbanTasker.Views
             var originalColName = ((sender as Button).CommandParameter as ColumnTag).Header.ToString();
             var newColName = ViewModel.NewColumnName;
 
+            flyoutEditColumn.Hide();
+            
             if (originalColName == ViewModel.ColOneName)
                 ViewModel.ColOneName = newColName;
             else if (originalColName == ViewModel.ColTwoName)
@@ -389,9 +391,13 @@ namespace KanbanTasker.Views
                 ViewModel.ColFourName = newColName;
             else if (originalColName == ViewModel.ColFiveName)
                 ViewModel.ColFiveName = newColName;
-
-            //((sender as Button).CommandParameter as ColumnTag).Header = ViewModel.NewColumnName;
+            
             ViewModel.EditColumnName(originalColName, newColName);
+
+            // Update category if creating new task
+            if (splitView.IsPaneOpen && ViewModel.PaneTitle.Equals("New Task"))
+                ViewModel.CurrentTask.Category = newColName;
+
         }
 
         private void txtBoxColName_TextChanged(object sender, TextChangedEventArgs e)
@@ -402,6 +408,11 @@ namespace KanbanTasker.Views
         private void txtBoxColName_Loaded(object sender, RoutedEventArgs e)
         {
             (sender as TextBox).Select((sender as TextBox).Text.Length, 0);
+        }
+
+        private void btnEditColumn_Click(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
     }
 }

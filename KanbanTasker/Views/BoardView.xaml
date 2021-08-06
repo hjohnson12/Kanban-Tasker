@@ -18,6 +18,44 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
+            <Flyout x:Name="flyoutEditColumn" Placement="Bottom">
+                <Grid Width="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Grid.Row="0"
+                        Margin="4,0,4,8"
+                        Orientation="Vertical">
+                        <TextBlock
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Text="Edit Column Name:" />
+                    </StackPanel>
+                    <TextBox
+                        x:Name="txtBoxColName"
+                        Grid.Row="1"
+                        x:FieldModifier="public"
+                        Loaded="txtBoxColName_Loaded"
+                        MaxLength="24"
+                        Text="{Binding Header}"
+                        TextChanged="txtBoxColName_TextChanged" />
+                    <Grid
+                        Grid.Row="2"
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center">
+                        <Button
+                            x:Name="btnSaveColChanges"
+                            x:FieldModifier="public"
+                            Click="btnSaveColChanges_Click"
+                            CommandParameter="{Binding}"
+                            Content="Save Changes" />
+                    </Grid>
+                </Grid>
+            </Flyout>
             <RevealBackgroundBrush
                 x:Key="CardBackgroundRevealBrush"
                 FallbackColor="AliceBlue"
@@ -1158,49 +1196,11 @@
                                     Margin="8,5,0,0"
                                     Background="Transparent"
                                     BorderThickness="0"
+                                    Click="btnEditColumn_Click"
                                     Content="&#xE104;"
+                                    FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
                                     FontFamily="Segoe MDL2 Assets"
-                                    ToolTipService.ToolTip="Edit column name">
-                                    <Button.Flyout>
-                                        <Flyout Placement="Bottom">
-                                            <Grid Width="200">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition />
-                                                    <RowDefinition />
-                                                </Grid.RowDefinitions>
-                                                <StackPanel
-                                                    Grid.Row="0"
-                                                    Margin="4,0,4,8"
-                                                    Orientation="Vertical">
-                                                    <TextBlock
-                                                        FontSize="14"
-                                                        FontWeight="Bold"
-                                                        Text="Edit Column Name:" />
-                                                </StackPanel>
-                                                <TextBox
-                                                    x:Name="txtBoxColName"
-                                                    Grid.Row="1"
-                                                    x:FieldModifier="public"
-                                                    MaxLength="24"
-                                                    Text="{Binding Header}"
-                                                    TextChanged="txtBoxColName_TextChanged" Loaded="txtBoxColName_Loaded" />
-                                                <Grid
-                                                    Grid.Row="2"
-                                                    Margin="0,8,0,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Center">
-                                                    <Button
-                                                        x:Name="btnSaveColChanges"
-                                                        x:FieldModifier="public"
-                                                        Click="btnSaveColChanges_Click"
-                                                        CommandParameter="{Binding}"
-                                                        Content="Save Changes" />
-                                                </Grid>
-                                            </Grid>
-                                        </Flyout>
-                                    </Button.Flyout>
-                                </Button>
+                                    ToolTipService.ToolTip="Edit column name" />
                                 <Button
                                     x:Name="btnNewTask"
                                     Margin="2,5,0,0"
