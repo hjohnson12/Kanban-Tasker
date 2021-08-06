@@ -376,7 +376,11 @@ namespace KanbanTasker.Views
         private void btnSaveColChanges_Click(object sender, RoutedEventArgs e)
         {
             var originalColName = ((sender as Button).CommandParameter as ColumnTag).Header.ToString();
+
             var newColName = ViewModel.NewColumnName;
+
+            if (string.IsNullOrEmpty(newColName))
+                newColName = originalColName;
 
             flyoutEditColumn.Hide();
             
