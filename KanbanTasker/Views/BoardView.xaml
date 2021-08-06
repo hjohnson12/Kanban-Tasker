@@ -61,7 +61,7 @@
                         LargeChange="25"
                         Maximum="100"
                         SmallChange="1"
-                        SpinButtonPlacementMode="Compact"
+                        SpinButtonPlacementMode="Inline"
                         ValueChanged="maxLimitNumberBox_ValueChanged"
                         Value="{Binding Maximum}" />
                     <Grid
@@ -198,12 +198,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
-                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}">
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                    Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
