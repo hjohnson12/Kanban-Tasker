@@ -62,7 +62,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="24"
                                 FontWeight="Bold"
-                                Text="OneDrive Services" />
+                                Text="OneDrive Backup/Restore" />
                         </StackPanel>
                         <Grid
                             x:Name="resultsGrid"
@@ -92,18 +92,21 @@
                                 <TextBlock Text="Backup or restore your local data through your preferred Microsoft Account and OneDrive by logging in using one of the options below." TextWrapping="Wrap" />
 
                                 <TextBlock
-                                    Margin="0,8,0,0"
+                                    Margin="0,12,0,0"
                                     Text="Credentials are saved for a certain amount of time. To backup or restore using another Microsoft Account, log out if already logged in."
                                     TextWrapping="Wrap" />
                                 <TextBlock
-                                    Margin="0,8,0,0"
+                                    Margin="0,12,0,0"
                                     Text="* Make sure you have logged into your Microsoft Account and OneDrive at least once for the initial setup"
                                     TextWrapping="Wrap" />
                                 <TextBlock
-                                    Margin="0,8,0,0"
+                                    Margin="0,12,0,0"
                                     Text="* Application will require a restart when restoring from a backup"
                                     TextWrapping="Wrap" />
-
+                                <TextBlock
+                                    Margin="0,12,0,0"
+                                    Text="* Backup is located in the root of OneDrive under Applications/KanbanTasker"
+                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </Grid>
                         <Grid Grid.Row="2">
@@ -207,9 +210,31 @@
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
                                 TextWrapping="Wrap">
-                                <Run>The major feature in this update brings Backup/Restore functionality with OneDrive and your preferred Microsoft Account! See the General tab for instructions.</Run><LineBreak />
-                                <LineBreak /><Run>The data is automatically backed up to or restored from a folder inside the root folder of your OneDrive once logged in.</Run><LineBreak />
-                                <LineBreak /><Run>If you encounter any issues when backing up or restoring, feel free to report the issue on Github!</Run>
+                                <Run>- Added ability to edit column names on a board</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Fixed issue with delete task button</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Fixed issue with tasks reordering on cancel editing sometimes</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Task maximum limit lowered before color indicator displays</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Other general updates, cleanup, and fixes</Run>
                             </TextBlock>
                             <HyperlinkButton
                                 Margin="0,8,0,0"
@@ -277,11 +302,6 @@
                             <TextBlock
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
-                                Text="- MSSQL and MySQL endpoints are available on developer branch update_multidatabase in the repository, change configs in Endpoints.json"
-                                TextWrapping="Wrap" />
-                            <TextBlock
-                                Margin="0,12,0,0"
-                                HorizontalAlignment="Left"
                                 Text="- Compact overlay (picture-in-picture) mode's sizing is restricted due to it being a newer feature available through Microsoft"
                                 TextWrapping="Wrap" />
                             <TextBlock
@@ -294,12 +314,6 @@
                                 HorizontalAlignment="Left"
                                 Text="- If any bugs are encountered after updating, please report them using GitHub issues or the feedback link in Settings with steps that led to the error, if possible!"
                                 TextWrapping="Wrap" />
-                            <HyperlinkButton
-                                Margin="0,8,0,0"
-                                HorizontalAlignment="Left"
-                                Content="Github Issues Link"
-                                NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
-                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                             <TextBlock Text="" />
                         </StackPanel>
                     </Grid>
