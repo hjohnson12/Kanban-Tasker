@@ -8,7 +8,6 @@
     Title="App Updated"
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     CornerRadius="4"
-    PrimaryButtonText="Close"
     mc:Ignorable="d">
 
     <ScrollViewer>
@@ -17,30 +16,37 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image
+                <StackPanel
                     Grid.Column="0"
-                    Height="75"
-                    HorizontalAlignment="Left"
-                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
-                    Stretch="Uniform" />
-                <TextBlock
-                    Grid.Column="1"
+                    Margin="0,0,0,8"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Text="Welcome and thank you for using Kanban Tasker!" />
+                    Orientation="Horizontal">
+                    <Image
+                        Height="50"
+                        Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
+                        Stretch="Uniform" />
+                    <TextBlock
+                        Margin="12,12,0,12"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        TextWrapping="Wrap">
+                        <Run>Kanban Tasker</Run>
+                    </TextBlock>
+                </StackPanel>
             </Grid>
 
             <StackPanel
                 Grid.Row="1"
                 HorizontalAlignment="Right"
                 Orientation="Vertical">
-
-                <TextBlock Text="" />
                 <TextBlock
                     Margin="0,2,0,0"
                     HorizontalAlignment="Left"
@@ -91,7 +97,12 @@
                     Content="Github Issues Link"
                     NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
                     Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-                <TextBlock Text="" />
+                <Button
+                    x:Name="btnCloseDialog"
+                    Margin="0,24,0,0"
+                    HorizontalAlignment="Stretch"
+                    Click="btnCloseDialog_Click"
+                    Content="Close" />
             </StackPanel>
         </Grid>
     </ScrollViewer>

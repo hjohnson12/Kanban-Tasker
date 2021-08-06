@@ -10,5 +10,10 @@ namespace KanbanTasker.Views
         {
             this.InitializeComponent();
         }
+
+        private void btnCloseDialog_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
     }
 }
