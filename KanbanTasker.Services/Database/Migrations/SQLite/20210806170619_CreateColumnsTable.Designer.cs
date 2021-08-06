@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanTasker.Services.Database.Migrations.SQLite
 {
     [DbContext(typeof(Db_SQLite))]
-    [Migration("20210805013435_CreateNewTable")]
-    partial class CreateNewTable
+    [Migration("20210806170619_CreateColumnsTable")]
+    partial class CreateColumnsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,7 +40,9 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
 
                     b.Property<string>("ColumnName");
 
-                    b.Property<int>("Indx");
+                    b.Property<int>("MaxTaskLimit");
+
+                    b.Property<int>("Position");
 
                     b.HasKey("Id");
 

@@ -2,7 +2,7 @@
 
 namespace KanbanTasker.Services.Database.Migrations.SQLite
 {
-    public partial class CreateNewTable : Migration
+    public partial class CreateColumnsTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
             //            .Annotation("Sqlite:Autoincrement", true),
             //        BoardId = table.Column<int>(nullable: false),
             //        ColumnName = table.Column<string>(nullable: true),
-            //        Indx = table.Column<int>(nullable: false)
+            //        Position = table.Column<int>(nullable: false),
+            //        MaxTaskLimit = table.Column<int>(nullable: false)
             //    },
             //    constraints: table =>
             //    {

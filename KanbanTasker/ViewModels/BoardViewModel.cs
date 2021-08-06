@@ -42,6 +42,13 @@ namespace KanbanTasker.ViewModels
         private DispatcherTimer _dateCheckTimer;
         private ObservableCollection<string> _colorKeys;
         private ObservableCollection<string> _reminderTimes;
+        private int _columnMaxTaskLimit;
+        private int _columnOneMax;
+        private int _columnTwoMax;
+        private int _columnThreeMax;
+        private int _columnFourMax;
+        private int _columnFiveMax;
+        private int _newColumnMax;
 
         public ICommand NewTaskCommand { get; set; }
         public ICommand EditColumnCommand { get; set; }
@@ -105,11 +112,25 @@ namespace KanbanTasker.ViewModels
 
             if (!isNew && columnNames.Count != 0)
             {
-                ColOneName = columnNames.Find(x => x.Indx == 0).ColumnName;
-                ColTwoName = columnNames.Find(x => x.Indx == 1).ColumnName;
-                ColThreeName = columnNames.Find(x => x.Indx == 2).ColumnName;
-                ColFourName = columnNames.Find(x => x.Indx == 3).ColumnName;
-                ColFiveName = columnNames.Find(x => x.Indx == 4).ColumnName;
+                var columnOne = columnNames.Find(x => x.Position == 0);
+                ColOneName = columnOne.ColumnName;
+                ColumnOneMax = columnOne.MaxTaskLimit;
+
+                var columnTwo = columnNames.Find(x => x.Position == 1);
+                ColTwoName = columnTwo.ColumnName;
+                ColumnTwoMax = columnTwo.MaxTaskLimit;
+
+                var columnThree = columnNames.Find(x => x.Position == 2);
+                ColThreeName = columnThree.ColumnName;
+                ColumnThreeMax = columnThree.MaxTaskLimit;
+
+                var columnFour = columnNames.Find(x => x.Position == 3);
+                ColFourName = columnFour.ColumnName;
+                ColumnFourMax = columnFour.MaxTaskLimit;
+
+                var columnFive = columnNames.Find(x => x.Position == 4);
+                ColFiveName = columnFive.ColumnName;
+                ColumnFiveMax = columnFive.MaxTaskLimit;
             }
             else
             {
@@ -118,7 +139,17 @@ namespace KanbanTasker.ViewModels
                 ColThreeName = "In Progress";
                 ColFourName = "Review";
                 ColFiveName = "Completed";
+                ColumnOneMax = 10;
+                ColumnTwoMax = 10;
+                ColumnThreeMax = 10;
+                ColumnFourMax = 10;
+                ColumnFiveMax = 10;
             }
+        }
+
+        internal void ConfigureBoardColumns()
+        {
+
         }
 
         /// <summary>
@@ -227,6 +258,48 @@ namespace KanbanTasker.ViewModels
                 _NewColName = value;
                 OnPropertyChanged();
             }
+        }
+
+        public int ColumnMaxTaskLimit
+        {
+            get => _columnMaxTaskLimit;
+            set => SetProperty(ref _columnMaxTaskLimit, value);
+        }
+
+        public int ColumnOneMax
+        {
+            get => _columnOneMax;
+            set => SetProperty(ref _columnOneMax, value);
+        }
+
+        public int ColumnTwoMax
+        {
+            get => _columnTwoMax;
+            set => SetProperty(ref _columnTwoMax, value);
+        }
+
+        public int ColumnThreeMax
+        {
+            get => _columnThreeMax;
+            set => SetProperty(ref _columnThreeMax, value);
+        }
+
+        public int ColumnFourMax
+        {
+            get => _columnFourMax;
+            set => SetProperty(ref _columnFourMax, value);
+        }
+
+        public int ColumnFiveMax
+        {
+            get => _columnFiveMax;
+            set => SetProperty(ref _columnFiveMax, value);
+        }
+
+        public int NewColumnMax
+        {
+            get => _newColumnMax;
+            set => SetProperty(ref _newColumnMax, value);
         }
 
         public string PaneTitle
@@ -516,7 +589,7 @@ namespace KanbanTasker.ViewModels
         /// </summary>
         /// <param name="originalColName"></param>
         /// <param name="newColName"></param>
-        internal void EditColumnName(string originalColName, string newColName)
+        public void EditColumn(string originalColName, string newColName, int newColMax)
         {
             // Update column
             if (columnNames.Count == 0)
@@ -524,6 +597,7 @@ namespace KanbanTasker.ViewModels
 
             ColumnDTO columnDTO = columnNames.Find(x => x.ColumnName.Equals(originalColName));
             columnDTO.ColumnName = newColName;
+            columnDTO.MaxTaskLimit = newColMax;
 
             DataProvider.Call(x => x.BoardServices.SaveColumn(columnDTO));
 

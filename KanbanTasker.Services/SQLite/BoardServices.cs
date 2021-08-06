@@ -169,82 +169,99 @@ namespace KanbanTasker.Services.SQLite
 
                 try
                 {
+                    //List<ColumnDTO> defaultColumns = CreateDefaultColumns(boardId);
+
                     // Set default columns for new board
                     ColumnDTO columnOne, columnTwo, columnThree, columnFour, columnFive;
                     columnOne = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "Backlog",
-                        Indx = 0
+                        Position = 0,
+                        MaxTaskLimit = 10
                     };
 
                     columnTwo = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "To Do",
-                        Indx = 1
+                        Position = 1,
+                        MaxTaskLimit = 10
                     };
 
                     columnThree = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "In Progress",
-                        Indx = 2
+                        Position = 2,
+                        MaxTaskLimit = 10
                     };
 
                     columnFour = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "Review",
-                        Indx = 3
+                        Position = 3,
+                        MaxTaskLimit = 10
                     };
 
                     columnFive = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "Completed",
-                        Indx = 4
+                        Position = 4,
+                        MaxTaskLimit = 10
                     };
 
                     // Insert columns and return id
                     SqliteCommand insertCommand = new SqliteCommand { Connection = db };
                     insertCommand.Parameters.AddWithValue("@boardId", columnOne.BoardId);
                     insertCommand.Parameters.AddWithValue("@columnName", columnOne.ColumnName);
-                    insertCommand.Parameters.AddWithValue("@indx", columnOne.Indx);
+                    insertCommand.Parameters.AddWithValue("@position", columnOne.Position);
+                    insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                     insertCommand.CommandText =
-                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                        "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                     columnOne.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                     insertCommand.Parameters.Clear();
                     insertCommand.Parameters.AddWithValue("@boardId", columnTwo.BoardId);
                     insertCommand.Parameters.AddWithValue("@columnName", columnTwo.ColumnName);
-                    insertCommand.Parameters.AddWithValue("@indx", columnTwo.Indx);
+                    insertCommand.Parameters.AddWithValue("@position", columnTwo.Position);
+                    insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                     insertCommand.CommandText =
-                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                        "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                     columnTwo.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                     insertCommand.Parameters.Clear();
                     insertCommand.Parameters.AddWithValue("@boardId", columnThree.BoardId);
                     insertCommand.Parameters.AddWithValue("@columnName", columnThree.ColumnName);
-                    insertCommand.Parameters.AddWithValue("@indx", columnThree.Indx);
+                    insertCommand.Parameters.AddWithValue("@position", columnThree.Position);
+                    insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                     insertCommand.CommandText =
-                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                        "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                     columnThree.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                     insertCommand.Parameters.Clear();
                     insertCommand.Parameters.AddWithValue("@boardId", columnFour.BoardId);
                     insertCommand.Parameters.AddWithValue("@columnName", columnFour.ColumnName);
-                    insertCommand.Parameters.AddWithValue("@indx", columnFour.Indx);
+                    insertCommand.Parameters.AddWithValue("@position", columnFour.Position);
+                    insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                     insertCommand.CommandText =
-                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                        "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                     columnFour.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                     insertCommand.Parameters.Clear();
                     insertCommand.Parameters.AddWithValue("@boardId", columnFive.BoardId);
                     insertCommand.Parameters.AddWithValue("@columnName", columnFive.ColumnName);
-                    insertCommand.Parameters.AddWithValue("@indx", columnFive.Indx);
+                    insertCommand.Parameters.AddWithValue("@position", columnFive.Position);
+                    insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                     insertCommand.CommandText =
-                        "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                        "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                     columnFive.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                     result.Success = true;
@@ -291,76 +308,91 @@ namespace KanbanTasker.Services.SQLite
                         {
                             BoardId = boardId,
                             ColumnName = "Backlog",
-                            Indx = 0
+                            Position = 0,
+                            MaxTaskLimit = 10
                         };
 
                         columnTwo = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "To Do",
-                            Indx = 1
+                            Position = 1,
+                            MaxTaskLimit = 10
                         };
 
                         columnThree = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "In Progress",
-                            Indx = 2
+                            Position = 2,
+                            MaxTaskLimit = 10
                         };
 
                         columnFour = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "Review",
-                            Indx = 3
+                            Position = 3,
+                            MaxTaskLimit = 10
                         };
 
                         columnFive = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "Completed",
-                            Indx = 4
+                            Position = 4,
+                            MaxTaskLimit = 10
                         };
 
                         // Insert columns and return id
                         SqliteCommand insertCommand = new SqliteCommand { Connection = db };
                         insertCommand.Parameters.AddWithValue("@boardId", columnOne.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnOne.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@indx", columnOne.Indx);
+                        insertCommand.Parameters.AddWithValue("@position", columnOne.Position);
+                        insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
-                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Position,MaxTaskLimit) " +
+                            "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                         columnOne.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                         insertCommand.Parameters.Clear();
                         insertCommand.Parameters.AddWithValue("@boardId", columnTwo.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnTwo.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@indx", columnTwo.Indx);
+                        insertCommand.Parameters.AddWithValue("@Position", columnTwo.Position);
+                        insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
-                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                            "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                         columnTwo.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                         insertCommand.Parameters.Clear();
                         insertCommand.Parameters.AddWithValue("@boardId", columnThree.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnThree.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@indx", columnThree.Indx);
+                        insertCommand.Parameters.AddWithValue("@Position", columnThree.Position);
+                        insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
-                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                            "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                         columnThree.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                         insertCommand.Parameters.Clear();
                         insertCommand.Parameters.AddWithValue("@boardId", columnFour.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnFour.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@indx", columnFour.Indx);
+                        insertCommand.Parameters.AddWithValue("@Position", columnFour.Position);
+                        insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
-                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                            "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                         columnFour.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                         insertCommand.Parameters.Clear();
                         insertCommand.Parameters.AddWithValue("@boardId", columnFive.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnFive.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@indx", columnFive.Indx);
+                        insertCommand.Parameters.AddWithValue("@Position", columnFive.Position);
+                        insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
-                            "INSERT INTO tblColumns (BoardID,ColumnName,Indx) VALUES (@boardId, @columnName, @indx); ; SELECT last_insert_rowid();";
+                            "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
+                            "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
                         columnFive.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                         // Add columns to list
@@ -374,7 +406,9 @@ namespace KanbanTasker.Services.SQLite
                     {
                         // Get existing columns
                         SqliteCommand selectCommand = new SqliteCommand(
-                            "SELECT Id, BoardId, ColumnName, Indx from tblColumns WHERE BoardId=@boardId", db);
+                            "SELECT Id, BoardId, ColumnName, Position, MaxTaskLimit " +
+                            "from tblColumns " +
+                            "WHERE BoardId=@boardId", db);
                         selectCommand.Parameters.AddWithValue("@boardId", boardId);
 
                         query = selectCommand.ExecuteReader();
@@ -386,7 +420,8 @@ namespace KanbanTasker.Services.SQLite
                                 Id = Convert.ToInt32(query.GetString(0)),
                                 BoardId = Convert.ToInt32(query.GetString(1)),
                                 ColumnName = query.GetString(2),
-                                Indx = Convert.ToInt32(query.GetString(3))
+                                Position = Convert.ToInt32(query.GetString(3)),
+                                MaxTaskLimit = Convert.ToInt32(query.GetString(4))
                             };
                             columnNames.Add(row);
                         }
@@ -413,7 +448,8 @@ namespace KanbanTasker.Services.SQLite
                     command.Parameters.AddWithValue("@id", column.Id);
                     command.Parameters.AddWithValue("@boardId", column.BoardId);
                     command.Parameters.AddWithValue("@columnName", column.ColumnName);
-                    command.CommandText = "UPDATE tblColumns SET ColumnName=@columnName WHERE Id=@id AND BoardID=@boardId";
+                    command.Parameters.AddWithValue("@maxTaskLimit", column.MaxTaskLimit);
+                    command.CommandText = "UPDATE tblColumns SET ColumnName=@columnName,MaxTaskLimit=@maxTaskLimit WHERE Id=@id AND BoardID=@boardId";
                     command.ExecuteNonQuery();
 
                     result.Success = true;
@@ -424,6 +460,53 @@ namespace KanbanTasker.Services.SQLite
                 }
             }
             return result;
+        }
+
+        internal List<ColumnDTO> CreateDefaultColumns(int boardId)
+        {
+            List<ColumnDTO> defaultColumns = new List<ColumnDTO>();
+
+            defaultColumns.Add(new ColumnDTO
+            {
+                BoardId = boardId,
+                ColumnName = "Backlog",
+                Position = 0,
+                MaxTaskLimit = 10
+            });
+
+            defaultColumns.Add(new ColumnDTO
+            {
+                BoardId = boardId,
+                ColumnName = "To Do",
+                Position = 1,
+                MaxTaskLimit = 10
+            });
+
+            defaultColumns.Add(new ColumnDTO
+            {
+                BoardId = boardId,
+                ColumnName = "In Progress",
+                Position = 2,
+                MaxTaskLimit = 10
+            });
+
+            defaultColumns.Add(new ColumnDTO
+            {
+                BoardId = boardId,
+                ColumnName = "Review",
+                Position = 3,
+                MaxTaskLimit = 10
+            });
+
+            defaultColumns.Add(new ColumnDTO
+            {
+                BoardId = boardId,
+                ColumnName = "Completed",
+                Position = 4,
+                MaxTaskLimit = 10
+            });
+
+            return defaultColumns;
         }
     }
 }

@@ -24,27 +24,49 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <StackPanel
+                    <TextBlock
                         Grid.Row="0"
-                        Margin="4,0,4,8"
+                        Margin="0,0,0,8"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="Column Editor" />
+                    <Border
+                        Grid.Row="1"
+                        Margin="0,0,0,12"
+                        BorderBrush="LightGray"
+                        BorderThickness="0,0,0,1" />
+                    <StackPanel
+                        Grid.Row="2"
+                        Margin="0,0,4,8"
                         Orientation="Vertical">
-                        <TextBlock
-                            FontSize="14"
-                            FontWeight="Bold"
-                            Text="Edit Column Name:" />
+                        <TextBlock FontSize="14" Text="Column Name:" />
                     </StackPanel>
                     <TextBox
                         x:Name="txtBoxColName"
-                        Grid.Row="1"
+                        Grid.Row="3"
+                        Margin="0,0,0,8"
                         x:FieldModifier="public"
                         Loaded="txtBoxColName_Loaded"
                         MaxLength="24"
                         Text="{Binding Header}"
                         TextChanged="txtBoxColName_TextChanged" />
+                    <muxc:NumberBox
+                        x:Name="maxLimitNumberBox"
+                        Grid.Row="4"
+                        Header="Max Task Limit:"
+                        LargeChange="25"
+                        Maximum="100"
+                        SmallChange="1"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="maxLimitNumberBox_ValueChanged"
+                        Value="{Binding Maximum}" />
                     <Grid
-                        Grid.Row="2"
-                        Margin="0,8,0,0"
+                        Grid.Row="5"
+                        Margin="0,12,0,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center">
                         <Button
@@ -1235,6 +1257,7 @@
                                     Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     Text="{Binding CardCount}"
                                     TextWrapping="WrapWholeWords" />
+
                                 <TextBlock
                                     Margin="0,2,0,5"
                                     VerticalAlignment="Center"
@@ -1283,7 +1306,7 @@
                     Title="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
                     Categories="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="20">
+                    MaximumLimit="{Binding ColumnOneMax, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1296,7 +1319,7 @@
                     Title="{x:Bind ViewModel.ColTwoName, Mode=OneWay}"
                     Categories="{x:Bind ViewModel.ColTwoName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="20">
+                    MaximumLimit="{Binding ColumnTwoMax, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1309,7 +1332,7 @@
                     Title="{x:Bind ViewModel.ColThreeName, Mode=OneWay}"
                     Categories="{x:Bind ViewModel.ColThreeName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="20">
+                    MaximumLimit="{Binding ColumnThreeMax, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1322,7 +1345,7 @@
                     Title="{x:Bind ViewModel.ColFourName, Mode=OneWay}"
                     Categories="{x:Bind ViewModel.ColFourName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="20">
+                    MaximumLimit="{Binding ColumnFourMax, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1335,7 +1358,7 @@
                     Title="{x:Bind ViewModel.ColFiveName, Mode=OneWay}"
                     Categories="{x:Bind ViewModel.ColFiveName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="20">
+                    MaximumLimit="{Binding ColumnFiveMax, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"

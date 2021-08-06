@@ -348,7 +348,7 @@
                             <TextBlock
                                 Margin="0,4,0,4"
                                 HorizontalAlignment="Center"
-                                Text="Kanban Tasker v1.2.1"
+                                Text="Kanban Tasker v1.3.0"
                                 TextDecorations="Underline" />
                             <TextBlock
                                 Margin="0,4,0,4"

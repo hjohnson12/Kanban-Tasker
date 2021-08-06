@@ -378,6 +378,7 @@ namespace KanbanTasker.Views
             var originalColName = ((sender as Button).CommandParameter as ColumnTag).Header.ToString();
 
             var newColName = ViewModel.NewColumnName;
+            var newColMax = ViewModel.NewColumnMax;
 
             if (string.IsNullOrEmpty(newColName))
                 newColName = originalColName;
@@ -385,17 +386,32 @@ namespace KanbanTasker.Views
             flyoutEditColumn.Hide();
             
             if (originalColName == ViewModel.ColOneName)
+            {
                 ViewModel.ColOneName = newColName;
+                ViewModel.ColumnOneMax = newColMax;
+            }
             else if (originalColName == ViewModel.ColTwoName)
+            {
                 ViewModel.ColTwoName = newColName;
+                ViewModel.ColumnTwoMax = newColMax;
+            }
             else if (originalColName == ViewModel.ColThreeName)
+            {
                 ViewModel.ColThreeName = newColName;
+                ViewModel.ColumnThreeMax = newColMax;
+            }
             else if (originalColName == ViewModel.ColFourName)
+            {
                 ViewModel.ColFourName = newColName;
+                ViewModel.ColumnFourMax = newColMax;
+            }
             else if (originalColName == ViewModel.ColFiveName)
+            {
                 ViewModel.ColFiveName = newColName;
+                ViewModel.ColumnFiveMax = newColMax;
+            }
             
-            ViewModel.EditColumnName(originalColName, newColName);
+            ViewModel.EditColumn(originalColName, newColName, newColMax);
 
             // Update category if creating new task
             if (splitView.IsPaneOpen && ViewModel.PaneTitle.Equals("New Task"))
@@ -418,6 +434,11 @@ namespace KanbanTasker.Views
         private void btnEditColumn_Click(object sender, RoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void maxLimitNumberBox_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
+        {
+            ViewModel.NewColumnMax = Convert.ToInt32((sender).Value);
         }
     }
 }

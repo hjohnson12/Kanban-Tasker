@@ -29,22 +29,6 @@ namespace KanbanTasker.Services.Database.Migrations.SQLite
                     b.ToTable("tblBoards");
                 });
 
-            modelBuilder.Entity("KanbanTasker.Model.ColumnDTO", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("BoardId");
-
-                    b.Property<string>("ColumnName");
-
-                    b.Property<int>("Indx");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblColumns");
-                });
-
             modelBuilder.Entity("KanbanTasker.Model.TaskDTO", b =>
                 {
                     b.Property<int>("Id")

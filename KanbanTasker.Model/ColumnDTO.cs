@@ -9,6 +9,7 @@ namespace KanbanTasker.Model
         public int Id { get; set; }
         public int BoardId { get; set; }
         public string ColumnName { get; set; }
-        public int Indx { get; set; }
+        public int Position { get; set; }
+        public int MaxTaskLimit { get; set; }
     }
 }
