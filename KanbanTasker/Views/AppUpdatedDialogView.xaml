@@ -46,85 +46,45 @@
                     HorizontalAlignment="Left"
                     FontSize="15"
                     FontWeight="Bold"
-                    Text="Version 1.2.0 Beta Update Notes:"
+                    Text="Version 1.3.0 Update Notes"
                     TextDecorations="Underline"
                     TextWrapping="Wrap" />
                 <TextBlock
                     Margin="0,0,0,0"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap">
-                    <LineBreak /><Run>The newest major feature in this update is the ability to backup or restore your data by logging in with your preferred Microsoft Account when choosing backup or restore in Settings.</Run><LineBreak />
-                    <LineBreak /><Run>The data is automatically backed up to or restored from a folder inside the root folder of your OneDrive once logged in.</Run><LineBreak />
-                    <LineBreak /><Run>The following features are included in this beta:</Run>
+                    <LineBreak /><Run>Changes for v1.3.0:</Run>
                 </TextBlock>
                 <TextBlock
                     Margin="0,12,0,0"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap">
-                    <Run>- Backup/restore option with OneDrive and your preferred Microsoft Account added</Run>
+                    <Run>- Added ability to edit column names on a board</Run>
                 </TextBlock>
                 <TextBlock
                     Margin="0,12,0,0"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap">
-                    <Run>- Slight changes to Date Information expander section and toast notification length</Run>
+                    <Run>- Fixed issue with delete task button</Run>
                 </TextBlock>
                 <TextBlock
                     Margin="0,12,0,0"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap">
-                    <Run>- Option to set a due date, time due, reminder notification, start date, and finish date on a task</Run>
+                    <Run>- Fixed issue with tasks reordering on cancel editing sometimes</Run>
                 </TextBlock>
                 <TextBlock
                     Margin="0,12,0,0"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap">
-                    <Run>- A reminder notification is sent to your Windows 10 device for a task determined by its due date, time due, and reminder type selected for that task when saving</Run>
+                    <Run>- Task maximum limit lowered before color indicator displays</Run>
                 </TextBlock>
                 <TextBlock
                     Margin="0,12,0,0"
                     HorizontalAlignment="Left"
                     TextWrapping="Wrap">
-                    <Run>- Tasks that are past due will have a red background in the field where you choose your due date (a due date will be added to the front of the card as well next update)</Run>
+                    <Run>- Other general updates, cleanup, and fixes</Run>
                 </TextBlock>
-                <TextBlock
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    TextWrapping="Wrap">
-                    <Run>- Tasks are determined if past due by its due date and time due selected</Run>
-                </TextBlock>
-                <TextBlock
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    TextWrapping="Wrap">
-                    <Run>- Bug fixes for Task Calendar</Run>
-                </TextBlock>
-                <TextBlock
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    TextWrapping="Wrap">
-                    <Run>- A few other features have been in development with more news coming soon!</Run>
-                </TextBlock>
-                <TextBlock
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    Text="- MSSQL and MySQL endpoints are available on developer branch update_multidatabase in the repository, change configs in Endpoints.json"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    Text="- Compact overlay (picture-in-picture) mode's sizing is restricted due to it being a newer feature available through Microsoft"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    Text="- Additional minor changes and refactors for better performance. Newest changes can be followed on Github"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    Text="- If any bugs are encountered after updating, please report them using GitHub issues or the feedback link in Settings with steps that led to the error, if possible!"
-                    TextWrapping="Wrap" />
                 <HyperlinkButton
                     Margin="0,8,0,0"
                     HorizontalAlignment="Left"
@@ -132,31 +92,6 @@
                     NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
                     Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                 <TextBlock Text="" />
-                <TextBlock
-                    FontStyle="Italic"
-                    Text="Known Issues in v1.1.0 Beta:"
-                    TextDecorations="Underline" />
-                <TextBlock
-                    Margin="0,8,0,0"
-                    HorizontalAlignment="Left"
-                    TextWrapping="Wrap">
-                    <Run Text="- Sometimes there is a quick flicker of the app UI upon opening and closing of the Task Calendar due to the loading in of the control. This is currently being investigated" />
-                </TextBlock>
-                <TextBlock
-                    Margin="0,8,0,0"
-                    HorizontalAlignment="Left"
-                    TextWrapping="Wrap">
-                    <Run Text="- DeleteTask in the EditPane is not working and has been disabled until a solution is found. Deleting from the card itself is the recommended option until further update" />
-                </TextBlock>
-                <TextBlock
-                    Margin="0,8,0,4"
-                    HorizontalAlignment="Left"
-                    TextWrapping="Wrap">
-                    <Run Text="- In some cases, when cancelling the edit of a task, sometimes the current task will be moved to a location near the end of the column." />
-                    <Run Text="It does not affect the database value since it's an internal issue with the control. If you restart the application it returns to its correct placement, but you're able to move it back as well!" />
-                    <Run Text="This is currently being investigated" />
-                </TextBlock>
-
             </StackPanel>
         </Grid>
     </ScrollViewer>
