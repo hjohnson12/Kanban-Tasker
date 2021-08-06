@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="17325HunterJohnson-Testt.KanbanTasker"
-    Publisher="CN=Hunter"
-    Version="1.2.1.0" />
+    Name="17325HunterJohnson.KanbanTasker"
+    Publisher="CN=7E9AA0BA-92B9-4274-B9BB-343DA3A9765C"
+    Version="1.3.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="65c4d4af-42f1-4aa7-8181-842060e92669" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="e0b2432b-0049-46cc-b54e-408f561d09f3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Kanban Tasker</DisplayName>

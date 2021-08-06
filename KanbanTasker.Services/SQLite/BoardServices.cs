@@ -358,7 +358,7 @@ namespace KanbanTasker.Services.SQLite
                         insertCommand.Parameters.Clear();
                         insertCommand.Parameters.AddWithValue("@boardId", columnTwo.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnTwo.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@Position", columnTwo.Position);
+                        insertCommand.Parameters.AddWithValue("@position", columnTwo.Position);
                         insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
                             "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
@@ -368,7 +368,7 @@ namespace KanbanTasker.Services.SQLite
                         insertCommand.Parameters.Clear();
                         insertCommand.Parameters.AddWithValue("@boardId", columnThree.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnThree.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@Position", columnThree.Position);
+                        insertCommand.Parameters.AddWithValue("@position", columnThree.Position);
                         insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
                             "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
@@ -378,7 +378,7 @@ namespace KanbanTasker.Services.SQLite
                         insertCommand.Parameters.Clear();
                         insertCommand.Parameters.AddWithValue("@boardId", columnFour.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnFour.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@Position", columnFour.Position);
+                        insertCommand.Parameters.AddWithValue("@position", columnFour.Position);
                         insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
                             "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
@@ -388,7 +388,7 @@ namespace KanbanTasker.Services.SQLite
                         insertCommand.Parameters.Clear();
                         insertCommand.Parameters.AddWithValue("@boardId", columnFive.BoardId);
                         insertCommand.Parameters.AddWithValue("@columnName", columnFive.ColumnName);
-                        insertCommand.Parameters.AddWithValue("@Position", columnFive.Position);
+                        insertCommand.Parameters.AddWithValue("@position", columnFive.Position);
                         insertCommand.Parameters.AddWithValue("@maxTaskLimit", columnOne.MaxTaskLimit);
                         insertCommand.CommandText =
                             "INSERT INTO tblColumns (BoardID,ColumnName,Position, MaxTaskLimit) " +
