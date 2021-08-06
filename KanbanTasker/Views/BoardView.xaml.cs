@@ -204,7 +204,6 @@ namespace KanbanTasker.Views
                 PaneBtnDeleteTaskConfirmationFlyout.Hide();
             else
                 PaneBtnDeleteTaskConfirmationFlyout.ShowAt((FrameworkElement)sender);
-            //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender); 
         }
 
         private void autoSuggestBoxTags_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)

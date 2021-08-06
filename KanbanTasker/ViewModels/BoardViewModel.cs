@@ -91,6 +91,9 @@ namespace KanbanTasker.ViewModels
                 "2 Days Before"
             };
 
+            PaneTitle = "New Task";
+
+            // Configure columns for board
             bool isNew = Board.ID == 0;
             columnNames = new List<ColumnDTO>();
             if (!isNew)
@@ -116,8 +119,6 @@ namespace KanbanTasker.ViewModels
                 ColFourName = "Review";
                 ColFiveName = "Completed";
             }
-
-            PaneTitle = "New Task";
         }
 
         /// <summary>
@@ -340,12 +341,6 @@ namespace KanbanTasker.ViewModels
             InitializeSuggestedTags();
         }
 
-        public void EditColumnCommandHandler(ColumnTag tag)
-        {
-            string category = tag?.Header?.ToString();
-
-        }
-
         /// <summary>
         /// Prepares a task with the given ID for editing and initalizes <see cref="CurrentTask"/>
         /// </summary>
@@ -359,6 +354,7 @@ namespace KanbanTasker.ViewModels
             SelectedReminderTime = CurrentTask.ReminderTime;
             InitializeSuggestedTags();
             InitializeDateInformation();
+
             // clone a copy of CurrentTask so we can restore if user cancels
             OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
         }
@@ -848,10 +844,6 @@ namespace KanbanTasker.ViewModels
             task.Category = targetCategory;
             task.ColumnIndex = targetIndex;
 
-            //var updatedTask = new PresentationTask(task);
-            //var index = Board.Tasks.IndexOf(selectedCardModel);
-            //Board.Tasks[index] = updatedTask;
-
             DataProvider.Call(x => x.TaskServices.UpdateColumnData(task));
         }
 
@@ -862,11 +854,6 @@ namespace KanbanTasker.ViewModels
         /// <param name="currentCardIndex"></param>
         internal void UpdateCardIndex(int iD, int currentCardIndex)
         {
-            //var task = Board.Tasks.Single(x => x.ID == iD);
-            //var index = Board.Tasks.IndexOf(task);
-            //task.ColumnIndex = currentCardIndex;
-            //Board.Tasks[index] = task;
-
             DataProvider.Call(x => x.TaskServices.UpdateCardIndex(iD, currentCardIndex));
         }
     }
