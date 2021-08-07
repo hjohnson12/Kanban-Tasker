@@ -63,7 +63,7 @@
                         SmallChange="1"
                         SpinButtonPlacementMode="Inline"
                         ValueChanged="maxLimitNumberBox_ValueChanged"
-                        Value="{Binding Maximum}" />
+                        Value="{Binding Maximum, Mode=TwoWay}" />
                     <Grid
                         Grid.Row="5"
                         Margin="0,12,0,0"
