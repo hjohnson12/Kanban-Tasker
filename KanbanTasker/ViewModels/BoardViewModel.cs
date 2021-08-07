@@ -474,6 +474,7 @@ namespace KanbanTasker.ViewModels
         public bool IsReminderInformationNull()
         {
             return CurrentTask.DueDate != null &&
+                CurrentTask.DueDate != "" &&
                 CurrentTask.TimeDue != null &&
                 CurrentTask.ReminderTime != "None" &&
                 CurrentTask.ReminderTime != "";
