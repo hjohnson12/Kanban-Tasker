@@ -419,6 +419,7 @@ namespace KanbanTasker.Views
                 if (ViewModel.CurrentTask.Category.Equals(originalColName))
                     ViewModel.CurrentTask.Category = newColName;
             }
+            ViewModel.NewColumnName = "";
         }
 
         private void txtBoxColName_TextChanged(object sender, TextChangedEventArgs e)
