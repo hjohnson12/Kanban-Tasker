@@ -19,7 +19,7 @@ namespace KanbanTasker.Views
     {
         public BoardViewModel ViewModel { get; set; }
         public static SplitView MySplitView { get; set; }
-        public string NewColumnName { get; set; }
+
         public BoardView()
         {
             this.InitializeComponent();
@@ -294,10 +294,6 @@ namespace KanbanTasker.Views
 
         private void Card_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            // Pre: Get information to pass to the dialog for displaying
-            //      Set corresponding properties in TaskDialog
-            // Post: Information passed, dialog opened
-
             // Always show in standard mode
             var originalSource = (FrameworkElement)sender;
             var selectedCard = originalSource.DataContext as PresentationTask;

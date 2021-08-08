@@ -100,56 +100,7 @@ namespace KanbanTasker.ViewModels
 
             PaneTitle = "New Task";
 
-            // Configure columns for board
-            bool isNew = Board.ID == 0;
-            columnNames = new List<ColumnDTO>();
-            if (!isNew)
-            {
-                columnNames = dataProvider.Call(x => x.BoardServices.GetColumnNames(Board.ID));
-            }
-
-            NewColumnName = "";
-
-            if (!isNew && columnNames.Count != 0)
-            {
-                var columnOne = columnNames.Find(x => x.Position == 0);
-                ColOneName = columnOne.ColumnName;
-                ColumnOneMax = columnOne.MaxTaskLimit;
-
-                var columnTwo = columnNames.Find(x => x.Position == 1);
-                ColTwoName = columnTwo.ColumnName;
-                ColumnTwoMax = columnTwo.MaxTaskLimit;
-
-                var columnThree = columnNames.Find(x => x.Position == 2);
-                ColThreeName = columnThree.ColumnName;
-                ColumnThreeMax = columnThree.MaxTaskLimit;
-
-                var columnFour = columnNames.Find(x => x.Position == 3);
-                ColFourName = columnFour.ColumnName;
-                ColumnFourMax = columnFour.MaxTaskLimit;
-
-                var columnFive = columnNames.Find(x => x.Position == 4);
-                ColFiveName = columnFive.ColumnName;
-                ColumnFiveMax = columnFive.MaxTaskLimit;
-            }
-            else
-            {
-                ColOneName = "Backlog";
-                ColTwoName = "To Do";
-                ColThreeName = "In Progress";
-                ColFourName = "Review";
-                ColFiveName = "Completed";
-                ColumnOneMax = 10;
-                ColumnTwoMax = 10;
-                ColumnThreeMax = 10;
-                ColumnFourMax = 10;
-                ColumnFiveMax = 10;
-            }
-        }
-
-        internal void ConfigureBoardColumns()
-        {
-
+            ConfigureBoardColumns();
         }
 
         /// <summary>
@@ -501,19 +452,14 @@ namespace KanbanTasker.ViewModels
                 ToastNotificationHelper.RemoveScheduledNotification(taskID.ToString());
                 int startIndex = task.ColumnIndex;
 
-                // Calling OrderBy after Where, reordering a whole collection prior to filter is high overhead
                 // If we do not sort by ColumnIndex, the tasks in Board.Tasks will be in unsorted order when assigning startIndex 
+                var sortedTasks = Board.Tasks
+                    .Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex)
+                    .OrderBy(x => x.ColumnIndex);
 
-                // Questionable issue:
-                //  Sometimes the task index value for a task in Board.Tasks are wrong, but correct in db (shouldn't be because of this though)
-                //      Ex: We have a task named t2 which is index 2 in db (expected), but index 4 or something in Board.Tasks at time of deletion
-                //      - I've only noticed it when moving a task and then deleting, sometimes... Possible binding issue when changing property, since db is correct? 
-                //  otherTask.ColumnIndex -=1 works without OrderBy, but has the problem above
-                // Fix: If an index in the db gets messed up, moving one card in the column fixes the whole column. Low severity.
-                foreach (PresentationTask otherTask in Board.Tasks.Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex).OrderBy(x => x.ColumnIndex))
+                foreach (PresentationTask otherTask in sortedTasks)
                 {
                     otherTask.ColumnIndex = startIndex++;
-                    //otherTask.ColumnIndex -= 1;
                     UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
                 }
                 _appNotificationService.DisplayNotificationAsync("Task deleted from board successfully", NOTIFICATION_DURATION);
@@ -563,7 +509,6 @@ namespace KanbanTasker.ViewModels
                 Board.Tasks[index] = tempTask;
                 Board.Tasks = new ObservableCollection<PresentationTask>(
                     Board.Tasks.OrderBy(x => x.ColumnIndex));
-                //Board.Tasks.OrderBy(x => x.ColumnIndex);
 
                 // Check if a toast notification was deleted
                 if (OriginalTask.ReminderTime != DEFAULT_REMINDER_TIME)
@@ -594,7 +539,7 @@ namespace KanbanTasker.ViewModels
         {
             // Update column
             if (columnNames.Count == 0)
-                columnNames = DataProvider.Call(x => x.BoardServices.GetColumnNames(Board.ID));
+                columnNames = DataProvider.Call(x => x.BoardServices.GetColumns(Board.ID));
 
             ColumnDTO columnDTO = columnNames.Find(x => x.ColumnName.Equals(originalColName));
             columnDTO.ColumnName = newColName;
@@ -635,6 +580,7 @@ namespace KanbanTasker.ViewModels
                 CurrentTask.Tags.Add(tag);
                 if (!Board.TagsCollection.Contains(tag))
                     Board.TagsCollection.Add(tag);
+
                 SuggestedTagsCollection.Remove(tag);
                 _appNotificationService.DisplayNotificationAsync($"Tag {tag} added successfully", 3000);
                 result = true;
@@ -767,7 +713,8 @@ namespace KanbanTasker.ViewModels
                 if (timeSpan != null)
                 {
                     // Difference in days, hours, mins
-                    CurrentTask.DaysSinceCreation = string.Format("{0}d, {1}hrs, {2}min",
+                    CurrentTask.DaysSinceCreation = string.Format(
+                        "{0}d, {1}hrs, {2}min",
                         timeSpan.Value.Days.ToString(),
                         timeSpan.Value.Hours.ToString(),
                         timeSpan.Value.Minutes.ToString());
@@ -927,6 +874,59 @@ namespace KanbanTasker.ViewModels
         internal void UpdateCardIndex(int iD, int currentCardIndex)
         {
             DataProvider.Call(x => x.TaskServices.UpdateCardIndex(iD, currentCardIndex));
+        }
+
+        /// <summary>
+        /// Sets column names for default columns if none exist, or 
+        /// retrieves columns from database if there are some.
+        /// </summary>
+        internal void ConfigureBoardColumns()
+        {
+            // Configure columns for board
+            bool isNew = Board.ID == 0;
+            columnNames = new List<ColumnDTO>();
+            if (!isNew)
+            {
+                columnNames = DataProvider.Call(x => x.BoardServices.GetColumns(Board.ID));
+            }
+
+            NewColumnName = "";
+
+            if (!isNew && columnNames.Count != 0)
+            {
+                var columnOne = columnNames.Find(x => x.Position == 0);
+                ColOneName = columnOne.ColumnName;
+                ColumnOneMax = columnOne.MaxTaskLimit;
+
+                var columnTwo = columnNames.Find(x => x.Position == 1);
+                ColTwoName = columnTwo.ColumnName;
+                ColumnTwoMax = columnTwo.MaxTaskLimit;
+
+                var columnThree = columnNames.Find(x => x.Position == 2);
+                ColThreeName = columnThree.ColumnName;
+                ColumnThreeMax = columnThree.MaxTaskLimit;
+
+                var columnFour = columnNames.Find(x => x.Position == 3);
+                ColFourName = columnFour.ColumnName;
+                ColumnFourMax = columnFour.MaxTaskLimit;
+
+                var columnFive = columnNames.Find(x => x.Position == 4);
+                ColFiveName = columnFive.ColumnName;
+                ColumnFiveMax = columnFive.MaxTaskLimit;
+            }
+            else
+            {
+                ColOneName = "Backlog";
+                ColTwoName = "To Do";
+                ColThreeName = "In Progress";
+                ColFourName = "Review";
+                ColFiveName = "Completed";
+                ColumnOneMax = 10;
+                ColumnTwoMax = 10;
+                ColumnThreeMax = 10;
+                ColumnFourMax = 10;
+                ColumnFiveMax = 10;
+            }
         }
     }
 }

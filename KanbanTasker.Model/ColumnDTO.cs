@@ -4,6 +4,9 @@ using System.Text;
 
 namespace KanbanTasker.Model
 {
+    /// <summary>
+    /// A data transfer object for column data
+    /// </summary>
     public class ColumnDTO
     {
         public int Id { get; set; }

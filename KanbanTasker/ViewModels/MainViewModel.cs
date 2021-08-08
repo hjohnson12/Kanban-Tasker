@@ -66,11 +66,6 @@ namespace KanbanTasker.ViewModels
             {
                 PresentationBoard presBoard = new PresentationBoard(dto);
 
-                //List<ColumnDTO> columnNames = dataProvider.Call(x => x.BoardServices.GetColumnNames(presBoard.ID));
-
-                // Set column names
-
-
                 if (dto.Tasks?.Any() ?? false)
                 {
                     foreach (TaskDTO taskDTO in dto.Tasks.OrderBy(x => x.ColumnIndex))
@@ -176,18 +171,15 @@ namespace KanbanTasker.ViewModels
             if (string.IsNullOrEmpty(CurrentBoard.Board.Notes))
                 return;
 
-            // Database validation will handle missing values and display an error message if necessary
-            //if (string.IsNullOrEmpty(CurrentBoard.Board.Name))
-            //    return;
-            //if (string.IsNullOrEmpty(CurrentBoard.Board.Notes))
-            //    return;
-
             BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
             bool isNew = dto.Id == 0;
             RowOpResult<BoardDTO> result = null;
+
             // Add board to db and collection
             result = dataProvider.Call(x => x.BoardServices.SaveBoard(dto));
+
             _appNotificationService.DisplayNotificationAsync(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
+            
             if (isNew && result.Success)
             {
                 CurrentBoard.Board.ID = result.Entity.Id;

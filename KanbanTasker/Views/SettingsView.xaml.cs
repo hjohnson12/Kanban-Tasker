@@ -12,10 +12,6 @@ namespace KanbanTasker.Views
 {
     public sealed partial class SettingsView : ContentDialog
     {
-        // Properties
-        private AuthenticationProvider authProvider;
-        public User CurrentUser { get; set; }
-        public BoardViewModel CurrentViewModel { get; set; }
         public SettingsViewModel ViewModel => (SettingsViewModel)DataContext;
        
         public SettingsView()
@@ -23,9 +19,6 @@ namespace KanbanTasker.Views
             this.InitializeComponent();
 
             DataContext = new SettingsViewModel(App.container.Resolve<IAppNotificationService>());
-
-            // Get the Authentication Provider
-            authProvider = App.GetAuthenticationProvider();
         }
 
         /// <summary>
@@ -81,6 +74,7 @@ namespace KanbanTasker.Views
         {
             if (RestoreTip.IsOpen)
                 RestoreTip.IsOpen = false;
+
             if (BackupTip.IsOpen)
                 BackupTip.IsOpen = false;
         }

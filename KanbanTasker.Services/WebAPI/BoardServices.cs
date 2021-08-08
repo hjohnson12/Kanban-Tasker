@@ -23,7 +23,7 @@ namespace KanbanTasker.Services.WebAPI
        
         public RowOpResult DeleteBoard(int boardID) => Task.Run(() => Post<int, RowOpResult>("Boards/DeleteBoard", boardID)).Result;
 
-        public List<ColumnDTO> GetColumnNames(int boardId)
+        public List<ColumnDTO> GetColumns(int boardId)
         {
             throw new NotImplementedException();
         }

@@ -275,7 +275,13 @@ namespace KanbanTasker.Services.SQLite
             }
         }
 
-        public List<ColumnDTO> GetColumnNames(int boardId)
+        /// <summary>
+        /// Returns a list of existing columns or default columns if none
+        /// exist already.
+        /// </summary>
+        /// <param name="boardId"></param>
+        /// <returns></returns>
+        public List<ColumnDTO> GetColumns(int boardId)
         {
             List<ColumnDTO> columnNames = new List<ColumnDTO>();
 
@@ -435,6 +441,11 @@ namespace KanbanTasker.Services.SQLite
             }
         }
 
+        /// <summary>
+        /// Updates the column's data in the database
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
         public RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column)
         {
             RowOpResult<ColumnDTO> result = new RowOpResult<ColumnDTO>(column);
@@ -462,6 +473,9 @@ namespace KanbanTasker.Services.SQLite
             return result;
         }
 
+        /// <summary>
+        /// Creates the default columns for a board
+        /// </summary>
         internal List<ColumnDTO> CreateDefaultColumns(int boardId)
         {
             List<ColumnDTO> defaultColumns = new List<ColumnDTO>();

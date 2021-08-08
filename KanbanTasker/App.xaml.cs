@@ -26,6 +26,7 @@ using Microsoft.Graph;
 using Application = Windows.UI.Xaml.Application;
 using KanbanTasker.Services;
 using KanbanTasker.Helpers.Microsoft_Graph;
+using KanbanTasker.Helpers;
 
 namespace KanbanTasker
 {
@@ -67,30 +68,29 @@ namespace KanbanTasker
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            // build the Autofac container
+            // Build the Autofac container
             IEnumerable<IEndPointConfiguration> endPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
             string fileRoot = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
-            // Commented out because I'm  currently not running MySQL
+            // Commented out because I'm currently not running MySQL
             // KanbanTasker.Services.ConnectionstringUtility.PopulateConnectionStrings(fileRoot, endPoints); 
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             builder.RegisterModule(new AutofacModule());
             builder.RegisterModule(new Services.AutofacModule());
-            RegistrationHelper registrationHelper = new RegistrationHelper(builder);
 
+            RegistrationHelper registrationHelper = new RegistrationHelper(builder);
             registrationHelper
                 .RegisterEndPoints(endPoints)
                 .RegisterModule(new KanbanTasker.Services.AdaptiveClientModule());
-
             container = builder.Build();
 
             IDatabaseUtilities databaseUtilities = container.Resolve<IDatabaseUtilities>();
 
             // Create all databases or apply migrations
-
             foreach (IEndPointConfiguration ep in endPoints.Where(x => x.EndPointType == EndPointType.DBMS))
                 Task.Run(() => databaseUtilities.CreateOrUpdateDatabase(ep)).Wait();
 
+            // Configure AppCenter for debugging analytics
             AppCenter.Start("a57ee001-5ab0-46f5-aa5a-4d1b84cd6b66",
                    typeof(Analytics), typeof(Crashes));
         }
@@ -160,26 +160,8 @@ namespace KanbanTasker
                 // Ensure the current window is active
                 Window.Current.Activate();
 
-                // Hide default title bar and extend your content into the title bar area
-                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-
-                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-
-                // Set active window colors
-                titleBar.ForegroundColor = Windows.UI.Colors.White;
-                titleBar.BackgroundColor = Windows.UI.Colors.Transparent;
-                titleBar.ButtonForegroundColor = Windows.UI.Colors.White;
-                titleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
-                titleBar.ButtonHoverForegroundColor = Windows.UI.Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Windows.UI.Colors.SlateGray;
-                titleBar.ButtonPressedForegroundColor = Windows.UI.Colors.White;
-                titleBar.ButtonPressedBackgroundColor = Windows.UI.Colors.DimGray;
-
-                // Set inactive window colors
-                titleBar.InactiveForegroundColor = Windows.UI.Colors.White;
-                titleBar.InactiveBackgroundColor = Windows.UI.Colors.Transparent;
-                titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
-                titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
+                TitleBarHelper.ExpandViewIntoTitleBar();
+                TitleBarHelper.SetupTitleBar();
 
                 await SetupStoreServices();
 

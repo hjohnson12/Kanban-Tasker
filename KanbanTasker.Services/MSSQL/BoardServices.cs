@@ -47,7 +47,7 @@ namespace KanbanTasker.Services.MSSQL
             return result;
         }
 
-        public List<ColumnDTO> GetColumnNames(int boardId)
+        public List<ColumnDTO> GetColumns(int boardId)
         {
             throw new NotImplementedException();
         }

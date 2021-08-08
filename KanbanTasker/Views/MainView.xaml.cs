@@ -8,8 +8,6 @@ using Autofac;
 using KanbanTasker.Services;
 using KanbanTasker.ViewModels;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace KanbanTasker.Views
 {
     /// <summary>
@@ -34,8 +32,9 @@ namespace KanbanTasker.Views
 
         private async void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new SettingsView();
             CloseAllOpenPopups();
+
+            var dialog = new SettingsView();
             await dialog.ShowAsync();
         }
        
@@ -51,6 +50,7 @@ namespace KanbanTasker.Views
             // Hides the EditConfirmationFlyout if user chose to edit board
             if (ActiveFlyout != null)
                 ActiveFlyout.Hide();
+
             CloseAllOpenPopups();
 
             var dialog = new EditBoardDialogView(ViewModel);
