@@ -603,17 +603,14 @@ namespace KanbanTasker.ViewModels
             DataProvider.Call(x => x.BoardServices.SaveColumn(columnDTO));
 
             // Update tasks category name to new column
-            var tasksCopy = new ObservableCollection<PresentationTask>(Board.Tasks);
-            foreach (var task in tasksCopy)
+            foreach (PresentationTask task in Board.Tasks)
             {
-                if (task.Category == originalColName)
+                if (task.Category.Equals(originalColName))
                 {
                     task.Category = newColName;
                     DataProvider.Call(x => x.TaskServices.UpdateColumnName(task.ID, task.Category));
                 }
             }
-            Board.Tasks = new ObservableCollection<PresentationTask>(tasksCopy.OrderBy(x => x.ColumnIndex));
-            Board.Tasks.OrderBy(x => x.ColumnIndex);
         }
 
         /// <summary>
