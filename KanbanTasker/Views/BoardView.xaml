@@ -1222,7 +1222,7 @@
                                     Content="&#xE104;"
                                     FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
                                     FontFamily="Segoe MDL2 Assets"
-                                    ToolTipService.ToolTip="Edit column name" />
+                                    ToolTipService.ToolTip="Edit Column" />
                                 <Button
                                     x:Name="btnNewTask"
                                     Margin="2,5,0,0"
