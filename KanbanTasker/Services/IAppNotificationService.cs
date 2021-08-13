@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace KanbanTasker.Services
 {
     /// <summary>
-    /// Interface for displaying a message on the UI
+    /// Interface for displaying a message on the UI.
     /// </summary>
     public interface IAppNotificationService
     {

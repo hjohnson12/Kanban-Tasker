@@ -17,12 +17,11 @@ namespace KanbanTasker.ViewModels
 {
     public class MainViewModel : Observable
     {
-        //private ObservableCollection<PresentationTask> allTasks;
         private const int MessageDuration = 3000;
         private readonly IAppNotificationService _appNotificationService;
         private readonly IDialogService _dialogService;
+        private readonly IAdaptiveClient<IServiceManifest> dataProvider;
         public Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory;
-        private IAdaptiveClient<IServiceManifest> dataProvider;
         private ObservableCollection<BoardViewModel> _boardList;
         private BoardViewModel _currentBoard;
         private string _boardEditorTitle;
@@ -31,7 +30,7 @@ namespace KanbanTasker.ViewModels
         private BoardViewModel _tmpBoard;
         private string _oldBoardName;
         private string _oldBoardNotes;
-       
+
         public ICommand NewBoardCommand { get; set; }
         public ICommand EditBoardCommand { get; set; }
         public ICommand SaveBoardCommand { get; set; }
@@ -67,29 +66,7 @@ namespace KanbanTasker.ViewModels
             OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsDialog, () => true);
             OpenCalendarCommand = new AsyncRelayCommand(OpenCalendarDialog, () => true);
 
-            // Load Board Taskss
-            BoardList = new ObservableCollection<BoardViewModel>();
-            List<BoardDTO> boardDTOs = dataProvider.Call(x => x.BoardServices.GetBoards());
-
-            foreach (BoardDTO dto in boardDTOs)
-            {
-                PresentationBoard presBoard = new PresentationBoard(dto);
-
-                if (dto.Tasks?.Any() ?? false)
-                {
-                    foreach (TaskDTO taskDTO in dto.Tasks.OrderBy(x => x.ColumnIndex))
-                    {
-                        presBoard.Tasks.Add(new PresentationTask(taskDTO));
-                        
-                        // Fill TagsCollection on Board for AutoSuggestBox
-                        foreach (var tag in taskDTO.Tags.Split(','))
-                            if (!string.IsNullOrEmpty(tag) && !presBoard.TagsCollection.Contains(tag))
-                                presBoard.TagsCollection.Add(tag);
-                    }
-                }
-                BoardList.Add(boardViewModelFactory(presBoard, appNotificationService));
-            }
-            CurrentBoard = BoardList.Any() ? BoardList.First() : null;
+            InitializeBoards();
         }
 
         /// <summary>
@@ -106,6 +83,37 @@ namespace KanbanTasker.ViewModels
                 else
                     NavigationFrame.Navigate(typeof(Views.BoardView), CurrentBoard);
             }
+        }
+
+        /// <summary>
+        /// Initializes each board, if any exist, with tasks and sets the current board
+        /// to the first.
+        /// </summary>
+        private void InitializeBoards()
+        {
+            BoardList = new ObservableCollection<BoardViewModel>();
+            List<BoardDTO> boardDTOs = dataProvider.Call(x => x.BoardServices.GetBoards());
+
+            foreach (BoardDTO dto in boardDTOs)
+            {
+                PresentationBoard presBoard = new PresentationBoard(dto);
+
+                // Fill board with tasks
+                if (dto.Tasks?.Any() ?? false)
+                {
+                    foreach (TaskDTO taskDTO in dto.Tasks.OrderBy(x => x.ColumnIndex))
+                    {
+                        presBoard.Tasks.Add(new PresentationTask(taskDTO));
+
+                        // Fill TagsCollection on Board for AutoSuggestBox
+                        foreach (var tag in taskDTO.Tags.Split(','))
+                            if (!string.IsNullOrEmpty(tag) && !presBoard.TagsCollection.Contains(tag))
+                                presBoard.TagsCollection.Add(tag);
+                    }
+                }
+                BoardList.Add(boardViewModelFactory(presBoard, _appNotificationService));
+            }
+            CurrentBoard = BoardList.Any() ? BoardList.First() : null;
         }
 
         private Frame NavigationFrame { get; set; }
@@ -172,14 +180,15 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public void EditBoard()
+        public async void EditBoard()
         {
             BoardEditorTitle = "Edit Board";
+
             _tmpBoard = CurrentBoard;
             OldBoardName = _tmpBoard.Board.Name;
             OldBoardNotes = _tmpBoard.Board.Notes;
 
-            _dialogService.ShowEditDialog(this);
+            await _dialogService.ShowEditDialog(this);
         }
 
         public void SaveBoard()
@@ -199,7 +208,7 @@ namespace KanbanTasker.ViewModels
             result = dataProvider.Call(x => x.BoardServices.SaveBoard(dto));
 
             _appNotificationService.DisplayNotificationAsync(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
-            
+
             if (isNew && result.Success)
             {
                 CurrentBoard.Board.ID = result.Entity.Id;
@@ -214,7 +223,7 @@ namespace KanbanTasker.ViewModels
             // BUG: Currently _tmpBoard still holds edited version?
             CurrentBoard.Board.Name = "";
             CurrentBoard.Board.Notes = "";
-            CurrentBoard = null; 
+            CurrentBoard = null;
             CurrentBoard = _tmpBoard;
 
             // hack
@@ -232,9 +241,9 @@ namespace KanbanTasker.ViewModels
 
             dataProvider.Call(x => x.BoardServices.DeleteBoard(CurrentBoard.Board.ID));
             BoardList.Remove(CurrentBoard);
+
             CurrentBoard.Board.Name = ""; // uwp bug
             CurrentBoard.Board.Notes = ""; // uwp bug
-
             CurrentBoard = null; // uwp bug
             CurrentBoard = BoardList.LastOrDefault();
         }

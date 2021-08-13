@@ -15,20 +15,20 @@ namespace KanbanTasker.Views
     /// </summary>
     public sealed partial class MainView : Page
     {
-        public MainViewModel ViewModel { get; set; }
+        public MainViewModel ViewModel => (MainViewModel)DataContext;
         private FlyoutBase ActiveFlyout;
         
         public MainView()
         {
             this.InitializeComponent();
 
-            // Set XAML element as a draggable region.
+            // Set XAML element as a draggable region
             Window.Current.SetTitleBar(AppTitleBar);
 
             var appNotificationService = App.container.Resolve<IAppNotificationService>();
             var dialogService = App.container.Resolve<IDialogService>();
 
-            ViewModel = App.GetViewModel(contentFrame, appNotificationService, dialogService);
+            DataContext = App.GetViewModel(contentFrame, appNotificationService, dialogService);
         }
 
         private void ShowFlyout(object sender, RoutedEventArgs e)

@@ -593,6 +593,7 @@
     <SplitView
         x:Name="splitView"
         DisplayMode="Inline"
+        IsPaneOpen="{x:Bind ViewModel.IsPaneOpen, Mode=OneWay}"
         PaneBackground="{ThemeResource PaneBackgroundAcrylicBrush}"
         PanePlacement="Right">
 
@@ -626,7 +627,6 @@
                         Margin="5,5,20,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Click="appBarBtnClosePane_Click"
                         Command="{Binding ElementName=boardViewPage, Path=ViewModel.CancelEditCommand}"
                         Icon="OpenPane"
                         Label="Close Pane" />
@@ -1097,7 +1097,6 @@
                         <AppBarButton
                             x:Name="btnSaveTask"
                             Margin="20,17,20,20"
-                            Click="BtnSaveTask_Click"
                             Command="{Binding ElementName=boardViewPage, Path=ViewModel.SaveTaskCommand}"
                             Icon="Save"
                             Label="Save Task" />
@@ -1142,7 +1141,6 @@
                         <AppBarButton
                             x:Name="btnClosePane"
                             Margin="14,17,20,20"
-                            Click="BtnCancel_Click"
                             Command="{Binding ElementName=boardViewPage, Path=ViewModel.CancelEditCommand}"
                             Icon="Cancel"
                             Label="Cancel" />
@@ -1374,7 +1372,7 @@
                 Height="100"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsActive="{x:Bind ViewModel.IsProgressRingActive, Mode=Oneway}" />
+                IsActive="{x:Bind ViewModel.IsProgressRingActive, Mode=OneWay}" />
             <!--  Shadow on left side of pane  -->
             <Rectangle
                 Grid.RowSpan="2"

@@ -18,14 +18,12 @@ namespace KanbanTasker.Views
     public sealed partial class BoardView : Page
     {
         public BoardViewModel ViewModel { get; set; }
-        public static SplitView MySplitView { get; set; }
 
         public BoardView()
         {
             this.InitializeComponent();
-            DataContext = ViewModel;
+
             kanbanBoard.CardStyle.CornerRadius = new CornerRadius(3);
-            MySplitView = splitView;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -37,9 +35,6 @@ namespace KanbanTasker.Views
 
         private void CardBtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-
             // Give title textbox focus once pane opens
             txtBoxTitle.Focus(FocusState.Programmatic);
             txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
@@ -55,35 +50,10 @@ namespace KanbanTasker.Views
 
         private void BtnNewTaskCurrentColumn_Click(object sender, RoutedEventArgs e)
         {
-            // Open pane if not already
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-
             var brushColor = (Application.Current.Resources["RegionBrush"] as AcrylicBrush);
             DueDateCalendarPicker.Background = brushColor;
 
             txtBoxTitle.Focus(FocusState.Programmatic);
-        }
-
-        private void appBarBtnClosePane_Click(object sender, RoutedEventArgs e)
-        {
-            // Close pane when done
-            if (splitView.IsPaneOpen == true)
-                splitView.IsPaneOpen = false;
-        }
-
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            // Close pane when done
-            if (splitView.IsPaneOpen == true)
-                splitView.IsPaneOpen = false;
-        }
-
-        private void BtnSaveTask_Click(object sender, RoutedEventArgs e)
-        {
-            // Close pane when done
-            if (splitView.IsPaneOpen == true)
-                splitView.IsPaneOpen = false;
         }
 
         private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -188,13 +158,13 @@ namespace KanbanTasker.Views
 
         private void FlyoutDeleteCardBtnYes_Click(object sender, RoutedEventArgs e)
         {
-            splitView.IsPaneOpen = false;
+            ViewModel.IsPaneOpen = false;
         }
 
         private void PaneBtnDeleteTaskYes_Click(object sender, RoutedEventArgs e)
         {
             // Close pane when done
-            splitView.IsPaneOpen = false;
+            ViewModel.IsPaneOpen = false;
             PaneBtnDeleteTaskConfirmationFlyout.Hide();
         }
 
@@ -306,10 +276,6 @@ namespace KanbanTasker.Views
             // Hide flyout
             taskFlyout.Hide();
 
-            // Open pane if closed
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-
             // Give title textbox focus once pane opens
             txtBoxTitle.Focus(FocusState.Programmatic);
             txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
@@ -324,10 +290,6 @@ namespace KanbanTasker.Views
             // hack, command binding isn't working??
             ViewModel.EditTask(ViewModel.CurrentTask.ID); 
 
-            // Open pane if closed
-            if (splitView.IsPaneOpen == false)
-                splitView.IsPaneOpen = true;
-
             // Give title textbox focus once pane opens
             txtBoxTitle.Focus(FocusState.Programmatic);
             txtBoxTitle.SelectionStart = txtBoxTitle.Text.Length;
@@ -336,7 +298,7 @@ namespace KanbanTasker.Views
 
         private void tappedFlyoutBtnDeleteCardYes_Click(object sender, RoutedEventArgs e)
         {
-            splitView.IsPaneOpen = false;
+            ViewModel.IsPaneOpen = false;
             taskFlyout.Hide();
             tappedFlyoutDeleteCard.Hide();
 
@@ -410,7 +372,7 @@ namespace KanbanTasker.Views
             ViewModel.EditColumn(originalColName, newColName, newColMax);
 
             // Update category if creating new task
-            if (splitView.IsPaneOpen && ViewModel.PaneTitle.Equals("New Task"))
+            if (ViewModel.IsPaneOpen && ViewModel.PaneTitle.Equals("New Task"))
             {
                 if (ViewModel.CurrentTask.Category.Equals(originalColName))
                     ViewModel.CurrentTask.Category = newColName;

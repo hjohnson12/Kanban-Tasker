@@ -53,7 +53,6 @@ namespace KanbanTasker.Views
             {
                 // Set CurrentTask and open EditPane
                 ViewModel.CurrentBoard.EditTask(SelectedTask.ID);
-                BoardView.MySplitView.IsPaneOpen = true;
                 SelectedTask = null;
             }
         }

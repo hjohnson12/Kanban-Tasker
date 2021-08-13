@@ -28,6 +28,7 @@ namespace KanbanTasker.ViewModels
         private ObservableCollection<string> _suggestedTagsCollection;
         List<ColumnDTO> columnNames;
         private string _paneTitle;
+        private bool _isPaneOpen;
         private string _currentCategory;
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
@@ -259,6 +260,12 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _paneTitle, value);
         }
 
+        public bool IsPaneOpen
+        {
+            get => _isPaneOpen;
+            set => SetProperty(ref _isPaneOpen, value);
+        }
+
         /// <summary>
         /// Determines if pointer entered
         /// inside of a card
@@ -351,8 +358,9 @@ namespace KanbanTasker.ViewModels
         {
             IsEditingTask = true;
             PaneTitle = "New Task";
-            string category = tag?.Header?.ToString();
+            IsPaneOpen = true;
 
+            string category = tag?.Header?.ToString();
             CurrentTask = new PresentationTask(new TaskDTO() { Category = category })
             {
                 Board = Board,
@@ -373,6 +381,7 @@ namespace KanbanTasker.ViewModels
         {
             IsEditingTask = true;
             PaneTitle = "Edit Task";
+            IsPaneOpen = true;
             CurrentTask = Board.Tasks.First(x => x.ID == taskID);
             SelectedColorKey = CurrentTask.ColorKey;
             SelectedReminderTime = CurrentTask.ReminderTime;
@@ -390,6 +399,7 @@ namespace KanbanTasker.ViewModels
         {
             IsEditingTask = false;
             PaneTitle = "";
+            IsPaneOpen = false;
 
             if (_dateCheckTimer != null)
                 _dateCheckTimer.Stop();
@@ -496,6 +506,7 @@ namespace KanbanTasker.ViewModels
             IsProgressRingActive = true;
             IsEditingTask = false;
             PaneTitle = "";
+            IsPaneOpen = false;
 
             if (_dateCheckTimer != null)
                 _dateCheckTimer.Stop();

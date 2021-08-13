@@ -54,10 +54,7 @@ namespace KanbanTasker.ViewModels
 
         public bool IsResultsVisible
         {
-            get
-            {
-                return _scheduledTasks.Count == 0;
-            }
+            get => _scheduledTasks.Count == 0;
             set
             {
                 _isResultsVisible = value;
