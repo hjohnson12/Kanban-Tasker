@@ -12,11 +12,17 @@ namespace KanbanTasker
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+
             builder.RegisterType<ViewModels.BoardViewModel>();
             builder.RegisterType<ViewModels.MainViewModel>();
             builder.RegisterType<ViewModels.SettingsViewModel>();
+
             builder.RegisterType<Services.AppNotificationService>()
                 .As<Services.IAppNotificationService>()
+                .SingleInstance();
+
+            builder.RegisterType<Services.DialogService>()
+                .As<Services.IDialogService>()
                 .SingleInstance();
         }
     }

@@ -7,13 +7,12 @@ namespace KanbanTasker.Views
 {
     public sealed partial class EditBoardDialogView : ContentDialog
     {
-        public ViewModels.MainViewModel ViewModel { get; set; }
-        public EditBoardDialogView(ViewModels.MainViewModel viewModel)
+        public EditBoardDialogView()
         {
             this.InitializeComponent();
-
-            ViewModel = viewModel;
         }
+
+        public ViewModels.MainViewModel ViewModel => (ViewModels.MainViewModel)DataContext;
 
         private void btnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)
         {

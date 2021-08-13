@@ -95,9 +95,12 @@ namespace KanbanTasker
                    typeof(Analytics), typeof(Crashes));
         }
 
-        public static MainViewModel GetViewModel(Frame frame, IAppNotificationService messagePump)
+        public static MainViewModel GetViewModel(Frame frame, IAppNotificationService messagePump, IDialogService dialogService)
         {
-            return container.Resolve<MainViewModel>(new TypedParameter(typeof(Frame), frame), new TypedParameter(typeof(IAppNotificationService), messagePump));
+            return container.Resolve<MainViewModel>(
+                new TypedParameter(typeof(Frame), frame),
+                new TypedParameter(typeof(IAppNotificationService), messagePump),
+                new TypedParameter(typeof(IDialogService), dialogService));
         }
 
         /// <summary>
@@ -106,7 +109,9 @@ namespace KanbanTasker
         public async Task GetCurrentUserIfSignedIn()
         {
             authProvider = new AuthenticationProvider(appId, scopes);
+
             GraphServiceHelper.InitializeClient(authProvider);
+
             var account = await authProvider.GetSignedInUser();
             if (account != null)
             {
@@ -179,15 +184,15 @@ namespace KanbanTasker
 
         public async Task CheckForUpdateOrFirstRun()
         {
+            IDialogService dialogService = container.Resolve<IDialogService>();
+
             if (SystemInformation.Instance.IsAppUpdated)
             {
-                var dialog = new AppUpdatedDialogView();
-                var result = await dialog.ShowAsync();
+                await dialogService.ShowAppUpdatedDialog();
             }
             else if (SystemInformation.Instance.IsFirstRun)
             {
-                var dialog = new FirstRunDialogView();
-                var result = await dialog.ShowAsync();
+                await dialogService.ShowFirstRunDialog();
             }
         }
 

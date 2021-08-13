@@ -26,35 +26,23 @@ namespace KanbanTasker.Views
             Window.Current.SetTitleBar(AppTitleBar);
 
             var appNotificationService = App.container.Resolve<IAppNotificationService>();
+            var dialogService = App.container.Resolve<IDialogService>();
 
-            ViewModel = App.GetViewModel(contentFrame, appNotificationService);
+            ViewModel = App.GetViewModel(contentFrame, appNotificationService, dialogService);
         }
 
-        private async void BtnSettings_Click(object sender, RoutedEventArgs e)
-        {
-            CloseAllOpenPopups();
-
-            var dialog = new SettingsView();
-            await dialog.ShowAsync();
-        }
-       
         private void ShowFlyout(object sender, RoutedEventArgs e)
         {
             ActiveFlyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
 
-        private async void ShowDialog(object sender, RoutedEventArgs e)
+        private void ShowDialog(object sender, RoutedEventArgs e)
         {
             // This function shows the dialog used for Creating/Editing a board
             // Hides the EditConfirmationFlyout if user chose to edit board
             if (ActiveFlyout != null)
                 ActiveFlyout.Hide();
-
-            CloseAllOpenPopups();
-
-            var dialog = new EditBoardDialogView(ViewModel);
-            await dialog.ShowAsync();
         }
 
         private void HideFlyout(object sender, RoutedEventArgs e)
@@ -79,17 +67,6 @@ namespace KanbanTasker.Views
                 btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE8A7);
                 btnOpenTaskCalendar.IsEnabled = true;
                 await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
-            }
-        }
-
-        private async void btnOpenTaskCalendar_Click(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.CurrentBoard != null)
-            {
-                CloseAllOpenPopups();
-
-                var dialog = new CalendarDialogView(ViewModel);
-                await dialog.ShowAsync();
             }
         }
 

@@ -192,7 +192,7 @@
                     <AppBarButton
                         x:Name="btnOpenTaskCalendar"
                         Width="40"
-                        Click="btnOpenTaskCalendar_Click"
+                        Command="{x:Bind ViewModel.OpenCalendarCommand}"
                         ToolTipService.ToolTip="View Task Calendar">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;" />
@@ -210,7 +210,7 @@
                     <AppBarButton
                         x:Name="btnSettings"
                         Width="40"
-                        Click="BtnSettings_Click"
+                        Click="{x:Bind ViewModel.OpenSettingsDialog}"
                         Icon="Setting"
                         ToolTipService.ToolTip="Settings" />
                 </StackPanel>

@@ -10,6 +10,8 @@ using KanbanTasker.Base;
 using KanbanTasker.Model;
 using KanbanTasker.Models;
 using KanbanTasker.Services;
+using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
 
 namespace KanbanTasker.ViewModels
 {
@@ -18,6 +20,7 @@ namespace KanbanTasker.ViewModels
         //private ObservableCollection<PresentationTask> allTasks;
         private const int MessageDuration = 3000;
         private readonly IAppNotificationService _appNotificationService;
+        private readonly IDialogService _dialogService;
         public Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory;
         private IAdaptiveClient<IServiceManifest> dataProvider;
         private ObservableCollection<BoardViewModel> _boardList;
@@ -34,6 +37,8 @@ namespace KanbanTasker.ViewModels
         public ICommand SaveBoardCommand { get; set; }
         public ICommand CancelSaveBoardCommand { get; set; }
         public ICommand DeleteBoardCommand { get; set; }
+        public ICommand OpenSettingsCommand { get; set; }
+        public ICommand OpenCalendarCommand { get; set; }
 
         /// <summary>
         ///  Initializes boards and tasks.
@@ -44,19 +49,23 @@ namespace KanbanTasker.ViewModels
             Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory,
             IAdaptiveClient<IServiceManifest> dataProvider,
             Frame navigationFrame,
-            IAppNotificationService appNotificationService)
+            IAppNotificationService appNotificationService,
+            IDialogService dialogService)
         {
             this.NavigationFrame = navigationFrame;
-            this._appNotificationService = appNotificationService;
             this.dataProvider = dataProvider;
             this.boardViewModelFactory = boardViewModelFactory;
+            this._appNotificationService = appNotificationService;
+            this._dialogService = dialogService;
 
             PropertyChanged += MainViewModel_PropertyChanged;
-            NewBoardCommand = new RelayCommand(NewBoard, () => true);
-            EditBoardCommand = new RelayCommand(EditBoard, () => CurrentBoard != null);
-            SaveBoardCommand = new RelayCommand(SaveBoard, () => true);
-            CancelSaveBoardCommand = new RelayCommand(CancelSaveBoard, () => true);
-            DeleteBoardCommand = new RelayCommand(DeleteBoard, () => CurrentBoard != null);
+            NewBoardCommand = new Base.RelayCommand(NewBoard, () => true);
+            EditBoardCommand = new Base.RelayCommand(EditBoard, () => CurrentBoard != null);
+            SaveBoardCommand = new Base.RelayCommand(SaveBoard, () => true);
+            CancelSaveBoardCommand = new Base.RelayCommand(CancelSaveBoard, () => true);
+            DeleteBoardCommand = new Base.RelayCommand(DeleteBoard, () => CurrentBoard != null);
+            OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsDialog, () => true);
+            OpenCalendarCommand = new AsyncRelayCommand(OpenCalendarDialog, () => true);
 
             // Load Board Taskss
             BoardList = new ObservableCollection<BoardViewModel>();
@@ -78,10 +87,8 @@ namespace KanbanTasker.ViewModels
                                 presBoard.TagsCollection.Add(tag);
                     }
                 }
-
                 BoardList.Add(boardViewModelFactory(presBoard, appNotificationService));
             }
-
             CurrentBoard = BoardList.Any() ? BoardList.First() : null;
         }
 
@@ -139,27 +146,40 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _oldBoardNotes, value);
         }
 
-        public void NewBoard()
+        public async void NewBoard()
         {
-            BoardEditorTitle = "New Board Editor";
-            BoardViewModel newBoard = boardViewModelFactory(new PresentationBoard(new BoardDTO()), _appNotificationService);
-            _tmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
-            if (_tmpBoard != null)
+            var dialogOpen = _dialogService.CheckForOpenDialog();
+            if (!dialogOpen)
             {
-                OldBoardName = _tmpBoard.Board.Name;
-                OldBoardNotes = _tmpBoard.Board.Notes;
+                BoardEditorTitle = "New Board Editor";
+
+                BoardViewModel newBoard = boardViewModelFactory(
+                    new PresentationBoard(new BoardDTO()),
+                    _appNotificationService);
+
+                _tmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
+                if (_tmpBoard != null)
+                {
+                    OldBoardName = _tmpBoard.Board.Name;
+                    OldBoardNotes = _tmpBoard.Board.Notes;
+                }
+
+                CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
+                CurrentBoard = newBoard;
+                // Don't add to BoardList here.  Wait till user saves.
+
+                await _dialogService.ShowEditDialog(this);
             }
-            CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
-            CurrentBoard = newBoard;
-            // Don't add to BoardList here.  Wait till user saves.
         }
 
         public void EditBoard()
         {
+            BoardEditorTitle = "Edit Board";
             _tmpBoard = CurrentBoard;
             OldBoardName = _tmpBoard.Board.Name;
             OldBoardNotes = _tmpBoard.Board.Notes;
-            BoardEditorTitle = "Edit Board";
+
+            _dialogService.ShowEditDialog(this);
         }
 
         public void SaveBoard()
@@ -228,6 +248,17 @@ namespace KanbanTasker.ViewModels
                 CurrentBoard = null;
                 CurrentBoard = _tmpBoard;
             }
+        }
+
+        public async Task OpenSettingsDialog()
+        {
+            await _dialogService.ShowSettingsDialog();
+        }
+
+        public async Task OpenCalendarDialog()
+        {
+            if (CurrentBoard != null)
+                await _dialogService.ShowCalendarDialog(this);
         }
     }
 }
