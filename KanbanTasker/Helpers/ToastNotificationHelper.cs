@@ -30,6 +30,7 @@ namespace KanbanTasker.Helpers
                 // Use the task's unique ID as the tag to reference the toast later on
                 var scheduledNotification = new ScheduledToastNotification(toastContent.GetXml(), scheduledAlarmTime);
                 scheduledNotification.Tag = taskId;
+
                 ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledNotification);
             }
         }
@@ -42,12 +43,13 @@ namespace KanbanTasker.Helpers
         public static void RemoveScheduledNotification(string tag)
         {
             var scheduledNotifications = ToastNotificationManager.CreateToastNotifier().GetScheduledToastNotifications();
-            foreach (var notif in scheduledNotifications) 
+
+            foreach (ScheduledToastNotification notification in scheduledNotifications) 
             {
                 // The tag value is the unique ScheduledTileNotification.Id assigned to the 
                 // notification when it was created
-                if (notif.Tag == tag)
-                    ToastNotificationManager.CreateToastNotifier().RemoveFromSchedule(notif);
+                if (notification.Tag == tag)
+                    ToastNotificationManager.CreateToastNotifier().RemoveFromSchedule(notification);
             }
         }
 
@@ -60,7 +62,6 @@ namespace KanbanTasker.Helpers
         {
             return new ToastContent()
             {
-                //DisplayTimestamp = new DateTime(alarmTime.Year, alarmTime.Month, alarmTime.Day, alarmTime.Hour, alarmTime.Minute, alarmTime.Second, DateTimeKind.Utc),
                 Visual = new ToastVisual()
                 {
                     BindingGeneric = new ToastBindingGeneric()
@@ -69,7 +70,7 @@ namespace KanbanTasker.Helpers
                             {
                                 new AdaptiveText()
                                 { // Toast Header Title
-                                    Text = "You have a task due"
+                                    Text = "Task Due"
                                 },
                                 new AdaptiveText()
                                 { // Title of Task & Description

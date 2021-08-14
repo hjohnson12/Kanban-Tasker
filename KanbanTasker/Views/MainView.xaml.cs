@@ -10,9 +10,6 @@ using KanbanTasker.ViewModels;
 
 namespace KanbanTasker.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainView : Page
     {
         public MainViewModel ViewModel => (MainViewModel)DataContext;
@@ -39,7 +36,7 @@ namespace KanbanTasker.Views
 
         private void ShowDialog(object sender, RoutedEventArgs e)
         {
-            // This function shows the dialog used for Creating/Editing a board
+            // Shows the dialog used for creating/editing a board
             // Hides the EditConfirmationFlyout if user chose to edit board
             if (ActiveFlyout != null)
                 ActiveFlyout.Hide();
@@ -56,6 +53,7 @@ namespace KanbanTasker.Views
         private async void BtnCompactOverlay_Click(object sender, RoutedEventArgs e)
         {
             var view = ApplicationView.GetForCurrentView();
+
             if (view.ViewMode == ApplicationViewMode.Default)
             {
                 btnCompactOverlay.Icon = new SymbolIcon((Symbol)0xE944);

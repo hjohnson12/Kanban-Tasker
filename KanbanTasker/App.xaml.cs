@@ -81,11 +81,11 @@ namespace KanbanTasker
             RegistrationHelper registrationHelper = new RegistrationHelper(builder);
             registrationHelper
                 .RegisterEndPoints(endPoints)
-                .RegisterModule(new KanbanTasker.Services.AdaptiveClientModule());
+                .RegisterModule(new AdaptiveClientModule());
             container = builder.Build();
 
             IDatabaseUtilities databaseUtilities = container.Resolve<IDatabaseUtilities>();
-
+            
             // Create all databases or apply migrations
             foreach (IEndPointConfiguration ep in endPoints.Where(x => x.EndPointType == EndPointType.DBMS))
                 Task.Run(() => databaseUtilities.CreateOrUpdateDatabase(ep)).Wait();
@@ -95,31 +95,25 @@ namespace KanbanTasker
                    typeof(Analytics), typeof(Crashes));
         }
 
-        public static MainViewModel GetViewModel(Frame frame, IAppNotificationService messagePump, IDialogService dialogService)
+        /// <summary>
+        /// Returns the current instance of MainViewModel.
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="appNotificationService"></param>
+        /// <param name="dialogService"></param>
+        /// <returns></returns>
+        public static MainViewModel GetViewModel(Frame frame, IAppNotificationService appNotificationService, IDialogService dialogService)
         {
             return container.Resolve<MainViewModel>(
                 new TypedParameter(typeof(Frame), frame),
-                new TypedParameter(typeof(IAppNotificationService), messagePump),
+                new TypedParameter(typeof(IAppNotificationService), appNotificationService),
                 new TypedParameter(typeof(IDialogService), dialogService));
         }
-
+        
         /// <summary>
-        /// Gets the current user from Microsoft Graph if they are still authenticated with the application.
+        /// Returns the current instance of the AuthenticationProvider.
         /// </summary>
-        public async Task GetCurrentUserIfSignedIn()
-        {
-            authProvider = new AuthenticationProvider(appId, scopes);
-
-            GraphServiceHelper.InitializeClient(authProvider);
-
-            var account = await authProvider.GetSignedInUser();
-            if (account != null)
-            {
-                await authProvider.GetAccessToken();
-                CurrentUser = await GraphServiceHelper.GetMeAsync();
-            }
-        }
-
+        /// <returns></returns>
         public static AuthenticationProvider GetAuthenticationProvider()
         {
             return authProvider;
@@ -176,12 +170,38 @@ namespace KanbanTasker
             }
         }
 
+        /// <summary>
+        /// Registers notifications for the store services
+        /// </summary>
+        /// <returns></returns>
         public async Task SetupStoreServices()
         {
-            StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
+            var engagementManager = StoreServicesEngagementManager.GetDefault();
             await engagementManager.RegisterNotificationChannelAsync();
         }
 
+        /// <summary>
+        /// Gets the current user from Microsoft Graph if they are still authenticated with the application.
+        /// </summary>
+        public async Task GetCurrentUserIfSignedIn()
+        {
+            authProvider = new AuthenticationProvider(appId, scopes);
+
+            GraphServiceHelper.InitializeClient(authProvider);
+
+            var account = await authProvider.GetSignedInUser();
+            if (account != null)
+            {
+                await authProvider.GetAccessToken();
+                CurrentUser = await GraphServiceHelper.GetMeAsync();
+            }
+        }
+
+        /// <summary>
+        /// Checks if the app is the first time ran or updated,
+        /// displays a dialog accordingly
+        /// </summary>
+        /// <returns></returns>
         public async Task CheckForUpdateOrFirstRun()
         {
             IDialogService dialogService = container.Resolve<IDialogService>();

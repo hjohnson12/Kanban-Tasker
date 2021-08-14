@@ -11,8 +11,6 @@ using KanbanTasker.Models;
 using KanbanTasker.ViewModels;
 using System.Collections.Generic;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace KanbanTasker.Views
 {
     public sealed partial class BoardView : Page
@@ -54,21 +52,6 @@ namespace KanbanTasker.Views
             DueDateCalendarPicker.Background = brushColor;
 
             txtBoxTitle.Focus(FocusState.Programmatic);
-        }
-
-        private void TxtBoxTags_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            // Add Tag to listview on keydown event
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                var tagsTextBox = sender as TextBox;
-
-                if (string.IsNullOrEmpty(tagsTextBox.Text))
-                    return;
-
-                if (ViewModel.AddTag(tagsTextBox.Text))
-                    tagsTextBox.Text = string.Empty;
-            }
         }
 
         private void KanbanBoard_CardDragEnd(object sender, KanbanDragEndEventArgs e)
@@ -163,7 +146,7 @@ namespace KanbanTasker.Views
 
         private void PaneBtnDeleteTaskYes_Click(object sender, RoutedEventArgs e)
         {
-            // Close pane when done
+            // Close pane when finished
             ViewModel.IsPaneOpen = false;
             PaneBtnDeleteTaskConfirmationFlyout.Hide();
         }
@@ -186,6 +169,7 @@ namespace KanbanTasker.Views
                     return;
                 if (ViewModel.AddTag(args.ChosenSuggestion.ToString()))
                     autoSuggestBoxTags.Text = string.Empty;
+
                 autoSuggestBoxTags.ItemsSource = ViewModel.SuggestedTagsCollection;
             }
             else if (!string.IsNullOrEmpty(args.QueryText))
@@ -198,6 +182,7 @@ namespace KanbanTasker.Views
                     return;
                 if (ViewModel.AddTag(args.QueryText))
                     autoSuggestBoxTags.Text = string.Empty;
+
                 autoSuggestBoxTags.ItemsSource = ViewModel.SuggestedTagsCollection;
             }
         }
@@ -207,7 +192,9 @@ namespace KanbanTasker.Views
             // Test
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var results = ViewModel.SuggestedTagsCollection.Where(i => i.StartsWith(sender.Text)).ToList();
+                var results = ViewModel.SuggestedTagsCollection
+                    .Where(i => i.StartsWith(sender.Text))
+                    .ToList();
 
                 if (results.Count > 0)
                     sender.ItemsSource = results;
@@ -226,7 +213,6 @@ namespace KanbanTasker.Views
                 return;
             else
             {
-                //var datePicked = args.NewDate.Value.Date.ToShortDateString();
                 var datePicked = args.NewDate.ToString();
                 switch (calendarName)
                 {
@@ -264,7 +250,7 @@ namespace KanbanTasker.Views
 
         private void Card_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            // Always show in standard mode
+            // Display context menu to the side of card on tap
             var originalSource = (FrameworkElement)sender;
             var selectedCard = originalSource.DataContext as PresentationTask;
 

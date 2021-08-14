@@ -20,6 +20,11 @@ namespace KanbanTasker.Views
 
             DataContext = new SettingsViewModel(App.container.Resolve<IAppNotificationService>());
         }
+        
+        private void BtnCloseSettings_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
 
         /// <summary>
         /// Displays a message using the InAppNotification in MainView. Can be called from any thread.
@@ -32,51 +37,6 @@ namespace KanbanTasker.Views
                        var frame = (Frame)Window.Current.Content;
                        (frame.Content as MainView).KanbanInAppNotification.Show(message, 5000);
                    });
-        }
-
-        private void BtnCloseSettings_Click(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-        }
-
-        private void btnBackupTip_Click(object sender, RoutedEventArgs e)
-        {
-            BackupTip.IsOpen = true;
-        }
-
-        private void btnSignOut_Click(object sender, RoutedEventArgs e)
-        {
-            SignOutPopup.IsOpen = true;
-        }
-
-        private void SignOutPopup_ConfirmClick(Microsoft.UI.Xaml.Controls.TeachingTip sender, object args)
-        {
-            if (SignOutPopup.IsOpen)
-                SignOutPopup.IsOpen = false;
-        }
-
-        private void btnRestoreTip_Click(object sender, RoutedEventArgs e)
-        {
-            RestoreTip.IsOpen = true;
-        }
-
-        private void RestoreTip_ActionButtonClick(Microsoft.UI.Xaml.Controls.TeachingTip sender, object args)
-        {
-            CloseTeachingTips();
-        }
-
-        private void BackupTip_ActionButtonClick(Microsoft.UI.Xaml.Controls.TeachingTip sender, object args)
-        {
-            CloseTeachingTips();
-        }
-
-        public void CloseTeachingTips()
-        {
-            if (RestoreTip.IsOpen)
-                RestoreTip.IsOpen = false;
-
-            if (BackupTip.IsOpen)
-                BackupTip.IsOpen = false;
         }
     }
 }

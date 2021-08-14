@@ -143,7 +143,7 @@
     <Compile Include="Converters\Text\StringFormatToTimeConverter.cs" />
     <Compile Include="Converters\Text\StringToTimeSpanConverter.cs" />
     <Compile Include="Helpers\CalendarViewHelper.cs" />
-    <Compile Include="Helpers\ComboBoxSelectionChangedTriggerBehavior.cs" />
+    <Compile Include="Behaviors\ComboBoxSelectionChangedTriggerBehavior.cs" />
     <Compile Include="Helpers\CustomKanbanColumn.cs" />
     <Compile Include="Helpers\Microsoft Graph\Authentication\AuthenticationProvider.cs" />
     <Compile Include="Extensions\CustomExtensionMethods.cs" />

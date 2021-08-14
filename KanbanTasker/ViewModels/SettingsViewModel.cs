@@ -24,6 +24,10 @@ namespace KanbanTasker.ViewModels
         private string _welcomeText;
         private bool _isSignoutEnabled;
         private bool _isProgressRingActive = false;
+        private bool _isBackupPopupOpen;
+        private bool _isSignoutPopupOpen;
+        private bool _isRestorePopupOpen;
+
         public User CurrentUser { get; set; }
 
         public ICommand BackupDatabaseCommand { get; set; }
@@ -70,12 +74,32 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _isProgressRingActive, value);
         }
 
+        public bool IsBackupPopupOpen
+        {
+            get => _isBackupPopupOpen;
+            set => SetProperty(ref _isBackupPopupOpen, value);
+        }
+
+        public bool IsSignoutPopupOpen
+        {
+            get => _isSignoutPopupOpen;
+            set => SetProperty(ref _isSignoutPopupOpen, value);
+        }
+
+        public bool IsRestorePopupOpen
+        {
+            get => _isRestorePopupOpen;
+            set => SetProperty(ref _isRestorePopupOpen, value);
+        }
+
         /// <summary>
         /// Initiate backup of data to OneDrive.
         /// </summary>
         private async void BackupToOneDrive()
         {
             IsProgressRingActive = true;
+            ClosePopups();
+
             try
             {
                 // Request a token to sign in the user
@@ -167,6 +191,8 @@ namespace KanbanTasker.ViewModels
         private async void RestoreFromOneDrive()
         {
             IsProgressRingActive = true;
+            ClosePopups();
+
             try
             {
                 // Request a token to sign in the user
@@ -256,6 +282,8 @@ namespace KanbanTasker.ViewModels
 
         private async void SignOut()
         {
+            ClosePopups();
+
             try
             {
                 await authProvider.SignOut();
@@ -277,6 +305,27 @@ namespace KanbanTasker.ViewModels
         public void DisplayNotificationMessage(string message)
         {
             _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
+        }
+
+        public void ShowBackupPopup()
+        {
+            IsBackupPopupOpen = true;
+        }
+
+        public void ShowRestorePopup()
+        {
+            IsRestorePopupOpen = true;
+        }
+
+        public void ShowSignoutPopup()
+        {
+            IsSignoutPopupOpen = true;
+        }
+
+        public void ClosePopups()
+        {
+            IsBackupPopupOpen = false;
+            IsRestorePopupOpen = false;
         }
     }
 }

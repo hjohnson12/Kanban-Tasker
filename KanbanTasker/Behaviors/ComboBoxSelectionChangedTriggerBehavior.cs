@@ -8,7 +8,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace KanbanTasker.Helpers
+namespace KanbanTasker.Behaviors
 {
     public class ComboBoxSelectionChangedTriggerBehavior : Trigger<ComboBox>
     {

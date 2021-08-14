@@ -120,7 +120,7 @@
                                 <Button
                                     x:Name="btnBackupTip"
                                     Margin="4,2,4,4"
-                                    Click="btnBackupTip_Click">
+                                    Click="{x:Bind ViewModel.ShowBackupPopup}">
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72C;" />
                                         <TextBlock Margin="4,0,0,0" Text="Backup to OneDrive" />
@@ -129,11 +129,11 @@
                                         <muxc:TeachingTip
                                             x:Name="BackupTip"
                                             Title="Confirm Data Backup"
-                                            ActionButtonClick="BackupTip_ActionButtonClick"
                                             ActionButtonCommand="{x:Bind ViewModel.BackupDatabaseCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
+                                            IsOpen="{x:Bind ViewModel.IsBackupPopupOpen, Mode=TwoWay}"
                                             PreferredPlacement="Top"
                                             Subtitle="Are you sure you wish to backup your data?"
                                             Target="{x:Bind btnBackupTip}" />
@@ -144,7 +144,7 @@
                                 <Button
                                     x:Name="btnRestoreTip"
                                     Margin="4,2,4,4"
-                                    Click="btnRestoreTip_Click">
+                                    Click="{x:Bind ViewModel.ShowRestorePopup}">
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE777;" />
                                         <TextBlock Margin="4,0,0,0" Text="Restore from OneDrive" />
@@ -153,11 +153,11 @@
                                         <muxc:TeachingTip
                                             x:Name="RestoreTip"
                                             Title="Confirm Data Restore"
-                                            ActionButtonClick="RestoreTip_ActionButtonClick"
                                             ActionButtonCommand="{x:Bind ViewModel.RestoreDatabaseCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
+                                            IsOpen="{x:Bind ViewModel.IsRestorePopupOpen, Mode=TwoWay}"
                                             PreferredPlacement="Top"
                                             Subtitle="Are you sure you wish to overwrite your data? This requires the application to restart."
                                             Target="{x:Bind btnRestoreTip}" />
@@ -169,17 +169,17 @@
                                     x:Name="btnSignOutTip"
                                     Margin="4,2,4,4"
                                     HorizontalAlignment="Stretch"
-                                    Click="btnSignOut_Click"
+                                    Click="{x:Bind ViewModel.ShowSignoutPopup}"
                                     IsEnabled="{x:Bind ViewModel.IsSignoutEnabled, Mode=OneWay}">
                                     <Button.Resources>
                                         <muxc:TeachingTip
                                             x:Name="SignOutPopup"
                                             Title="Confirm Sign Out"
-                                            ActionButtonClick="SignOutPopup_ConfirmClick"
                                             ActionButtonCommand="{x:Bind ViewModel.SignoutUserCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
+                                            IsOpen="{x:Bind ViewModel.IsSignoutPopupOpen, Mode=TwoWay}"
                                             PreferredPlacement="Top"
                                             Subtitle="Are you sure you wish to sign out?"
                                             Target="{x:Bind btnSignOutTip}" />

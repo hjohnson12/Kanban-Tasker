@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:KanbanTasker.Behaviors"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:KanbanTasker.Helpers"
@@ -731,7 +732,7 @@
                                 PlaceholderText="Choose One:"
                                 SelectedItem="{Binding SelectedColorKey, Mode=TwoWay}">
                                 <!--<Interactivity:Interaction.Behaviors>
-                                    <helpers:ComboBoxSelectionChangedTriggerBehavior Command="{x:Bind ViewModel.UpdateColorKeyCommand}" />
+                                    <behaviors:ComboBoxSelectionChangedTriggerBehavior Command="{x:Bind ViewModel.UpdateColorKeyCommand}" />
                                 </Interactivity:Interaction.Behaviors>-->
                                 <ComboBox.Resources>
                                     <muxc:TeachingTip
@@ -762,15 +763,6 @@
                                 Margin="8,0"
                                 VerticalAlignment="Center"
                                 Text="Tags:" />
-                            <!--<TextBox
-                                x:Name="txtBoxTags"
-                                Grid.Column="2"
-                                Margin="36,10,0,0"
-                                HorizontalAlignment="Stretch"
-                                KeyDown="TxtBoxTags_KeyDown"
-                                PlaceholderText="Press enter to add tag"
-                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                Style="{StaticResource TextBoxStyle1}" />-->
                             <AutoSuggestBox
                                 x:Name="autoSuggestBoxTags"
                                 Grid.Column="2"
