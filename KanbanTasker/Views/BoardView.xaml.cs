@@ -267,13 +267,15 @@ namespace KanbanTasker.Views
             // Always show in standard mode
             var originalSource = (FrameworkElement)sender;
             var selectedCard = originalSource.DataContext as PresentationTask;
+
+            ViewModel.IsPaneOpen = false;
             ViewModel.CurrentTask = selectedCard;
+
             ShowContextMenu(selectedCard);
         }
 
         private void FlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            // Hide flyout
             taskFlyout.Hide();
 
             // Give title textbox focus once pane opens
@@ -284,11 +286,7 @@ namespace KanbanTasker.Views
 
         private void TappedFlyoutBtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            // Hide flyout
             taskFlyout.Hide();
-
-            // hack, command binding isn't working??
-            ViewModel.EditTask(ViewModel.CurrentTask.ID); 
 
             // Give title textbox focus once pane opens
             txtBoxTitle.Focus(FocusState.Programmatic);
@@ -309,22 +307,21 @@ namespace KanbanTasker.Views
         public void ShowContextMenu(PresentationTask selectedModel)
         {
             // Workaround to show context menu next to selected card model
-            foreach (var col in kanbanBoard.ActualColumns)
+            foreach (var column in kanbanBoard.ActualColumns)
             {
-                if (col.Categories.Contains(selectedModel.Category.ToString()))
+                if (column.Categories.Contains(selectedModel.Category.ToString()))
                 {
-                    // Find card inside column
-                    foreach (var card in col.Cards)
+                    foreach (var card in column.Cards)
                     {
                         int cardIndex = 0;
                         var cardModel = card.Content as PresentationTask;
                         if (cardModel.ID == selectedModel.ID)
                         {
                             // Get current index of card and set on selected card
-                            cardIndex = col.Cards.IndexOf(card);
+                            cardIndex = column.Cards.IndexOf(card);
                             FlyoutShowOptions myOption = new FlyoutShowOptions();
                             myOption.ShowMode = FlyoutShowMode.Transient;
-                            taskFlyout.ShowAt(col.Cards[cardIndex], myOption);
+                            taskFlyout.ShowAt(column.Cards[cardIndex], myOption);
                         }
                     }
                 }

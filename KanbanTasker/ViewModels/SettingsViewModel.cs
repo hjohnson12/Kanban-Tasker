@@ -16,8 +16,8 @@ namespace KanbanTasker.ViewModels
 {
     public class SettingsViewModel : Observable
     {
-        private const int NOTIFICATION_DURATION = 3000;
         private readonly IAppNotificationService _appNotificationService;
+        private const int NOTIFICATION_DURATION = 3000;
         public const string DataFilename = "ktdatabase.db";
         public const string BackupFolderName = "Kanban Tasker";
         private AuthenticationProvider authProvider;

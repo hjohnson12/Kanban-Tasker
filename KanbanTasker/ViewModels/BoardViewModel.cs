@@ -155,6 +155,90 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _reminderTimes, value);
         }
 
+        
+        /// <summary>
+        /// Determines if pointer entered
+        /// inside of a card
+        /// </summary>
+        public bool IsPointerEntered
+        {
+            get => _isPointerEntered;
+            set => SetProperty(ref _isPointerEntered, value);
+        }
+
+        /// <summary>
+        /// Flag for if a task is currently being edited
+        /// </summary>
+        public bool IsEditingTask
+        {
+            get => _isEditingTask;
+            set => SetProperty(ref _isEditingTask, value);
+        }
+
+        /// <summary>
+        /// The category to be displayed on the edit/new task pane
+        /// </summary>
+        public string CurrentCategory
+        {
+            get => _currentCategory;
+            set => SetProperty(ref _currentCategory, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the selected item of the color key combo box. 
+        /// Updates the current tasks color key.
+        /// </summary>
+        public string SelectedColorKey
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(CurrentTask.ColorKey))
+                    return DEFAULT_COLOR_KEY;
+                else
+                    return CurrentTask.ColorKey;
+            }
+            set
+            {
+                CurrentTask.ColorKey = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected item of the reminder time combo box.
+        /// Updates the current tasks reminder time.
+        /// </summary>
+        public string SelectedReminderTime
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(CurrentTask.ReminderTime))
+                    return DEFAULT_REMINDER_TIME;
+                else
+                    return CurrentTask.ReminderTime;
+            }
+            set
+            {
+                CurrentTask.ReminderTime = value;
+                OnPropertyChanged();
+            }
+        }
+     
+
+        /// <summary>
+        /// Flag for determining if the current task is passed due. 
+        /// </summary>
+        public bool IsPassedDue
+        {
+            get => _isPassedDue;
+            set => SetProperty(ref _isPassedDue, value);
+        }
+
+        /// <summary>
+        /// Used to make a copy of the current task to revert changes when cancelling editing
+        /// </summary>
+        public PresentationTask OriginalTask { get; set; }
+
         public string ColOneName
         {
             get { return _ColOneName; }
@@ -265,89 +349,6 @@ namespace KanbanTasker.ViewModels
             get => _isPaneOpen;
             set => SetProperty(ref _isPaneOpen, value);
         }
-
-        /// <summary>
-        /// Determines if pointer entered
-        /// inside of a card
-        /// </summary>
-        public bool IsPointerEntered
-        {
-            get => _isPointerEntered;
-            set => SetProperty(ref _isPointerEntered, value);
-        }
-
-        /// <summary>
-        /// Flag for if a task is currently being edited
-        /// </summary>
-        public bool IsEditingTask
-        {
-            get => _isEditingTask;
-            set => SetProperty(ref _isEditingTask, value);
-        }
-
-        /// <summary>
-        /// The category to be displayed on the edit/new task pane
-        /// </summary>
-        public string CurrentCategory
-        {
-            get => _currentCategory;
-            set => SetProperty(ref _currentCategory, value);
-        }
-
-        /// <summary>
-        /// Gets or sets the selected item of the color key combo box. 
-        /// Updates the current tasks color key.
-        /// </summary>
-        public string SelectedColorKey
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(CurrentTask.ColorKey))
-                    return DEFAULT_COLOR_KEY;
-                else
-                    return CurrentTask.ColorKey;
-            }
-            set
-            {
-                CurrentTask.ColorKey = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the selected item of the reminder time combo box.
-        /// Updates the current tasks reminder time.
-        /// </summary>
-        public string SelectedReminderTime
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(CurrentTask.ReminderTime))
-                    return DEFAULT_REMINDER_TIME;
-                else
-                    return CurrentTask.ReminderTime;
-            }
-            set
-            {
-                CurrentTask.ReminderTime = value;
-                OnPropertyChanged();
-            }
-        }
-     
-
-        /// <summary>
-        /// Flag for determining if the current task is passed due. 
-        /// </summary>
-        public bool IsPassedDue
-        {
-            get => _isPassedDue;
-            set => SetProperty(ref _isPassedDue, value);
-        }
-
-        /// <summary>
-        /// Used to make a copy of the current task to revert changes when cancelling editing
-        /// </summary>
-        public PresentationTask OriginalTask { get; set; }
 
         /// <summary>
         /// Prepares a task to be created in the given column

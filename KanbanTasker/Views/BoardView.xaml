@@ -547,6 +547,8 @@
                     Padding="0"
                     AllowFocusOnInteraction="True"
                     Click="TappedFlyoutBtnEdit_Click"
+                    Command="{x:Bind ViewModel.EditTaskCommand}"
+                    CommandParameter="{x:Bind ViewModel.CurrentTask.ID, Mode=OneWay}"
                     Icon="Edit"
                     Label="Edit Task"
                     Style="{ThemeResource AppBarButtonCustomStyle}"
