@@ -22,7 +22,9 @@ namespace KanbanTasker.Services
         public void DisplayNotificationAsync(string message, int duration)
         {
             var frame = (Frame)Window.Current.Content;
-            (frame.Content as MainView).KanbanInAppNotification.Show(message, duration);
+
+            if (frame != null)
+                (frame.Content as MainView).KanbanInAppNotification.Show(message, duration);
         }
     }
 }

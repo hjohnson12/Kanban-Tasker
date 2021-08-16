@@ -1,9 +1,6 @@
 ﻿using KanbanTasker.ViewModels;
 using KanbanTasker.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
@@ -15,7 +12,7 @@ namespace KanbanTasker.Services
 
         public bool CheckForOpenDialog()
         {
-            return _isDialogOpen == true;
+            return _isDialogOpen;
         }
 
         public async Task ShowDialog(ContentDialog dialog)

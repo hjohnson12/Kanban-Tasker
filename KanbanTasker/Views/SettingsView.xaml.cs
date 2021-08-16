@@ -1,11 +1,9 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Graph;
 using System.Threading.Tasks;
 using Autofac;
 using KanbanTasker.ViewModels;
-using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using KanbanTasker.Services;
 
 namespace KanbanTasker.Views

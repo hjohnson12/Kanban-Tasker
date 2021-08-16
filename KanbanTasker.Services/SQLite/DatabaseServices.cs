@@ -15,6 +15,7 @@ namespace KanbanTasker.Services.SQLite
         {
 
         }
+
         /// <summary>
         /// Queries the database for each board in tblBoards
         /// and returns a collection of boards

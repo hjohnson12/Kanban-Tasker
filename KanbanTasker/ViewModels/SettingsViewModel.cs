@@ -20,7 +20,7 @@ namespace KanbanTasker.ViewModels
         private const int NOTIFICATION_DURATION = 3000;
         public const string DataFilename = "ktdatabase.db";
         public const string BackupFolderName = "Kanban Tasker";
-        private AuthenticationProvider authProvider;
+        private readonly AuthenticationProvider authProvider;
         private string _welcomeText;
         private bool _isSignoutEnabled;
         private bool _isProgressRingActive = false;
@@ -38,7 +38,7 @@ namespace KanbanTasker.ViewModels
         {
             BackupDatabaseCommand = new RelayCommand(BackupToOneDrive, () => true);
             RestoreDatabaseCommand = new RelayCommand(RestoreFromOneDrive, () => true);
-            SignoutUserCommand = new RelayCommand(SignOut, () => IsSignoutEnabled != false);
+            SignoutUserCommand = new RelayCommand(SignOut, () => IsSignoutEnabled);
 
             _appNotificationService = appNotificationService;
 
@@ -112,14 +112,14 @@ namespace KanbanTasker.ViewModels
                 App.CurrentUser = await GraphServiceHelper.GetMeAsync();
 
                 // Find backupFolder in user's OneDrive, if it exists
-                var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+                DriveItem backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
 
                 // Create backup folder in OneDrive if not exists
                 if (backupFolder == null)
-                    backupFolder = await GraphServiceHelper.CreateNewOneDriveFolderAsync("Kanban Tasker") as DriveItem;
+                    backupFolder = await GraphServiceHelper.CreateNewOneDriveFolderAsync("Kanban Tasker");
 
                 // Backup datafile (or overwrite)
-                var uploadedFile = await GraphServiceHelper.UploadFileToOneDriveAsync(backupFolder.Id, DataFilename);
+                DriveItem uploadedFile = await GraphServiceHelper.UploadFileToOneDriveAsync(backupFolder.Id, DataFilename);
 
                 DisplayNotificationMessage("Data backed up successfully");
 
@@ -129,7 +129,7 @@ namespace KanbanTasker.ViewModels
             }
             catch (ServiceException ex)
             {
-                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     // MS Graph Known Error 
                     // Users need to sign into OneDrive at least once
@@ -307,20 +307,11 @@ namespace KanbanTasker.ViewModels
             _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
         }
 
-        public void ShowBackupPopup()
-        {
-            IsBackupPopupOpen = true;
-        }
+        public void ShowBackupPopup() => IsBackupPopupOpen = true;
 
-        public void ShowRestorePopup()
-        {
-            IsRestorePopupOpen = true;
-        }
+        public void ShowRestorePopup() => IsRestorePopupOpen = true;
 
-        public void ShowSignoutPopup()
-        {
-            IsSignoutPopupOpen = true;
-        }
+        public void ShowSignoutPopup() => IsSignoutPopupOpen = true;
 
         public void ClosePopups()
         {

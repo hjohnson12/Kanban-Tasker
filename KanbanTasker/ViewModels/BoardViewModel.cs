@@ -92,7 +92,7 @@ namespace KanbanTasker.ViewModels
                 "At Time of Due Date",
                 "5 Minutes Before",
                 "10 Minutes Before",
-                "15 Mintues Before",
+                "15 Minutes Before",
                 "1 Hour Before",
                 "2 Hours Before",
                 "1 Day Before",
@@ -156,7 +156,7 @@ namespace KanbanTasker.ViewModels
         }
 
         
-        /// <summary>
+         /// <summary>
         /// Determines if pointer entered
         /// inside of a card
         /// </summary>
@@ -360,8 +360,8 @@ namespace KanbanTasker.ViewModels
             IsEditingTask = true;
             PaneTitle = "New Task";
             IsPaneOpen = true;
-
-            string category = tag?.Header?.ToString();
+            
+            var category = tag?.Header?.ToString();
             CurrentTask = new PresentationTask(new TaskDTO() { Category = category })
             {
                 Board = Board,
@@ -375,7 +375,7 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
-        /// Prepares a task with the given ID for editing and initalizes <see cref="CurrentTask"/>
+        /// Prepares a task with the given ID for editing and initializes <see cref="CurrentTask"/>
         /// </summary>
         /// <param name="taskID"></param>
         public void EditTask(int taskID)
@@ -402,26 +402,25 @@ namespace KanbanTasker.ViewModels
             PaneTitle = "";
             IsPaneOpen = false;
 
-            if (_dateCheckTimer != null)
-                _dateCheckTimer.Stop();
+            _dateCheckTimer?.Stop();
 
             if (CurrentTask == null)
                 return;
 
-            TaskDTO taskDTO = CurrentTask.To_TaskDTO();
+            TaskDTO taskDto = CurrentTask.To_TaskDTO();
 
-            bool isNew = taskDTO.Id == 0;
+            bool isNew = taskDto.Id == 0;
             if (isNew)
             {
-                taskDTO.ColumnIndex = Board.Tasks?.Where(x => x.Category == taskDTO.Category).Count() ?? 0;
-                taskDTO.DateCreated = DateTime.Now.ToString();
+                taskDto.ColumnIndex = Board.Tasks?.Where(x => x.Category == taskDto.Category).Count() ?? 0;
+                taskDto.DateCreated = DateTime.Now.ToString();
             }
-            taskDTO.Id = DataProvider.Call(x => x.TaskServices.SaveTask(taskDTO)).Entity.Id;
+            taskDto.Id = DataProvider.Call(x => x.TaskServices.SaveTask(taskDto)).Entity.Id;
 
             if (isNew)
             {
-                CurrentTask.ID = taskDTO.Id;
-                CurrentTask.ColumnIndex = taskDTO.ColumnIndex;
+                CurrentTask.ID = taskDto.Id;
+                CurrentTask.ColumnIndex = taskDto.ColumnIndex;
                 Board.Tasks.Add(CurrentTask);
             }
 
@@ -435,8 +434,7 @@ namespace KanbanTasker.ViewModels
 
         public bool IsReminderInformationNull()
         {
-            return CurrentTask.DueDate != null &&
-                CurrentTask.DueDate != "" &&
+            return !string.IsNullOrEmpty(CurrentTask.DueDate) &&
                 CurrentTask.TimeDue != null &&
                 CurrentTask.ReminderTime != "None" &&
                 CurrentTask.ReminderTime != "";
@@ -448,10 +446,7 @@ namespace KanbanTasker.ViewModels
         /// <param name="taskID"></param>
         public void DeleteTask(int taskID)
         {
-            if (_dateCheckTimer != null)
-            {
-                _dateCheckTimer.Stop();
-            }
+            _dateCheckTimer?.Stop();
 
             PresentationTask task = Board.Tasks.First(x => x.ID == taskID);
             RowOpResult result = DataProvider.Call(x => x.TaskServices.DeleteTask(taskID));
@@ -553,11 +548,11 @@ namespace KanbanTasker.ViewModels
             if (columnNames.Count == 0)
                 columnNames = DataProvider.Call(x => x.BoardServices.GetColumns(Board.ID));
 
-            ColumnDTO columnDTO = columnNames.Find(x => x.ColumnName.Equals(originalColName));
-            columnDTO.ColumnName = newColName;
-            columnDTO.MaxTaskLimit = newColMax;
+            ColumnDTO columnDto = columnNames.Find(x => x.ColumnName.Equals(originalColName));
+            columnDto.ColumnName = newColName;
+            columnDto.MaxTaskLimit = newColMax;
 
-            DataProvider.Call(x => x.BoardServices.SaveColumn(columnDTO));
+            DataProvider.Call(x => x.BoardServices.SaveColumn(columnDto));
 
             // Update tasks category name to new column
             // Note: Items end up unordered when not calling new?
@@ -642,6 +637,9 @@ namespace KanbanTasker.ViewModels
                 ToastNotificationHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
             else
             {
+                if (dueDate == null || timeDue == null)
+                    return;
+
                 // Combine due date and time due
                 // ToastNotifications require a non-nullable DateTimeOffset
                 var taskDueDate = new DateTimeOffset(
@@ -650,7 +648,7 @@ namespace KanbanTasker.ViewModels
                    timeDue.Value.Offset
                 );
 
-                DateTimeOffset scheduledTime = taskDueDate;
+                var scheduledTime = taskDueDate;
                 switch (reminderTime)
                 {
                     case "At Time of Due Date":
@@ -712,12 +710,11 @@ namespace KanbanTasker.ViewModels
             // Update DaysWorkedOn
             if (startDate != null)
             {
-                TimeSpan? ts = today - startDate;
+                TimeSpan? timeSpan = today - startDate;
 
-                if (ts != null)
+                if (timeSpan != null)
                     // Difference in days, hous, mins
-                    CurrentTask.DaysWorkedOn = string.Format("{0} day(s)",
-                        ts.Value.Days.ToString());
+                    CurrentTask.DaysWorkedOn = $"{timeSpan.Value.Days.ToString()} day(s)";
             }
 
             //  Update DaysSinceCreation
@@ -748,6 +745,8 @@ namespace KanbanTasker.ViewModels
                 _appNotificationService.DisplayNotificationAsync(
                     "Failed to set due date.  CurrentTask is null. Please try again or restart the application.",
                     NOTIFICATION_DURATION);
+
+                return;
             }
 
             CurrentTask.DueDate = dueDate;
@@ -765,22 +764,22 @@ namespace KanbanTasker.ViewModels
                 _appNotificationService.DisplayNotificationAsync(
                     "Failed to set due date.  CurrentTask is null. Please try again or restart the application.",
                     NOTIFICATION_DURATION);
+
+                return;
             }
 
             CurrentTask.StartDate = startDate;
 
             // Update DaysWorkedOn binding
             DateTimeOffset? today = DateTimeOffset.Now;
-            if (startDate.ToNullableDateTimeOffset() != null)
+            
+            if (startDate.ToNullableDateTimeOffset() == null) return;
+            
+            TimeSpan? ts = today - startDate.ToNullableDateTimeOffset();
+            if (ts != null)
             {
-                TimeSpan? ts = today - startDate.ToNullableDateTimeOffset();
-
-                if (ts != null)
-                {
-                    // Difference in days, hous, mins
-                    CurrentTask.DaysWorkedOn = String.Format("{0} day(s)",
-                        ts.Value.Days.ToString());
-                }
+                // Difference in days, hours, minutes
+                CurrentTask.DaysWorkedOn = $"{ts.Value.Days.ToString()} day(s)";
             }
         }
 
@@ -795,6 +794,8 @@ namespace KanbanTasker.ViewModels
                 _appNotificationService.DisplayNotificationAsync(
                     "Failed to set due date.  CurrentTask is null. Please try again or restart the application.",
                     NOTIFICATION_DURATION);
+
+                return;
             }
 
             CurrentTask.FinishDate = finishDate;
@@ -806,7 +807,7 @@ namespace KanbanTasker.ViewModels
             //    TimeSpan? ts = finishDate.ToNullableDateTimeOffset() - startDate;
 
             //    if (ts != null)
-            //        // Difference in days, hous, mins
+            //        // Difference in days, hours, minutes
             //        CurrentTask.DaysWorkedOn = String.Format("{0}d, {1}hrs, {2}min",
             //            ts.Value.Days.ToString(), ts.Value.Hours.ToString(), ts.Value.Minutes.ToString());
             //}
@@ -823,6 +824,8 @@ namespace KanbanTasker.ViewModels
                 _appNotificationService.DisplayNotificationAsync(
                     "Failed to set time due.  CurrentTask is null. Please try again or restart the application.",
                     NOTIFICATION_DURATION);
+
+                return;
             }
 
             CurrentTask.TimeDue = timeDue;
@@ -836,24 +839,21 @@ namespace KanbanTasker.ViewModels
         public bool CheckIfPastDue()
         {
             var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
-            if (!(dueDate == null))
-            {
-                var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
-                DateTimeOffset today = DateTimeOffset.Now;
+            
+            if (dueDate == null) return false;
 
-                DateTimeOffset taskDueDate = new DateTimeOffset(
-                  dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
-                  timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
-                  timeDue.Value.Offset
-                );
+            var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
+            
+            if (timeDue == null) return false;
 
-                if (DateTimeOffset.Compare(taskDueDate, today) < 0)
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
+            DateTimeOffset today = DateTimeOffset.Now;
+            DateTimeOffset taskDueDate = new DateTimeOffset(
+                dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day,
+                timeDue.Value.Hour, timeDue.Value.Minute, timeDue.Value.Second,
+                timeDue.Value.Offset
+            );
+
+            return DateTimeOffset.Compare(taskDueDate, today) < 0;
         }
 
         /// <summary>
@@ -909,23 +909,23 @@ namespace KanbanTasker.ViewModels
 
             if (!isNew && columnNames.Count != 0)
             {
-                var columnOne = columnNames.Find(x => x.Position == 0);
+                ColumnDTO columnOne = columnNames.Find(x => x.Position == 0);
                 ColOneName = columnOne.ColumnName;
                 ColumnOneMax = columnOne.MaxTaskLimit;
 
-                var columnTwo = columnNames.Find(x => x.Position == 1);
+                ColumnDTO columnTwo = columnNames.Find(x => x.Position == 1);
                 ColTwoName = columnTwo.ColumnName;
                 ColumnTwoMax = columnTwo.MaxTaskLimit;
 
-                var columnThree = columnNames.Find(x => x.Position == 2);
+                ColumnDTO columnThree = columnNames.Find(x => x.Position == 2);
                 ColThreeName = columnThree.ColumnName;
                 ColumnThreeMax = columnThree.MaxTaskLimit;
 
-                var columnFour = columnNames.Find(x => x.Position == 3);
+                ColumnDTO columnFour = columnNames.Find(x => x.Position == 3);
                 ColFourName = columnFour.ColumnName;
                 ColumnFourMax = columnFour.MaxTaskLimit;
 
-                var columnFive = columnNames.Find(x => x.Position == 4);
+                ColumnDTO columnFive = columnNames.Find(x => x.Position == 4);
                 ColFiveName = columnFive.ColumnName;
                 ColumnFiveMax = columnFive.MaxTaskLimit;
             }

@@ -211,21 +211,19 @@ namespace KanbanTasker.Views
             var calendarName = sender.Name.ToString();
             if (string.IsNullOrEmpty(args.NewDate.ToString()))
                 return;
-            else
+
+            var datePicked = args.NewDate.ToString();
+            switch (calendarName)
             {
-                var datePicked = args.NewDate.ToString();
-                switch (calendarName)
-                {
-                    case "DueDateCalendarPicker":
-                        ViewModel.SetDueDate(datePicked);
-                        break;
-                    case "StartDateCalendarPicker":
-                        ViewModel.SetStartDate(datePicked);
-                        break;
-                    case "FinishDateCalendarPicker":
-                        ViewModel.SetFinishDate(datePicked);
-                        break;
-                }
+                case "DueDateCalendarPicker":
+                    ViewModel.SetDueDate(datePicked);
+                    break;
+                case "StartDateCalendarPicker":
+                    ViewModel.SetStartDate(datePicked);
+                    break;
+                case "FinishDateCalendarPicker":
+                    ViewModel.SetFinishDate(datePicked);
+                    break;
             }
         }
 
@@ -233,8 +231,8 @@ namespace KanbanTasker.Views
         {
             if (string.IsNullOrEmpty(e.NewTime.ToString()))
                 return;
-            else
-                ViewModel.SetTimeDue(e.NewTime.ToString());
+
+            ViewModel.SetTimeDue(e.NewTime.ToString());
         }
 
         private void autoSuggestBoxTags_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
@@ -299,12 +297,12 @@ namespace KanbanTasker.Views
                 {
                     foreach (var card in column.Cards)
                     {
-                        int cardIndex = 0;
                         var cardModel = card.Content as PresentationTask;
+
                         if (cardModel.ID == selectedModel.ID)
                         {
                             // Get current index of card and set on selected card
-                            cardIndex = column.Cards.IndexOf(card);
+                            int cardIndex = column.Cards.IndexOf(card);
                             FlyoutShowOptions myOption = new FlyoutShowOptions();
                             myOption.ShowMode = FlyoutShowMode.Transient;
                             taskFlyout.ShowAt(column.Cards[cardIndex], myOption);

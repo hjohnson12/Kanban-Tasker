@@ -13,23 +13,8 @@ namespace KanbanTasker.Services.SQLite
     {
         public BoardServices(Db db, IServiceManifest serviceManifest) : base(db, serviceManifest)
         {
-
         }
-         
-        public void BackupDB(string destPath)
-        {
-            using (SqliteConnection db =
-               new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
-            {
-                db.Open();
-
-                // Backup Db. Note, we need a path from where the user chooses to save the db
-                //db.BackupDatabase()
-
-                db.Close();
-            }
-        }
-
+        
         /// <summary>
         /// Queries the database for each board in tblBoards
         /// and returns a collection of boards
@@ -522,5 +507,20 @@ namespace KanbanTasker.Services.SQLite
 
             return defaultColumns;
         }
+
+        public void BackupDB(string destPath)
+        {
+            using (SqliteConnection db =
+               new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
+            {
+                db.Open();
+
+                // Backup Db. Note, we need a path from where the user chooses to save the db
+                //db.BackupDatabase()
+
+                db.Close();
+            }
+        }
+
     }
 }

@@ -53,7 +53,6 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <Image
-                    Grid.Column="0"
                     Margin="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"

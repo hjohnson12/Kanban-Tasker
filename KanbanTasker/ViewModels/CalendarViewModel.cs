@@ -55,10 +55,7 @@ namespace KanbanTasker.ViewModels
         public bool IsResultsVisible
         {
             get => _scheduledTasks.Count == 0;
-            set
-            {
-                _isResultsVisible = value;
-            }
+            set => _isResultsVisible = value;
         }
 
         /// <summary>
@@ -77,6 +74,7 @@ namespace KanbanTasker.ViewModels
                     if (!string.IsNullOrEmpty(task.DueDate))
                     {
                         var dueDate = task.DueDate.ToNullableDateTimeOffset();
+
                         if (dueDate.Value.Year == SelectedDate.Year && 
                             dueDate.Value.Month == SelectedDate.Month &&
                             dueDate.Value.Day == SelectedDate.Day)
@@ -96,10 +94,7 @@ namespace KanbanTasker.ViewModels
             _timer.Start();
         }
 
-        public void StopTimer()
-        {
-            _timer.Stop();
-        }
+        public void StopTimer() => _timer.Stop();
 
         private void timer_tick(object sender, object e)
         {
