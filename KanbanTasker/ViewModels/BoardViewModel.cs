@@ -23,6 +23,7 @@ namespace KanbanTasker.ViewModels
         private const string DEFAULT_REMINDER_TIME = "None";
         private readonly IAppNotificationService _appNotificationService;
         private IAdaptiveClient<IServiceManifest> DataProvider;
+        private IToastService _toastService;
         private PresentationBoard _board;
         private PresentationTask _currentTask;
         private ObservableCollection<string> _suggestedTagsCollection;
@@ -66,11 +67,13 @@ namespace KanbanTasker.ViewModels
         public BoardViewModel(
             PresentationBoard board,
             IAdaptiveClient<IServiceManifest> dataProvider,
-            IAppNotificationService appNotificationService)
+            IAppNotificationService appNotificationService,
+            IToastService toastService)
         {
             Board = board;
             DataProvider = dataProvider;
             _appNotificationService = appNotificationService;
+            _toastService = toastService;
 
             CurrentTask = new PresentationTask(new TaskDTO());
             NewTaskCommand = new RelayCommand<ColumnTag>(NewTask, () => true);
@@ -455,7 +458,8 @@ namespace KanbanTasker.ViewModels
             {
                 Board.Tasks.Remove(task);
                 CurrentTask = Board.Tasks.LastOrDefault();
-                ToastNotificationHelper.RemoveScheduledNotification(taskID.ToString());
+                _toastService.RemoveScheduledToast(taskID.ToString());
+
                 int startIndex = task.ColumnIndex;
 
                 // If we do not sort by ColumnIndex, the tasks in Board.Tasks will be in unsorted order when assigning startIndex 
@@ -532,7 +536,7 @@ namespace KanbanTasker.ViewModels
         /// </summary>
         private void RemoveScheduledNotfication()
         {
-            ToastNotificationHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
+            _toastService.RemoveScheduledToast(CurrentTask.ID.ToString());
             CurrentTask.ReminderTime = DEFAULT_REMINDER_TIME;
         }
 
@@ -623,7 +627,7 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
-        /// Schedules a toast notification using <see cref="ToastNotificationHelper"/> if the current task 
+        /// Schedules a toast notification using <see cref="ToastService"/> if the current task 
         /// has a selected due date, time due, reminder time when called.
         /// </summary>
         private void PrepareAndScheduleToastNotification()
@@ -634,7 +638,7 @@ namespace KanbanTasker.ViewModels
             string reminderTime = CurrentTask.ReminderTime;
 
             if (reminderTime.Equals(DEFAULT_REMINDER_TIME))
-                ToastNotificationHelper.RemoveScheduledNotification(CurrentTask.ID.ToString());
+                _toastService.RemoveScheduledToast(CurrentTask.ID.ToString());
             else
             {
                 if (dueDate == null || timeDue == null)
@@ -676,12 +680,7 @@ namespace KanbanTasker.ViewModels
                         break;
                 }
 
-                ToastNotificationHelper.ScheduleTaskDueNotification(
-                    CurrentTask.ID.ToString(),
-                    CurrentTask.Title,
-                    CurrentTask.Description,
-                    scheduledTime,
-                    taskDueDate);
+                _toastService.ScheduleToast(CurrentTask.To_TaskDTO(), scheduledTime, taskDueDate);
             }
         }
 
@@ -745,7 +744,6 @@ namespace KanbanTasker.ViewModels
                 _appNotificationService.DisplayNotificationAsync(
                     "Failed to set due date.  CurrentTask is null. Please try again or restart the application.",
                     NOTIFICATION_DURATION);
-
                 return;
             }
 
@@ -764,7 +762,6 @@ namespace KanbanTasker.ViewModels
                 _appNotificationService.DisplayNotificationAsync(
                     "Failed to set due date.  CurrentTask is null. Please try again or restart the application.",
                     NOTIFICATION_DURATION);
-
                 return;
             }
 
@@ -794,7 +791,6 @@ namespace KanbanTasker.ViewModels
                 _appNotificationService.DisplayNotificationAsync(
                     "Failed to set due date.  CurrentTask is null. Please try again or restart the application.",
                     NOTIFICATION_DURATION);
-
                 return;
             }
 
@@ -824,7 +820,6 @@ namespace KanbanTasker.ViewModels
                 _appNotificationService.DisplayNotificationAsync(
                     "Failed to set time due.  CurrentTask is null. Please try again or restart the application.",
                     NOTIFICATION_DURATION);
-
                 return;
             }
 
@@ -839,11 +834,9 @@ namespace KanbanTasker.ViewModels
         public bool CheckIfPastDue()
         {
             var dueDate = CurrentTask.DueDate.ToNullableDateTimeOffset();
-            
             if (dueDate == null) return false;
 
             var timeDue = CurrentTask.TimeDue.ToNullableDateTimeOffset();
-            
             if (timeDue == null) return false;
 
             DateTimeOffset today = DateTimeOffset.Now;

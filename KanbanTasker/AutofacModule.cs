@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
+using KanbanTasker.Services;
+using KanbanTasker.ViewModels;
 
 namespace KanbanTasker
 {
@@ -13,16 +10,20 @@ namespace KanbanTasker
         {
             base.Load(builder);
 
-            builder.RegisterType<ViewModels.BoardViewModel>();
-            builder.RegisterType<ViewModels.MainViewModel>();
-            builder.RegisterType<ViewModels.SettingsViewModel>();
+            builder.RegisterType<BoardViewModel>();
+            builder.RegisterType<MainViewModel>();
+            builder.RegisterType<SettingsViewModel>();
 
-            builder.RegisterType<Services.AppNotificationService>()
-                .As<Services.IAppNotificationService>()
+            builder.RegisterType<AppNotificationService>()
+                .As<IAppNotificationService>()
                 .SingleInstance();
 
-            builder.RegisterType<Services.DialogService>()
-                .As<Services.IDialogService>()
+            builder.RegisterType<DialogService>()
+                .As<IDialogService>()
+                .SingleInstance();
+
+            builder.RegisterType<ToastService>()
+                .As<IToastService>()
                 .SingleInstance();
         }
     }

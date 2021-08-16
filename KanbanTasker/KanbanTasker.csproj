@@ -149,13 +149,14 @@
     <Compile Include="Extensions\CustomExtensionMethods.cs" />
     <Compile Include="Helpers\Microsoft Graph\GraphServiceHelper.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
-    <Compile Include="Helpers\ToastNotificationHelper.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
     <Compile Include="Models\PresentationTask.cs" />
     <Compile Include="Services\AppNotificationService.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IAppNotificationService.cs" />
     <Compile Include="Services\IDialogService.cs" />
+    <Compile Include="Services\IToastService.cs" />
+    <Compile Include="Services\ToastService.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
