@@ -25,6 +25,10 @@ namespace KanbanTasker
             builder.RegisterType<ToastService>()
                 .As<IToastService>()
                 .SingleInstance();
+
+            builder.RegisterType<NavigationService>()
+                .As<INavigationService>()
+                .SingleInstance();
         }
     }
 }

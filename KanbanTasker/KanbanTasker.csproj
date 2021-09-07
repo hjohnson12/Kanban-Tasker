@@ -155,7 +155,9 @@
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IAppNotificationService.cs" />
     <Compile Include="Services\IDialogService.cs" />
+    <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\IToastService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\ToastService.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />

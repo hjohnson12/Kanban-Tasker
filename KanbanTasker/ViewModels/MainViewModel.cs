@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using LeaderAnalytics.AdaptiveClient;
 using KanbanTasker.Base;
 using KanbanTasker.Model;
@@ -20,6 +18,7 @@ namespace KanbanTasker.ViewModels
         private const int MessageDuration = 3000;
         private readonly IAppNotificationService _appNotificationService;
         private readonly IDialogService _dialogService;
+        private readonly INavigationService _navigationService;
         private readonly IAdaptiveClient<IServiceManifest> dataProvider;
         public Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory;
         private ObservableCollection<BoardViewModel> _boardList;
@@ -47,13 +46,13 @@ namespace KanbanTasker.ViewModels
         public MainViewModel(
             Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory,
             IAdaptiveClient<IServiceManifest> dataProvider,
-            Frame navigationFrame,
+            INavigationService navigationService,
             IAppNotificationService appNotificationService,
             IDialogService dialogService)
         {
-            this.NavigationFrame = navigationFrame;
-            this.dataProvider = dataProvider;
             this.boardViewModelFactory = boardViewModelFactory;
+            this.dataProvider = dataProvider;
+            this._navigationService = navigationService;
             this._appNotificationService = appNotificationService;
             this._dialogService = dialogService;
 
@@ -79,9 +78,9 @@ namespace KanbanTasker.ViewModels
             if (e.PropertyName == nameof(CurrentBoard))
             {
                 if (CurrentBoard == null)
-                    NavigationFrame.Navigate(typeof(Views.NoBoardsMessageView));
+                    _navigationService.NavigateTo(typeof(Views.NoBoardsMessageView));
                 else
-                    NavigationFrame.Navigate(typeof(Views.BoardView), CurrentBoard);
+                    _navigationService.NavigateTo(typeof(Views.BoardView), CurrentBoard);
             }
         }
 
@@ -117,8 +116,6 @@ namespace KanbanTasker.ViewModels
             }
             CurrentBoard = BoardList.Any() ? BoardList.First() : null;
         }
-
-        private Frame NavigationFrame { get; set; }
 
         /// <summary>
         /// List of all boards

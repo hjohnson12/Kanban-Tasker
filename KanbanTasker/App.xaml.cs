@@ -99,10 +99,10 @@ namespace KanbanTasker
         /// <param name="appNotificationService"></param>
         /// <param name="dialogService"></param>
         /// <returns></returns>
-        public static MainViewModel GetViewModel(Frame frame, IAppNotificationService appNotificationService, IDialogService dialogService)
+        public static MainViewModel GetViewModel(INavigationService navigationService, IAppNotificationService appNotificationService, IDialogService dialogService)
         {
             return container.Resolve<MainViewModel>(
-                new TypedParameter(typeof(Frame), frame),
+                new TypedParameter(typeof(INavigationService), navigationService),
                 new TypedParameter(typeof(IAppNotificationService), appNotificationService),
                 new TypedParameter(typeof(IDialogService), dialogService));
         }

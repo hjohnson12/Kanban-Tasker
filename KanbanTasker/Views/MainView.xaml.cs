@@ -24,8 +24,10 @@ namespace KanbanTasker.Views
 
             var appNotificationService = App.container.Resolve<IAppNotificationService>();
             var dialogService = App.container.Resolve<IDialogService>();
+            var navigationService = App.container.Resolve<INavigationService>();
+            navigationService.Frame = contentFrame;
 
-            DataContext = App.GetViewModel(contentFrame, appNotificationService, dialogService);
+            DataContext = App.GetViewModel(navigationService, appNotificationService, dialogService);
         }
 
         private void ShowFlyout(object sender, RoutedEventArgs e)
