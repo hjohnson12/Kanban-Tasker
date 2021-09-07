@@ -14,5 +14,7 @@ namespace KanbanTasker.Services
         object Frame { get; set; }
         void NavigateTo(Type type);
         void NavigateTo(Type type, object parameter);
+        void NavigateToDefaultView();
+        void NavigateToBoard(object boardViewModel);
     }
 }

@@ -78,9 +78,9 @@ namespace KanbanTasker.ViewModels
             if (e.PropertyName == nameof(CurrentBoard))
             {
                 if (CurrentBoard == null)
-                    _navigationService.NavigateTo(typeof(Views.NoBoardsMessageView));
+                    _navigationService.NavigateToDefaultView();
                 else
-                    _navigationService.NavigateTo(typeof(Views.BoardView), CurrentBoard);
+                    _navigationService.NavigateToBoard(CurrentBoard);
             }
         }
 

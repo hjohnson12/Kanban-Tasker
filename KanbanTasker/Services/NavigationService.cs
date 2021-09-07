@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KanbanTasker.Views;
+using System;
 using System.Text;
 using Windows.UI.Xaml.Controls;
 
@@ -24,6 +25,22 @@ namespace KanbanTasker.Services
             if (Frame is Frame frame)
             {
                 frame.Navigate(type, parameter);
+            }
+        }
+
+        public void NavigateToDefaultView()
+        {
+            if (Frame is Frame frame)
+            {
+                frame.Navigate(typeof(NoBoardsMessageView));
+            }
+        }
+
+        public void NavigateToBoard(object boardViewModel)
+        {
+            if (Frame is Frame frame)
+            {
+                frame.Navigate(typeof(BoardView), boardViewModel);
             }
         }
     }
