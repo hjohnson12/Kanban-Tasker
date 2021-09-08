@@ -206,15 +206,16 @@ namespace KanbanTasker.ViewModels
             // Add board to db and collection
             result = dataProvider.Call(x => x.BoardServices.SaveBoard(dto));
 
-            _appNotificationService.DisplayNotificationAsync(result.Success ? "Board was saved successfully." : result.ErrorMessage, MessageDuration);
-
             if (isNew && result.Success)
             {
                 CurrentBoard.Board.ID = result.Entity.Id;
                 BoardList.Add(CurrentBoard);
+                dataProvider.Call(x => x.BoardServices.CreateColumns(CurrentBoard.Board.ID));
             }
 
-            RowOpResult createResult = dataProvider.Call(x => x.BoardServices.CreateColumns(CurrentBoard.Board.ID));
+            _appNotificationService.DisplayNotificationAsync(
+                result.Success ? "Board was saved successfully." : result.ErrorMessage,
+                MessageDuration);
         }
 
         public void CancelSaveBoard()

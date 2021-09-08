@@ -411,13 +411,13 @@ namespace KanbanTasker.ViewModels
                 return;
 
             TaskDTO taskDto = CurrentTask.To_TaskDTO();
-
             bool isNew = taskDto.Id == 0;
             if (isNew)
             {
                 taskDto.ColumnIndex = Board.Tasks?.Where(x => x.Category == taskDto.Category).Count() ?? 0;
                 taskDto.DateCreated = DateTime.Now.ToString();
             }
+
             taskDto.Id = DataProvider.Call(x => x.TaskServices.SaveTask(taskDto)).Entity.Id;
 
             if (isNew)
@@ -427,7 +427,7 @@ namespace KanbanTasker.ViewModels
                 Board.Tasks.Add(CurrentTask);
             }
 
-            if (IsReminderInformationNull())
+            if (IsReminderSet(CurrentTask))
             {
                 PrepareAndScheduleToastNotification();
             }
@@ -435,12 +435,12 @@ namespace KanbanTasker.ViewModels
             _appNotificationService.DisplayNotificationAsync("Task was saved successfully", NOTIFICATION_DURATION);
         }
 
-        public bool IsReminderInformationNull()
+        public bool IsReminderSet(PresentationTask task)
         {
-            return !string.IsNullOrEmpty(CurrentTask.DueDate) &&
-                CurrentTask.TimeDue != null &&
-                CurrentTask.ReminderTime != "None" &&
-                CurrentTask.ReminderTime != "";
+            return !string.IsNullOrEmpty(task.DueDate) &&
+                task.TimeDue != null &&
+                task.ReminderTime != "None" &&
+                task.ReminderTime != "";
         }
 
         /// <summary>
@@ -457,26 +457,37 @@ namespace KanbanTasker.ViewModels
             if (result.Success)
             {
                 Board.Tasks.Remove(task);
+                UpdateCardIndexesAfterDeletion(task);
                 CurrentTask = Board.Tasks.LastOrDefault();
-                _toastService.RemoveScheduledToast(taskID.ToString());
 
-                int startIndex = task.ColumnIndex;
+                if (IsReminderSet(task))
+                    _toastService.RemoveScheduledToast(taskID.ToString());
 
-                // If we do not sort by ColumnIndex, the tasks in Board.Tasks will be in unsorted order when assigning startIndex 
-                var sortedTasks = Board.Tasks
-                    .Where(x => x.Category == task.Category && x.ColumnIndex > task.ColumnIndex)
-                    .OrderBy(x => x.ColumnIndex);
-
-                foreach (PresentationTask otherTask in sortedTasks)
-                {
-                    otherTask.ColumnIndex = startIndex++;
-                    UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
-                }
-                _appNotificationService.DisplayNotificationAsync("Task deleted from board successfully", NOTIFICATION_DURATION);
+                _appNotificationService.DisplayNotificationAsync(
+                    "Task deleted from board successfully", NOTIFICATION_DURATION);
             }
             else
             {
-                _appNotificationService.DisplayNotificationAsync("Task failed to be deleted. Please try again or restart the application.", NOTIFICATION_DURATION);
+                _appNotificationService.DisplayNotificationAsync(
+                    "Task failed to be deleted. Please try again or restart the application.",
+                    NOTIFICATION_DURATION);
+            }
+        }
+
+        private void UpdateCardIndexesAfterDeletion(PresentationTask deletedTask)
+        {
+            int startIndex = deletedTask.ColumnIndex;
+
+            // If we do not sort by ColumnIndex,
+            // the tasks in Board.Tasks will be in unsorted order when assigning startIndex 
+            var sortedTasks = Board.Tasks
+                .Where(x => x.Category == deletedTask.Category && x.ColumnIndex > deletedTask.ColumnIndex)
+                .OrderBy(x => x.ColumnIndex);
+
+            foreach (PresentationTask otherTask in sortedTasks)
+            {
+                otherTask.ColumnIndex = startIndex++;
+                UpdateCardIndex(otherTask.ID, otherTask.ColumnIndex);
             }
         }
 
@@ -493,9 +504,10 @@ namespace KanbanTasker.ViewModels
                     NOTIFICATION_DURATION);
                 return;
             }
-            CurrentTask.Tags.Remove(tag);
 
-            _appNotificationService.DisplayNotificationAsync("Tag deleted successfully", NOTIFICATION_DURATION);
+            var result = CurrentTask.Tags.Remove(tag);
+            var message = result ? "Tag deleted successfully" : "Tag failed to be deleted";
+            _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
         }
 
         /// <summary>
@@ -583,7 +595,9 @@ namespace KanbanTasker.ViewModels
 
             if (CurrentTask == null)
             {
-                _appNotificationService.DisplayNotificationAsync("Tag failed to be added.  CurrentTask is null. Please try again or restart the application.", NOTIFICATION_DURATION);
+                _appNotificationService.DisplayNotificationAsync(
+                    "Tag failed to be added. Please try again or restart the application.",
+                    NOTIFICATION_DURATION);
                 return result;
             }
 
