@@ -479,12 +479,9 @@ namespace KanbanTasker.ViewModels
         public void EditColumn(string originalColName, string newColName, int newColMax)
         {
             // Update column
-            if (columnNames.Count == 0)
-                columnNames = DataProvider.Call(x => x.BoardServices.GetColumns(Board.ID));
-
-            ColumnDTO columnDto = columnNames.Find(x => x.ColumnName.Equals(originalColName));
-            columnDto.ColumnName = newColName;
-            columnDto.MaxTaskLimit = newColMax;
+            ColumnDTO columnDto = BoardColumns
+                .SingleOrDefault(x => x.ColumnName.Equals(newColName))
+                .To_ColumnDTO();
 
             DataProvider.Call(x => x.BoardServices.SaveColumn(columnDto));
 
