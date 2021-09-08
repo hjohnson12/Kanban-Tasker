@@ -324,30 +324,30 @@ namespace KanbanTasker.Views
 
             flyoutEditColumn.Hide();
             
-            if (originalColName == ViewModel.ColOneName)
+            if (originalColName == ViewModel.BoardColumns[0].ColumnName)
             {
-                ViewModel.ColOneName = newColName;
-                ViewModel.ColumnOneMax = newColMax;
+                ViewModel.BoardColumns[0].ColumnName = newColName;
+                ViewModel.BoardColumns[0].MaxTaskLimit = newColMax;
             }
-            else if (originalColName == ViewModel.ColTwoName)
+            else if (originalColName == ViewModel.BoardColumns[1].ColumnName)
             {
-                ViewModel.ColTwoName = newColName;
-                ViewModel.ColumnTwoMax = newColMax;
+                ViewModel.BoardColumns[1].ColumnName = newColName;
+                ViewModel.BoardColumns[1].MaxTaskLimit = newColMax;
             }
-            else if (originalColName == ViewModel.ColThreeName)
+            else if (originalColName == ViewModel.BoardColumns[2].ColumnName)
             {
-                ViewModel.ColThreeName = newColName;
-                ViewModel.ColumnThreeMax = newColMax;
+                ViewModel.BoardColumns[2].ColumnName = newColName;
+                ViewModel.BoardColumns[2].MaxTaskLimit = newColMax;
             }
-            else if (originalColName == ViewModel.ColFourName)
+            else if (originalColName == ViewModel.BoardColumns[3].ColumnName)
             {
-                ViewModel.ColFourName = newColName;
-                ViewModel.ColumnFourMax = newColMax;
+                ViewModel.BoardColumns[3].ColumnName = newColName;
+                ViewModel.BoardColumns[3].MaxTaskLimit = newColMax;
             }
-            else if (originalColName == ViewModel.ColFiveName)
+            else if (originalColName == ViewModel.BoardColumns[4].ColumnName)
             {
-                ViewModel.ColFiveName = newColName;
-                ViewModel.ColumnFiveMax = newColMax;
+                ViewModel.BoardColumns[4].ColumnName = newColName;
+                ViewModel.BoardColumns[4].MaxTaskLimit = newColMax;
             }
             
             ViewModel.EditColumn(originalColName, newColName, newColMax);

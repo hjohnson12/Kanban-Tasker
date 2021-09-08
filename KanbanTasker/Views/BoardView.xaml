@@ -1295,10 +1295,10 @@
 
                 <helpers:CustomKanbanColumn
                     x:Name="Backlog"
-                    Title="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
-                    Categories="{x:Bind ViewModel.ColOneName, Mode=OneWay}"
+                    Title="{x:Bind ViewModel.BoardColumns[0].ColumnName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.BoardColumns[0].ColumnName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="{Binding ColumnOneMax, Mode=TwoWay}">
+                    MaximumLimit="{Binding BoardColumns[0].MaxTaskLimit, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1308,10 +1308,10 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="{x:Bind ViewModel.ColTwoName, Mode=OneWay}"
-                    Categories="{x:Bind ViewModel.ColTwoName, Mode=OneWay}"
+                    Title="{x:Bind ViewModel.BoardColumns[1].ColumnName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.BoardColumns[1].ColumnName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="{Binding ColumnTwoMax, Mode=TwoWay}">
+                    MaximumLimit="{Binding BoardColumns[1].MaxTaskLimit, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1321,10 +1321,10 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="{x:Bind ViewModel.ColThreeName, Mode=OneWay}"
-                    Categories="{x:Bind ViewModel.ColThreeName, Mode=OneWay}"
+                    Title="{x:Bind ViewModel.BoardColumns[2].ColumnName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.BoardColumns[2].ColumnName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="{Binding ColumnThreeMax, Mode=TwoWay}">
+                    MaximumLimit="{Binding BoardColumns[2].MaxTaskLimit, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1334,10 +1334,10 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="{x:Bind ViewModel.ColFourName, Mode=OneWay}"
-                    Categories="{x:Bind ViewModel.ColFourName, Mode=OneWay}"
+                    Title="{x:Bind ViewModel.BoardColumns[3].ColumnName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.BoardColumns[3].ColumnName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="{Binding ColumnFourMax, Mode=TwoWay}">
+                    MaximumLimit="{Binding BoardColumns[3].MaxTaskLimit, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"
@@ -1347,10 +1347,10 @@
                 </helpers:CustomKanbanColumn>
 
                 <helpers:CustomKanbanColumn
-                    Title="{x:Bind ViewModel.ColFiveName, Mode=OneWay}"
-                    Categories="{x:Bind ViewModel.ColFiveName, Mode=OneWay}"
+                    Title="{x:Bind ViewModel.BoardColumns[4].ColumnName, Mode=OneWay}"
+                    Categories="{x:Bind ViewModel.BoardColumns[4].ColumnName, Mode=OneWay}"
                     CollapsedColumnTemplate="{StaticResource CollapsedColumnTemplate}"
-                    MaximumLimit="{Binding ColumnFiveMax, Mode=TwoWay}">
+                    MaximumLimit="{Binding BoardColumns[4].MaxTaskLimit, Mode=TwoWay}">
                     <helpers:CustomKanbanColumn.ErrorBarSettings>
                         <syncfusion:ErrorBarSettings
                             MaxValidationColor="Red"

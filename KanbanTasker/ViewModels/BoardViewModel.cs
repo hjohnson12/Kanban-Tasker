@@ -22,34 +22,26 @@ namespace KanbanTasker.ViewModels
         private const string DEFAULT_COLOR_KEY = "Low";
         private const string DEFAULT_REMINDER_TIME = "None";
         private readonly IAppNotificationService _appNotificationService;
-        private IAdaptiveClient<IServiceManifest> DataProvider;
-        private IToastService _toastService;
+        private readonly IAdaptiveClient<IServiceManifest> DataProvider;
+        private readonly IToastService _toastService;
         private PresentationBoard _board;
         private PresentationTask _currentTask;
         private ObservableCollection<string> _suggestedTagsCollection;
-        List<ColumnDTO> columnNames;
+        private ObservableCollection<string> _colorKeys;
+        private ObservableCollection<string> _reminderTimes;
+        private ObservableCollection<PresentationBoardColumn> _boardColumns;
+        private List<ColumnDTO> columnNames;
         private string _paneTitle;
-        private bool _isPaneOpen;
+        private string _NewColName;
         private string _currentCategory;
+        private bool _isPaneOpen;
         private bool _isPointerEntered = false;
         private bool _isEditingTask;
         private bool _isProgressRingActive = false;
         private bool _isPassedDue = false;
-        private string _ColFiveName;
-        private string _ColThreeName;
-        private string _ColTwoName;
-        private string _ColFourName;
-        private string _ColOneName;
-        private string _NewColName;
         private DispatcherTimer _dateCheckTimer;
-        private ObservableCollection<string> _colorKeys;
-        private ObservableCollection<string> _reminderTimes;
+        
         private int _columnMaxTaskLimit;
-        private int _columnOneMax;
-        private int _columnTwoMax;
-        private int _columnThreeMax;
-        private int _columnFourMax;
-        private int _columnFiveMax;
         private int _newColumnMax;
 
         public ICommand NewTaskCommand { get; set; }
@@ -84,6 +76,8 @@ namespace KanbanTasker.ViewModels
             CancelEditCommand = new RelayCommand(CancelEdit, () => true);
             RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotfication, () => true);
 
+            BoardColumns = new ObservableCollection<PresentationBoardColumn>();
+
             ColorKeys = new ObservableCollection<string>
             {
                 "Low", "Medium", "High"
@@ -114,6 +108,15 @@ namespace KanbanTasker.ViewModels
         {
             get => _board;
             set => SetProperty(ref _board, value);
+        }
+
+        /// <summary>
+        /// The columns for a board
+        /// </summary>
+        public ObservableCollection<PresentationBoardColumn> BoardColumns
+        {
+            get => _boardColumns;
+            set => SetProperty(ref _boardColumns, value);
         }
 
         /// <summary>
@@ -242,53 +245,6 @@ namespace KanbanTasker.ViewModels
         /// </summary>
         public PresentationTask OriginalTask { get; set; }
 
-        public string ColOneName
-        {
-            get { return _ColOneName; }
-            set
-            {
-                _ColOneName = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string ColTwoName
-        {
-            get { return _ColTwoName; }
-            set
-            {
-                _ColTwoName = value;
-                OnPropertyChanged();
-            }
-        }
-        public string ColThreeName
-        {
-            get { return _ColThreeName; }
-            set
-            {
-                _ColThreeName = value;
-                OnPropertyChanged();
-            }
-        }
-        public string ColFourName
-        {
-            get { return _ColFourName; }
-            set
-            {
-                _ColFourName = value;
-                OnPropertyChanged();
-            }
-        }
-        public string ColFiveName
-        {
-            get { return _ColFiveName; }
-            set
-            {
-                _ColFiveName = value;
-                OnPropertyChanged();
-            }
-        }
-
         public string NewColumnName
         {
             get { return _NewColName; }
@@ -303,36 +259,6 @@ namespace KanbanTasker.ViewModels
         {
             get => _columnMaxTaskLimit;
             set => SetProperty(ref _columnMaxTaskLimit, value);
-        }
-
-        public int ColumnOneMax
-        {
-            get => _columnOneMax;
-            set => SetProperty(ref _columnOneMax, value);
-        }
-
-        public int ColumnTwoMax
-        {
-            get => _columnTwoMax;
-            set => SetProperty(ref _columnTwoMax, value);
-        }
-
-        public int ColumnThreeMax
-        {
-            get => _columnThreeMax;
-            set => SetProperty(ref _columnThreeMax, value);
-        }
-
-        public int ColumnFourMax
-        {
-            get => _columnFourMax;
-            set => SetProperty(ref _columnFourMax, value);
-        }
-
-        public int ColumnFiveMax
-        {
-            get => _columnFiveMax;
-            set => SetProperty(ref _columnFiveMax, value);
         }
 
         public int NewColumnMax
@@ -916,38 +842,35 @@ namespace KanbanTasker.ViewModels
 
             if (!isNew && columnNames.Count != 0)
             {
-                ColumnDTO columnOne = columnNames.Find(x => x.Position == 0);
-                ColOneName = columnOne.ColumnName;
-                ColumnOneMax = columnOne.MaxTaskLimit;
+                BoardColumns.Add(new PresentationBoardColumn(
+                    columnNames.Find(x => x.Position == 0)));
 
-                ColumnDTO columnTwo = columnNames.Find(x => x.Position == 1);
-                ColTwoName = columnTwo.ColumnName;
-                ColumnTwoMax = columnTwo.MaxTaskLimit;
+                BoardColumns.Add(new PresentationBoardColumn(
+                    columnNames.Find(x => x.Position == 1)));
 
-                ColumnDTO columnThree = columnNames.Find(x => x.Position == 2);
-                ColThreeName = columnThree.ColumnName;
-                ColumnThreeMax = columnThree.MaxTaskLimit;
+                BoardColumns.Add(new PresentationBoardColumn(
+                    columnNames.Find(x => x.Position == 2)));
 
-                ColumnDTO columnFour = columnNames.Find(x => x.Position == 3);
-                ColFourName = columnFour.ColumnName;
-                ColumnFourMax = columnFour.MaxTaskLimit;
+                BoardColumns.Add(new PresentationBoardColumn(
+                    columnNames.Find(x => x.Position == 3)));
 
-                ColumnDTO columnFive = columnNames.Find(x => x.Position == 4);
-                ColFiveName = columnFive.ColumnName;
-                ColumnFiveMax = columnFive.MaxTaskLimit;
+                BoardColumns.Add(new PresentationBoardColumn(
+                    columnNames.Find(x => x.Position == 4)));
             }
             else
             {
-                ColOneName = "Backlog";
-                ColTwoName = "To Do";
-                ColThreeName = "In Progress";
-                ColFourName = "Review";
-                ColFiveName = "Completed";
-                ColumnOneMax = 10;
-                ColumnTwoMax = 10;
-                ColumnThreeMax = 10;
-                ColumnFourMax = 10;
-                ColumnFiveMax = 10;
+                string[] defaultColumnNames =
+                    {"Backlog", "To Do", "In Progress", "Review", "Completed" };
+
+                foreach(var column in defaultColumnNames)
+                {
+                    BoardColumns.Add(new PresentationBoardColumn(
+                        new ColumnDTO()
+                        {
+                            ColumnName = column,
+                            MaxTaskLimit = 10
+                        }));
+                }
             }
         }
     }
