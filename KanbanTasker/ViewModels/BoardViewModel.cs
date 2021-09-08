@@ -31,6 +31,7 @@ namespace KanbanTasker.ViewModels
         private ObservableCollection<string> _reminderTimes;
         private ObservableCollection<PresentationBoardColumn> _boardColumns;
         private List<ColumnDTO> columnNames;
+        private DispatcherTimer _dateCheckTimer;
         private string _paneTitle;
         private string _NewColName;
         private string _currentCategory;
@@ -39,8 +40,6 @@ namespace KanbanTasker.ViewModels
         private bool _isEditingTask;
         private bool _isProgressRingActive = false;
         private bool _isPassedDue = false;
-        private DispatcherTimer _dateCheckTimer;
-        
         private int _columnMaxTaskLimit;
         private int _newColumnMax;
 
@@ -229,7 +228,6 @@ namespace KanbanTasker.ViewModels
                 OnPropertyChanged();
             }
         }
-     
 
         /// <summary>
         /// Flag for determining if the current task is passed due. 
@@ -253,12 +251,6 @@ namespace KanbanTasker.ViewModels
                 _NewColName = value;
                 OnPropertyChanged();
             }
-        }
-
-        public int ColumnMaxTaskLimit
-        {
-            get => _columnMaxTaskLimit;
-            set => SetProperty(ref _columnMaxTaskLimit, value);
         }
 
         public int NewColumnMax

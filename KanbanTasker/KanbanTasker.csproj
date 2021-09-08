@@ -149,7 +149,6 @@
     <Compile Include="Extensions\CustomExtensionMethods.cs" />
     <Compile Include="Helpers\Microsoft Graph\GraphServiceHelper.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
-    <Compile Include="Models\BoardColumn.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
     <Compile Include="Models\PresentationBoardColumn.cs" />
     <Compile Include="Models\PresentationTask.cs" />
