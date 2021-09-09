@@ -508,16 +508,8 @@ namespace KanbanTasker.ViewModels
         {
             bool result = false;
 
-            if (CurrentTask == null)
-            {
-                _appNotificationService.DisplayNotificationAsync(
-                    "Tag failed to be added. Please try again or restart the application.",
-                    NOTIFICATION_DURATION);
-                return result;
-            }
-
             if (CurrentTask.Tags.Contains(tag))
-                _appNotificationService.DisplayNotificationAsync("Tag already exists", 3000);
+                _appNotificationService.DisplayNotificationAsync("Tag already exists", NOTIFICATION_DURATION);
             else
             {
                 CurrentTask.Tags.Add(tag);
@@ -525,7 +517,7 @@ namespace KanbanTasker.ViewModels
                     Board.TagsCollection.Add(tag);
 
                 SuggestedTagsCollection.Remove(tag);
-                _appNotificationService.DisplayNotificationAsync($"Tag {tag} added successfully", 3000);
+                _appNotificationService.DisplayNotificationAsync($"Tag {tag} added successfully", NOTIFICATION_DURATION);
                 result = true;
             }
             return result;
@@ -535,14 +527,11 @@ namespace KanbanTasker.ViewModels
         {
             // Removes tags from suggested list that are already on the tag, if any
             SuggestedTagsCollection = Board.TagsCollection;
+
             foreach (var tag in CurrentTask.Tags)
             {
                 if (SuggestedTagsCollection.Contains(tag))
-                {
                     SuggestedTagsCollection.Remove(tag);
-                }
-                else
-                    SuggestedTagsCollection = Board.TagsCollection;
             }
         }
 
