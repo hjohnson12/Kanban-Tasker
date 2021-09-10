@@ -1,6 +1,6 @@
 # Kanban Tasker
 
-This Windows 10 Universal Windows Platform (UWP) application uses a kanban board as a simple workflow visualization tool and allows dragging of individual tasks and multiple project boards with syncing to OneDrive.
+A Windows 10 Universal Windows Platform (UWP) application for a simple personal kanban board, used as a workflow visualization tool and allows dragging of individual tasks and multiple project boards with syncing to OneDrive.
 
 ## Kanban Tasker Details
 
@@ -20,19 +20,19 @@ Developers can read more here: [Getting Started](#getting-started)
 *Note*: Images are slightly out of date, new screenshots coming soon! Update released 1/06/2020.
 
 #### A clean, modern UI
-![Image of Program](KanbanTasker/Images/KT_00.png)
+![Image of Program](Images/KT_00.png)
 
 #### Simple design with a popout pane to edit and create your tasks
  * Quick access to the pane comes from hovering over the task with your mouse and selecting the edit icon
    *  If light-holding the task on tablet mode and it does not register and open a context menu, right-click is enabled to work for the menu for editing or deleting.
  * Tags in the pane can range in width and height. If the tag is longer than the width of the pane, it will wrap to a new row and  increase the height
-![Image of Program](KanbanTasker/Images/KT_01.png)
+![Image of Program](Images/KT_01.png)
 
 #### Backup/Restore to and from the cloud using OneDrive and your Microsoft Account
-![Image of Program](KanbanTasker/Images/KT_OneDrive.png)
+![Image of Program](Images/KT_OneDrive.png)
 
 #### Basic Task Calendar to see tasks due on a specified date
-![Image of Program](KanbanTasker/Images/KT_TaskCalendar.png)
+![Image of Program](Images/KT_TaskCalendar.png)
 
 #### Adaptable Fluent Design Background and Card design
   * Background acrylic brush adapts to colors
@@ -41,7 +41,7 @@ Developers can read more here: [Getting Started](#getting-started)
   * Mouse reveal effect added to the bottom priority indicator border
   * Cards can vary in width and height. Wrapping added to card tags as well 
 
-![Image of Program](KanbanTasker/Images/KT_02.png)
+![Image of Program](Images/KT_02.png)
 
 #### Support for multiple boards and input validation throughout the application:
   * Ability to edit board name and board notes
@@ -49,20 +49,20 @@ Developers can read more here: [Getting Started](#getting-started)
   * The work in progress limit is 10 and the error bar indicator will turn red when you reach max items
   * Quickly delete a board and its respective tasks using the button on the navigation menu
 
-![Image of Program](KanbanTasker/Images/KT_03.png)
+![Image of Program](Images/KT_03.png)
 
 #### Ability to collapse columns
   * Support to collapse columns added so you're able to focus on the important tasks at hand
-![Image of Program](KanbanTasker/Images/KT_04.png)
+![Image of Program](Images/KT_04.png)
 
 #### Ability to drag cards across columns for easy workflow organization
-![Image of Program](KanbanTasker/Images/KT_05.png)
+![Image of Program](Images/KT_05.png)
 
 #### Quick preview of board notes when hovering over board name
-![Image of Program](KanbanTasker/Images/KT_06.png)
+![Image of Program](Images/KT_06.png)
 
 #### Scrollbar added to column when the tasks exceed the height of the application
-![Image of Program](KanbanTasker/Images/KT_07.png)
+![Image of Program](Images/KT_07.png)
 
 ## Getting Started
 
@@ -107,7 +107,7 @@ Target Version: Windows 10, Version 1903
 
 ## Authors
 
-* **Hunter** - *Initial work* - [hjohnson012](https://github.com/hjohnson12)
+* **Hunter** - [hjohnson012](https://github.com/hjohnson12)
 
 See also the list of [contributors](https://github.com/hjohnson12/KanbanTasker/graphs/contributors) who participated in this project.
 
