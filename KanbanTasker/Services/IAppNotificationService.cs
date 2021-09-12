@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KanbanTasker.Services
 {
     /// <summary>
-    /// Interface for displaying a message on the UI.
+    /// Interface for displaying a message to the user.
     /// </summary>
     public interface IAppNotificationService
     {

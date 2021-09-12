@@ -175,7 +175,7 @@ namespace KanbanTasker.ViewModels
                 CurrentBoard = newBoard;
                 // Don't add to BoardList here.  Wait till user saves.
 
-                await _dialogService.ShowEditDialog(this);
+                await _dialogService.ShowEditBoardDialog(this);
             }
         }
 
@@ -187,7 +187,7 @@ namespace KanbanTasker.ViewModels
             OldBoardName = _tmpBoard.Board.Name;
             OldBoardNotes = _tmpBoard.Board.Notes;
 
-            await _dialogService.ShowEditDialog(this);
+            await _dialogService.ShowEditBoardDialog(this);
         }
 
         public void SaveBoard()

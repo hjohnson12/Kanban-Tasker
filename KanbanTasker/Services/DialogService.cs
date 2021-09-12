@@ -1,11 +1,13 @@
-﻿using KanbanTasker.ViewModels;
-using KanbanTasker.Views;
+﻿using KanbanTasker.Views;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace KanbanTasker.Services
 {
+    /// <summary>
+    /// A class containing methods to work with content dialogs.
+    /// </summary>
     public class DialogService : IDialogService
     {
         private bool _isDialogOpen;
@@ -27,14 +29,14 @@ namespace KanbanTasker.Services
             _isDialogOpen = false;
         }
 
-        public async Task ShowEditDialog(MainViewModel mainViewModel)
+        public async Task ShowEditBoardDialog(object viewModel)
         {
             if (_isDialogOpen)
                 return;
 
             _isDialogOpen = true;
 
-            var dialog = new EditBoardDialogView() { DataContext = mainViewModel };
+            var dialog = new EditBoardDialogView() { DataContext = viewModel };
             var result = await dialog.ShowAsync();
 
             _isDialogOpen = false;
@@ -79,14 +81,14 @@ namespace KanbanTasker.Services
             _isDialogOpen = false;
         }
 
-        public async Task ShowCalendarDialog(MainViewModel mainViewModel)
+        public async Task ShowCalendarDialog(object viewModel)
         {
             if (_isDialogOpen)
                 return;
 
             _isDialogOpen = true;
 
-            var dialog = new CalendarDialogView(mainViewModel);
+            var dialog = new CalendarDialogView(viewModel);
             await dialog.ShowAsync();
 
             _isDialogOpen = false;

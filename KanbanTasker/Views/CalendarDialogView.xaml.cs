@@ -11,10 +11,10 @@ namespace KanbanTasker.Views
         public ViewModels.CalendarViewModel CalendarViewModel { get; set; }
         private PresentationTask SelectedTask { get; set; }
 
-        public CalendarDialogView(ViewModels.MainViewModel viewModel)
+        public CalendarDialogView(object viewModel)
         {
             this.InitializeComponent();
-            ViewModel = viewModel;
+            ViewModel = viewModel as ViewModels.MainViewModel;
             CalendarViewModel = new ViewModels.CalendarViewModel();
         }
 

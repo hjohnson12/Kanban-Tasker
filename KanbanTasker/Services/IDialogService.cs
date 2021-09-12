@@ -1,27 +1,18 @@
-﻿using KanbanTasker.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace KanbanTasker.Services
 {
     /// <summary>
-    /// Interface for displaying content dialogs.
+    /// Interface that provides methods for displaying dialogs.
     /// </summary>
     public interface IDialogService
     {
         bool CheckForOpenDialog();
-
-        Task ShowEditDialog(MainViewModel mainViewModel);
-
         Task ShowFirstRunDialog();
-
         Task ShowAppUpdatedDialog();
-
         Task ShowSettingsDialog();
-
-        Task ShowCalendarDialog(MainViewModel mainViewModel);
+        Task ShowEditBoardDialog(object viewModel);
+        Task ShowCalendarDialog(object viewModel);
     }
 }
