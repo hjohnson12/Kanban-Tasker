@@ -24,10 +24,10 @@ namespace KanbanTasker.ViewModels
         public Func<PresentationBoard, IAppNotificationService, BoardViewModel> boardViewModelFactory;
         private ObservableCollection<BoardViewModel> _boardList;
         private BoardViewModel _currentBoard;
-        private string _boardEditorTitle;
         // _tmpBoard is used to save the current board when a user clicks the Add button, than cancels.
         // Should be able to remove this property when this ticket is fixed: https://github.com/microsoft/microsoft-ui-xaml/issues/1200
         private BoardViewModel _tmpBoard;
+        private string _boardEditorTitle;
         private string _oldBoardName;
         private string _oldBoardNotes;
 
@@ -142,18 +142,6 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _boardEditorTitle, value);
         }
 
-        public string OldBoardName
-        {
-            get => _oldBoardName;
-            set => SetProperty(ref _oldBoardName, value);
-        }
-
-        public string OldBoardNotes
-        {
-            get => _oldBoardNotes;
-            set => SetProperty(ref _oldBoardNotes, value);
-        }
-
         public async void NewBoard()
         {
             var dialogOpen = _dialogService.CheckForOpenDialog();
@@ -168,8 +156,8 @@ namespace KanbanTasker.ViewModels
                 _tmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
                 if (_tmpBoard != null)
                 {
-                    OldBoardName = _tmpBoard.Board.Name;
-                    OldBoardNotes = _tmpBoard.Board.Notes;
+                    _oldBoardName = _tmpBoard.Board.Name;
+                    _oldBoardNotes = _tmpBoard.Board.Notes;
                 }
 
                 CurrentBoard = null;                // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
@@ -185,8 +173,8 @@ namespace KanbanTasker.ViewModels
             BoardEditorTitle = "Edit Board";
 
             _tmpBoard = CurrentBoard;
-            OldBoardName = _tmpBoard.Board.Name;
-            OldBoardNotes = _tmpBoard.Board.Notes;
+            _oldBoardName = _tmpBoard.Board.Name;
+            _oldBoardNotes = _tmpBoard.Board.Notes;
 
             await _dialogService.ShowEditBoardDialog(this);
         }
@@ -230,8 +218,8 @@ namespace KanbanTasker.ViewModels
             // hack
             if (CurrentBoard != null)
             {
-                CurrentBoard.Board.Name = OldBoardName;
-                CurrentBoard.Board.Notes = OldBoardNotes;
+                CurrentBoard.Board.Name = _oldBoardName;
+                CurrentBoard.Board.Notes = _oldBoardNotes;
             }
         }
 
