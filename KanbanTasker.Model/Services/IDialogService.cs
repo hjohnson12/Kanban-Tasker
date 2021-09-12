@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace KanbanTasker.Services
+namespace KanbanTasker.Model.Services
 {
     /// <summary>
     /// Interface that provides methods for displaying dialogs.

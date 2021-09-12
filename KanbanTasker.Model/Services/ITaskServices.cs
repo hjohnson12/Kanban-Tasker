@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KanbanTasker.Model
+namespace KanbanTasker.Model.Services
 {
     /// <summary>
     /// Interface for a service that interacts with the tasks within a kanban board.

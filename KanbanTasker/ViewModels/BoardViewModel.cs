@@ -13,6 +13,7 @@ using KanbanTasker.Extensions;
 using KanbanTasker.Helpers;
 using KanbanTasker.Models;
 using KanbanTasker.Services;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.ViewModels
 {

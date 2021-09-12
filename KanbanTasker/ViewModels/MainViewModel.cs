@@ -10,6 +10,7 @@ using KanbanTasker.Models;
 using KanbanTasker.Services;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.ViewModels
 {

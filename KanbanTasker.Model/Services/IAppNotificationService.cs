@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KanbanTasker.Services
+namespace KanbanTasker.Model.Services
 {
     /// <summary>
     /// Interface for displaying a message to the user.

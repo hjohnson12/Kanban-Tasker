@@ -1,7 +1,7 @@
 ﻿using KanbanTasker.Model;
 using System;
 
-namespace KanbanTasker.Services
+namespace KanbanTasker.Model.Services
 {
     /// <summary>
     /// Interface to work with Windows 10 toast notifications.

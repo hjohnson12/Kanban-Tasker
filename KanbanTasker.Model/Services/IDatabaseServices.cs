@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KanbanTasker.Model
+namespace KanbanTasker.Model.Services
 {
     public interface IDatabaseServices
     {
