@@ -5,6 +5,7 @@ using LeaderAnalytics.AdaptiveClient;
 using LeaderAnalytics.AdaptiveClient.Utilities;
 using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 using KanbanTasker.Model;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.Services
 {

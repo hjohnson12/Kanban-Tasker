@@ -1,4 +1,5 @@
 ﻿using KanbanTasker.Model;
+using KanbanTasker.Model.Services;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using Windows.UI.Notifications;
 namespace KanbanTasker.Services
 {
     /// <summary>
-    /// A class to schedule and show toast notifications on Windows 10
+    /// A class to schedule and show toast notifications in UWP
     /// </summary>
     public class ToastService : IToastService
     {

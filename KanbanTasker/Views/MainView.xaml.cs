@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Media;
 using Autofac;
 using KanbanTasker.Services;
 using KanbanTasker.ViewModels;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.Views
 {

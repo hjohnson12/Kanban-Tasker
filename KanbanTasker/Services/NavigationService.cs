@@ -1,4 +1,5 @@
-﻿using KanbanTasker.Views;
+﻿using KanbanTasker.Model.Services;
+using KanbanTasker.Views;
 using System;
 using System.Text;
 using Windows.UI.Xaml.Controls;

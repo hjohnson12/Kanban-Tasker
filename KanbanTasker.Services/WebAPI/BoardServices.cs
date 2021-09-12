@@ -10,6 +10,7 @@ using LeaderAnalytics.AdaptiveClient;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.Services.WebAPI
 {

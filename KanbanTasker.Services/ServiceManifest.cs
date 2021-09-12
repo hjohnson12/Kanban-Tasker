@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using LeaderAnalytics.AdaptiveClient.Utilities;
 using KanbanTasker.Model;
-
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.Services
 {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using KanbanTasker.ViewModels;
 using KanbanTasker.Services;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.Views
 {

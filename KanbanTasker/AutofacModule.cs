@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using KanbanTasker.Model.Services;
 using KanbanTasker.Services;
 using KanbanTasker.ViewModels;
 

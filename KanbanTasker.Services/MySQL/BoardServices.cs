@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using KanbanTasker.Model;
 using System.Linq;
 using KanbanTasker.Services.Database;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.Services.MySQL
 {

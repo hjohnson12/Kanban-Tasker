@@ -24,6 +24,7 @@ using Application = Windows.UI.Xaml.Application;
 using KanbanTasker.Services;
 using KanbanTasker.Helpers.Microsoft_Graph;
 using KanbanTasker.Helpers;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker
 {
