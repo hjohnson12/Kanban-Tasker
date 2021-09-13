@@ -45,12 +45,12 @@ namespace KanbanTasker.ViewModels
         private int _newColumnMax;
 
         public ICommand NewTaskCommand { get; set; }
-        public ICommand EditColumnCommand { get; set; }
         public ICommand EditTaskCommand { get; set; }
         public ICommand SaveTaskCommand { get; set; }
         public ICommand DeleteTaskCommand { get; set; }
         public ICommand DeleteTagCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
+        public ICommand UpdateColumnCommand { get; set; }
         public ICommand RemoveScheduledNotificationCommand { get; set; }
 
         /// <summary>
@@ -74,6 +74,7 @@ namespace KanbanTasker.ViewModels
             DeleteTaskCommand = new RelayCommand<int>(DeleteTask, () => PaneTitle.Equals("Edit Task") || PaneTitle.Equals(""));
             DeleteTagCommand = new RelayCommand<string>(DeleteTag, () => true);
             CancelEditCommand = new RelayCommand(CancelEdit, () => true);
+            UpdateColumnCommand = new RelayCommand<string>(UpdateColumn, () => true);
             RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotfication, () => true);
 
             BoardColumns = new ObservableCollection<PresentationBoardColumn>();
@@ -448,6 +449,12 @@ namespace KanbanTasker.ViewModels
             {
                 int index = Board.Tasks.IndexOf(CurrentTask);
                 var tempTask = new PresentationTask(OriginalTask.To_TaskDTO());
+
+                // Update category if column name was changed while
+                // creating new task
+                if (CurrentTask.Category != OriginalTask.Category)
+                    tempTask.Category = CurrentTask.Category;
+
                 Board.Tasks[index] = tempTask;
                 Board.Tasks = new ObservableCollection<PresentationTask>(
                     Board.Tasks.OrderBy(x => x.ColumnIndex));
@@ -472,32 +479,49 @@ namespace KanbanTasker.ViewModels
         }
 
         /// <summary>
-        /// Updates the column name in the database with its new name and renames
-        /// each tasks category to the updated name.
+        /// Sets the new column name and max task limit of
+        /// the column changed and updates column in database.
         /// </summary>
         /// <param name="originalColName"></param>
         /// <param name="newColName"></param>
-        public void EditColumn(string originalColName, string newColName, int newColMax)
+        public void UpdateColumn(string originalName)
         {
-            // Update column
-            ColumnDTO columnDto = BoardColumns
-                .SingleOrDefault(x => x.ColumnName.Equals(newColName))
-                .To_ColumnDTO();
+            string originalColumnName = originalName;
+            string newColName = NewColumnName;
+            int newColMax = NewColumnMax;
 
-            DataProvider.Call(x => x.BoardServices.SaveColumn(columnDto));
+            if (string.IsNullOrEmpty(newColName))
+                newColName = originalColumnName;
 
-            // Update tasks category name to new column
+            // Set new column name and task limits
+            PresentationBoardColumn column = BoardColumns
+                .Single(x => x.ColumnName.Equals(originalColumnName));
+            column.ColumnName = newColName;
+            column.MaxTaskLimit = newColMax;
+
+            // Update column in database
+            DataProvider.Call(x => x.BoardServices.SaveColumn(column.To_ColumnDTO()));
+
+            // Update categories for tasks in the column
             // Note: Items end up unordered when not calling new?
             var tasksCopy = Board.Tasks;
             foreach (PresentationTask task in tasksCopy)
             {
-                if (task.Category == originalColName)
+                if (task.Category == originalColumnName)
                 {
                     task.Category = newColName;
                     DataProvider.Call(x => x.TaskServices.UpdateColumnName(task.ID, task.Category));
                 }
             }
             Board.Tasks = new ObservableCollection<PresentationTask>(tasksCopy.OrderBy(x => x.ColumnIndex));
+
+            // Update category if creating new task
+            if (IsPaneOpen && PaneTitle.Equals("New Task"))
+            {
+                if (CurrentTask.Category.Equals(originalColumnName))
+                    CurrentTask.Category = newColName;
+            }
+            NewColumnName = "";
         }
 
         /// <summary>

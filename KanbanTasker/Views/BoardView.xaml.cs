@@ -314,51 +314,7 @@ namespace KanbanTasker.Views
 
         private void btnSaveColChanges_Click(object sender, RoutedEventArgs e)
         {
-            var originalColName = ((sender as Button).CommandParameter as ColumnTag).Header.ToString();
-
-            var newColName = ViewModel.NewColumnName;
-            var newColMax = ViewModel.NewColumnMax;
-
-            if (string.IsNullOrEmpty(newColName))
-                newColName = originalColName;
-
             flyoutEditColumn.Hide();
-            
-            if (originalColName == ViewModel.BoardColumns[0].ColumnName)
-            {
-                ViewModel.BoardColumns[0].ColumnName = newColName;
-                ViewModel.BoardColumns[0].MaxTaskLimit = newColMax;
-            }
-            else if (originalColName == ViewModel.BoardColumns[1].ColumnName)
-            {
-                ViewModel.BoardColumns[1].ColumnName = newColName;
-                ViewModel.BoardColumns[1].MaxTaskLimit = newColMax;
-            }
-            else if (originalColName == ViewModel.BoardColumns[2].ColumnName)
-            {
-                ViewModel.BoardColumns[2].ColumnName = newColName;
-                ViewModel.BoardColumns[2].MaxTaskLimit = newColMax;
-            }
-            else if (originalColName == ViewModel.BoardColumns[3].ColumnName)
-            {
-                ViewModel.BoardColumns[3].ColumnName = newColName;
-                ViewModel.BoardColumns[3].MaxTaskLimit = newColMax;
-            }
-            else if (originalColName == ViewModel.BoardColumns[4].ColumnName)
-            {
-                ViewModel.BoardColumns[4].ColumnName = newColName;
-                ViewModel.BoardColumns[4].MaxTaskLimit = newColMax;
-            }
-            
-            ViewModel.EditColumn(originalColName, newColName, newColMax);
-
-            // Update category if creating new task
-            if (ViewModel.IsPaneOpen && ViewModel.PaneTitle.Equals("New Task"))
-            {
-                if (ViewModel.CurrentTask.Category.Equals(originalColName))
-                    ViewModel.CurrentTask.Category = newColName;
-            }
-            ViewModel.NewColumnName = "";
         }
 
         private void txtBoxColName_TextChanged(object sender, TextChangedEventArgs e)

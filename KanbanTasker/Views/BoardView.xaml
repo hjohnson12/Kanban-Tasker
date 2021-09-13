@@ -75,7 +75,11 @@
                             x:FieldModifier="public"
                             Click="btnSaveColChanges_Click"
                             CommandParameter="{Binding}"
-                            Content="Save Changes" />
+                            Content="Save Changes">
+                            <Interactivity:Interaction.Behaviors>
+                                <behaviors:SaveColumnButtonClickBehavior Command="{x:Bind ViewModel.UpdateColumnCommand}" />
+                            </Interactivity:Interaction.Behaviors>
+                        </Button>
                     </Grid>
                 </Grid>
             </Flyout>
