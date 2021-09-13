@@ -967,21 +967,12 @@
                                                     x:Name="ReminderComboBox"
                                                     Grid.Column="0"
                                                     Width="175"
+                                                    HorizontalAlignment="Stretch"
                                                     Background="{ThemeResource RegionBrush}"
                                                     BorderThickness="1"
-                                                    Header="Set Reminder:"
+                                                    Header="Reminder:"
                                                     ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}"
                                                     SelectedItem="{Binding SelectedReminderTime, Mode=TwoWay}" />
-                                                <Button
-                                                    x:Name="btnDeleteToastNotification"
-                                                    Grid.Column="1"
-                                                    Margin="4,0,0,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Bottom"
-                                                    Command="{Binding ElementName=boardViewPage, Path=ViewModel.RemoveScheduledNotificationCommand}"
-                                                    CommandParameter="{Binding}"
-                                                    Content="Remove"
-                                                    ToolTipService.ToolTip="Remove scheduled notification" />
                                             </Grid>
 
                                             <!--<Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>-->

@@ -75,7 +75,6 @@ namespace KanbanTasker.ViewModels
             DeleteTagCommand = new RelayCommand<string>(DeleteTag, () => true);
             CancelEditCommand = new RelayCommand(CancelEdit, () => true);
             UpdateColumnCommand = new RelayCommand<string>(UpdateColumn, () => true);
-            RemoveScheduledNotificationCommand = new RelayCommand(RemoveScheduledNotfication, () => true);
 
             BoardColumns = new ObservableCollection<PresentationBoardColumn>();
 
@@ -348,9 +347,7 @@ namespace KanbanTasker.ViewModels
             }
 
             if (IsReminderSet(CurrentTask))
-            {
                 PrepareAndScheduleToastNotification();
-            }
 
             _appNotificationService.DisplayNotificationAsync("Task was saved successfully", NOTIFICATION_DURATION);
         }
@@ -465,17 +462,6 @@ namespace KanbanTasker.ViewModels
             }
 
             IsProgressRingActive = false;
-        }
-
-        /// <summary>
-        /// Removes the scheuled notification for the current task, 
-        /// uniqely identified by its tag. <br />
-        /// In this case, the tag is the task's unique ID.
-        /// </summary>
-        private void RemoveScheduledNotfication()
-        {
-            _toastService.RemoveScheduledToast(CurrentTask.ID.ToString());
-            CurrentTask.ReminderTime = DEFAULT_REMINDER_TIME;
         }
 
         /// <summary>
