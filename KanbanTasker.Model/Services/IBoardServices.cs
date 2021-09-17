@@ -17,5 +17,6 @@ namespace KanbanTasker.Model.Services
         RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column);
         List<ColumnDTO> GetColumns(int boardId);
         ColumnDTO CreateColumn(ColumnDTO column);
+        RowOpResult DeleteColumn(ColumnDTO column);
     }
 }

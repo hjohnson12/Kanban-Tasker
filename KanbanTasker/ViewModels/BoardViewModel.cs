@@ -817,7 +817,7 @@ namespace KanbanTasker.ViewModels
         /// Sets column names for default columns if none exist, or 
         /// retrieves columns from database if there are some.
         /// </summary>
-        public List<PresentationBoardColumn> ConfigureBoardColumns()
+        public void ConfigureBoardColumns()
         {
             // Configure columns for board
             bool isNew = Board.ID == 0;
@@ -832,6 +832,7 @@ namespace KanbanTasker.ViewModels
 
             if (!isNew && columnNames.Count != 0)
             {
+                // Add columns to list in order of position
                 for (int i = 0; i < columnNames.Count; i++)
                 {
                     BoardColumns.Add(new PresentationBoardColumn(
@@ -840,6 +841,7 @@ namespace KanbanTasker.ViewModels
             }
             else
             {
+                // Create and return default columns
                 string[] defaultColumnNames =
                     {"Backlog", "To Do", "In Progress", "Review", "Completed" };
 
@@ -853,8 +855,6 @@ namespace KanbanTasker.ViewModels
                         }));
                 }
             }
-
-            return BoardColumns.ToList();
         }
 
         public PresentationBoardColumn CreateColumn(string title, int maxLimit)
@@ -872,6 +872,26 @@ namespace KanbanTasker.ViewModels
             BoardColumns.Add(new PresentationBoardColumn(col));
 
             return new PresentationBoardColumn(columnDto);
+        }
+
+        public bool DeleteColumn(string columnName)
+        {
+            var deletedColumn = BoardColumns.Single(x => x.ColumnName.Equals(columnName));
+
+            var result = DataProvider.Call(x => x.BoardServices.DeleteColumn(deletedColumn.To_ColumnDTO()));
+            if (result.Success)
+            {
+                BoardColumns.Remove(deletedColumn);
+
+                // Update other columns positions
+                var deletedItemsPosition = deletedColumn.Position;
+                for (int i = deletedItemsPosition; i < BoardColumns.Count; i++)
+                    BoardColumns[i].Position -= 1;
+
+                _appNotificationService.DisplayNotificationAsync("Column deleted successfully", NOTIFICATION_DURATION);
+                return true;
+            }
+            return false;
         }
     }
 }

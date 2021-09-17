@@ -553,5 +553,60 @@ namespace KanbanTasker.Services.SQLite
             }
         }
 
+        public RowOpResult DeleteColumn(ColumnDTO column)
+        {
+            RowOpResult result = new RowOpResult();
+
+            // Delete task from db
+            using (SqliteConnection db =
+                new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
+            {
+                db.Open();
+
+                try
+                {
+                    SqliteCommand deleteCommand = new SqliteCommand
+                        ("DELETE FROM tblColumns WHERE Id=@id AND BoardID=@boardId", db);
+                    deleteCommand.Parameters.AddWithValue("id", column.Id);
+                    deleteCommand.Parameters.AddWithValue("boardId", column.BoardId);
+                    deleteCommand.ExecuteNonQuery();
+
+                    result.Success = true;
+                }
+                finally
+                {
+                    db.Close();
+                }
+
+            }
+            return result;
+        }
+
+        public RowOpResult UpdateColumnIndex(ColumnDTO column, int newPosition)
+        {
+            RowOpResult result = new RowOpResult();
+
+            using (SqliteConnection db =
+                new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
+            {
+                db.Open();
+
+                try
+                {
+                    SqliteCommand updateCommand = new SqliteCommand
+                        ("UPDATE tblColumns SET Position=@position WHERE Id=@id AND BoardId=@boardId", db);
+
+                    updateCommand.Parameters.AddWithValue("@id", column.Id);
+                    updateCommand.Parameters.AddWithValue("@boardId", column.BoardId);
+                    updateCommand.Parameters.AddWithValue("@position", column.Position);
+                    updateCommand.ExecuteNonQuery();
+                }
+                finally
+                {
+                    db.Close();
+                }
+            }
+            return result;
+        }
     }
 }

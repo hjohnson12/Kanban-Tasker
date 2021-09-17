@@ -28,13 +28,15 @@ namespace KanbanTasker.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Set view model upon navigation
             var selectedBoard = e.Parameter as BoardViewModel;
             ViewModel = selectedBoard;
             DataContext = ViewModel;
 
-            var columns = ViewModel.ConfigureBoardColumns();
+            ViewModel.ConfigureBoardColumns();
+            var columns = ViewModel.BoardColumns;
 
-            // Set bindings and add columns
+            // Set bindings and add columns to board
             foreach(var column in columns)
             {
                 CustomKanbanColumn newColumn = new CustomKanbanColumn()
@@ -375,6 +377,22 @@ namespace KanbanTasker.Views
         }
 
         private void btnDeleteColumn_Click(object sender, RoutedEventArgs e)
+        {
+            var columnName = ((sender as Button).CommandParameter as ColumnTag).Header.ToString();
+            
+            // Delete column from database and collection
+            // Reorders the remaining column positions
+            var isDeleteSuccessful = ViewModel.DeleteColumn(columnName);
+
+            if (isDeleteSuccessful)
+            {
+                // Remove column from control
+                var column = kanbanBoard.Columns.Single(x => x.Title.Equals(columnName));
+                kanbanBoard.Columns.Remove(column);
+            }
+        }
+
+        private void AddColumnButton_Click(object sender, RoutedEventArgs e)
         {
             var column = ViewModel.CreateColumn("TESTING", 10);
 

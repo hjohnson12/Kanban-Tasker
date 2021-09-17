@@ -43,6 +43,11 @@ namespace KanbanTasker.Services.WebAPI
         {
             throw new NotImplementedException();
         }
+
+        RowOpResult IBoardServices.DeleteColumn(ColumnDTO column)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

@@ -67,6 +67,16 @@ namespace KanbanTasker.Services.MSSQL
         {
             throw new NotImplementedException();
         }
+
+        public ColumnDTO DeleteColumn(ColumnDTO column)
+        {
+            throw new NotImplementedException();
+        }
+
+        RowOpResult IBoardServices.DeleteColumn(ColumnDTO column)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

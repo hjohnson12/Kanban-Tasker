@@ -1159,148 +1159,154 @@
                 </Rectangle.Fill>
             </Rectangle>
             <!--  KANBAN BOARD  -->
-            <syncfusion:SfKanban
-                x:Name="kanbanBoard"
-                Grid.Row="1"
-                Margin="0,0,0,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                AutoGenerateColumns="False"
-                Background="{ThemeResource RegionBrush}"
-                BorderBrush="{StaticResource RegionBrush}"
-                CardDragEnd="KanbanBoard_CardDragEnd"
-                CardTemplate="{StaticResource KanbanCardTemplate}"
-                ColumnMappingPath="Category"
-                ItemsSource="{x:Bind ViewModel.Board.Tasks, Mode=OneWay}">
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <syncfusion:SfKanban
+                    x:Name="kanbanBoard"
+                    Grid.Column="0"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Left"
+                    AutoGenerateColumns="False"
+                    Background="{ThemeResource RegionBrush}"
+                    BorderBrush="{StaticResource RegionBrush}"
+                    CardDragEnd="KanbanBoard_CardDragEnd"
+                    CardTemplate="{StaticResource KanbanCardTemplate}"
+                    ColumnMappingPath="Category"
+                    ItemsSource="{x:Bind ViewModel.Board.Tasks, Mode=OneWay}"
+                    MaxColumnWidth="300">
 
-                <syncfusion:SfKanban.ColumnHeaderTemplate>
-                    <DataTemplate x:DataType="viewmodels:BoardViewModel">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="9*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="6*" />
-                                <RowDefinition Height="4*" />
-                            </Grid.RowDefinitions>
+                    <syncfusion:SfKanban.ColumnHeaderTemplate>
+                        <DataTemplate x:DataType="viewmodels:BoardViewModel">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="9*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="6*" />
+                                    <RowDefinition Height="4*" />
+                                </Grid.RowDefinitions>
 
-                            <StackPanel
-                                Grid.Row="0"
-                                Grid.ColumnSpan="2"
-                                Width="1000"
-                                Orientation="Horizontal">
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                    Width="1000"
+                                    Orientation="Horizontal">
 
-                                <TextBlock
-                                    x:Name="Header"
-                                    Margin="0,5,0,5"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontSize="16"
-                                    FontWeight="Medium"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                    Text="{Binding Header}"
-                                    TextWrapping="NoWrap" />
-                                <Button
-                                    x:Name="btnNewTask"
-                                    Margin="2,5,0,0"
-                                    HorizontalAlignment="Right"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Click="BtnNewTaskCurrentColumn_Click"
-                                    Command="{Binding ElementName=boardViewPage, Path=ViewModel.NewTaskCommand}"
-                                    CommandParameter="{Binding}"
-                                    Content="&#xE710;"
-                                    CornerRadius="2"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    ToolTipService.ToolTip="Add task to column" />
-                                <Button
-                                    x:Name="btnEditColumn"
-                                    Margin="8,5,0,0"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Click="btnEditColumn_Click"
-                                    Content="&#xE104;"
-                                    FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    ToolTipService.ToolTip="Edit Column" />
-                                <Button
-                                    x:Name="btnDeleteColumn"
-                                    Margin="8,5,0,0"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Click="btnDeleteColumn_Click"
-                                    Content="&#xE107;"
-                                    FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    ToolTipService.ToolTip="Edit Column" />
+                                    <TextBlock
+                                        x:Name="Header"
+                                        Margin="0,5,0,5"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        FontWeight="Medium"
+                                        Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                        Text="{Binding Header}"
+                                        TextWrapping="NoWrap" />
+                                    <Button
+                                        x:Name="btnNewTask"
+                                        Margin="4,4,0,0"
+                                        HorizontalAlignment="Right"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="BtnNewTaskCurrentColumn_Click"
+                                        Command="{Binding ElementName=boardViewPage, Path=ViewModel.NewTaskCommand}"
+                                        CommandParameter="{Binding}"
+                                        Content="&#xE710;"
+                                        CornerRadius="2"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        ToolTipService.ToolTip="Add task to column" />
+                                    <Button
+                                        x:Name="btnEditColumn"
+                                        Margin="0,4,0,0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="btnEditColumn_Click"
+                                        Content="&#xE104;"
+                                        FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        ToolTipService.ToolTip="Edit Column" />
+                                    <Button
+                                        x:Name="btnDeleteColumn"
+                                        Margin="0,4,0,0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="btnDeleteColumn_Click"
+                                        CommandParameter="{Binding}"
+                                        Content="&#xE107;"
+                                        FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        ToolTipService.ToolTip="Edit Column" />
 
-                            </StackPanel>
+                                </StackPanel>
 
-                            <StackPanel
-                                x:Name="WIPPanel"
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Orientation="Horizontal">
-                                <TextBlock
-                                    Margin="0,2,0,5"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                    Text="{Binding [ItemsCount]}"
-                                    TextWrapping="WrapWholeWords" />
-                                <TextBlock
-                                    Margin="5,2,0,5"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                    Text="{Binding CardCount}"
-                                    TextWrapping="WrapWholeWords" />
+                                <StackPanel
+                                    x:Name="WIPPanel"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,2,0,5"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                        Text="{Binding [ItemsCount]}"
+                                        TextWrapping="WrapWholeWords" />
+                                    <TextBlock
+                                        Margin="5,2,0,5"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                        Text="{Binding CardCount}"
+                                        TextWrapping="WrapWholeWords" />
 
-                                <TextBlock
-                                    Margin="0,2,0,5"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                    Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, ConverterParameter=MinMaxLimit, Converter={StaticResource cardCountConverter}}"
-                                    TextWrapping="WrapWholeWords" />
-                            </StackPanel>
-                            <Border
-                                x:Name="CollapsedIcon"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Background="Transparent">
-                                <Path
-                                    Width="7"
-                                    Height="14"
-                                    HorizontalAlignment="Right"
-                                    Data="M172.444,310.778 L158.444,317.111 L171.222,324.222"
-                                    Stretch="Fill"
-                                    Stroke="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                    StrokeLineJoin="Miter"
-                                    StrokeThickness="2"
-                                    UseLayoutRounding="False">
-                                    <Path.RenderTransform>
-                                        <CompositeTransform x:Name="RotateTransform" Rotation="0" />
-                                    </Path.RenderTransform>
-                                </Path>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </syncfusion:SfKanban.ColumnHeaderTemplate>
+                                    <TextBlock
+                                        Margin="0,2,0,5"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                        Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, ConverterParameter=MinMaxLimit, Converter={StaticResource cardCountConverter}}"
+                                        TextWrapping="WrapWholeWords" />
+                                </StackPanel>
+                                <Border
+                                    x:Name="CollapsedIcon"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Background="Transparent">
+                                    <Path
+                                        Width="7"
+                                        Height="14"
+                                        HorizontalAlignment="Right"
+                                        Data="M172.444,310.778 L158.444,317.111 L171.222,324.222"
+                                        Stretch="Fill"
+                                        Stroke="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                        StrokeLineJoin="Miter"
+                                        StrokeThickness="2"
+                                        UseLayoutRounding="False">
+                                        <Path.RenderTransform>
+                                            <CompositeTransform x:Name="RotateTransform" Rotation="0" />
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:SfKanban.ColumnHeaderTemplate>
 
-                <syncfusion:SfKanban.CardStyle>
-                    <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
-                </syncfusion:SfKanban.CardStyle>
+                    <syncfusion:SfKanban.CardStyle>
+                        <syncfusion:KanbanCardStyle IconVisibility="Collapsed" />
+                    </syncfusion:SfKanban.CardStyle>
 
-                <!--  KANBAN BOARD PRIORITY INDICATOR PALLETTE  -->
-                <syncfusion:SfKanban.IndicatorColorPalette>
-                    <syncfusion:ColorMapping Key="Low" Color="Green" />
-                    <syncfusion:ColorMapping Key="Medium" Color="Orange" />
-                    <syncfusion:ColorMapping Key="High" Color="Red" />
-                </syncfusion:SfKanban.IndicatorColorPalette>
+                    <!--  KANBAN BOARD PRIORITY INDICATOR PALLETTE  -->
+                    <syncfusion:SfKanban.IndicatorColorPalette>
+                        <syncfusion:ColorMapping Key="Low" Color="Green" />
+                        <syncfusion:ColorMapping Key="Medium" Color="Orange" />
+                        <syncfusion:ColorMapping Key="High" Color="Red" />
+                    </syncfusion:SfKanban.IndicatorColorPalette>
 
-                <!--<helpers:CustomKanbanColumn
+                    <!--<helpers:CustomKanbanColumn
                     x:Name="Backlog"
                     Title="{x:Bind ViewModel.BoardColumns[0].ColumnName, Mode=OneWay}"
                     Categories="{x:Bind ViewModel.BoardColumns[0].ColumnName, Mode=OneWay}"
@@ -1365,7 +1371,18 @@
                             Color="Gray" />
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>-->
-            </syncfusion:SfKanban>
+                </syncfusion:SfKanban>
+                <Grid
+                    Grid.Column="1"
+                    Margin="0,16,16,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top">
+                    <Button
+                        x:Name="AddColumnButton"
+                        Click="AddColumnButton_Click"
+                        Content="Add Column" />
+                </Grid>
+            </Grid>
             <ProgressRing
                 x:Name="progressRing"
                 Grid.Row="1"
