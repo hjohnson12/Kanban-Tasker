@@ -51,7 +51,7 @@ namespace KanbanTasker.ViewModels
         public ICommand DeleteTagCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
         public ICommand UpdateColumnCommand { get; set; }
-        public ICommand RemoveScheduledNotificationCommand { get; set; }
+        public ICommand LoadColumnsCommand { get; set; }
 
         /// <summary>
         /// Initializes the commands and tasks for the current board.
@@ -98,7 +98,7 @@ namespace KanbanTasker.ViewModels
 
             PaneTitle = "New Task";
 
-            ConfigureBoardColumns();
+            //ConfigureBoardColumns();
         }
 
         /// <summary>
@@ -817,10 +817,11 @@ namespace KanbanTasker.ViewModels
         /// Sets column names for default columns if none exist, or 
         /// retrieves columns from database if there are some.
         /// </summary>
-        internal void ConfigureBoardColumns()
+        public List<PresentationBoardColumn> ConfigureBoardColumns()
         {
             // Configure columns for board
             bool isNew = Board.ID == 0;
+            BoardColumns.Clear();
             columnNames = new List<ColumnDTO>();
             if (!isNew)
             {
@@ -861,6 +862,21 @@ namespace KanbanTasker.ViewModels
                         }));
                 }
             }
+
+            return BoardColumns.ToList();
+        }
+
+        public PresentationBoardColumn CreateColumn(string title, int maxLimit)
+        {
+            var column =  new PresentationBoardColumn(
+                new ColumnDTO()
+                {
+                    ColumnName = title,
+                    MaxTaskLimit = 10
+                });
+
+
+            return column;
         }
     }
 }

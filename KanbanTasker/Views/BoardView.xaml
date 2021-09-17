@@ -1190,6 +1190,7 @@
                                 Grid.ColumnSpan="2"
                                 Width="1000"
                                 Orientation="Horizontal">
+
                                 <TextBlock
                                     x:Name="Header"
                                     Margin="0,5,0,5"
@@ -1200,16 +1201,6 @@
                                     Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                                     Text="{Binding Header}"
                                     TextWrapping="NoWrap" />
-                                <Button
-                                    x:Name="btnEditColumn"
-                                    Margin="8,5,0,0"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Click="btnEditColumn_Click"
-                                    Content="&#xE104;"
-                                    FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    ToolTipService.ToolTip="Edit Column" />
                                 <Button
                                     x:Name="btnNewTask"
                                     Margin="2,5,0,0"
@@ -1223,6 +1214,27 @@
                                     CornerRadius="2"
                                     FontFamily="Segoe MDL2 Assets"
                                     ToolTipService.ToolTip="Add task to column" />
+                                <Button
+                                    x:Name="btnEditColumn"
+                                    Margin="8,5,0,0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="btnEditColumn_Click"
+                                    Content="&#xE104;"
+                                    FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    ToolTipService.ToolTip="Edit Column" />
+                                <Button
+                                    x:Name="btnDeleteColumn"
+                                    Margin="8,5,0,0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="btnDeleteColumn_Click"
+                                    Content="&#xE107;"
+                                    FlyoutBase.AttachedFlyout="{StaticResource flyoutEditColumn}"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    ToolTipService.ToolTip="Edit Column" />
+
                             </StackPanel>
 
                             <StackPanel
@@ -1288,7 +1300,7 @@
                     <syncfusion:ColorMapping Key="High" Color="Red" />
                 </syncfusion:SfKanban.IndicatorColorPalette>
 
-                <helpers:CustomKanbanColumn
+                <!--<helpers:CustomKanbanColumn
                     x:Name="Backlog"
                     Title="{x:Bind ViewModel.BoardColumns[0].ColumnName, Mode=OneWay}"
                     Categories="{x:Bind ViewModel.BoardColumns[0].ColumnName, Mode=OneWay}"
@@ -1352,7 +1364,7 @@
                             MinValidationColor="Green"
                             Color="Gray" />
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
-                </helpers:CustomKanbanColumn>
+                </helpers:CustomKanbanColumn>-->
             </syncfusion:SfKanban>
             <ProgressRing
                 x:Name="progressRing"

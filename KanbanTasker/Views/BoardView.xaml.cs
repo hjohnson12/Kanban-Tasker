@@ -10,6 +10,8 @@ using Syncfusion.UI.Xaml.Kanban;
 using KanbanTasker.Models;
 using KanbanTasker.ViewModels;
 using System.Collections.Generic;
+using KanbanTasker.Helpers;
+using Windows.UI.Xaml.Data;
 
 namespace KanbanTasker.Views
 {
@@ -28,6 +30,41 @@ namespace KanbanTasker.Views
         {
             var selectedBoard = e.Parameter as BoardViewModel;
             ViewModel = selectedBoard;
+
+            var columns = ViewModel.ConfigureBoardColumns();
+
+            foreach (var column in columns)
+            {
+                CustomKanbanColumn newColumn = new CustomKanbanColumn()
+                {
+                    Title = column.ColumnName,
+                    Categories = column.ColumnName,
+                    CollapsedColumnTemplate = this.Resources["CollapsedColumnTemplate"] as ControlTemplate,
+                    MaximumLimit = column.MaxTaskLimit
+                };
+
+                var myBinding = new Binding()
+                {
+                    Path = new PropertyPath("ColumnName"),
+                    Source = column,
+                    Mode = BindingMode.OneWay
+                };
+                
+                var myBinding2 = new Binding()
+                {
+                    Path = new PropertyPath("MaxTaskLimit"),
+                    Source = column,
+                    Mode = BindingMode.TwoWay
+                };
+
+                // Set bindings
+                newColumn.SetBinding(KanbanColumn.TitleProperty, myBinding);
+                newColumn.SetBinding(KanbanColumn.CategoriesProperty, myBinding);
+                newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, myBinding2);
+
+                // Add to kanban columns
+                kanbanBoard.Columns.Add(newColumn);
+            }
             DataContext = ViewModel;
         }
 
@@ -335,6 +372,41 @@ namespace KanbanTasker.Views
         private void maxLimitNumberBox_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
         {
             ViewModel.NewColumnMax = Convert.ToInt32((sender).Value);
+        }
+
+        private void btnDeleteColumn_Click(object sender, RoutedEventArgs e)
+        {
+            var column = ViewModel.CreateColumn("TESTING", 10);
+
+            CustomKanbanColumn newColumn = new CustomKanbanColumn()
+            {
+                Title = column.ColumnName,
+                Categories = column.ColumnName,
+                CollapsedColumnTemplate = this.Resources["CollapsedColumnTemplate"] as ControlTemplate,
+                MaximumLimit = column.MaxTaskLimit
+            };
+
+            var myBinding = new Binding()
+            {
+                Path = new PropertyPath("ColumnName"),
+                Source = column,
+                Mode = BindingMode.OneWay
+            };
+
+            var myBinding2 = new Binding()
+            {
+                Path = new PropertyPath("MaxTaskLimit"),
+                Source = column,
+                Mode = BindingMode.TwoWay
+            };
+
+            // Set bindings
+            newColumn.SetBinding(KanbanColumn.TitleProperty, myBinding);
+            newColumn.SetBinding(KanbanColumn.CategoriesProperty, myBinding);
+            newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, myBinding2);
+
+            // Add to kanban columns
+            kanbanBoard.Columns.Add(newColumn);
         }
     }
 }
