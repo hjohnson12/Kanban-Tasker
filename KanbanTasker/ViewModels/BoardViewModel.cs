@@ -832,20 +832,11 @@ namespace KanbanTasker.ViewModels
 
             if (!isNew && columnNames.Count != 0)
             {
-                BoardColumns.Add(new PresentationBoardColumn(
-                    columnNames.Find(x => x.Position == 0)));
-
-                BoardColumns.Add(new PresentationBoardColumn(
-                    columnNames.Find(x => x.Position == 1)));
-
-                BoardColumns.Add(new PresentationBoardColumn(
-                    columnNames.Find(x => x.Position == 2)));
-
-                BoardColumns.Add(new PresentationBoardColumn(
-                    columnNames.Find(x => x.Position == 3)));
-
-                BoardColumns.Add(new PresentationBoardColumn(
-                    columnNames.Find(x => x.Position == 4)));
+                for (int i = 0; i < columnNames.Count; i++)
+                {
+                    BoardColumns.Add(new PresentationBoardColumn(
+                        columnNames.Find(x => x.Position == i)));
+                }
             }
             else
             {
@@ -868,15 +859,19 @@ namespace KanbanTasker.ViewModels
 
         public PresentationBoardColumn CreateColumn(string title, int maxLimit)
         {
-            var column =  new PresentationBoardColumn(
-                new ColumnDTO()
-                {
-                    ColumnName = title,
-                    MaxTaskLimit = 10
-                });
+            var columnDto = new ColumnDTO()
+            {
+                ColumnName = title,
+                MaxTaskLimit = 10,
+                Position = BoardColumns.Count,
+                BoardId = Board.ID
+            };
 
+            // Create column in database, update collection, and return
+            var col = DataProvider.Call(x => x.BoardServices.CreateColumn(columnDto));
+            BoardColumns.Add(new PresentationBoardColumn(col));
 
-            return column;
+            return new PresentationBoardColumn(columnDto);
         }
     }
 }

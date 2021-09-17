@@ -30,10 +30,12 @@ namespace KanbanTasker.Views
         {
             var selectedBoard = e.Parameter as BoardViewModel;
             ViewModel = selectedBoard;
+            DataContext = ViewModel;
 
             var columns = ViewModel.ConfigureBoardColumns();
 
-            foreach (var column in columns)
+            // Set bindings and add columns
+            foreach(var column in columns)
             {
                 CustomKanbanColumn newColumn = new CustomKanbanColumn()
                 {
@@ -49,7 +51,7 @@ namespace KanbanTasker.Views
                     Source = column,
                     Mode = BindingMode.OneWay
                 };
-                
+
                 var myBinding2 = new Binding()
                 {
                     Path = new PropertyPath("MaxTaskLimit"),
@@ -62,10 +64,8 @@ namespace KanbanTasker.Views
                 newColumn.SetBinding(KanbanColumn.CategoriesProperty, myBinding);
                 newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, myBinding2);
 
-                // Add to kanban columns
                 kanbanBoard.Columns.Add(newColumn);
             }
-            DataContext = ViewModel;
         }
 
         private void CardBtnEdit_Click(object sender, RoutedEventArgs e)

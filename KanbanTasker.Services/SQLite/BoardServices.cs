@@ -459,6 +459,36 @@ namespace KanbanTasker.Services.SQLite
             return result;
         }
 
+        public ColumnDTO CreateColumn(ColumnDTO column)
+        {
+            RowOpResult<ColumnDTO> result = new RowOpResult<ColumnDTO>(column);
+
+            using (SqliteConnection db = new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
+            {
+                try
+                {
+                    db.Open();
+
+                    SqliteCommand insertCommand = new SqliteCommand { Connection = db };
+                    insertCommand.Parameters.AddWithValue("@boardId", column.BoardId);
+                    insertCommand.Parameters.AddWithValue("@columnName", column.ColumnName);
+                    insertCommand.Parameters.AddWithValue("@position", column.Position);
+                    insertCommand.Parameters.AddWithValue("@maxTaskLimit", column.MaxTaskLimit);
+                    insertCommand.CommandText =
+                        "INSERT INTO tblColumns (BoardID,ColumnName,Position,MaxTaskLimit) " +
+                        "VALUES (@boardId, @columnName, @position, @maxTaskLimit); ; SELECT last_insert_rowid();";
+                    column.Id = Convert.ToInt32(insertCommand.ExecuteScalar());
+
+                    result.Success = true;
+                }
+                finally
+                {
+                    db.Close();
+                }
+                return column;
+            }
+        }
+
         /// <summary>
         /// Creates the default columns for a board
         /// </summary>

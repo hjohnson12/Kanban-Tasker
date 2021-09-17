@@ -38,6 +38,11 @@ namespace KanbanTasker.Services.WebAPI
         {
             throw new NotImplementedException();
         }
+
+        public ColumnDTO CreateColumn(ColumnDTO column)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

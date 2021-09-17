@@ -62,6 +62,11 @@ namespace KanbanTasker.Services.MSSQL
         {
             throw new NotImplementedException();
         }
+
+        public ColumnDTO CreateColumn(ColumnDTO column)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
