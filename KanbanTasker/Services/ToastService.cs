@@ -1,4 +1,5 @@
 ﻿using KanbanTasker.Model;
+using KanbanTasker.Model.Dto;
 using KanbanTasker.Model.Services;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;

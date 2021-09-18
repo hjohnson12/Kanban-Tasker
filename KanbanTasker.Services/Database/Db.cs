@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using KanbanTasker.Model;
+using KanbanTasker.Model.Dto;
 using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

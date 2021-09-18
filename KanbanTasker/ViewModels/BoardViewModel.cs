@@ -14,6 +14,7 @@ using KanbanTasker.Helpers;
 using KanbanTasker.Models;
 using KanbanTasker.Services;
 using KanbanTasker.Model.Services;
+using KanbanTasker.Model.Dto;
 
 namespace KanbanTasker.ViewModels
 {

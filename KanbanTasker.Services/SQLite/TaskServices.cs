@@ -7,6 +7,7 @@ using System.Linq;
 using KanbanTasker.Services.Database;
 using Microsoft.EntityFrameworkCore;
 using KanbanTasker.Model.Services;
+using KanbanTasker.Model.Dto;
 
 namespace KanbanTasker.Services.SQLite
 {

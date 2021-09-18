@@ -11,6 +11,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using KanbanTasker.Model.Services;
+using KanbanTasker.Model.Dto;
 
 namespace KanbanTasker.Services.WebAPI
 {

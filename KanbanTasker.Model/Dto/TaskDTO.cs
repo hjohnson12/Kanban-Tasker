@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KanbanTasker.Model
+namespace KanbanTasker.Model.Dto
 {
     // A data transfer object for a task
     public class TaskDTO

@@ -1,4 +1,4 @@
-﻿using KanbanTasker.Model;
+﻿using KanbanTasker.Model.Dto;
 using System;
 
 namespace KanbanTasker.Model.Services

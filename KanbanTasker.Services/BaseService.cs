@@ -10,6 +10,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Text;
+using KanbanTasker.Model.Dto;
 
 namespace KanbanTasker.Services
 {

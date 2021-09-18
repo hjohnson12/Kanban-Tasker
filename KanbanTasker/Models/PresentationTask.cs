@@ -1,8 +1,8 @@
-﻿using System;
+﻿using KanbanTasker.Model.Dto;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using KanbanTasker.Model;
 
 namespace KanbanTasker.Models
 {
