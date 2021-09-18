@@ -18,5 +18,6 @@ namespace KanbanTasker.Model.Services
         List<ColumnDTO> GetColumns(int boardId);
         ColumnDTO CreateColumn(ColumnDTO column);
         RowOpResult DeleteColumn(ColumnDTO column);
+        RowOpResult UpdateColumnIndex(ColumnDTO column);
     }
 }

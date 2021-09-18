@@ -48,6 +48,11 @@ namespace KanbanTasker.Services.WebAPI
         {
             throw new NotImplementedException();
         }
+
+        public RowOpResult UpdateColumnIndex(ColumnDTO column)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

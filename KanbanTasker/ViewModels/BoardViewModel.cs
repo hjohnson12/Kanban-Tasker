@@ -887,7 +887,11 @@ namespace KanbanTasker.ViewModels
                 // Update other columns positions
                 var deletedItemsPosition = deletedColumn.Position;
                 for (int i = deletedItemsPosition; i < BoardColumns.Count; i++)
-                    BoardColumns[i].Position -= 1;
+                {
+                    var column = BoardColumns[i];
+                    column.Position -= 1;
+                    DataProvider.Call(x => x.BoardServices.UpdateColumnIndex(column.To_ColumnDTO()));
+                }
 
                 _appNotificationService.DisplayNotificationAsync("Column deleted successfully", NOTIFICATION_DURATION);
                 return true;

@@ -77,6 +77,11 @@ namespace KanbanTasker.Services.MSSQL
         {
             throw new NotImplementedException();
         }
+
+        public RowOpResult UpdateColumnIndex(ColumnDTO column)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

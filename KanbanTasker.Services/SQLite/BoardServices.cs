@@ -587,7 +587,7 @@ namespace KanbanTasker.Services.SQLite
             return result;
         }
 
-        public RowOpResult UpdateColumnIndex(ColumnDTO column, int newPosition)
+        public RowOpResult UpdateColumnIndex(ColumnDTO column)
         {
             RowOpResult result = new RowOpResult();
 
