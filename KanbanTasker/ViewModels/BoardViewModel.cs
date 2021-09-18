@@ -878,6 +878,7 @@ namespace KanbanTasker.ViewModels
         {
             var deletedColumn = BoardColumns.Single(x => x.ColumnName.Equals(columnName));
 
+            // Delete column from database and if successfull the collection too
             var result = DataProvider.Call(x => x.BoardServices.DeleteColumn(deletedColumn.To_ColumnDTO()));
             if (result.Success)
             {

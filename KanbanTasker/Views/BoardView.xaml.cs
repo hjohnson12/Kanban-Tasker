@@ -33,11 +33,16 @@ namespace KanbanTasker.Views
             ViewModel = selectedBoard;
             DataContext = ViewModel;
 
+            ConfigureColumns();
+        }
+
+        private void ConfigureColumns()
+        {
             ViewModel.ConfigureBoardColumns();
             var columns = ViewModel.BoardColumns;
 
             // Set bindings and add columns to board
-            foreach(var column in columns)
+            foreach (var column in columns)
             {
                 CustomKanbanColumn newColumn = new CustomKanbanColumn()
                 {
