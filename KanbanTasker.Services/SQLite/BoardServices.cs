@@ -571,6 +571,11 @@ namespace KanbanTasker.Services.SQLite
                     deleteCommand.Parameters.AddWithValue("boardId", column.BoardId);
                     deleteCommand.ExecuteNonQuery();
 
+                    SqliteCommand deleteTasksCommand = new SqliteCommand
+                        ("DELETE FROM tblTasks WHERE Category=@category", db);
+                    deleteTasksCommand.Parameters.AddWithValue("category", column.ColumnName);
+                    deleteTasksCommand.ExecuteNonQuery();
+
                     result.Success = true;
                 }
                 finally
