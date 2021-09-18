@@ -10,8 +10,8 @@ namespace KanbanTasker.Services.Database
 {
     public class Db : DbContext
     {
-        public DbSet<BoardDto> Boards { get; set; }
-        public DbSet<TaskDto> Tasks { get; set; }
+        public DbSet<BoardDTO> Boards { get; set; }
+        public DbSet<TaskDTO> Tasks { get; set; }
 
         public Db(Func<IDbContextOptions> dbContextOptionsFactory) : base(dbContextOptionsFactory().Options) { }
 
@@ -20,9 +20,9 @@ namespace KanbanTasker.Services.Database
         protected override void OnModelCreating(ModelBuilder mb)
         {
             base.OnModelCreating(mb);
-            mb.Entity<BoardDto>().ToTable("tblBoards");
-            mb.Entity<TaskDto>().ToTable("tblTasks");
-            mb.Entity<ColumnDto>().ToTable("tblColumns");
+            mb.Entity<BoardDTO>().ToTable("tblBoards");
+            mb.Entity<TaskDTO>().ToTable("tblTasks");
+            mb.Entity<ColumnDTO>().ToTable("tblColumns");
         }
     }
 }

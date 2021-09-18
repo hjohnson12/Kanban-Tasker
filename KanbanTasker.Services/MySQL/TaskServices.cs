@@ -14,13 +14,13 @@ namespace KanbanTasker.Services.MySQL
     {
         public TaskServices(Db db, IServiceManifest serviceManifest) : base(db, serviceManifest) { }
 
-        public override List<TaskDto> GetTasks() => base.GetTasks();
+        public override List<TaskDTO> GetTasks() => base.GetTasks();
 
-        public override RowOpResult<TaskDto> SaveTask(TaskDto task) => base.SaveTask(task);
+        public override RowOpResult<TaskDTO> SaveTask(TaskDTO task) => base.SaveTask(task);
 
         public override RowOpResult DeleteTask(int id) => base.DeleteTask(id);
 
-        public override void UpdateColumnData(TaskDto task) => base.UpdateColumnData(task);
+        public override void UpdateColumnData(TaskDTO task) => base.UpdateColumnData(task);
 
         public override void UpdateCardIndex(int iD, int currentCardIndex) => base.UpdateCardIndex(iD, currentCardIndex);
     }

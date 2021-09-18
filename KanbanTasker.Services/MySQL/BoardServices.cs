@@ -14,9 +14,9 @@ namespace KanbanTasker.Services.MySQL
     {
         public BoardServices(Db db, IServiceManifest serviceManifest) : base(db, serviceManifest) { }
 
-        public override List<BoardDto> GetBoards() => base.GetBoards();
+        public override List<BoardDTO> GetBoards() => base.GetBoards();
 
-        public override RowOpResult<BoardDto> SaveBoard(BoardDto board) => base.SaveBoard(board);
+        public override RowOpResult<BoardDTO> SaveBoard(BoardDTO board) => base.SaveBoard(board);
 
         public override RowOpResult DeleteBoard(int boardId) => base.DeleteBoard(boardId);
     }

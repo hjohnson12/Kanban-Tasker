@@ -9,15 +9,15 @@ namespace KanbanTasker.Model.Services
     /// </summary>
     public interface IBoardServices
     {
-        RowOpResult<BoardDto> SaveBoard(BoardDto board);
+        RowOpResult<BoardDTO> SaveBoard(BoardDTO board);
         RowOpResult DeleteBoard(int boardId);
-        List<BoardDto> GetBoards();
-        RowOpResult<BoardDto> ValidateBoard(RowOpResult<BoardDto> result);
+        List<BoardDTO> GetBoards();
+        RowOpResult<BoardDTO> ValidateBoard(RowOpResult<BoardDTO> result);
         RowOpResult CreateColumns(int boardId);
-        RowOpResult<ColumnDto> SaveColumn(ColumnDto column);
-        List<ColumnDto> GetColumns(int boardId);
-        ColumnDto CreateColumn(ColumnDto column);
-        RowOpResult DeleteColumn(ColumnDto column);
-        RowOpResult UpdateColumnIndex(ColumnDto column);
+        RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column);
+        List<ColumnDTO> GetColumns(int boardId);
+        ColumnDTO CreateColumn(ColumnDTO column);
+        RowOpResult DeleteColumn(ColumnDTO column);
+        RowOpResult UpdateColumnIndex(ColumnDTO column);
     }
 }

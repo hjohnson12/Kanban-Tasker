@@ -24,7 +24,7 @@ namespace KanbanTasker.Services
         /// <param name="taskDto">Task to schedule the notification for</param>
         /// <param name="scheduledTime">Scheduled time for the toast notification</param>
         /// <param name="dueDate">Due date of the toast</param>
-        public void ScheduleToast(TaskDto taskDto, DateTimeOffset scheduledTime, DateTimeOffset dueDate)
+        public void ScheduleToast(TaskDTO taskDto, DateTimeOffset scheduledTime, DateTimeOffset dueDate)
         {
             // Verify that the scheduled alarm is after the current time
             if (scheduledTime > DateTime.Now.AddSeconds(5))

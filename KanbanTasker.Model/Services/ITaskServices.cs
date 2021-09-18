@@ -10,12 +10,12 @@ namespace KanbanTasker.Model.Services
     /// </summary>
     public interface ITaskServices
     {
-        RowOpResult<TaskDto> SaveTask(TaskDto task);
+        RowOpResult<TaskDTO> SaveTask(TaskDTO task);
         RowOpResult DeleteTask(int id);
-        List<TaskDto> GetTasks();
+        List<TaskDTO> GetTasks();
         void UpdateCardIndex(int iD, int currentCardIndex);
-        void UpdateColumnData(TaskDto task);
+        void UpdateColumnData(TaskDTO task);
         void UpdateColumnName(int iD, string newColName);
-        RowOpResult<TaskDto> ValidateTask(RowOpResult<TaskDto> result);
+        RowOpResult<TaskDTO> ValidateTask(RowOpResult<TaskDTO> result);
     }
 }

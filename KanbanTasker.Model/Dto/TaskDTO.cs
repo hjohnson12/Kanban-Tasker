@@ -3,7 +3,7 @@
 namespace KanbanTasker.Model.Dto
 {
     // A data transfer object for a task
-    public class TaskDto
+    public class TaskDTO
     {
         public int Id { get; set; }
         public int BoardId { get; set; }           // if every task is associate with a board than this should not be nullable.
@@ -20,6 +20,6 @@ namespace KanbanTasker.Model.Dto
         public string ColorKey { get; set; }
         public string Tags { get; set; }
 
-        public virtual BoardDto Board { get; set; }
+        public virtual BoardDTO Board { get; set; }
     }
 }

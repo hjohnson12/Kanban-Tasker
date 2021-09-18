@@ -15,11 +15,11 @@ namespace KanbanTasker.Services.MSSQL
     {
         public BoardServices(Db db, IServiceManifest serviceManifest) :base(db, serviceManifest) { }
 
-        public virtual List<BoardDto> GetBoards() => db.Boards.Include(x => x.Tasks).ToList();
+        public virtual List<BoardDTO> GetBoards() => db.Boards.Include(x => x.Tasks).ToList();
 
-        public virtual RowOpResult<BoardDto> SaveBoard(BoardDto board)
+        public virtual RowOpResult<BoardDTO> SaveBoard(BoardDTO board)
         {
-            RowOpResult<BoardDto> result = new RowOpResult<BoardDto>(board);
+            RowOpResult<BoardDTO> result = new RowOpResult<BoardDTO>(board);
 
             ValidateBoard(result);
 
@@ -35,7 +35,7 @@ namespace KanbanTasker.Services.MSSQL
         public virtual RowOpResult DeleteBoard(int boardId)
         {
             RowOpResult result = new RowOpResult();
-            BoardDto board = db.Boards.FirstOrDefault(x => x.Id == boardId);
+            BoardDTO board = db.Boards.FirstOrDefault(x => x.Id == boardId);
 
             if (board == null)
             {
@@ -49,12 +49,12 @@ namespace KanbanTasker.Services.MSSQL
             return result;
         }
 
-        public List<ColumnDto> GetColumns(int boardId)
+        public List<ColumnDTO> GetColumns(int boardId)
         {
             throw new NotImplementedException();
         }
 
-        public RowOpResult<ColumnDto> SaveColumn(ColumnDto column)
+        public RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column)
         {
             throw new NotImplementedException();
         }
@@ -64,22 +64,22 @@ namespace KanbanTasker.Services.MSSQL
             throw new NotImplementedException();
         }
 
-        public ColumnDto CreateColumn(ColumnDto column)
+        public ColumnDTO CreateColumn(ColumnDTO column)
         {
             throw new NotImplementedException();
         }
 
-        public ColumnDto DeleteColumn(ColumnDto column)
+        public ColumnDTO DeleteColumn(ColumnDTO column)
         {
             throw new NotImplementedException();
         }
 
-        RowOpResult IBoardServices.DeleteColumn(ColumnDto column)
+        RowOpResult IBoardServices.DeleteColumn(ColumnDTO column)
         {
             throw new NotImplementedException();
         }
 
-        public RowOpResult UpdateColumnIndex(ColumnDto column)
+        public RowOpResult UpdateColumnIndex(ColumnDTO column)
         {
             throw new NotImplementedException();
         }

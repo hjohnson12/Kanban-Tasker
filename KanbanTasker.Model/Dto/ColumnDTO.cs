@@ -7,7 +7,7 @@ namespace KanbanTasker.Model.Dto
     /// <summary>
     /// A data transfer object for column data
     /// </summary>
-    public class ColumnDto
+    public class ColumnDTO
     {
         public int Id { get; set; }
         public int BoardId { get; set; }

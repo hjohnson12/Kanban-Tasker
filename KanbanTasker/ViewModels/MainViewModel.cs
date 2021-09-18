@@ -93,16 +93,16 @@ namespace KanbanTasker.ViewModels
         private void InitializeBoards()
         {
             BoardList = new ObservableCollection<BoardViewModel>();
-            List<BoardDto> boardDTOs = dataProvider.Call(x => x.BoardServices.GetBoards());
+            List<BoardDTO> boardDTOs = dataProvider.Call(x => x.BoardServices.GetBoards());
 
-            foreach (BoardDto dto in boardDTOs)
+            foreach (BoardDTO dto in boardDTOs)
             {
                 PresentationBoard presBoard = new PresentationBoard(dto);
 
                 // Fill board with tasks
                 if (dto.Tasks?.Any() ?? false)
                 {
-                    foreach (TaskDto taskDTO in dto.Tasks.OrderBy(x => x.ColumnIndex))
+                    foreach (TaskDTO taskDTO in dto.Tasks.OrderBy(x => x.ColumnIndex))
                     {
                         presBoard.Tasks.Add(new PresentationTask(taskDTO));
 
@@ -151,7 +151,7 @@ namespace KanbanTasker.ViewModels
                 BoardEditorTitle = "New Board Editor";
 
                 BoardViewModel newBoard = boardViewModelFactory(
-                    new PresentationBoard(new BoardDto()),
+                    new PresentationBoard(new BoardDTO()),
                     _appNotificationService);
 
                 _tmpBoard = CurrentBoard;            // Workaround for this issue.  Don't remove this line till it's fixed. https://github.com/microsoft/microsoft-ui-xaml/issues/1200
@@ -189,9 +189,9 @@ namespace KanbanTasker.ViewModels
             if (string.IsNullOrEmpty(CurrentBoard.Board.Notes))
                 return;
 
-            BoardDto dto = CurrentBoard.Board.To_BoardDTO();
+            BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
             bool isNew = dto.Id == 0;
-            RowOpResult<BoardDto> result = null;
+            RowOpResult<BoardDTO> result = null;
 
             // Add board to db and collection
             result = dataProvider.Call(x => x.BoardServices.SaveBoard(dto));

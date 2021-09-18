@@ -19,13 +19,13 @@ namespace KanbanTasker.Services.WebAPI
     {
         public TaskServices(Func<IEndPointConfiguration> endPointFactory) : base(endPointFactory)  { }
 
-        public List<TaskDto> GetTasks() => Task.Run(() => Get<List<TaskDto>>("Tasks/GetTasks")).Result;
+        public List<TaskDTO> GetTasks() => Task.Run(() => Get<List<TaskDTO>>("Tasks/GetTasks")).Result;
 
-        public RowOpResult<TaskDto> SaveTask(TaskDto task) => Task.Run(() => Post<TaskDto, RowOpResult<TaskDto>>("Tasks/SaveTask", task)).Result;
+        public RowOpResult<TaskDTO> SaveTask(TaskDTO task) => Task.Run(() => Post<TaskDTO, RowOpResult<TaskDTO>>("Tasks/SaveTask", task)).Result;
 
         public RowOpResult DeleteTask(int id) => Task.Run(() => Post<int, RowOpResult>("Tasks/DeleteTask", id)).Result;
 
-        public void UpdateColumnData(TaskDto task)
+        public void UpdateColumnData(TaskDTO task)
         {
             using (var request = new HttpRequestMessage(HttpMethod.Post, "Tasks/UpdateColumnData"))
             {

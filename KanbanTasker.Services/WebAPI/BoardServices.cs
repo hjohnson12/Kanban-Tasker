@@ -19,18 +19,18 @@ namespace KanbanTasker.Services.WebAPI
     {
         public BoardServices(Func<IEndPointConfiguration> endPointFactory) : base(endPointFactory) { }
 
-        public List<BoardDto> GetBoards() => Task.Run(() => Get<List<BoardDto>>("Boards/GetBoards")).Result;
+        public List<BoardDTO> GetBoards() => Task.Run(() => Get<List<BoardDTO>>("Boards/GetBoards")).Result;
 
-        public RowOpResult<BoardDto> SaveBoard(BoardDto board) => Task.Run(() => Post<BoardDto, RowOpResult<BoardDto>>("Boards/SaveBoard", board)).Result;
+        public RowOpResult<BoardDTO> SaveBoard(BoardDTO board) => Task.Run(() => Post<BoardDTO, RowOpResult<BoardDTO>>("Boards/SaveBoard", board)).Result;
        
         public RowOpResult DeleteBoard(int boardID) => Task.Run(() => Post<int, RowOpResult>("Boards/DeleteBoard", boardID)).Result;
 
-        public List<ColumnDto> GetColumns(int boardId)
+        public List<ColumnDTO> GetColumns(int boardId)
         {
             throw new NotImplementedException();
         }
 
-        public RowOpResult<ColumnDto> SaveColumn(ColumnDto column)
+        public RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column)
         {
             throw new NotImplementedException();
         }
@@ -40,17 +40,17 @@ namespace KanbanTasker.Services.WebAPI
             throw new NotImplementedException();
         }
 
-        public ColumnDto CreateColumn(ColumnDto column)
+        public ColumnDTO CreateColumn(ColumnDTO column)
         {
             throw new NotImplementedException();
         }
 
-        RowOpResult IBoardServices.DeleteColumn(ColumnDto column)
+        RowOpResult IBoardServices.DeleteColumn(ColumnDTO column)
         {
             throw new NotImplementedException();
         }
 
-        public RowOpResult UpdateColumnIndex(ColumnDto column)
+        public RowOpResult UpdateColumnIndex(ColumnDTO column)
         {
             throw new NotImplementedException();
         }

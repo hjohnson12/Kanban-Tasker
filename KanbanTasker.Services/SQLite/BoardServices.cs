@@ -22,10 +22,10 @@ namespace KanbanTasker.Services.SQLite
         /// and returns a collection of boards
         /// </summary>
         /// <returns>Collection of boards, of type BoardViewModel</returns>
-        public List<BoardDto> GetBoards()
+        public List<BoardDTO> GetBoards()
         {
-            List<BoardDto> boards = new List<BoardDto>();
-            List<TaskDto> tasks = ServiceManifest.TaskServices.GetTasks();
+            List<BoardDTO> boards = new List<BoardDTO>();
+            List<TaskDTO> tasks = ServiceManifest.TaskServices.GetTasks();
 
             using (SqliteConnection db =
                 new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
@@ -39,7 +39,7 @@ namespace KanbanTasker.Services.SQLite
 
                 while (query.Read())
                 {
-                    BoardDto row = new BoardDto()
+                    BoardDTO row = new BoardDTO()
                     {
                         Id = Convert.ToInt32(query.GetString(0)),
                         Name = query.GetString(1),
@@ -51,7 +51,7 @@ namespace KanbanTasker.Services.SQLite
             }
 
             // populate tasks for each board
-            foreach (BoardDto board in boards)
+            foreach (BoardDTO board in boards)
                 board.Tasks = tasks.Where(x => x.BoardId == board.Id).ToList();
 
             return boards;
@@ -62,9 +62,9 @@ namespace KanbanTasker.Services.SQLite
        /// </summary>
        /// <param name="board"></param>
        /// <returns></returns>
-        public RowOpResult<BoardDto> SaveBoard(BoardDto board)
+        public RowOpResult<BoardDTO> SaveBoard(BoardDTO board)
         {
-            RowOpResult<BoardDto> result = new RowOpResult<BoardDto>(board);
+            RowOpResult<BoardDTO> result = new RowOpResult<BoardDTO>(board);
 
             ValidateBoard(result);
 
@@ -159,8 +159,8 @@ namespace KanbanTasker.Services.SQLite
                     //List<ColumnDTO> defaultColumns = CreateDefaultColumns(boardId);
 
                     // Set default columns for new board
-                    ColumnDto columnOne, columnTwo, columnThree, columnFour, columnFive;
-                    columnOne = new ColumnDto
+                    ColumnDTO columnOne, columnTwo, columnThree, columnFour, columnFive;
+                    columnOne = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "Backlog",
@@ -168,7 +168,7 @@ namespace KanbanTasker.Services.SQLite
                         MaxTaskLimit = 10
                     };
 
-                    columnTwo = new ColumnDto
+                    columnTwo = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "To Do",
@@ -176,7 +176,7 @@ namespace KanbanTasker.Services.SQLite
                         MaxTaskLimit = 10
                     };
 
-                    columnThree = new ColumnDto
+                    columnThree = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "In Progress",
@@ -184,7 +184,7 @@ namespace KanbanTasker.Services.SQLite
                         MaxTaskLimit = 10
                     };
 
-                    columnFour = new ColumnDto
+                    columnFour = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "Review",
@@ -192,7 +192,7 @@ namespace KanbanTasker.Services.SQLite
                         MaxTaskLimit = 10
                     };
 
-                    columnFive = new ColumnDto
+                    columnFive = new ColumnDTO
                     {
                         BoardId = boardId,
                         ColumnName = "Completed",
@@ -268,9 +268,9 @@ namespace KanbanTasker.Services.SQLite
         /// </summary>
         /// <param name="boardId"></param>
         /// <returns></returns>
-        public List<ColumnDto> GetColumns(int boardId)
+        public List<ColumnDTO> GetColumns(int boardId)
         {
-            List<ColumnDto> columnNames = new List<ColumnDto>();
+            List<ColumnDTO> columnNames = new List<ColumnDTO>();
 
             // Get column names from db
             using (SqliteConnection db =
@@ -292,12 +292,12 @@ namespace KanbanTasker.Services.SQLite
                         count = Convert.ToInt32(query.GetString(0));
                     }
 
-                    ColumnDto columnOne, columnTwo, columnThree, columnFour, columnFive;
+                    ColumnDTO columnOne, columnTwo, columnThree, columnFour, columnFive;
 
                     if (count == 0)
                     {
                         // Create default columns for existing boards
-                        columnOne = new ColumnDto
+                        columnOne = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "Backlog",
@@ -305,7 +305,7 @@ namespace KanbanTasker.Services.SQLite
                             MaxTaskLimit = 10
                         };
 
-                        columnTwo = new ColumnDto
+                        columnTwo = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "To Do",
@@ -313,7 +313,7 @@ namespace KanbanTasker.Services.SQLite
                             MaxTaskLimit = 10
                         };
 
-                        columnThree = new ColumnDto
+                        columnThree = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "In Progress",
@@ -321,7 +321,7 @@ namespace KanbanTasker.Services.SQLite
                             MaxTaskLimit = 10
                         };
 
-                        columnFour = new ColumnDto
+                        columnFour = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "Review",
@@ -329,7 +329,7 @@ namespace KanbanTasker.Services.SQLite
                             MaxTaskLimit = 10
                         };
 
-                        columnFive = new ColumnDto
+                        columnFive = new ColumnDTO
                         {
                             BoardId = boardId,
                             ColumnName = "Completed",
@@ -408,7 +408,7 @@ namespace KanbanTasker.Services.SQLite
 
                         while (query.Read())
                         {
-                            ColumnDto row = new ColumnDto
+                            ColumnDTO row = new ColumnDTO
                             {
                                 Id = Convert.ToInt32(query.GetString(0)),
                                 BoardId = Convert.ToInt32(query.GetString(1)),
@@ -433,9 +433,9 @@ namespace KanbanTasker.Services.SQLite
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        public RowOpResult<ColumnDto> SaveColumn(ColumnDto column)
+        public RowOpResult<ColumnDTO> SaveColumn(ColumnDTO column)
         {
-            RowOpResult<ColumnDto> result = new RowOpResult<ColumnDto>(column);
+            RowOpResult<ColumnDTO> result = new RowOpResult<ColumnDTO>(column);
 
             using (SqliteConnection db = new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
             {
@@ -460,9 +460,9 @@ namespace KanbanTasker.Services.SQLite
             return result;
         }
 
-        public ColumnDto CreateColumn(ColumnDto column)
+        public ColumnDTO CreateColumn(ColumnDTO column)
         {
-            RowOpResult<ColumnDto> result = new RowOpResult<ColumnDto>(column);
+            RowOpResult<ColumnDTO> result = new RowOpResult<ColumnDTO>(column);
 
             using (SqliteConnection db = new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
             {
@@ -493,11 +493,11 @@ namespace KanbanTasker.Services.SQLite
         /// <summary>
         /// Creates the default columns for a board
         /// </summary>
-        internal List<ColumnDto> CreateDefaultColumns(int boardId)
+        internal List<ColumnDTO> CreateDefaultColumns(int boardId)
         {
-            List<ColumnDto> defaultColumns = new List<ColumnDto>();
+            List<ColumnDTO> defaultColumns = new List<ColumnDTO>();
 
-            defaultColumns.Add(new ColumnDto
+            defaultColumns.Add(new ColumnDTO
             {
                 BoardId = boardId,
                 ColumnName = "Backlog",
@@ -505,7 +505,7 @@ namespace KanbanTasker.Services.SQLite
                 MaxTaskLimit = 10
             });
 
-            defaultColumns.Add(new ColumnDto
+            defaultColumns.Add(new ColumnDTO
             {
                 BoardId = boardId,
                 ColumnName = "To Do",
@@ -513,7 +513,7 @@ namespace KanbanTasker.Services.SQLite
                 MaxTaskLimit = 10
             });
 
-            defaultColumns.Add(new ColumnDto
+            defaultColumns.Add(new ColumnDTO
             {
                 BoardId = boardId,
                 ColumnName = "In Progress",
@@ -521,7 +521,7 @@ namespace KanbanTasker.Services.SQLite
                 MaxTaskLimit = 10
             });
 
-            defaultColumns.Add(new ColumnDto
+            defaultColumns.Add(new ColumnDTO
             {
                 BoardId = boardId,
                 ColumnName = "Review",
@@ -529,7 +529,7 @@ namespace KanbanTasker.Services.SQLite
                 MaxTaskLimit = 10
             });
 
-            defaultColumns.Add(new ColumnDto
+            defaultColumns.Add(new ColumnDTO
             {
                 BoardId = boardId,
                 ColumnName = "Completed",
@@ -554,7 +554,7 @@ namespace KanbanTasker.Services.SQLite
             }
         }
 
-        public RowOpResult DeleteColumn(ColumnDto column)
+        public RowOpResult DeleteColumn(ColumnDTO column)
         {
             RowOpResult result = new RowOpResult();
 
@@ -588,7 +588,7 @@ namespace KanbanTasker.Services.SQLite
             return result;
         }
 
-        public RowOpResult UpdateColumnIndex(ColumnDto column)
+        public RowOpResult UpdateColumnIndex(ColumnDTO column)
         {
             RowOpResult result = new RowOpResult();
 

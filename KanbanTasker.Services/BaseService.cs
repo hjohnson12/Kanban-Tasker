@@ -34,9 +34,9 @@ namespace KanbanTasker.Services
                 httpClient = new HttpClient { BaseAddress = new Uri(endPoint.ConnectionString) };
         }
 
-        public virtual RowOpResult<BoardDto> ValidateBoard(RowOpResult<BoardDto> result)
+        public virtual RowOpResult<BoardDTO> ValidateBoard(RowOpResult<BoardDTO> result)
         {
-            BoardDto b = result.Entity;
+            BoardDTO b = result.Entity;
 
             if (string.IsNullOrEmpty(b.Name))
                 result.ErrorMessage = "Name is required.";
@@ -52,9 +52,9 @@ namespace KanbanTasker.Services
             return result;
         }
 
-        public virtual RowOpResult<TaskDto> ValidateTask(RowOpResult<TaskDto> result)
+        public virtual RowOpResult<TaskDTO> ValidateTask(RowOpResult<TaskDTO> result)
         {
-            TaskDto t = result.Entity;
+            TaskDTO t = result.Entity;
 
             // NOTE: Require Title? For now just set it to empty string; if not db will throw exception for null
             // Set the dates to null if nothing set.. otherwise sqlite insert crashes because of no value to insert

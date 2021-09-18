@@ -32,7 +32,7 @@ namespace KanbanTasker.ViewModels
         private ObservableCollection<string> _colorKeys;
         private ObservableCollection<string> _reminderTimes;
         private ObservableCollection<PresentationBoardColumn> _columns;
-        private List<ColumnDto> columnNames;
+        private List<ColumnDTO> columnNames;
         private DispatcherTimer _dateCheckTimer;
         private string _paneTitle;
         private string _NewColName;
@@ -68,7 +68,7 @@ namespace KanbanTasker.ViewModels
             _appNotificationService = appNotificationService;
             _toastService = toastService;
 
-            CurrentTask = new PresentationTask(new TaskDto());
+            CurrentTask = new PresentationTask(new TaskDTO());
             NewTaskCommand = new RelayCommand<ColumnTag>(NewTask, () => true);
             EditTaskCommand = new RelayCommand<int>(EditTask, () => true);
             SaveTaskCommand = new RelayCommand(SaveTask, () => true);
@@ -285,7 +285,7 @@ namespace KanbanTasker.ViewModels
             IsPaneOpen = true;
             
             var category = tag?.Header?.ToString();
-            CurrentTask = new PresentationTask(new TaskDto() { Category = category })
+            CurrentTask = new PresentationTask(new TaskDTO() { Category = category })
             {
                 Board = Board,
                 BoardId = Board.ID
@@ -330,7 +330,7 @@ namespace KanbanTasker.ViewModels
             if (CurrentTask == null)
                 return;
 
-            TaskDto taskDto = CurrentTask.To_TaskDTO();
+            TaskDTO taskDto = CurrentTask.To_TaskDTO();
             bool isNew = taskDto.Id == 0;
             if (isNew)
             {
@@ -797,7 +797,7 @@ namespace KanbanTasker.ViewModels
         /// <param name="targetIndex"></param>
         public void UpdateCardColumn(string targetCategory, PresentationTask selectedCardModel, int targetIndex)
         {
-            TaskDto task = selectedCardModel.To_TaskDTO();
+            TaskDTO task = selectedCardModel.To_TaskDTO();
             task.Category = targetCategory;
             task.ColumnIndex = targetIndex;
 
@@ -823,7 +823,7 @@ namespace KanbanTasker.ViewModels
             // Configure columns for board
             bool isNew = Board.ID == 0;
             Columns.Clear();
-            columnNames = new List<ColumnDto>();
+            columnNames = new List<ColumnDTO>();
             if (!isNew)
             {
                 columnNames = DataProvider.Call(x => x.BoardServices.GetColumns(Board.ID));
@@ -849,7 +849,7 @@ namespace KanbanTasker.ViewModels
                 foreach(var column in defaultColumnNames)
                 {
                     Columns.Add(new PresentationBoardColumn(
-                        new ColumnDto()
+                        new ColumnDTO()
                         {
                             ColumnName = column,
                             MaxTaskLimit = 10
@@ -860,7 +860,7 @@ namespace KanbanTasker.ViewModels
 
         public PresentationBoardColumn CreateColumn(string title, int maxLimit)
         {
-            var columnDto = new ColumnDto()
+            var columnDto = new ColumnDTO()
             {
                 ColumnName = title,
                 MaxTaskLimit = 10,

@@ -13,7 +13,7 @@ namespace KanbanTasker.Models
         private ObservableCollection<PresentationTask> _tasks;
         private ObservableCollection<string> _tagsCollection;
 
-        public PresentationBoard(BoardDto dto)
+        public PresentationBoard(BoardDTO dto)
         {
             ID = dto.Id;
             Name = dto.Name;
@@ -67,9 +67,9 @@ namespace KanbanTasker.Models
             set => SetProperty(ref _tagsCollection, value);
         }
 
-        public BoardDto To_BoardDTO()
+        public BoardDTO To_BoardDTO()
         {
-            return new BoardDto
+            return new BoardDTO
             {
                 Id = ID,
                 Name = Name,
