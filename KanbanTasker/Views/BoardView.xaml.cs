@@ -394,8 +394,13 @@ namespace KanbanTasker.Views
 
         private void AddColumnButton_Click(object sender, RoutedEventArgs e)
         {
-            var column = ViewModel.CreateColumn("TESTING", 10);
+            if (ViewModel.BoardColumns.Any(x => x.ColumnName.Equals("TESTING")))
+            {
+                ViewModel.ShowInAppNotification("A column with that name already exists.");
+                return;
+            }
 
+            var column = ViewModel.CreateColumn("TESTING", 10);
             CustomKanbanColumn newColumn = new CustomKanbanColumn()
             {
                 Title = column.ColumnName,
