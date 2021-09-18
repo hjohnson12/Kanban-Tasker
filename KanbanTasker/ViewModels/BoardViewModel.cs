@@ -30,7 +30,7 @@ namespace KanbanTasker.ViewModels
         private ObservableCollection<string> _suggestedTagsCollection;
         private ObservableCollection<string> _colorKeys;
         private ObservableCollection<string> _reminderTimes;
-        private ObservableCollection<PresentationBoardColumn> _boardColumns;
+        private ObservableCollection<PresentationBoardColumn> _columns;
         private List<ColumnDTO> columnNames;
         private DispatcherTimer _dateCheckTimer;
         private string _paneTitle;
@@ -76,7 +76,7 @@ namespace KanbanTasker.ViewModels
             CancelEditCommand = new RelayCommand(CancelEdit, () => true);
             UpdateColumnCommand = new RelayCommand<string>(UpdateColumn, () => true);
 
-            BoardColumns = new ObservableCollection<PresentationBoardColumn>();
+            Columns = new ObservableCollection<PresentationBoardColumn>();
 
             ColorKeys = new ObservableCollection<string>
             {
@@ -113,10 +113,10 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// The columns for a board
         /// </summary>
-        public ObservableCollection<PresentationBoardColumn> BoardColumns
+        public ObservableCollection<PresentationBoardColumn> Columns
         {
-            get => _boardColumns;
-            set => SetProperty(ref _boardColumns, value);
+            get => _columns;
+            set => SetProperty(ref _columns, value);
         }
 
         /// <summary>
@@ -480,7 +480,7 @@ namespace KanbanTasker.ViewModels
                 newColName = originalColumnName;
 
             // Set new column name and task limits
-            PresentationBoardColumn column = BoardColumns
+            PresentationBoardColumn column = Columns
                 .Single(x => x.ColumnName.Equals(originalColumnName));
             column.ColumnName = newColName;
             column.MaxTaskLimit = newColMax;
@@ -821,7 +821,7 @@ namespace KanbanTasker.ViewModels
         {
             // Configure columns for board
             bool isNew = Board.ID == 0;
-            BoardColumns.Clear();
+            Columns.Clear();
             columnNames = new List<ColumnDTO>();
             if (!isNew)
             {
@@ -835,7 +835,7 @@ namespace KanbanTasker.ViewModels
                 // Add columns to list in order of position
                 for (int i = 0; i < columnNames.Count; i++)
                 {
-                    BoardColumns.Add(new PresentationBoardColumn(
+                    Columns.Add(new PresentationBoardColumn(
                         columnNames.Find(x => x.Position == i)));
                 }
             }
@@ -847,7 +847,7 @@ namespace KanbanTasker.ViewModels
 
                 foreach(var column in defaultColumnNames)
                 {
-                    BoardColumns.Add(new PresentationBoardColumn(
+                    Columns.Add(new PresentationBoardColumn(
                         new ColumnDTO()
                         {
                             ColumnName = column,
@@ -863,32 +863,32 @@ namespace KanbanTasker.ViewModels
             {
                 ColumnName = title,
                 MaxTaskLimit = 10,
-                Position = BoardColumns.Count,
+                Position = Columns.Count,
                 BoardId = Board.ID
             };
 
             // Create column in database, update collection, and return
             var col = DataProvider.Call(x => x.BoardServices.CreateColumn(columnDto));
-            BoardColumns.Add(new PresentationBoardColumn(col));
+            Columns.Add(new PresentationBoardColumn(col));
 
             return new PresentationBoardColumn(columnDto);
         }
 
         public bool DeleteColumn(string columnName)
         {
-            var deletedColumn = BoardColumns.Single(x => x.ColumnName.Equals(columnName));
+            var deletedColumn = Columns.Single(x => x.ColumnName.Equals(columnName));
 
             // Delete column from database and if successfull the collection too
             var result = DataProvider.Call(x => x.BoardServices.DeleteColumn(deletedColumn.To_ColumnDTO()));
             if (result.Success)
             {
-                BoardColumns.Remove(deletedColumn);
+                Columns.Remove(deletedColumn);
 
                 // Update other columns positions
                 var deletedItemsPosition = deletedColumn.Position;
-                for (int i = deletedItemsPosition; i < BoardColumns.Count; i++)
+                for (int i = deletedItemsPosition; i < Columns.Count; i++)
                 {
-                    var column = BoardColumns[i];
+                    var column = Columns[i];
                     column.Position -= 1;
                     DataProvider.Call(x => x.BoardServices.UpdateColumnIndex(column.To_ColumnDTO()));
                 }

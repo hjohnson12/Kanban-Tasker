@@ -202,11 +202,11 @@ namespace KanbanTasker.ViewModels
                 dataProvider.Call(x => x.BoardServices.CreateColumns(CurrentBoard.Board.ID));
 
                 // Set columns to collection
-                CurrentBoard.BoardColumns.Clear();
+                CurrentBoard.Columns.Clear();
                 var columns = dataProvider.Call(x => x.BoardServices.GetColumns(CurrentBoard.Board.ID));
                 for (int i = 0; i < columns.Count; i++)
                 {
-                    CurrentBoard.BoardColumns.Add(new PresentationBoardColumn(
+                    CurrentBoard.Columns.Add(new PresentationBoardColumn(
                         columns.Find(x => x.Position == i)));
                 }
             }

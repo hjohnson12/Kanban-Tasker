@@ -39,7 +39,7 @@ namespace KanbanTasker.Views
         private void ConfigureColumns()
         {
             ViewModel.ConfigureBoardColumns();
-            var columns = ViewModel.BoardColumns;
+            var columns = ViewModel.Columns;
 
             // Set bindings and add columns to board
             foreach (var column in columns)
@@ -399,7 +399,7 @@ namespace KanbanTasker.Views
 
         private void AddColumnButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.BoardColumns.Any(x => x.ColumnName.Equals("TESTING")))
+            if (ViewModel.Columns.Any(x => x.ColumnName.Equals("TESTING")))
             {
                 ViewModel.ShowInAppNotification("A column with that name already exists.");
                 return;
