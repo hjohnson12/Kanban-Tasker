@@ -18,7 +18,7 @@ namespace KanbanTasker.Models
         private int _position;
         private int _maxTaskLimit;
 
-        public PresentationBoardColumn(ColumnDTO columnDto)
+        public PresentationBoardColumn(ColumnDto columnDto)
         {
             Id = columnDto.Id;
             BoardId = columnDto.BoardId;
@@ -57,9 +57,9 @@ namespace KanbanTasker.Models
             set => SetProperty(ref _maxTaskLimit, value);
         }
 
-        public ColumnDTO To_ColumnDTO()
+        public ColumnDto To_ColumnDTO()
         {
-            return new ColumnDTO
+            return new ColumnDto
             {
                 Id = Id,
                 BoardId = BoardId,

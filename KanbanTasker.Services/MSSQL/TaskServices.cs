@@ -18,14 +18,14 @@ namespace KanbanTasker.Services.MSSQL
 
         }
 
-        public virtual List<TaskDTO> GetTasks() => db.Tasks.ToList();
+        public virtual List<TaskDto> GetTasks() => db.Tasks.ToList();
 
-        public virtual RowOpResult<TaskDTO> SaveTask(TaskDTO task)
+        public virtual RowOpResult<TaskDto> SaveTask(TaskDto task)
         {
             if (task == null)
                 throw new ArgumentNullException(nameof(task));
 
-            RowOpResult<TaskDTO> result = new RowOpResult<TaskDTO>(task);
+            RowOpResult<TaskDto> result = new RowOpResult<TaskDto>(task);
 
             ValidateTask(result);
 
@@ -41,7 +41,7 @@ namespace KanbanTasker.Services.MSSQL
         public virtual RowOpResult DeleteTask(int id)
         {
             RowOpResult result = new RowOpResult();
-            TaskDTO task = db.Tasks.FirstOrDefault(x => x.Id == id);
+            TaskDto task = db.Tasks.FirstOrDefault(x => x.Id == id);
 
             if (task == null)
             {
@@ -55,11 +55,11 @@ namespace KanbanTasker.Services.MSSQL
             return result;
         }
 
-        public virtual void UpdateColumnData(TaskDTO task) => SaveTask(task);
+        public virtual void UpdateColumnData(TaskDto task) => SaveTask(task);
 
         public virtual void UpdateCardIndex(int iD, int currentCardIndex)
         {
-            TaskDTO task = db.Tasks.First(x => x.Id == iD);
+            TaskDto task = db.Tasks.First(x => x.Id == iD);
             task.ColumnIndex = currentCardIndex;
             SaveTask(task);
         }

@@ -27,7 +27,7 @@ namespace KanbanTasker.Models
         private int _boardId;
         private PresentationBoard _board;
 
-        public PresentationTask(TaskDTO dto)
+        public PresentationTask(TaskDto dto)
         {
             ID = dto.Id;
             BoardId = dto.BoardId;
@@ -48,7 +48,7 @@ namespace KanbanTasker.Models
             else
                 Tags = new ObservableCollection<string>();
 
-            Board = new PresentationBoard(dto?.Board ?? new BoardDTO());
+            Board = new PresentationBoard(dto?.Board ?? new BoardDto());
         }
 
         public PresentationBoard Board
@@ -159,9 +159,9 @@ namespace KanbanTasker.Models
             set => SetProperty(ref _daysSinceCreation, value); 
         }
 
-        public TaskDTO To_TaskDTO()
+        public TaskDto To_TaskDTO()
         {
-            return new TaskDTO
+            return new TaskDto
             {
                 Id = ID,
                 BoardId = BoardId,

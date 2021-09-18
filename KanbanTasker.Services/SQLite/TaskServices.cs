@@ -23,9 +23,9 @@ namespace KanbanTasker.Services.SQLite
         /// adds them into a collection to fill a boards tasks
         /// </summary>
         /// <returns>Collection of tasks, of type CustomKanbanModel</returns>
-        public List<TaskDTO> GetTasks()
+        public List<TaskDto> GetTasks()
         {
-            List<TaskDTO> tasks = new List<TaskDTO>();
+            List<TaskDto> tasks = new List<TaskDto>();
 
             using (SqliteConnection db =
                 new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
@@ -47,7 +47,7 @@ namespace KanbanTasker.Services.SQLite
                     //else
                     //    tags = query.GetString(8).Split(','); // Turn string of tags into string array, fills listview
 
-                    TaskDTO row = new TaskDTO()
+                    TaskDto row = new TaskDto()
                     {
                         Id = Convert.ToInt32(query.GetString(0)),
                         BoardId = Convert.ToInt32(query.GetString(1)),
@@ -77,12 +77,12 @@ namespace KanbanTasker.Services.SQLite
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        public RowOpResult<TaskDTO> SaveTask(TaskDTO task)
+        public RowOpResult<TaskDto> SaveTask(TaskDto task)
         {
             if (task == null)
                 throw new ArgumentNullException(nameof(task));
 
-            RowOpResult<TaskDTO> result = new RowOpResult<TaskDTO>(task);
+            RowOpResult<TaskDto> result = new RowOpResult<TaskDto>(task);
 
             ValidateTask(result);
 
@@ -177,7 +177,7 @@ namespace KanbanTasker.Services.SQLite
         /// <param name="selectedCardModel"></param>
         /// <param name="targetCategory"></param>
         /// <param name="targetIndex"></param>
-        public void UpdateColumnData(TaskDTO task)
+        public void UpdateColumnData(TaskDto task)
         {
             using (SqliteConnection db =
                 new SqliteConnection(this.db.Database.GetDbConnection().ConnectionString))
