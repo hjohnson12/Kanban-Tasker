@@ -1141,6 +1141,7 @@
         <Grid x:Name="grid" Background="{ThemeResource RegionBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="9" />
+                <RowDefinition Height="50" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Rectangle
@@ -1158,15 +1159,19 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
+            <Grid
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
+                <Button
+                    x:Name="AddColumnButton"
+                    Click="AddColumnButton_Click"
+                    Content="Add New Column" />
+            </Grid>
             <!--  KANBAN BOARD  -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+            <Grid Grid.Row="2">
                 <syncfusion:SfKanban
                     x:Name="kanbanBoard"
-                    Grid.Column="0"
                     Margin="0,0,0,0"
                     HorizontalAlignment="Left"
                     AutoGenerateColumns="False"
@@ -1372,16 +1377,7 @@
                     </helpers:CustomKanbanColumn.ErrorBarSettings>
                 </helpers:CustomKanbanColumn>-->
                 </syncfusion:SfKanban>
-                <Grid
-                    Grid.Column="1"
-                    Margin="0,16,16,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top">
-                    <Button
-                        x:Name="AddColumnButton"
-                        Click="AddColumnButton_Click"
-                        Content="Add Column" />
-                </Grid>
+
             </Grid>
             <ProgressRing
                 x:Name="progressRing"
