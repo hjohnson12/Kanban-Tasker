@@ -358,6 +358,22 @@ namespace KanbanTasker.Views
 
         private void btnSaveColChanges_Click(object sender, RoutedEventArgs e)
         {
+            var header =
+                ((sender as Button).CommandParameter).ToString();
+
+            var newColName = ViewModel.NewColumnName;
+
+            ViewModel.UpdateColumn(header);
+
+            var oldColumnExists = kanbanBoard.Columns.Any(x => x.Title.Equals(header));
+            if (oldColumnExists)
+            {
+                // Update title/categories to keep UI consistent
+                var column = kanbanBoard.Columns.Single(x => x.Title.Equals(header));
+                column.Categories = newColName;
+                column.Title = newColName;
+            }
+
             flyoutEditColumn.Hide();
         }
 
@@ -427,7 +443,7 @@ namespace KanbanTasker.Views
                 Source = column,
                 Mode = BindingMode.TwoWay
             };
-
+            
             // Set bindings
             newColumn.SetBinding(KanbanColumn.TitleProperty, myBinding);
             newColumn.SetBinding(KanbanColumn.CategoriesProperty, myBinding);
