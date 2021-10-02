@@ -363,6 +363,9 @@ namespace KanbanTasker.Views
 
             var newColName = ViewModel.NewColumnName;
 
+            if (string.IsNullOrEmpty(newColName))
+                newColName = header;
+
             ViewModel.UpdateColumn(header);
 
             var oldColumnExists = kanbanBoard.Columns.Any(x => x.Title.Equals(header));
