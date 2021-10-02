@@ -67,7 +67,7 @@ namespace KanbanTasker.Models
             set => SetProperty(ref _tagsCollection, value);
         }
 
-        public BoardDTO To_BoardDTO()
+        public BoardDTO ToBoardDTO()
         {
             return new BoardDTO
             {

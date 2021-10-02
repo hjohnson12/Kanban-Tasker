@@ -313,7 +313,7 @@ namespace KanbanTasker.ViewModels
             InitializeDateInformation();
 
             // clone a copy of CurrentTask so we can restore if user cancels
-            OriginalTask = new PresentationTask(CurrentTask.To_TaskDTO());
+            OriginalTask = new PresentationTask(CurrentTask.ToTaskDTO());
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace KanbanTasker.ViewModels
             if (CurrentTask == null)
                 return;
 
-            TaskDTO taskDto = CurrentTask.To_TaskDTO();
+            TaskDTO taskDto = CurrentTask.ToTaskDTO();
             bool isNew = taskDto.Id == 0;
             if (isNew)
             {
@@ -446,7 +446,7 @@ namespace KanbanTasker.ViewModels
             if (OriginalTask != null)
             {
                 int index = Board.Tasks.IndexOf(CurrentTask);
-                var tempTask = new PresentationTask(OriginalTask.To_TaskDTO());
+                var tempTask = new PresentationTask(OriginalTask.ToTaskDTO());
 
                 // Update category if column name was changed while
                 // creating new task
@@ -487,7 +487,7 @@ namespace KanbanTasker.ViewModels
             column.MaxTaskLimit = newColMax;
 
             // Update column in database
-            DataProvider.Call(x => x.BoardServices.SaveColumn(column.To_ColumnDTO()));
+            DataProvider.Call(x => x.BoardServices.SaveColumn(column.ToColumnDTO()));
 
             // Update categories for tasks in the column
             // Note: Items end up unordered when not calling new?
@@ -610,7 +610,7 @@ namespace KanbanTasker.ViewModels
                         break;
                 }
 
-                _toastService.ScheduleToast(CurrentTask.To_TaskDTO(), scheduledTime, taskDueDate);
+                _toastService.ScheduleToast(CurrentTask.ToTaskDTO(), scheduledTime, taskDueDate);
             }
         }
 
@@ -797,7 +797,7 @@ namespace KanbanTasker.ViewModels
         /// <param name="targetIndex"></param>
         public void UpdateCardColumn(string targetCategory, PresentationTask selectedCardModel, int targetIndex)
         {
-            TaskDTO task = selectedCardModel.To_TaskDTO();
+            TaskDTO task = selectedCardModel.ToTaskDTO();
             task.Category = targetCategory;
             task.ColumnIndex = targetIndex;
 
@@ -880,7 +880,7 @@ namespace KanbanTasker.ViewModels
             var deletedColumn = Columns.Single(x => x.ColumnName.Equals(columnName));
 
             // Delete column from database and if successfull the collection too
-            var result = DataProvider.Call(x => x.BoardServices.DeleteColumn(deletedColumn.To_ColumnDTO()));
+            var result = DataProvider.Call(x => x.BoardServices.DeleteColumn(deletedColumn.ToColumnDTO()));
             if (result.Success)
             {
                 Columns.Remove(deletedColumn);
@@ -891,7 +891,7 @@ namespace KanbanTasker.ViewModels
                 {
                     var column = Columns[i];
                     column.Position -= 1;
-                    DataProvider.Call(x => x.BoardServices.UpdateColumnIndex(column.To_ColumnDTO()));
+                    DataProvider.Call(x => x.BoardServices.UpdateColumnIndex(column.ToColumnDTO()));
                 }
 
                 _appNotificationService.DisplayNotificationAsync("Column deleted successfully", NOTIFICATION_DURATION);

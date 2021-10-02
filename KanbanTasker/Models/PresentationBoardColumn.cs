@@ -57,7 +57,7 @@ namespace KanbanTasker.Models
             set => SetProperty(ref _maxTaskLimit, value);
         }
 
-        public ColumnDTO To_ColumnDTO()
+        public ColumnDTO ToColumnDTO()
         {
             return new ColumnDTO
             {

@@ -159,7 +159,7 @@ namespace KanbanTasker.Models
             set => SetProperty(ref _daysSinceCreation, value); 
         }
 
-        public TaskDTO To_TaskDTO()
+        public TaskDTO ToTaskDTO()
         {
             return new TaskDTO
             {
@@ -177,7 +177,7 @@ namespace KanbanTasker.Models
                 ColumnIndex = ColumnIndex,
                 ColorKey = ColorKey,
                 Tags = Tags == null ? string.Empty : string.Join(",", Tags),
-                Board = Board.To_BoardDTO()
+                Board = Board.ToBoardDTO()
             };
         }
     }

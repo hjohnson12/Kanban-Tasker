@@ -189,7 +189,7 @@ namespace KanbanTasker.ViewModels
             if (string.IsNullOrEmpty(CurrentBoard.Board.Notes))
                 return;
 
-            BoardDTO dto = CurrentBoard.Board.To_BoardDTO();
+            BoardDTO dto = CurrentBoard.Board.ToBoardDTO();
             bool isNew = dto.Id == 0;
             RowOpResult<BoardDTO> result = null;
 
