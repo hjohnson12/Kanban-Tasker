@@ -695,9 +695,8 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+
                             <SymbolIcon Symbol="List" />
-
-
                             <TextBlock
                                 Grid.Column="1"
                                 Margin="8,0"
@@ -710,7 +709,8 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontWeight="Bold"
-                                Text="{x:Bind ViewModel.CurrentTask.Category, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.CurrentTask.Category, Mode=OneWay}"
+                                TextWrapping="Wrap" />
                             <SymbolIcon
                                 Grid.Row="1"
                                 Margin="0,10"
@@ -722,7 +722,6 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Text="Priority: " />
-
                             <ComboBox
                                 x:Name="comboBoxColorKey"
                                 Grid.Row="1"
