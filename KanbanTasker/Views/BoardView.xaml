@@ -953,29 +953,21 @@
                                             <TimePicker
                                                 x:Name="TaskReminderTimePicker"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,3,0,0"
+                                                Margin="0,4,0,4"
                                                 HorizontalAlignment="Stretch"
                                                 Style="{ThemeResource CustomTimePickerStyle}"
                                                 Time="{x:Bind ViewModel.CurrentTask.TimeDue, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
                                                 TimeChanged="TaskReminderTimePicker_TimeChanged" />
-                                            <Grid Margin="0,12,0,0" HorizontalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <ComboBox
-                                                    x:Name="ReminderComboBox"
-                                                    Grid.Column="0"
-                                                    Width="175"
-                                                    HorizontalAlignment="Stretch"
-                                                    Background="{ThemeResource RegionBrush}"
-                                                    BorderThickness="1"
-                                                    Header="Reminder:"
-                                                    ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}"
-                                                    SelectedItem="{Binding SelectedReminderTime, Mode=TwoWay}" />
-                                            </Grid>
-
-                                            <!--<Button Click="BtnTestReminder_Click" Content="Schedule Reminder - Test"></Button>-->
+                                            <ComboBox
+                                                x:Name="ReminderComboBox"
+                                                Grid.Column="0"
+                                                Margin="0,4,0,4"
+                                                HorizontalAlignment="Stretch"
+                                                Background="{ThemeResource RegionBrush}"
+                                                BorderThickness="1"
+                                                Header="Reminder:"
+                                                ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}"
+                                                SelectedItem="{Binding SelectedReminderTime, Mode=TwoWay}" />
                                         </StackPanel>
                                     </Grid>
                                     <Grid Grid.Row="3">
@@ -991,7 +983,7 @@
                                         <CalendarDatePicker
                                             x:Name="StartDateCalendarPicker"
                                             Grid.Column="1"
-                                            Margin="32,10,8,0"
+                                            Margin="32,8,8,0"
                                             HorizontalAlignment="Stretch"
                                             Background="{ThemeResource RegionBrush}"
                                             Date="{x:Bind ViewModel.CurrentTask.StartDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
