@@ -362,6 +362,7 @@ namespace KanbanTasker.Views
                 ((sender as Button).CommandParameter).ToString();
 
             var newColName = ViewModel.NewColumnName;
+            var newMaxLimit = ViewModel.NewColumnMax;
 
             if (string.IsNullOrEmpty(newColName))
                 newColName = header;
@@ -375,6 +376,7 @@ namespace KanbanTasker.Views
                 var column = kanbanBoard.Columns.Single(x => x.Title.Equals(header));
                 column.Categories = newColName;
                 column.Title = newColName;
+                column.MaximumLimit = newMaxLimit;
             }
 
             flyoutEditColumn.Hide();
