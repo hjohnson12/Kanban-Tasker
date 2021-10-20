@@ -418,44 +418,53 @@ namespace KanbanTasker.Views
             }
         }
 
-        private void AddColumnButton_Click(object sender, RoutedEventArgs e)
+        private async void AddColumnButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.Columns.Any(x => x.ColumnName.Equals("TESTING")))
+            var dialog = new NewColumnDialog();
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
             {
-                ViewModel.ShowInAppNotification("A column with that name already exists.");
-                return;
+                var columnName = dialog.ColumnName;
+                var maxTaskLimit = dialog.MaxTaskLimit;
+
+                if (ViewModel.Columns.Any(x => x.ColumnName.Equals(columnName)))
+                {
+                    ViewModel.ShowInAppNotification("A column with that name already exists.");
+                    return;
+                }
+
+                var column = ViewModel.CreateColumn(columnName, maxTaskLimit);
+                CustomKanbanColumn newColumn = new CustomKanbanColumn()
+                {
+                    Title = column.ColumnName,
+                    Categories = column.ColumnName,
+                    CollapsedColumnTemplate = this.Resources["CollapsedColumnTemplate"] as ControlTemplate,
+                    MaximumLimit = column.MaxTaskLimit
+                };
+
+                var myBinding = new Binding()
+                {
+                    Path = new PropertyPath("ColumnName"),
+                    Source = column,
+                    Mode = BindingMode.OneWay
+                };
+
+                var myBinding2 = new Binding()
+                {
+                    Path = new PropertyPath("MaxTaskLimit"),
+                    Source = column,
+                    Mode = BindingMode.TwoWay
+                };
+
+                // Set bindings
+                newColumn.SetBinding(KanbanColumn.TitleProperty, myBinding);
+                newColumn.SetBinding(KanbanColumn.CategoriesProperty, myBinding);
+                newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, myBinding2);
+
+                // Add to kanban columns
+                kanbanBoard.Columns.Add(newColumn);
             }
-
-            var column = ViewModel.CreateColumn("TESTING", 10);
-            CustomKanbanColumn newColumn = new CustomKanbanColumn()
-            {
-                Title = column.ColumnName,
-                Categories = column.ColumnName,
-                CollapsedColumnTemplate = this.Resources["CollapsedColumnTemplate"] as ControlTemplate,
-                MaximumLimit = column.MaxTaskLimit
-            };
-
-            var myBinding = new Binding()
-            {
-                Path = new PropertyPath("ColumnName"),
-                Source = column,
-                Mode = BindingMode.OneWay
-            };
-
-            var myBinding2 = new Binding()
-            {
-                Path = new PropertyPath("MaxTaskLimit"),
-                Source = column,
-                Mode = BindingMode.TwoWay
-            };
-            
-            // Set bindings
-            newColumn.SetBinding(KanbanColumn.TitleProperty, myBinding);
-            newColumn.SetBinding(KanbanColumn.CategoriesProperty, myBinding);
-            newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, myBinding2);
-
-            // Add to kanban columns
-            kanbanBoard.Columns.Add(newColumn);
         }
     }
 }

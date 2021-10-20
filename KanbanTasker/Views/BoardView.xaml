@@ -1172,7 +1172,8 @@
                     CardTemplate="{StaticResource KanbanCardTemplate}"
                     ColumnMappingPath="Category"
                     ItemsSource="{x:Bind ViewModel.Board.Tasks, Mode=OneWay}"
-                    MaxColumnWidth="300">
+                    MaxColumnWidth="300"
+                    MinColumnWidth="300">
 
                     <syncfusion:SfKanban.ColumnHeaderTemplate>
                         <DataTemplate x:DataType="viewmodels:BoardViewModel">
