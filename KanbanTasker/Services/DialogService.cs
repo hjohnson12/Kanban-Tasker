@@ -32,67 +32,32 @@ namespace KanbanTasker.Services
 
         public async Task ShowEditBoardDialog(object viewModel)
         {
-            if (_isDialogOpen)
-                return;
-
-            _isDialogOpen = true;
-
             var dialog = new EditBoardDialogView() { DataContext = viewModel };
-            var result = await dialog.ShowAsync();
-
-            _isDialogOpen = false;
+            await ShowDialog(dialog);
         }
 
         public async Task ShowFirstRunDialog()
         {
-            if (_isDialogOpen)
-                return;
-
-            _isDialogOpen = true;
-
             var dialog = new FirstRunDialogView();
-            await dialog.ShowAsync();
-
-            _isDialogOpen = false;
+            await ShowDialog(dialog);
         }
 
         public async Task ShowAppUpdatedDialog()
         {
-            if (_isDialogOpen)
-                return;
-
-            _isDialogOpen = true;
-
             var dialog = new AppUpdatedDialogView();
-            await dialog.ShowAsync();
-
-            _isDialogOpen = false;
+            await ShowDialog(dialog);
         }
 
         public async Task ShowSettingsDialog()
         {
-            if (_isDialogOpen)
-                return;
-
-            _isDialogOpen = true;
-
             var dialog = new SettingsView();
-            await dialog.ShowAsync();
-
-            _isDialogOpen = false;
+            await ShowDialog(dialog);
         }
 
         public async Task ShowCalendarDialog(object viewModel)
         {
-            if (_isDialogOpen)
-                return;
-
-            _isDialogOpen = true;
-
             var dialog = new CalendarDialogView(viewModel);
-            await dialog.ShowAsync();
-
-            _isDialogOpen = false;
+            await ShowDialog(dialog);
         }
     }
 }
