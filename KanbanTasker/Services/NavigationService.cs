@@ -33,7 +33,7 @@ namespace KanbanTasker.Services
         {
             if (Frame is Frame frame)
             {
-                frame.Navigate(typeof(NoBoardsMessageView));
+                frame.Navigate(typeof(NoBoardsAvailableView));
             }
         }
 

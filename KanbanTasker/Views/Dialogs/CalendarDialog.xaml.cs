@@ -3,15 +3,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using KanbanTasker.Models;
 
-namespace KanbanTasker.Views
+namespace KanbanTasker.Views.Dialogs
 {
-    public sealed partial class CalendarDialogView : ContentDialog
+    public sealed partial class CalendarDialog : ContentDialog
     {
         public ViewModels.MainViewModel ViewModel { get; set; }
         public ViewModels.CalendarViewModel CalendarViewModel { get; set; }
         private PresentationTask SelectedTask { get; set; }
 
-        public CalendarDialogView(object viewModel)
+        public CalendarDialog(object viewModel)
         {
             this.InitializeComponent();
             ViewModel = viewModel as ViewModels.MainViewModel;

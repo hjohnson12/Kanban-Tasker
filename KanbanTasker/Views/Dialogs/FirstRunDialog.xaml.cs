@@ -2,11 +2,11 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace KanbanTasker.Views
+namespace KanbanTasker.Views.Dialogs
 {
-    public sealed partial class FirstRunDialogView : ContentDialog
+    public sealed partial class FirstRunDialog : ContentDialog
     {
-        public FirstRunDialogView()
+        public FirstRunDialog()
         {
             this.InitializeComponent();
         }

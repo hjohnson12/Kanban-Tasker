@@ -6,13 +6,13 @@
     xmlns:local="using:KanbanTasker.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Title="New Column"
+    Title="Create New Column"
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     CornerRadius="4"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="Save"
+    PrimaryButtonText="Create"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    SecondaryButtonText="Close"
+    SecondaryButtonText="Cancel"
     mc:Ignorable="d">
 
     <Grid>

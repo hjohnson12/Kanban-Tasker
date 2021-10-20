@@ -7,13 +7,13 @@ using KanbanTasker.ViewModels;
 using KanbanTasker.Services;
 using KanbanTasker.Model.Services;
 
-namespace KanbanTasker.Views
+namespace KanbanTasker.Views.Dialogs
 {
-    public sealed partial class SettingsView : ContentDialog
+    public sealed partial class SettingsDialog : ContentDialog
     {
         public SettingsViewModel ViewModel => (SettingsViewModel)DataContext;
        
-        public SettingsView()
+        public SettingsDialog()
         {
             this.InitializeComponent();
 

@@ -1,11 +1,11 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace KanbanTasker.Views
+namespace KanbanTasker.Views.Dialogs
 {
-    public sealed partial class EditBoardDialogView : ContentDialog
+    public sealed partial class EditBoardDialog : ContentDialog
     {
-        public EditBoardDialogView()
+        public EditBoardDialog()
         {
             this.InitializeComponent();
         }

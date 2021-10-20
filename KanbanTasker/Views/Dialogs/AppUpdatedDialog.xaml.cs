@@ -13,14 +13,14 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace KanbanTasker.Views
+namespace KanbanTasker.Views.Dialogs
 {
     /// <summary>
     /// A view for displaying a message when the app is updated
     /// </summary>
-    public sealed partial class AppUpdatedDialogView : ContentDialog
+    public sealed partial class AppUpdatedDialog : ContentDialog
     {
-        public AppUpdatedDialogView()
+        public AppUpdatedDialog()
         {
             this.InitializeComponent();
         }

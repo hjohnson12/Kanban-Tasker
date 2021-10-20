@@ -1,5 +1,5 @@
 ﻿<ContentDialog
-    x:Class="KanbanTasker.Views.CalendarDialogView"
+    x:Class="KanbanTasker.Views.Dialogs.CalendarDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"

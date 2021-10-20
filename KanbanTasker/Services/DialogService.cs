@@ -1,5 +1,5 @@
 ﻿using KanbanTasker.Model.Services;
-using KanbanTasker.Views;
+using KanbanTasker.Views.Dialogs;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
@@ -32,31 +32,31 @@ namespace KanbanTasker.Services
 
         public async Task ShowEditBoardDialog(object viewModel)
         {
-            var dialog = new EditBoardDialogView() { DataContext = viewModel };
+            var dialog = new EditBoardDialog() { DataContext = viewModel };
             await ShowDialog(dialog);
         }
 
         public async Task ShowFirstRunDialog()
         {
-            var dialog = new FirstRunDialogView();
+            var dialog = new FirstRunDialog();
             await ShowDialog(dialog);
         }
 
         public async Task ShowAppUpdatedDialog()
         {
-            var dialog = new AppUpdatedDialogView();
+            var dialog = new AppUpdatedDialog();
             await ShowDialog(dialog);
         }
 
         public async Task ShowSettingsDialog()
         {
-            var dialog = new SettingsView();
+            var dialog = new SettingsDialog();
             await ShowDialog(dialog);
         }
 
         public async Task ShowCalendarDialog(object viewModel)
         {
-            var dialog = new CalendarDialogView(viewModel);
+            var dialog = new CalendarDialog(viewModel);
             await ShowDialog(dialog);
         }
     }
