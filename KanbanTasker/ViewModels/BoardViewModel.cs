@@ -858,12 +858,12 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public PresentationBoardColumn CreateColumn(string title, int maxLimit)
+        public PresentationBoardColumn CreateColumn(string title, int maxTaskLimit)
         {
             var columnDto = new ColumnDTO()
             {
                 ColumnName = title,
-                MaxTaskLimit = 10,
+                MaxTaskLimit = maxTaskLimit,
                 Position = Columns.Count,
                 BoardId = Board.ID
             };
