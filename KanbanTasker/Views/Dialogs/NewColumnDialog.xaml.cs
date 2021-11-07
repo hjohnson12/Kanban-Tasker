@@ -30,11 +30,7 @@ namespace KanbanTasker.Views
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             ColumnName = ColumnNameTextbox.Text;
-            MaxTaskLimit = int.Parse(MaxLimitNumberBox.Text);
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
+            MaxTaskLimit = string.IsNullOrEmpty(MaxLimitNumberBox.Text) ? 0 : int.Parse(MaxLimitNumberBox.Text);
         }
     }
 }

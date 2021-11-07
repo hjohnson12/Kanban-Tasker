@@ -428,12 +428,19 @@ namespace KanbanTasker.Views
                 var columnName = dialog.ColumnName;
                 var maxTaskLimit = dialog.MaxTaskLimit;
 
+                // Verify variable data is in correct format
                 if (ViewModel.Columns.Any(x => x.ColumnName.Equals(columnName)))
                 {
-                    ViewModel.ShowInAppNotification("A column with that name already exists.");
+                    ViewModel.ShowInAppNotification("A column with that name already exists");
+                    return;
+                }
+                else if (columnName == "" || maxTaskLimit == 0)
+                {
+                    ViewModel.ShowInAppNotification("Please fill out the required fields");
                     return;
                 }
 
+                // Continue with creating column 
                 var column = ViewModel.CreateColumn(columnName, maxTaskLimit);
                 CustomKanbanColumn newColumn = new CustomKanbanColumn()
                 {
