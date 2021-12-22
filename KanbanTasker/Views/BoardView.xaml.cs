@@ -53,7 +53,7 @@ namespace KanbanTasker.Views
                     MaximumLimit = column.MaxTaskLimit
                 };
 
-                var myBinding = new Binding()
+                var columnNameBinding = new Binding()
                 {
                     Path = new PropertyPath("ColumnName"),
                     Source = column,
@@ -61,7 +61,7 @@ namespace KanbanTasker.Views
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 };
 
-                var myBinding2 = new Binding()
+                var maxTaskLimitBinding = new Binding()
                 {
                     Path = new PropertyPath("MaxTaskLimit"),
                     Source = column,
@@ -70,9 +70,9 @@ namespace KanbanTasker.Views
                 };
 
                 // Set bindings
-                newColumn.SetBinding(KanbanColumn.TitleProperty, myBinding);
-                newColumn.SetBinding(KanbanColumn.CategoriesProperty, myBinding);
-                newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, myBinding2);
+                newColumn.SetBinding(KanbanColumn.TitleProperty, columnNameBinding);
+                newColumn.SetBinding(KanbanColumn.CategoriesProperty, columnNameBinding);
+                newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, maxTaskLimitBinding);
 
                 kanbanBoard.Columns.Add(newColumn);
             }
@@ -421,6 +421,11 @@ namespace KanbanTasker.Views
             }
         }
 
+        private async void AddColumnButton_Click(object sender, RoutedEventArgs e)
+        {
+            await AddColumn();
+        }
+
         private async Task AddColumn()
         {
             var dialog = new NewColumnDialog();
@@ -453,7 +458,7 @@ namespace KanbanTasker.Views
                     MaximumLimit = column.MaxTaskLimit
                 };
 
-                var myBinding = new Binding()
+                var columnNameBinding = new Binding()
                 {
                     Path = new PropertyPath("ColumnName"),
                     Source = column,
@@ -461,7 +466,7 @@ namespace KanbanTasker.Views
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 };
 
-                var myBinding2 = new Binding()
+                var maxTaskLimitBinding = new Binding()
                 {
                     Path = new PropertyPath("MaxTaskLimit"),
                     Source = column,
@@ -470,18 +475,13 @@ namespace KanbanTasker.Views
                 };
 
                 // Set bindings
-                newColumn.SetBinding(KanbanColumn.TitleProperty, myBinding);
-                newColumn.SetBinding(KanbanColumn.CategoriesProperty, myBinding);
-                newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, myBinding2);
+                newColumn.SetBinding(KanbanColumn.TitleProperty, columnNameBinding);
+                newColumn.SetBinding(KanbanColumn.CategoriesProperty, columnNameBinding);
+                newColumn.SetBinding(KanbanColumn.MaximumLimitProperty, maxTaskLimitBinding);
 
                 // Add to kanban columns
                 kanbanBoard.Columns.Add(newColumn);
             }
-        }
-
-        private async void AddColumnButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddColumn();
         }
     }
 }
