@@ -1154,10 +1154,17 @@
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top">
-                <Button
-                    x:Name="AddColumnButton"
-                    Click="AddColumnButton_Click"
-                    Content="Add New Column" />
+                <Button x:Name="AddColumnButton" Click="AddColumnButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe MDL2 Assets"
+                            Margin="0,0,4,0"
+                            Text="&#xE109;" />
+                        <TextBlock Text="New Column" />
+                    </StackPanel>
+                </Button>
             </Grid>
             <!--  KANBAN BOARD  -->
             <Grid Grid.Row="2">
