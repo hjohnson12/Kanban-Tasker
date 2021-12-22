@@ -12,6 +12,7 @@ using KanbanTasker.ViewModels;
 using System.Collections.Generic;
 using KanbanTasker.Helpers;
 using Windows.UI.Xaml.Data;
+using System.Threading.Tasks;
 
 namespace KanbanTasker.Views
 {
@@ -56,14 +57,16 @@ namespace KanbanTasker.Views
                 {
                     Path = new PropertyPath("ColumnName"),
                     Source = column,
-                    Mode = BindingMode.OneWay
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 };
 
                 var myBinding2 = new Binding()
                 {
                     Path = new PropertyPath("MaxTaskLimit"),
                     Source = column,
-                    Mode = BindingMode.TwoWay
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 };
 
                 // Set bindings
@@ -418,7 +421,7 @@ namespace KanbanTasker.Views
             }
         }
 
-        private async void AddColumnButton_Click(object sender, RoutedEventArgs e)
+        private async Task AddColumn()
         {
             var dialog = new NewColumnDialog();
             var result = await dialog.ShowAsync();
@@ -454,14 +457,16 @@ namespace KanbanTasker.Views
                 {
                     Path = new PropertyPath("ColumnName"),
                     Source = column,
-                    Mode = BindingMode.OneWay
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 };
 
                 var myBinding2 = new Binding()
                 {
                     Path = new PropertyPath("MaxTaskLimit"),
                     Source = column,
-                    Mode = BindingMode.TwoWay
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 };
 
                 // Set bindings
@@ -472,6 +477,11 @@ namespace KanbanTasker.Views
                 // Add to kanban columns
                 kanbanBoard.Columns.Add(newColumn);
             }
+        }
+
+        private async void AddColumnButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddColumn();
         }
     }
 }

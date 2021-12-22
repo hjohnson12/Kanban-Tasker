@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KanbanTasker.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace KanbanTasker.Views
 {
     public sealed partial class NewColumnDialog : ContentDialog
     {
+        public CustomKanbanColumn KanbanColumn { get; set; }
+
         public NewColumnDialog()
         {
             this.InitializeComponent();
