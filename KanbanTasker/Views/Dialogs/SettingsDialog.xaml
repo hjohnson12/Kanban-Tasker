@@ -209,6 +209,38 @@
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
                                 TextWrapping="Wrap">
+                                <Run>- Added ability to add columns with a custom name and task limit</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Added ability remove columns</Run>
+                            </TextBlock>
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
+                                <Run>- Other general updates, cleanup, and fixes</Run>
+                            </TextBlock>
+                            <HyperlinkButton
+                                Margin="0,8,0,0"
+                                Content="Github Issues Link"
+                                NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                            <TextBlock Text="" />
+                            <TextBlock
+                                Margin="0,2,0,0"
+                                HorizontalAlignment="Left"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Text="Previous Versions Update Notes:"
+                                TextDecorations="Underline"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap">
                                 <Run>- Added ability to edit column names on a board</Run>
                             </TextBlock>
                             <TextBlock
@@ -235,27 +267,6 @@
                                 TextWrapping="Wrap">
                                 <Run>- Task maximum limit lowered before color indicator displays</Run>
                             </TextBlock>
-                            <TextBlock
-                                Margin="0,12,0,0"
-                                HorizontalAlignment="Left"
-                                TextWrapping="Wrap">
-                                <Run>- Other general updates, cleanup, and fixes</Run>
-                            </TextBlock>
-                            <HyperlinkButton
-                                Margin="0,8,0,0"
-                                Content="Github Issues Link"
-                                NavigateUri="https://github.com/hjohnson12/Kanban-Tasker/issues"
-                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-                            <TextBlock Text="" />
-                            <TextBlock
-                                Margin="0,2,0,0"
-                                HorizontalAlignment="Left"
-                                FontSize="15"
-                                FontWeight="Bold"
-                                Text="Previous Version Update Notes:"
-                                TextDecorations="Underline"
-                                TextWrapping="Wrap" />
-
                             <TextBlock
                                 Margin="0,12,0,0"
                                 HorizontalAlignment="Left"
