@@ -369,6 +369,15 @@ namespace KanbanTasker.Views
 
             if (string.IsNullOrEmpty(newColName))
                 newColName = header;
+            
+            bool columnNameAlreadyExists = kanbanBoard.Columns.Any(x => x.Title.Equals(newColName));
+            if (columnNameAlreadyExists)
+            {
+                ViewModel.ShowInAppNotification("A column with that name already exists");
+                ViewModel.NewColumnName = header;
+                flyoutEditColumn.Hide();
+                return;
+            }
 
             ViewModel.UpdateColumn(header);
 
