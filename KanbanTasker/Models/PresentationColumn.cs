@@ -10,7 +10,7 @@ namespace KanbanTasker.Models
     ///  A presentation model of a ColumnDTO, which
     ///  represents a column within a board.
     /// </summary>
-    public class PresentationBoardColumn : Observable
+    public class PresentationColumn : Observable
     {
         private int _id;
         private int _boardId;
@@ -18,7 +18,7 @@ namespace KanbanTasker.Models
         private int _position;
         private int _maxTaskLimit;
 
-        public PresentationBoardColumn(ColumnDTO columnDto)
+        public PresentationColumn(ColumnDTO columnDto)
         {
             Id = columnDto.Id;
             BoardId = columnDto.BoardId;

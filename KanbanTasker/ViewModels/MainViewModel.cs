@@ -207,7 +207,7 @@ namespace KanbanTasker.ViewModels
                 var columns = dataProvider.Call(x => x.BoardServices.GetColumns(CurrentBoard.Board.ID));
                 for (int i = 0; i < columns.Count; i++)
                 {
-                    CurrentBoard.Columns.Add(new PresentationBoardColumn(
+                    CurrentBoard.Columns.Add(new PresentationColumn(
                         columns.Find(x => x.Position == i)));
                 }
             }

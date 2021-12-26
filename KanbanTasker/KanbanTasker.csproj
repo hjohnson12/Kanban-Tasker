@@ -151,7 +151,7 @@
     <Compile Include="Helpers\Microsoft Graph\GraphServiceHelper.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
-    <Compile Include="Models\PresentationBoardColumn.cs" />
+    <Compile Include="Models\PresentationColumn.cs" />
     <Compile Include="Models\PresentationTask.cs" />
     <Compile Include="Services\AppNotificationService.cs" />
     <Compile Include="Services\DialogService.cs" />

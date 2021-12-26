@@ -31,7 +31,7 @@ namespace KanbanTasker.ViewModels
         private ObservableCollection<string> _suggestedTagsCollection;
         private ObservableCollection<string> _colorKeys;
         private ObservableCollection<string> _reminderTimes;
-        private ObservableCollection<PresentationBoardColumn> _columns;
+        private ObservableCollection<PresentationColumn> _columns;
         private List<ColumnDTO> columnNames;
         private DispatcherTimer _dateCheckTimer;
         private string _paneTitle;
@@ -77,7 +77,7 @@ namespace KanbanTasker.ViewModels
             CancelEditCommand = new RelayCommand(CancelEdit, () => true);
             UpdateColumnCommand = new RelayCommand<string>(UpdateColumn, () => true);
 
-            Columns = new ObservableCollection<PresentationBoardColumn>();
+            Columns = new ObservableCollection<PresentationColumn>();
 
             ColorKeys = new ObservableCollection<string>
             {
@@ -114,7 +114,7 @@ namespace KanbanTasker.ViewModels
         /// <summary>
         /// The columns for a board
         /// </summary>
-        public ObservableCollection<PresentationBoardColumn> Columns
+        public ObservableCollection<PresentationColumn> Columns
         {
             get => _columns;
             set => SetProperty(ref _columns, value);
@@ -481,7 +481,7 @@ namespace KanbanTasker.ViewModels
                 newColName = originalColumnName;
 
             // Set new column name and task limits
-            PresentationBoardColumn column = Columns
+            PresentationColumn column = Columns
                 .Single(x => x.ColumnName.Equals(originalColumnName));
             column.ColumnName = newColName;
             column.MaxTaskLimit = newColMax;
@@ -836,7 +836,7 @@ namespace KanbanTasker.ViewModels
                 // Add columns to list in order of position
                 for (int i = 0; i < columnNames.Count; i++)
                 {
-                    Columns.Add(new PresentationBoardColumn(
+                    Columns.Add(new PresentationColumn(
                         columnNames.Find(x => x.Position == i)));
                 }
             }
@@ -848,7 +848,7 @@ namespace KanbanTasker.ViewModels
 
                 foreach(var column in defaultColumnNames)
                 {
-                    Columns.Add(new PresentationBoardColumn(
+                    Columns.Add(new PresentationColumn(
                         new ColumnDTO()
                         {
                             ColumnName = column,
@@ -858,7 +858,7 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public PresentationBoardColumn CreateColumn(string title, int maxTaskLimit)
+        public PresentationColumn CreateColumn(string title, int maxTaskLimit)
         {
             var columnDto = new ColumnDTO()
             {
@@ -870,9 +870,9 @@ namespace KanbanTasker.ViewModels
 
             // Create column in database, update collection, and return
             var col = DataProvider.Call(x => x.BoardServices.CreateColumn(columnDto));
-            Columns.Add(new PresentationBoardColumn(col));
+            Columns.Add(new PresentationColumn(col));
 
-            return new PresentationBoardColumn(columnDto);
+            return new PresentationColumn(columnDto);
         }
 
         public bool DeleteColumn(string columnName)
