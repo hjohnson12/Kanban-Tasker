@@ -52,7 +52,7 @@
                     HorizontalAlignment="Left"
                     FontSize="15"
                     FontWeight="Bold"
-                    Text="Version 1.3.3 Update Notes"
+                    Text="Version 1.3.3-1.3.4 Update Notes"
                     TextDecorations="Underline"
                     TextWrapping="Wrap" />
                 <TextBlock
