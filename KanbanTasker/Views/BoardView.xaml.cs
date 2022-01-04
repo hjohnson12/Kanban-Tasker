@@ -451,7 +451,7 @@ namespace KanbanTasker.Views
                     ViewModel.ShowInAppNotification("A column with that name already exists");
                     return;
                 }
-                else if (columnName == "" || maxTaskLimit == 0)
+                else if (columnName == "" || maxTaskLimit < 0)
                 {
                     ViewModel.ShowInAppNotification("Please fill out the required fields");
                     return;
