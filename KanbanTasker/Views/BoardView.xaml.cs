@@ -361,36 +361,47 @@ namespace KanbanTasker.Views
 
         private void btnSaveColChanges_Click(object sender, RoutedEventArgs e)
         {
-            var header =
-                ((sender as Button).CommandParameter).ToString();
+            var header = (sender as Button).CommandParameter.ToString();
+            var currentColumn = kanbanBoard.Columns.Single(x => x.Title.Equals(header));
+
+            if (string.IsNullOrEmpty(ViewModel.NewColumnName))
+                ViewModel.NewColumnName = header;
+            if (ViewModel.NewColumnMax < 0)
+                ViewModel.NewColumnMax = 0;
 
             var newColName = ViewModel.NewColumnName;
             var newMaxLimit = ViewModel.NewColumnMax;
 
-            if (string.IsNullOrEmpty(newColName))
-                newColName = header;
-            
-            bool columnNameAlreadyExists = kanbanBoard.Columns.Any(x => x.Title.Equals(newColName));
-            if (columnNameAlreadyExists)
+            // If theres no change to the column name, check the max task limit for changes
+            if (header == newColName)
             {
-                ViewModel.ShowInAppNotification("A column with that name already exists");
-                ViewModel.NewColumnName = header;
-                flyoutEditColumn.Hide();
-                return;
+                // Just return if there's no changes to either
+                if (currentColumn.MaximumLimit == newMaxLimit)
+                {
+                    flyoutEditColumn.Hide();
+                    return;
+                }
             }
-
+            else
+            {
+                // Avoid multiple columns with the same name
+                bool columnNameAlreadyExists = kanbanBoard.Columns.Any(x => x.Title.Equals(newColName));
+                if (columnNameAlreadyExists)
+                {
+                    ViewModel.ShowInAppNotification("A column with that name already exists");
+                    ViewModel.NewColumnName = header;
+                    flyoutEditColumn.Hide();
+                    return;
+                }
+            }
+            
+            // Update the column accordingly in db and collection
             ViewModel.UpdateColumn(header);
 
-            var oldColumnExists = kanbanBoard.Columns.Any(x => x.Title.Equals(header));
-            if (oldColumnExists)
-            {
-                // Update title/categories to keep UI consistent
-                var column = kanbanBoard.Columns.Single(x => x.Title.Equals(header));
-                column.Categories = newColName;
-                column.Title = newColName;
-                column.MaximumLimit = newMaxLimit;
-            }
-
+            // Update title/categories/limit of column in the UI element 
+            currentColumn.Categories = newColName;
+            currentColumn.Title = newColName;
+            currentColumn.MaximumLimit = newMaxLimit;
             flyoutEditColumn.Hide();
         }
 
