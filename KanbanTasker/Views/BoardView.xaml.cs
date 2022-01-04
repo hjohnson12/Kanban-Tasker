@@ -422,7 +422,10 @@ namespace KanbanTasker.Views
 
         private void maxLimitNumberBox_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
         {
-            ViewModel.NewColumnMax = Convert.ToInt32((sender).Value);
+            if (Double.IsNaN(sender.Value))
+                ViewModel.NewColumnMax = 0;
+            else
+                ViewModel.NewColumnMax = Convert.ToInt32(sender.Value);
         }
 
         private void btnDeleteColumn_Click(object sender, RoutedEventArgs e)
