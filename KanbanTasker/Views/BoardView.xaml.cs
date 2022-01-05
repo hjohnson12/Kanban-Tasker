@@ -365,7 +365,10 @@ namespace KanbanTasker.Views
             var currentColumn = kanbanBoard.Columns.Single(x => x.Title.Equals(header));
 
             if (string.IsNullOrEmpty(ViewModel.NewColumnName))
+            {
                 ViewModel.NewColumnName = header;
+                txtBoxColName.Text = header; 
+            }
             if (ViewModel.NewColumnMax < 0)
                 ViewModel.NewColumnMax = 0;
 
