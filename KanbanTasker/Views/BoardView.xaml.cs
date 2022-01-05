@@ -389,7 +389,7 @@ namespace KanbanTasker.Views
                 if (columnNameAlreadyExists)
                 {
                     ViewModel.ShowInAppNotification("A column with that name already exists");
-                    ViewModel.NewColumnName = header;
+                    txtBoxColName.Text = header;
                     flyoutEditColumn.Hide();
                     return;
                 }
