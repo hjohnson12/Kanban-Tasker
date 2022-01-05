@@ -350,7 +350,7 @@ namespace KanbanTasker.ViewModels
             if (IsReminderSet(CurrentTask))
                 PrepareAndScheduleToastNotification();
 
-            _appNotificationService.DisplayNotificationAsync("Task was saved successfully", NOTIFICATION_DURATION);
+            _appNotificationService.DisplayNotificationAsync("Task saved successfully", NOTIFICATION_DURATION);
         }
 
         public bool IsReminderSet(PresentationTask task)
@@ -382,7 +382,7 @@ namespace KanbanTasker.ViewModels
                     _toastService.RemoveScheduledToast(taskID.ToString());
 
                 _appNotificationService.DisplayNotificationAsync(
-                    "Task deleted from board successfully", NOTIFICATION_DURATION);
+                    "Task deleted successfully", NOTIFICATION_DURATION);
             }
             else
             {
