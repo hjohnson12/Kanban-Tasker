@@ -30,20 +30,23 @@ namespace KanbanTasker.Views.Dialogs
                 f.Hide();
 
             // Retreive selected items from list view to delete
-            var selectedItems = BoardListView.SelectedItems.ToArray();
-            DeleteSelectedBoards(selectedItems);
+            var selectedItems = BoardListView.SelectedItems.ToList();
+            if (selectedItems.Count != 0)
+            {
+                DeleteSelectedBoards(selectedItems);
 
-            // Change the current board if the selected one is deleted
-            if (selectedItems.Contains(ViewModel.CurrentBoard))
-                ResetCurrentBoard();
+                // Change the current board if the selected one is deleted
+                if (selectedItems.Contains(ViewModel.CurrentBoard))
+                    ResetCurrentBoard();
 
-            if (BoardListView.Items.Count.Equals(0))
-                NoBoardsTextBlock.Visibility = Visibility.Visible;
+                if (BoardListView.Items.Count.Equals(0))
+                    NoBoardsTextBlock.Visibility = Visibility.Visible;
 
-            ViewModel.AppNotificationService.DisplayNotificationAsync("Deletion of board(s) successful", 3000);
+                ViewModel.AppNotificationService.DisplayNotificationAsync("Deletion of board(s) successful", 3000);
+            }
         }
 
-        private void DeleteSelectedBoards(object[] selectedItems)
+        private void DeleteSelectedBoards(List<object> selectedItems)
         {
             foreach (ViewModels.BoardViewModel selectedItem in selectedItems)
             {
