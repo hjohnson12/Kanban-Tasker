@@ -68,7 +68,7 @@
                                     <Button
                                         Margin="0,8,8,0"
                                         Click="DeleteItemsBtn_Click"
-                                        Content="Yes, delete these boards"
+                                        Content="Yes, delete selected items"
                                         CornerRadius="3" />
                                 </StackPanel>
                             </StackPanel>
