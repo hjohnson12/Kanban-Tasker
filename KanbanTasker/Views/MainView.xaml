@@ -188,7 +188,7 @@
                         x:Name="btnViewBoardList"
                         Width="40"
                         Command="{x:Bind ViewModel.OpenBoardListCommand}"
-                        ToolTipService.ToolTip="View Boards">
+                        ToolTipService.ToolTip="View Board List">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE14C;" />
                         </AppBarButton.Icon>
