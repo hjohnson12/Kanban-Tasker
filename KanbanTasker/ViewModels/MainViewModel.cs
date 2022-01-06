@@ -145,6 +145,11 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _boardEditorTitle, value);
         }
 
+        public IAdaptiveClient<IServiceManifest> DataProvider
+        {
+            get => dataProvider;
+        }
+
         public async void NewBoard()
         {
             var dialogOpen = _dialogService.CheckForOpenDialog();

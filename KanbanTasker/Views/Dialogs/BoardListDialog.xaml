@@ -9,10 +9,9 @@
     Title="Board List Editor"
     Background="{ThemeResource RegionBrush}"
     CornerRadius="4"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="Button1"
+    Loaded="BoardListDialog_Loaded"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    SecondaryButtonText="Button2"
+    SecondaryButtonText="Close"
     mc:Ignorable="d">
 
     <Grid>
@@ -20,8 +19,16 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <ListView ItemsSource="{x:Bind ViewModel.BoardList}">
+        <Grid Grid.Row="0" Margin="4">
+            <TextBlock
+                x:Name="NoBoardsTextBlock"
+                Margin="4"
+                Text="No Boards Available"
+                Visibility="Collapsed" />
+            <ListView
+                x:Name="BoardListView"
+                ItemsSource="{x:Bind ViewModel.BoardList}"
+                SelectionMode="Multiple">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:BoardViewModel">
                         <TextBlock
@@ -31,6 +38,15 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+        </Grid>
+        <Grid Grid.Row="1" Margin="4">
+            <StackPanel Orientation="Vertical">
+                <Button
+                    x:Name="DeleteItemsBtn"
+                    Click="DeleteItemsBtn_Click"
+                    Content="Delete Selected Items"
+                    CornerRadius="4 4 4 0" />
+            </StackPanel>
         </Grid>
     </Grid>
 </ContentDialog>

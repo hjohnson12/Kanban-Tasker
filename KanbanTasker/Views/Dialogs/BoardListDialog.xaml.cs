@@ -13,8 +13,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace KanbanTasker.Views.Dialogs
 {
     public sealed partial class BoardListDialog : ContentDialog
@@ -22,16 +20,47 @@ namespace KanbanTasker.Views.Dialogs
         public BoardListDialog()
         {
             this.InitializeComponent();
+
+           
         }
 
-        public ViewModels.MainViewModel ViewModel => (ViewModels.MainViewModel)DataContext;
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
+        public ViewModels.MainViewModel ViewModel => (ViewModels.MainViewModel) DataContext;
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            this.Hide();
+        }
+
+        private void DeleteItemsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // Retreive selected items from list view to delete
+            var selectedItems = BoardListView.SelectedItems.ToArray();
+            foreach (ViewModels.BoardViewModel selectedItem in selectedItems)
+            {
+                // Delete the selected boards and update list
+                ViewModel.DataProvider.Call(x => x.BoardServices.DeleteBoard(selectedItem.Board.ID));
+                ViewModel.BoardList.Remove(selectedItem);
+            }
+
+            // Change the current board if the selected one is deleted
+            if (selectedItems.Contains(ViewModel.CurrentBoard))
+            {
+                ViewModel.CurrentBoard.Board.Name = ""; // uwp bug
+                ViewModel.CurrentBoard.Board.Notes = ""; // uwp bug
+                ViewModel.CurrentBoard = null; // uwp bug
+                ViewModel.CurrentBoard = ViewModel.BoardList.LastOrDefault();
+            }
+
+            if (BoardListView.Items.Count.Equals(0))
+                NoBoardsTextBlock.Visibility = Visibility.Visible;
+        }
+
+        private void BoardListDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (BoardListView.Items.Count.Equals(0))
+                NoBoardsTextBlock.Visibility = Visibility.Visible;
+            else
+                NoBoardsTextBlock.Visibility = Visibility.Collapsed;
         }
     }
 }
