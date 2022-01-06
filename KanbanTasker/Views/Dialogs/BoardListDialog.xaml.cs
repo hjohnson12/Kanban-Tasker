@@ -33,6 +33,11 @@ namespace KanbanTasker.Views.Dialogs
 
         private void DeleteItemsBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (this.DeleteItemsBtn.Flyout is Flyout f)
+            {
+                f.Hide();
+            }
+
             // Retreive selected items from list view to delete
             var selectedItems = BoardListView.SelectedItems.ToArray();
             foreach (ViewModels.BoardViewModel selectedItem in selectedItems)

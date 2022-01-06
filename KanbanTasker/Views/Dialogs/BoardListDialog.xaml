@@ -43,9 +43,40 @@
             <StackPanel Orientation="Vertical">
                 <Button
                     x:Name="DeleteItemsBtn"
-                    Click="DeleteItemsBtn_Click"
                     Content="Delete Selected Items"
-                    CornerRadius="4 4 4 0" />
+                    CornerRadius="4 4 4 0">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel Width="400" Orientation="Vertical">
+                                <TextBlock
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="Delete Boards Confirmation"
+                                    TextAlignment="Left" />
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    Text="All of the selected boards and their corresponding tasks will be deleted. Do you wish to continue?"
+                                    TextAlignment="Left"
+                                    TextWrapping="Wrap" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        Margin="0,8,8,0"
+                                        Click="DeleteItemsBtn_Click"
+                                        Content="Yes, delete these boards"
+                                        CornerRadius="3" />
+                                </StackPanel>
+                            </StackPanel>
+                            <!--<StackPanel>
+                                <TextBlock
+                                    Margin="0,0,0,12"
+                                    Text="All of the selected boards and their corresponding tasks will be deleted. Do you wish to continue?"
+                                    TextWrapping="Wrap" />
+                                <Button Click="DeleteItemsBtn_Click" Content="Yes, delete these boards" />
+                            </StackPanel>-->
+                        </Flyout>
+                    </Button.Flyout>
+
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>
