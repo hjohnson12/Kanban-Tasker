@@ -108,6 +108,7 @@
                         <TextBox
                             x:Name="txtBoxNewBoardNotes"
                             Height="200"
+                            MaxWidth="300"
                             MaxHeight="150"
                             AcceptsReturn="True"
                             Background="{ThemeResource RegionBrush}"
