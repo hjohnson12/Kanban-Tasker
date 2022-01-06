@@ -44,6 +44,8 @@ namespace KanbanTasker.Views.Dialogs
 
                 ViewModel.AppNotificationService.DisplayNotificationAsync("Deletion of board(s) successful", 3000);
             }
+            else
+                ViewModel.AppNotificationService.DisplayNotificationAsync("Select board item(s) to delete", 3000);
         }
 
         private void DeleteSelectedBoards(List<object> selectedItems)
