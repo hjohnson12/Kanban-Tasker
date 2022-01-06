@@ -167,6 +167,9 @@
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\BoardListDialog.xaml.cs">
+      <DependentUpon>BoardListDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\CalendarDialog.xaml.cs">
       <DependentUpon>CalendarDialog.xaml</DependentUpon>
     </Compile>
@@ -288,6 +291,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\BoardListDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -39,6 +39,7 @@ namespace KanbanTasker.ViewModels
         public ICommand DeleteBoardCommand { get; set; }
         public ICommand OpenSettingsCommand { get; set; }
         public ICommand OpenCalendarCommand { get; set; }
+        public ICommand OpenBoardListCommand { get; set; }
 
         /// <summary>
         ///  Initializes boards and tasks.
@@ -66,6 +67,7 @@ namespace KanbanTasker.ViewModels
             DeleteBoardCommand = new Base.RelayCommand(DeleteBoard, () => CurrentBoard != null);
             OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsDialog, () => true);
             OpenCalendarCommand = new AsyncRelayCommand(OpenCalendarDialog, () => true);
+            OpenBoardListCommand = new AsyncRelayCommand(OpenBoardListDialog, () => true);
 
             InitializeBoards();
         }
@@ -267,6 +269,11 @@ namespace KanbanTasker.ViewModels
         {
             if (CurrentBoard != null)
                 await _dialogService.ShowCalendarDialog(this);
+        }
+
+        public async Task OpenBoardListDialog()
+        {
+            await _dialogService.ShowBoardListDialog(this);
         }
     }
 }

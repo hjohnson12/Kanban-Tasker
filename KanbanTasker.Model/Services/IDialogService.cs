@@ -14,5 +14,6 @@ namespace KanbanTasker.Model.Services
         Task ShowSettingsDialog();
         Task ShowEditBoardDialog(object viewModel);
         Task ShowCalendarDialog(object viewModel);
+        Task ShowBoardListDialog(object viewModel);
     }
 }

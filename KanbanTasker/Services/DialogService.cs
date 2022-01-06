@@ -59,5 +59,11 @@ namespace KanbanTasker.Services
             var dialog = new CalendarDialog(viewModel);
             await ShowDialog(dialog);
         }
+
+        public async Task ShowBoardListDialog(object viewModel)
+        {
+            var dialog = new BoardListDialog() { DataContext = viewModel };
+            await ShowDialog(dialog);
+        }
     }
 }

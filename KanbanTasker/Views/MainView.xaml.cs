@@ -85,5 +85,10 @@ namespace KanbanTasker.Views
                 }
             }
         }
+
+        private void kanbanNavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+           
+        }
     }
 }
