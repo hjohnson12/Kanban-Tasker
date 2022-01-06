@@ -20,7 +20,7 @@
         <Grid Grid.Row="0" Margin="4">
             <TextBlock
                 x:Name="NoBoardsTextBlock"
-                Margin="4"
+                Margin="4,12,4,4"
                 Text="No Boards Available"
                 Visibility="Collapsed" />
             <ListView
