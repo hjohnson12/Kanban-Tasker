@@ -31,10 +31,10 @@
                 SelectionMode="Multiple">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:BoardViewModel">
-                        <TextBlock
-                            Text="{x:Bind Board.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            ToolTipService.Placement="Bottom"
-                            ToolTipService.ToolTip="{x:Bind Board.Notes, Mode=OneWay}" />
+                        <StackPanel Margin="0,8,0,8" Orientation="Vertical">
+                            <TextBlock FontWeight="Bold" Text="{x:Bind Board.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Text="{x:Bind Board.Notes, Mode=OneWay}" TextWrapping="Wrap" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

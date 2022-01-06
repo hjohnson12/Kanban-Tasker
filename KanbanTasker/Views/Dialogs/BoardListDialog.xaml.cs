@@ -45,7 +45,7 @@ namespace KanbanTasker.Views.Dialogs
             if (BoardListView.Items.Count.Equals(0))
                 NoBoardsTextBlock.Visibility = Visibility.Visible;
 
-            ViewModel.AppNotificationService.DisplayNotificationAsync("Deletion of boards successful", 3000);
+            ViewModel.AppNotificationService.DisplayNotificationAsync("Deletion of board(s) successful", 3000);
         }
 
         private void DeleteSelectedBoards(object[] selectedItems)
