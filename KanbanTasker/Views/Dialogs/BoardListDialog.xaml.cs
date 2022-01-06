@@ -24,11 +24,6 @@ namespace KanbanTasker.Views.Dialogs
 
         public ViewModels.MainViewModel ViewModel => (ViewModels.MainViewModel) DataContext;
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            this.Hide();
-        }
-
         private void DeleteItemsBtn_Click(object sender, RoutedEventArgs e)
         {
             if (this.DeleteItemsBtn.Flyout is Flyout f)
@@ -72,6 +67,11 @@ namespace KanbanTasker.Views.Dialogs
                 NoBoardsTextBlock.Visibility = Visibility.Visible;
             else
                 NoBoardsTextBlock.Visibility = Visibility.Collapsed;
+        }
+
+        private void CloseDialog_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
         }
     }
 }

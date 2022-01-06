@@ -10,11 +10,9 @@
     Background="{ThemeResource RegionBrush}"
     CornerRadius="4"
     Loaded="BoardListDialog_Loaded"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    SecondaryButtonText="Close"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Width="400">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -40,11 +38,19 @@
             </ListView>
         </Grid>
         <Grid Grid.Row="1" Margin="4">
-            <StackPanel Orientation="Vertical">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="0"
+                Margin="0,0,4,0"
+                Orientation="Vertical">
                 <Button
                     x:Name="DeleteItemsBtn"
-                    Content="Delete Selected Items"
-                    CornerRadius="4 4 4 0">
+                    HorizontalAlignment="Stretch"
+                    Content="Delete Selected Item(s)"
+                    CornerRadius="4">
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel Width="400" Orientation="Vertical">
@@ -66,17 +72,20 @@
                                         CornerRadius="3" />
                                 </StackPanel>
                             </StackPanel>
-                            <!--<StackPanel>
-                                <TextBlock
-                                    Margin="0,0,0,12"
-                                    Text="All of the selected boards and their corresponding tasks will be deleted. Do you wish to continue?"
-                                    TextWrapping="Wrap" />
-                                <Button Click="DeleteItemsBtn_Click" Content="Yes, delete these boards" />
-                            </StackPanel>-->
                         </Flyout>
                     </Button.Flyout>
-
                 </Button>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                Margin="4,0,0,0"
+                Orientation="Vertical">
+                <Button
+                    x:Name="CloseDialog"
+                    HorizontalAlignment="Stretch"
+                    Click="CloseDialog_Click"
+                    Content="Close"
+                    CornerRadius="4" />
             </StackPanel>
         </Grid>
     </Grid>
