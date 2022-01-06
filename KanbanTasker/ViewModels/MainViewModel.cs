@@ -225,7 +225,7 @@ namespace KanbanTasker.ViewModels
             }
 
             _appNotificationService.DisplayNotificationAsync(
-                result.Success ? "Board was saved successfully." : result.ErrorMessage,
+                result.Success ? "Board saved successfully" : result.ErrorMessage,
                 MessageDuration);
         }
 
