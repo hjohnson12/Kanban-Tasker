@@ -20,8 +20,6 @@ namespace KanbanTasker.Views.Dialogs
         public BoardListDialog()
         {
             this.InitializeComponent();
-
-           
         }
 
         public ViewModels.MainViewModel ViewModel => (ViewModels.MainViewModel) DataContext;
@@ -34,30 +32,38 @@ namespace KanbanTasker.Views.Dialogs
         private void DeleteItemsBtn_Click(object sender, RoutedEventArgs e)
         {
             if (this.DeleteItemsBtn.Flyout is Flyout f)
-            {
                 f.Hide();
-            }
 
             // Retreive selected items from list view to delete
             var selectedItems = BoardListView.SelectedItems.ToArray();
+            DeleteSelectedBoards(selectedItems);
+
+            // Change the current board if the selected one is deleted
+            if (selectedItems.Contains(ViewModel.CurrentBoard))
+                ResetCurrentBoard();
+
+            if (BoardListView.Items.Count.Equals(0))
+                NoBoardsTextBlock.Visibility = Visibility.Visible;
+
+            ViewModel.AppNotificationService.DisplayNotificationAsync("Deletion of boards successful", 3000);
+        }
+
+        private void DeleteSelectedBoards(object[] selectedItems)
+        {
             foreach (ViewModels.BoardViewModel selectedItem in selectedItems)
             {
                 // Delete the selected boards and update list
                 ViewModel.DataProvider.Call(x => x.BoardServices.DeleteBoard(selectedItem.Board.ID));
                 ViewModel.BoardList.Remove(selectedItem);
             }
+        }
 
-            // Change the current board if the selected one is deleted
-            if (selectedItems.Contains(ViewModel.CurrentBoard))
-            {
-                ViewModel.CurrentBoard.Board.Name = ""; // uwp bug
-                ViewModel.CurrentBoard.Board.Notes = ""; // uwp bug
-                ViewModel.CurrentBoard = null; // uwp bug
-                ViewModel.CurrentBoard = ViewModel.BoardList.LastOrDefault();
-            }
-
-            if (BoardListView.Items.Count.Equals(0))
-                NoBoardsTextBlock.Visibility = Visibility.Visible;
+        private void ResetCurrentBoard()
+        {
+            ViewModel.CurrentBoard.Board.Name = ""; // uwp bug
+            ViewModel.CurrentBoard.Board.Notes = ""; // uwp bug
+            ViewModel.CurrentBoard = null; // uwp bug
+            ViewModel.CurrentBoard = ViewModel.BoardList.LastOrDefault();
         }
 
         private void BoardListDialog_Loaded(object sender, RoutedEventArgs e)

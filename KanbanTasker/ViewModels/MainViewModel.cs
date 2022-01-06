@@ -150,6 +150,11 @@ namespace KanbanTasker.ViewModels
             get => dataProvider;
         }
 
+        public IAppNotificationService AppNotificationService
+        {
+            get => _appNotificationService;
+        }
+
         public async void NewBoard()
         {
             var dialogOpen = _dialogService.CheckForOpenDialog();
