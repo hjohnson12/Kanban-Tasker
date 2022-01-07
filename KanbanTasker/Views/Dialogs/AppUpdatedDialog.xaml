@@ -52,7 +52,7 @@
                     HorizontalAlignment="Left"
                     FontSize="15"
                     FontWeight="Bold"
-                    Text="Version 1.3.5 Update Notes"
+                    Text="Version 1.3.4 Update Notes"
                     TextDecorations="Underline"
                     TextWrapping="Wrap" />
                 <TextBlock
@@ -84,7 +84,7 @@
                     HorizontalAlignment="Left"
                     TextDecorations="Underline"
                     TextWrapping="Wrap">
-                    <LineBreak /><Run>Changes for v1.3.3-1.3.4:</Run>
+                    <LineBreak /><Run>Changes for v1.3.3:</Run>
                 </TextBlock>
                 <TextBlock
                     Margin="0,12,0,0"
