@@ -52,11 +52,11 @@
                 Margin="0,0,0,12"
                 Text="A simple Kanban Board application to organize the flow of your work and supports as many boards as you would like to create"
                 TextWrapping="Wrap" />
-            <TextBlock Text="- Modern and fluent user interface" />
             <TextBlock Text="- Multi-board support" />
             <TextBlock Text="- Add/remove columns" />
             <TextBlock Text="- Edit column names on a board" />
             <TextBlock Text="- Edit column max task limit" />
+            <TextBlock Text="- Board list dialog to delete one or more boards at a time" />
             <TextBlock Text="- Backup or restore data with OneDrive and your preferred Microsoft Account" TextWrapping="Wrap" />
             <TextBlock Text="- Reminder notifications for tasks" />
             <TextBlock Text="- Mini task calendar that shows tasks with due dates" />
