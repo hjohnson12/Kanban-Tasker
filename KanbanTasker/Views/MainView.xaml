@@ -198,6 +198,7 @@
                         x:Name="btnOpenTaskCalendar"
                         Width="40"
                         Command="{x:Bind ViewModel.OpenCalendarCommand}"
+                        ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="View Task Calendar">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;" />
@@ -207,6 +208,7 @@
                         x:Name="btnCompactOverlay"
                         Width="40"
                         Click="BtnCompactOverlay_Click"
+                        ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="Compact Overlay (PiP) Mode">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;" />
@@ -217,6 +219,7 @@
                         Width="40"
                         Click="{x:Bind ViewModel.OpenSettingsDialog}"
                         Icon="Setting"
+                        ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="Settings" />
                 </StackPanel>
             </NavigationView.PaneFooter>
