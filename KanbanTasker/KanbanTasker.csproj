@@ -146,12 +146,12 @@
     <Compile Include="Helpers\CalendarViewHelper.cs" />
     <Compile Include="Behaviors\ComboBoxSelectionChangedTriggerBehavior.cs" />
     <Compile Include="Helpers\CustomKanbanColumn.cs" />
-    <Compile Include="Helpers\Microsoft Graph\Authentication\AuthenticationProvider.cs" />
+    <Compile Include="Helpers\MicrosoftGraph\Authentication\AuthenticationProvider.cs" />
     <Compile Include="Extensions\CustomExtensionMethods.cs" />
-    <Compile Include="Helpers\Microsoft Graph\GraphServiceHelper.cs" />
-    <Compile Include="Helpers\Microsoft Graph\Requests\IRequest.cs" />
-    <Compile Include="Helpers\Microsoft Graph\Requests\OneDriveRequests.cs" />
-    <Compile Include="Helpers\Microsoft Graph\Requests\UserRequests.cs" />
+    <Compile Include="Helpers\MicrosoftGraph\GraphServiceHelper.cs" />
+    <Compile Include="Helpers\MicrosoftGraph\Requests\IRequest.cs" />
+    <Compile Include="Helpers\MicrosoftGraph\Requests\OneDriveRequests.cs" />
+    <Compile Include="Helpers\MicrosoftGraph\Requests\UserRequests.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
     <Compile Include="Models\PresentationColumn.cs" />

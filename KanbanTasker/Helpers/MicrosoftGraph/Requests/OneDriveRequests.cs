@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace KanbanTasker.Helpers.Microsoft_Graph.Requests
+namespace KanbanTasker.Helpers.MicrosoftGraph.Requests
 {
     public class OneDriveRequests : IRequest
     {

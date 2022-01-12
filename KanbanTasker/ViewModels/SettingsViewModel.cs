@@ -9,8 +9,6 @@ using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using KanbanTasker.Base;
 using KanbanTasker.Services;
-using KanbanTasker.Helpers.Microsoft_Graph;
-using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
 using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.ViewModels

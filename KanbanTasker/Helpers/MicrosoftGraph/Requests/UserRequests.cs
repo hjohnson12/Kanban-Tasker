@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanTasker.Helpers.Microsoft_Graph.Requests
+namespace KanbanTasker.Helpers.MicrosoftGraph.Requests
 {
     public class UserRequests : IRequest
     {

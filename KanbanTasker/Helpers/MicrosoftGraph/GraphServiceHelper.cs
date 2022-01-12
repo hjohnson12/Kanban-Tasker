@@ -1,5 +1,5 @@
 ﻿using KanbanTasker.Extensions;
-using KanbanTasker.Helpers.Microsoft_Graph.Requests;
+using KanbanTasker.Helpers.MicrosoftGraph.Requests;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace KanbanTasker.Helpers.Microsoft_Graph
+namespace KanbanTasker.Helpers.MicrosoftGraph
 {
     /// <summary>
     /// A helper class to interact with the Microsoft Graph SDK.

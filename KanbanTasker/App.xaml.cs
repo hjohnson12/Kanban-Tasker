@@ -1,7 +1,4 @@
-﻿using KanbanTasker.ViewModels;
-using KanbanTasker.Views;
-using Microsoft.Services.Store.Engagement;
-using System;
+﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -18,13 +15,14 @@ using KanbanTasker.Model;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
+using Microsoft.Services.Store.Engagement;
 using Microsoft.Graph;
 using Application = Windows.UI.Xaml.Application;
 using KanbanTasker.Services;
-using KanbanTasker.Helpers.Microsoft_Graph;
 using KanbanTasker.Helpers;
 using KanbanTasker.Model.Services;
+using KanbanTasker.ViewModels;
+using KanbanTasker.Views;
 
 namespace KanbanTasker
 {

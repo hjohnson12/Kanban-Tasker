@@ -1,11 +1,6 @@
-﻿using KanbanTasker.Helpers.Microsoft_Graph;
-using KanbanTasker.Helpers.Microsoft_Graph.Authentication;
-using KanbanTasker.Helpers.Microsoft_Graph.Requests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KanbanTasker.Helpers.MicrosoftGraph;
+using KanbanTasker.Helpers.MicrosoftGraph.Authentication;
+using KanbanTasker.Helpers.MicrosoftGraph.Requests;
 
 namespace KanbanTasker.Services
 {
