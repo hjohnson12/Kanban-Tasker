@@ -4,6 +4,9 @@ using KanbanTasker.Helpers.MicrosoftGraph.Requests;
 
 namespace KanbanTasker.Services
 {
+    /// <summary>
+    /// A class to interact with properties pertaining to parts of the Microsoft Graph API
+    /// </summary>
     public class GraphService
     {
         private string[] scopes = new string[] { "files.readwrite", "user.read" };
