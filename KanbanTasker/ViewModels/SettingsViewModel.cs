@@ -22,7 +22,6 @@ namespace KanbanTasker.ViewModels
         private const int NOTIFICATION_DURATION = 3000;
         public const string DataFilename = "ktdatabase.db";
         public const string BackupFolderName = "Kanban Tasker";
-        private readonly AuthenticationProvider authProvider;
         private string _welcomeText;
         private bool _isSignoutEnabled;
         private bool _isProgressRingActive = false;
@@ -46,8 +45,6 @@ namespace KanbanTasker.ViewModels
 
             _appNotificationService = appNotificationService;
             _graphService = graphService;
-
-            //authProvider = App.GetAuthenticationProvider();
 
             if (App.CurrentUser != null)
             {
@@ -110,9 +107,6 @@ namespace KanbanTasker.ViewModels
                 // Request a token to sign in the user
                 var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
 
-                // Initialize Graph Client
-                //GraphServiceHelper.InitializeClient(authProvider);
-
                 // Set current user (temp)
                 App.CurrentUser = await _graphService.User.GetMeAsync();
 
@@ -141,7 +135,7 @@ namespace KanbanTasker.ViewModels
                     // https://docs.microsoft.com/en-us/graph/known-issues#files-onedrive
 
                     // Empty all cached accounts / data to allow user to rety
-                    await authProvider.SignOut();
+                    await _graphService.AuthenticationProvider.SignOut();
 
                     DisplayNotificationMessage("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
                 }
@@ -201,10 +195,7 @@ namespace KanbanTasker.ViewModels
             try
             {
                 // Request a token to sign in the user
-                var accessToken = await authProvider.GetAccessToken();
-
-                // Initialize Graph Client
-                //GraphServiceHelper.InitializeClient(authProvider);
+                var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
 
                 // Set current user (temp)
                 App.CurrentUser = await _graphService.User.GetMeAsync();
@@ -238,7 +229,7 @@ namespace KanbanTasker.ViewModels
                     // https://docs.microsoft.com/en-us/graph/known-issues#files-onedrive
 
                     // Empty all cached accounts / data to allow user to rety
-                    await authProvider.SignOut();
+                    await _graphService.AuthenticationProvider.SignOut();
 
                     DisplayNotificationMessage("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
                 }
