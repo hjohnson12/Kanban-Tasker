@@ -102,6 +102,7 @@
                         Click="ShowFlyout"
                         Icon="Edit"
                         Style="{StaticResource AppBarButtonCustomStyle}"
+                        ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="Edit Current Board">
                         <FlyoutBase.AttachedFlyout>
                             <Flyout
@@ -139,6 +140,7 @@
                         Click="ShowFlyout"
                         Icon="Delete"
                         Style="{ThemeResource AppBarButtonCustomStyle}"
+                        ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="Delete Current Board">
                         <FlyoutBase.AttachedFlyout>
                             <Flyout
