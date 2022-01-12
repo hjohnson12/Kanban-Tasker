@@ -18,6 +18,7 @@ namespace KanbanTasker.ViewModels
     public class SettingsViewModel : Observable
     {
         private readonly IAppNotificationService _appNotificationService;
+        private readonly GraphService _graphService;
         private const int NOTIFICATION_DURATION = 3000;
         public const string DataFilename = "ktdatabase.db";
         public const string BackupFolderName = "Kanban Tasker";
@@ -35,15 +36,18 @@ namespace KanbanTasker.ViewModels
         public ICommand RestoreDatabaseCommand { get; set; }
         public ICommand SignoutUserCommand { get; set; }
 
-        public SettingsViewModel(IAppNotificationService appNotificationService)
+        public SettingsViewModel(
+            IAppNotificationService appNotificationService,
+            GraphService graphService)
         {
             BackupDatabaseCommand = new RelayCommand(BackupToOneDrive, () => true);
             RestoreDatabaseCommand = new RelayCommand(RestoreFromOneDrive, () => true);
             SignoutUserCommand = new RelayCommand(SignOut, () => IsSignoutEnabled);
 
             _appNotificationService = appNotificationService;
+            _graphService = graphService;
 
-            authProvider = App.GetAuthenticationProvider();
+            //authProvider = App.GetAuthenticationProvider();
 
             if (App.CurrentUser != null)
             {
@@ -104,27 +108,27 @@ namespace KanbanTasker.ViewModels
             try
             {
                 // Request a token to sign in the user
-                var accessToken = await authProvider.GetAccessToken();
+                var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
 
                 // Initialize Graph Client
-                GraphServiceHelper.InitializeClient(authProvider);
+                //GraphServiceHelper.InitializeClient(authProvider);
 
                 // Set current user (temp)
-                App.CurrentUser = await GraphServiceHelper.GetMeAsync();
+                App.CurrentUser = await _graphService.User.GetMeAsync();
 
                 // Find backupFolder in user's OneDrive, if it exists
-                DriveItem backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+                DriveItem backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
 
                 // Create backup folder in OneDrive if not exists
                 if (backupFolder == null)
-                    backupFolder = await GraphServiceHelper.CreateNewOneDriveFolderAsync("Kanban Tasker");
+                    backupFolder = await _graphService.OneDrive.CreateNewFolderAsync("Kanban Tasker");
 
                 // Backup datafile (or overwrite)
-                DriveItem uploadedFile = await GraphServiceHelper.UploadFileToOneDriveAsync(backupFolder.Id, DataFilename);
+                DriveItem uploadedFile = await _graphService.OneDrive.UploadFileAsync(backupFolder.Id, DataFilename);
 
                 DisplayNotificationMessage("Data backed up successfully");
 
-                var displayName = await GraphServiceHelper.GetMyDisplayNameAsync();
+                var displayName = await _graphService.User.GetMyDisplayNameAsync();
                 WelcomeText = "Welcome " + displayName;
                 IsSignoutEnabled = true;
             }
@@ -200,22 +204,22 @@ namespace KanbanTasker.ViewModels
                 var accessToken = await authProvider.GetAccessToken();
 
                 // Initialize Graph Client
-                GraphServiceHelper.InitializeClient(authProvider);
+                //GraphServiceHelper.InitializeClient(authProvider);
 
                 // Set current user (temp)
-                App.CurrentUser = await GraphServiceHelper.GetMeAsync();
+                App.CurrentUser = await _graphService.User.GetMeAsync();
 
                 // Find the backupFolder in OneDrive, if it exists
-                var backupFolder = await GraphServiceHelper.GetOneDriveFolderAsync("Kanban Tasker");
+                var backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
 
                 if (backupFolder != null)
                 {
                     // Restore local data file using the backup file, if it exists
-                    await GraphServiceHelper.RestoreFileFromOneDriveAsync(backupFolder.Id, "ktdatabase.db");
+                    await _graphService.OneDrive.RestoreFileAsync(backupFolder.Id, "ktdatabase.db");
 
                     DisplayNotificationMessage("Data restored successfully");
 
-                    var displayName = await GraphServiceHelper.GetMyDisplayNameAsync();
+                    var displayName = await _graphService.User.GetMyDisplayNameAsync();
                     WelcomeText = "Welcome " + App.CurrentUser.GivenName;
                     IsSignoutEnabled = true;
 
@@ -287,7 +291,7 @@ namespace KanbanTasker.ViewModels
 
             try
             {
-                await authProvider.SignOut();
+                await _graphService.AuthenticationProvider.SignOut();
 
                 WelcomeText = "User has signed-out";
                 IsSignoutEnabled = false;

@@ -17,7 +17,9 @@ namespace KanbanTasker.Views.Dialogs
         {
             this.InitializeComponent();
 
-            DataContext = new SettingsViewModel(App.container.Resolve<IAppNotificationService>());
+            DataContext = new SettingsViewModel(
+                App.container.Resolve<IAppNotificationService>(),
+                App.container.Resolve<GraphService>());
         }
         
         private void BtnCloseSettings_Click(object sender, RoutedEventArgs e)

@@ -39,10 +39,6 @@ namespace KanbanTasker
         /// </summary>
         /// 
         public static IContainer container;
-        private string[] scopes = new string[] { "files.readwrite", "user.read" };
-        private string appId = "422b281b-be2b-4d8a-9410-7605c92e4ff1";
-        private static AuthenticationProvider authProvider;
-        public AuthenticationProvider AuthProvider { get; set; }
         public static User CurrentUser { get; set; }
 
         public App()
@@ -106,15 +102,6 @@ namespace KanbanTasker
                 new TypedParameter(typeof(INavigationService), navigationService),
                 new TypedParameter(typeof(IAppNotificationService), appNotificationService),
                 new TypedParameter(typeof(IDialogService), dialogService));
-        }
-        
-        /// <summary>
-        /// Returns the current instance of the AuthenticationProvider.
-        /// </summary>
-        /// <returns></returns>
-        public static AuthenticationProvider GetAuthenticationProvider()
-        {
-            return authProvider;
         }
 
         /// <summary>
@@ -183,15 +170,14 @@ namespace KanbanTasker
         /// </summary>
         public async Task GetCurrentUserIfSignedIn()
         {
-            authProvider = new AuthenticationProvider(appId, scopes);
+            // Get the Microsoft Graph service class
+            GraphService graphService = container.Resolve<GraphService>();
 
-            GraphServiceHelper.InitializeClient(authProvider);
-
-            var account = await authProvider.GetSignedInUser();
+            var account = await graphService.AuthenticationProvider.GetSignedInUser();
             if (account != null)
             {
-                await authProvider.GetAccessToken();
-                CurrentUser = await GraphServiceHelper.GetMeAsync();
+                await graphService.AuthenticationProvider.GetAccessToken();
+                CurrentUser = await graphService.User.GetMeAsync();
             }
         }
 

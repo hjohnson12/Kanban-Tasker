@@ -149,12 +149,16 @@
     <Compile Include="Helpers\Microsoft Graph\Authentication\AuthenticationProvider.cs" />
     <Compile Include="Extensions\CustomExtensionMethods.cs" />
     <Compile Include="Helpers\Microsoft Graph\GraphServiceHelper.cs" />
+    <Compile Include="Helpers\Microsoft Graph\Requests\IRequest.cs" />
+    <Compile Include="Helpers\Microsoft Graph\Requests\OneDriveRequests.cs" />
+    <Compile Include="Helpers\Microsoft Graph\Requests\UserRequests.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
     <Compile Include="Models\PresentationBoard.cs" />
     <Compile Include="Models\PresentationColumn.cs" />
     <Compile Include="Models\PresentationTask.cs" />
     <Compile Include="Services\AppNotificationService.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\GraphService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\ToastService.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />

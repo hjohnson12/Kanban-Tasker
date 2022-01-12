@@ -30,6 +30,9 @@ namespace KanbanTasker
             builder.RegisterType<NavigationService>()
                 .As<INavigationService>()
                 .SingleInstance();
+
+            builder.RegisterType<GraphService>()
+                .SingleInstance();
         }
     }
 }
