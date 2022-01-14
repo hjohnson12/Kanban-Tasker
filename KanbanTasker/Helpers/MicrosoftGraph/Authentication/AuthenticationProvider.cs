@@ -1,5 +1,6 @@
 ﻿using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +9,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Security.Authentication.Web;
+using Windows.System;
 
 namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
 {
@@ -18,27 +21,42 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
     {
         private IPublicClientApplication _msalClient;
         private string[] _scopes;
-
         private IAccount _userAccount;
 
-        private AuthenticationResult authResult { get; set; }
+        // DQ for the associated UI thread
+        private DispatcherQueue _dispatcherQueue;
+
+        private AuthenticationResult AuthResult { get; set; }
 
         public AuthenticationProvider(string appId, string[] scopes)
         {
             _scopes = scopes;
 
-            _msalClient = PublicClientApplicationBuilder.Create(appId)
-                .WithAuthority("https://login.microsoftonline.com/common")
-                .WithLogging((level, message, containsPii) =>
-                {
-                    Debug.WriteLine($"MSAL: {level} {message} ");
-                }, LogLevel.Warning, enablePiiLogging: false, enableDefaultPlatformLogging: true)
-                .WithUseCorporateNetwork(true)
-                .WithRedirectUri("https://login.microsoftonline.com/common/oauth2/nativeclient")
-                .Build();
+            string sid = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpper();
 
-            authResult = null;
+            // The redirect uri needed to register
+            string redirectUriWithWAM = $"ms-appx-web://microsoft.aad.brokerplugin/{sid}";
+
+            // Configure MSAL client using Web Account Manager (WAM)
+            _msalClient = PublicClientApplicationBuilder.Create(appId)
+                                .WithBroker(true)
+                                .WithRedirectUri(redirectUriWithWAM)
+                                .Build();
+
+            // OLD - With HostAuth and not WAM
+            //_msalClient = PublicClientApplicationBuilder.Create(appId)
+            //    .WithAuthority(Authority)
+            //    .WithLogging((level, message, containsPii) =>
+            //    {
+            //        Debug.WriteLine($"MSAL: {level} {message} ");
+            //    }, LogLevel.Warning, enablePiiLogging: false, enableDefaultPlatformLogging: true)
+            //    .WithUseCorporateNetwork(true)
+            //    .WithRedirectUri("https://login.microsoftonline.com/common/oauth2/nativeclient")
+            //    .Build();
+
+            AuthResult = null;
         }
+
 
         public async Task<IAccount> GetSignedInUser()
         {
@@ -61,10 +79,10 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                 try
                 {
                     // Attempts to acquire access token for the account from the user token cache
-                    authResult = await _msalClient.AcquireTokenSilent(_scopes, firstAccount)
+                    AuthResult = await _msalClient.AcquireTokenSilent(_scopes, firstAccount)
                                                       .ExecuteAsync();
-                    _userAccount = authResult.Account;
-                    return authResult.AccessToken;
+                    _userAccount = AuthResult.Account;
+                    return AuthResult.AccessToken;
                 }
                 catch (MsalUiRequiredException ex)
                 {
@@ -77,8 +95,21 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                     {
                         // Request for interactive window to allow the user to select 
                         // an account, which aquires a token for the scopes if sucessful
-                        authResult = await _msalClient.AcquireTokenInteractive(_scopes)
-                                                          .ExecuteAsync();
+                        AuthResult = await Task.Run<AuthenticationResult>(async () =>
+                        {
+                            // Task.Run() will guarantee the given piece of code be executed on a separate thread pool.
+                            // Used to simulate the scenario of running the prompt on the UI from a different thread.
+                            return await _dispatcherQueue.EnqueueAsync<AuthenticationResult>(async () =>
+                            {
+                                return await _msalClient.AcquireTokenInteractive(_scopes)
+                                                            .WithAccount(firstAccount)
+                                                            .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
+                                                            .ExecuteAsync();
+                            });
+
+                            // Above was called from non-UI thread, then executed the Interactive prompt on the UI thread,
+                            // and then returned from that thread
+                        });
                     }
                     catch (MsalException msalex)
                     {
@@ -97,7 +128,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                     return null;
                 }
 
-                return authResult == null ? "" : authResult.AccessToken;
+                return AuthResult == null ? "" : AuthResult.AccessToken;
             }
             else // Account Exists
             {
@@ -147,6 +178,11 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                 System.Diagnostics.Debug.WriteLine($"MsalException, Error signing-out user: {ex.Message}");
                 throw;
             }
+        }
+
+        public void SetDispatcherQueue(DispatcherQueue dq)
+        {
+            this._dispatcherQueue = dq;
         }
     }
 }
