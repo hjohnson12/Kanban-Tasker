@@ -23,7 +23,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
         private string[] _scopes;
         private IAccount _userAccount;
 
-        // DQ for the associated UI thread
+        // DQ for the associated UI thread to show the Interactive prompt on
         private DispatcherQueue _dispatcherQueue;
 
         private AuthenticationResult AuthResult { get; set; }

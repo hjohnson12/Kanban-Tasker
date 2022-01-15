@@ -23,7 +23,7 @@ namespace KanbanTasker.Views.Dialogs
                 App.container.Resolve<GraphService>());
 
             // Used so that the InteractivePrompt for MicrosoftGraph
-            // can run on the UI thread for WAM (Windows Account Manager)
+            // can run on the UI thread for WAM (Web Account Manager)
             ViewModel.SetDispatcher(DispatcherQueue.GetForCurrentThread());
         }
         
