@@ -27,8 +27,6 @@ namespace KanbanTasker.ViewModels
         private bool _isBackupPopupOpen;
         private bool _isSignoutPopupOpen;
         private bool _isRestorePopupOpen;
-        private DispatcherQueue _dispatcherQueue;
-
         public Microsoft.Graph.User CurrentUser { get; set; }
 
         public ICommand BackupDatabaseCommand { get; set; }
@@ -105,7 +103,6 @@ namespace KanbanTasker.ViewModels
             try
             {
                 // Request a token to sign in the user
-                _graphService.AuthenticationProvider.SetDispatcherQueue(_dispatcherQueue);
                 var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
 
                 // Set current user (temp)
@@ -304,7 +301,10 @@ namespace KanbanTasker.ViewModels
             _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
         }
 
-        public void SetDispatcher(DispatcherQueue dispatcherQueue) => this._dispatcherQueue = dispatcherQueue;
+        public void SetDispatcher(DispatcherQueue dispatcherQueue)
+        {
+            _graphService.AuthenticationProvider.SetDispatcherQueue(dispatcherQueue);
+        }
 
         public void ShowBackupPopup() => IsBackupPopupOpen = true;
 
