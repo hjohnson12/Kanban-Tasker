@@ -125,7 +125,7 @@ namespace KanbanTasker.ViewModels
                 // Backup datafile (or overwrite)
                 DriveItem uploadedFile = await _graphService.OneDrive.UploadFileAsync(backupFolder.Id, DataFilename);
 
-                DisplayNotificationMessage("Data backed up successfully");
+                DisplayNotification("Data backed up successfully");
 
                 var displayName = await _graphService.User.GetMyDisplayNameAsync();
                 WelcomeText = "Welcome " + displayName;
@@ -142,45 +142,45 @@ namespace KanbanTasker.ViewModels
                     // Empty all cached accounts / data to allow user to rety
                     await _graphService.AuthenticationProvider.SignOut();
 
-                    DisplayNotificationMessage("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
+                    DisplayNotification("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
-                    DisplayNotificationMessage("Error 404. Resource requested is not available.");
+                    DisplayNotification("Error 404. Resource requested is not available.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.Conflict)
                 {
-                    DisplayNotificationMessage("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
+                    DisplayNotification("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.BadGateway)
                 {
-                    DisplayNotificationMessage("Error 502. Bad Gateway.\nPlease check your internet connection and try again in a few.");
+                    DisplayNotification("Error 502. Bad Gateway.\nPlease check your internet connection and try again in a few.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    DisplayNotificationMessage("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
+                    DisplayNotification("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
                 }
                 else if (ex.IsMatch(GraphErrorCode.GeneralException.ToString()))
                 {
-                    DisplayNotificationMessage("General Exception. Please check your internet connection and try again in a few.");
+                    DisplayNotification("General Exception. Please check your internet connection and try again in a few.");
                 }
             }
             catch (MsalException msalex)
             {
                 if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
                 {
-                    DisplayNotificationMessage(msalex.Message);
+                    DisplayNotification(msalex.Message);
                 }
                 else if (msalex.ErrorCode == MsalError.InvalidGrantError)
                 {
                     // invalid_grant ErrorCode comes from no consent
                     // for the correct scopes (todo: add interactive retry)
-                    DisplayNotificationMessage("Invalid access scopes, please contact the developer.");
+                    DisplayNotification("Invalid access scopes, please contact the developer.");
                 }
             }
             catch (Exception ex)
             {
-                DisplayNotificationMessage(ex.Message);
+                DisplayNotification(ex.Message);
             }
             finally
             {
@@ -213,7 +213,7 @@ namespace KanbanTasker.ViewModels
                     // Restore local data file using the backup file, if it exists
                     await _graphService.OneDrive.RestoreFileAsync(backupFolder.Id, "ktdatabase.db");
 
-                    DisplayNotificationMessage("Data restored successfully");
+                    DisplayNotification("Data restored successfully");
 
                     var displayName = await _graphService.User.GetMyDisplayNameAsync();
                     WelcomeText = "Welcome " + App.CurrentUser.GivenName;
@@ -223,7 +223,7 @@ namespace KanbanTasker.ViewModels
                     await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("");
                 }
                 else
-                    DisplayNotificationMessage("No backup folder found to restore from.");
+                    DisplayNotification("No backup folder found to restore from.");
             }
             catch (ServiceException ex)
             {
@@ -236,44 +236,44 @@ namespace KanbanTasker.ViewModels
                     // Empty all cached accounts / data to allow user to rety
                     await _graphService.AuthenticationProvider.SignOut();
 
-                    DisplayNotificationMessage("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
+                    DisplayNotification("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
-                    DisplayNotificationMessage("Error 404. Resource requested is not available.");
+                    DisplayNotification("Error 404. Resource requested is not available.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.Conflict)
                 {
-                    DisplayNotificationMessage("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
+                    DisplayNotification("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.BadGateway)
                 {
-                    DisplayNotificationMessage("Error 502. Bad Gateway.\nPlease check your internet connection and try again in a few.");
+                    DisplayNotification("Error 502. Bad Gateway.\nPlease check your internet connection and try again in a few.");
                 }
                 else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    DisplayNotificationMessage("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
+                    DisplayNotification("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
                 }
                 else if (ex.IsMatch(GraphErrorCode.GeneralException.ToString()))
                 {
-                    DisplayNotificationMessage("General Exception. Please check your internet connection and try again in a few.");
+                    DisplayNotification("General Exception. Please check your internet connection and try again in a few.");
                 }
             }
             catch (MsalException msalex)
             {
                 if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
                 {
-                    DisplayNotificationMessage(msalex.Message);
+                    DisplayNotification(msalex.Message);
                 }
                 else if (msalex.ErrorCode == MsalError.InvalidGrantError)
                 {
                     // invalid_grant comes from no consent to needed scopes
-                    DisplayNotificationMessage("Invalid access scopes, please contact the developer.");
+                    DisplayNotification("Invalid access scopes, please contact the developer.");
                 }
             }
             catch (Exception ex)
             {
-                DisplayNotificationMessage("Unexpected Error: " + ex.Message);
+                DisplayNotification("Unexpected Error: " + ex.Message);
             }
             finally
             {
@@ -295,7 +295,7 @@ namespace KanbanTasker.ViewModels
             }
             catch (MsalException ex)
             {
-                DisplayNotificationMessage(ex.Message);
+                DisplayNotification(ex.Message);
             }
         }
 
@@ -303,7 +303,7 @@ namespace KanbanTasker.ViewModels
         /// Display a notification message to the user on the screen.
         /// </summary>
         /// <param name="message"></param>
-        public void DisplayNotificationMessage(string message)
+        public void DisplayNotification(string message)
         {
             _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
         }
