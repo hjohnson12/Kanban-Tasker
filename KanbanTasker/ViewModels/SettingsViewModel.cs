@@ -11,6 +11,7 @@ using KanbanTasker.Base;
 using KanbanTasker.Services;
 using KanbanTasker.Model.Services;
 using Windows.System;
+using System.Threading;
 
 namespace KanbanTasker.ViewModels
 {
@@ -27,6 +28,8 @@ namespace KanbanTasker.ViewModels
         private bool _isBackupPopupOpen;
         private bool _isSignoutPopupOpen;
         private bool _isRestorePopupOpen;
+        private SynchronizationContext _syncrhonizationContext;
+
         public Microsoft.Graph.User CurrentUser { get; set; }
 
         public ICommand BackupDatabaseCommand { get; set; }
@@ -43,6 +46,10 @@ namespace KanbanTasker.ViewModels
 
             _appNotificationService = appNotificationService;
             _graphService = graphService;
+
+            // Context to the original thread of the calling code (i.e., UI thread)
+            _syncrhonizationContext = SynchronizationContext.Current;
+            _graphService.AuthenticationProvider.SetSyncrhonizationContext(_syncrhonizationContext);
 
             if (App.CurrentUser != null)
             {
@@ -299,11 +306,6 @@ namespace KanbanTasker.ViewModels
         public void DisplayNotificationMessage(string message)
         {
             _appNotificationService.DisplayNotificationAsync(message, NOTIFICATION_DURATION);
-        }
-
-        public void SetDispatcher(DispatcherQueue dispatcherQueue)
-        {
-            _graphService.AuthenticationProvider.SetDispatcherQueue(dispatcherQueue);
         }
 
         public void ShowBackupPopup() => IsBackupPopupOpen = true;

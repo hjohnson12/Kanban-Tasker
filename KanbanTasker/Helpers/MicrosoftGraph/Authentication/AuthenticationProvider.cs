@@ -8,9 +8,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Security.Authentication.Web;
-using Windows.System;
 
 namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
 {
@@ -22,9 +22,10 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
         private IPublicClientApplication _msalClient;
         private string[] _scopes;
         private IAccount _userAccount;
+        private IAccount accountToLogin;
 
-        // DQ for the associated UI thread to show the Interactive prompt on
-        private DispatcherQueue _dispatcherQueue;
+        // SynchContext for the associated UI thread to show the Interactive prompt on
+        private SynchronizationContext _synchronizationContext;
 
         private AuthenticationResult AuthResult { get; set; }
 
@@ -70,6 +71,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
             // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
             IAccount firstAccount = accounts.FirstOrDefault();
+            accountToLogin = firstAccount;
 
             _userAccount = firstAccount;
 
@@ -95,20 +97,24 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                     {
                         // Request for interactive window to allow the user to select 
                         // an account, which aquires a token for the scopes if sucessful
-                        AuthResult = await Task.Run<AuthenticationResult>(async () =>
+                        AuthResult = await Task.Run<AuthenticationResult>(() =>
                         {
                             // Task.Run() will guarantee the given piece of code be executed on a separate thread pool.
                             // Used to simulate the scenario of running the prompt on the UI from a different thread.
-                            return await _dispatcherQueue.EnqueueAsync<AuthenticationResult>(async () =>
+                            var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
+
+                            // Uses Post to show the interactive prompt on the UI thread of the given context
+                            _synchronizationContext.Post(async (_) =>
                             {
-                                return await _msalClient.AcquireTokenInteractive(_scopes)
-                                                            .WithAccount(firstAccount)
+                                var authResult = await _msalClient.AcquireTokenInteractive(_scopes)
+                                                            .WithAccount(accountToLogin)
                                                             .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
                                                             .ExecuteAsync();
-                            });
+                                taskCompletionSource.SetResult(authResult);
 
-                            // Above was called from non-UI thread, then executed the Interactive prompt on the UI thread,
-                            // and then returned from that thread
+                            }, null);
+
+                            return taskCompletionSource.Task;
                         });
                     }
                     catch (MsalException msalex)
@@ -142,6 +148,27 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
 
                 return result.AccessToken;
             }
+        }
+
+        /// <summary>
+        /// Displays the interactive prompt for authentication in the UI thread using a
+        /// syncrhonization context
+        /// </summary>
+        /// <returns></returns>
+        private Task<AuthenticationResult> ShowInteractivePrompt()
+        {
+            var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
+            _synchronizationContext.Post(async (_) =>
+            {
+                var authResult = await _msalClient.AcquireTokenInteractive(_scopes)
+                                            .WithAccount(accountToLogin)
+                                            .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
+                                            .ExecuteAsync();
+                taskCompletionSource.SetResult(authResult);
+
+            }, null);
+
+            return taskCompletionSource.Task;
         }
 
         /// <summary>
@@ -180,9 +207,9 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
             }
         }
 
-        public void SetDispatcherQueue(DispatcherQueue dq)
+        public void SetSyncrhonizationContext(SynchronizationContext context)
         {
-            this._dispatcherQueue = dq;
+            this._synchronizationContext = context;
         }
     }
 }

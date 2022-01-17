@@ -21,10 +21,6 @@ namespace KanbanTasker.Views.Dialogs
             DataContext = new SettingsViewModel(
                 App.container.Resolve<IAppNotificationService>(),
                 App.container.Resolve<GraphService>());
-
-            // Used so that the InteractivePrompt for MicrosoftGraph
-            // can run on the UI thread for WAM (Web Account Manager)
-            ViewModel.SetDispatcher(DispatcherQueue.GetForCurrentThread());
         }
         
         private void BtnCloseSettings_Click(object sender, RoutedEventArgs e)
