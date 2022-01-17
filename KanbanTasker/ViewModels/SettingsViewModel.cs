@@ -259,7 +259,7 @@ namespace KanbanTasker.ViewModels
                     DisplayNotification("General Exception. Please check your internet connection and try again in a few.");
                 }
             }
-            catch (MsalException msalex)
+            catch (MsalClientException msalex)
             {
                 if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
                 {
@@ -269,6 +269,10 @@ namespace KanbanTasker.ViewModels
                 {
                     // invalid_grant comes from no consent to needed scopes
                     DisplayNotification("Invalid access scopes, please contact the developer.");
+                }
+                else
+                {
+                    DisplayNotification(msalex.Message);
                 }
             }
             catch (Exception ex)

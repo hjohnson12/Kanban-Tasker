@@ -97,24 +97,11 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                     {
                         // Request for interactive window to allow the user to select 
                         // an account, which aquires a token for the scopes if sucessful
-                        AuthResult = await Task.Run<AuthenticationResult>(() =>
+                        AuthResult = await Task.Run<AuthenticationResult>(async () =>
                         {
                             // Task.Run() will guarantee the given piece of code be executed on a separate thread pool.
                             // Used to simulate the scenario of running the prompt on the UI from a different thread.
-                            var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
-
-                            // Uses Post to show the interactive prompt on the UI thread of the given context
-                            _synchronizationContext.Post(async (_) =>
-                            {
-                                var authResult = await _msalClient.AcquireTokenInteractive(_scopes)
-                                                            .WithAccount(accountToLogin)
-                                                            .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
-                                                            .ExecuteAsync();
-                                taskCompletionSource.SetResult(authResult);
-
-                            }, null);
-
-                            return taskCompletionSource.Task;
+                            return await ShowInteractivePrompt();
                         });
                     }
                     catch (MsalException msalex)
@@ -158,14 +145,22 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
         private Task<AuthenticationResult> ShowInteractivePrompt()
         {
             var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
+
+            // Uses Post to show the interactive prompt on the UI thread of the given context
             _synchronizationContext.Post(async (_) =>
             {
-                var authResult = await _msalClient.AcquireTokenInteractive(_scopes)
+                try
+                {
+                    var authResult = await _msalClient.AcquireTokenInteractive(_scopes)
                                             .WithAccount(accountToLogin)
                                             .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
                                             .ExecuteAsync();
-                taskCompletionSource.SetResult(authResult);
-
+                    taskCompletionSource.SetResult(authResult);
+                }
+                catch (MsalClientException msalClientEx)
+                {
+                    taskCompletionSource.SetException(msalClientEx);
+                }
             }, null);
 
             return taskCompletionSource.Task;
