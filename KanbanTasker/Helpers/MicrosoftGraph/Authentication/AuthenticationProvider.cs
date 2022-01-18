@@ -202,7 +202,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
             }
         }
 
-        public void SetSyncrhonizationContext(SynchronizationContext context)
+        public void SetSynchronizationContext(SynchronizationContext context)
         {
             this._synchronizationContext = context;
         }

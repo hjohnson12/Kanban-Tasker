@@ -28,7 +28,7 @@ namespace KanbanTasker.ViewModels
         private bool _isBackupPopupOpen;
         private bool _isSignoutPopupOpen;
         private bool _isRestorePopupOpen;
-        private SynchronizationContext _syncrhonizationContext;
+        private SynchronizationContext _syncContext;
 
         public Microsoft.Graph.User CurrentUser { get; set; }
 
@@ -48,8 +48,8 @@ namespace KanbanTasker.ViewModels
             _graphService = graphService;
 
             // Context to the original thread of the calling code (i.e., UI thread)
-            _syncrhonizationContext = SynchronizationContext.Current;
-            _graphService.AuthenticationProvider.SetSyncrhonizationContext(_syncrhonizationContext);
+            _syncContext = SynchronizationContext.Current;
+            _graphService.AuthenticationProvider.SetSynchronizationContext(_syncContext);
 
             if (App.CurrentUser != null)
             {
