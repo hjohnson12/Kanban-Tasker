@@ -202,6 +202,11 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
             }
         }
 
+        /// <summary>
+        /// Sets the synchronization context from the calling code to allow running
+        /// the interactive prompt on the UI thread for WAM
+        /// </summary>
+        /// <param name="context"></param>
         public void SetSynchronizationContext(SynchronizationContext context)
         {
             this._synchronizationContext = context;
