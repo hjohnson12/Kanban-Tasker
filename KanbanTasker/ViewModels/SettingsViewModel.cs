@@ -107,85 +107,33 @@ namespace KanbanTasker.ViewModels
             IsProgressRingActive = true;
             ClosePopups();
 
-            try
-            {
-                // Request a token to sign in the user
-                var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
+            await ExecuteOperation(Backup);
+            IsProgressRingActive = false;
+        }
 
-                // Set current user (temp)
-                App.CurrentUser = await _graphService.User.GetMeAsync();
+        public async Task Backup()
+        {
+            // Request a token to sign in the user
+            var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
 
-                // Find backupFolder in user's OneDrive, if it exists
-                DriveItem backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
+            // Set current user (temp)
+            App.CurrentUser = await _graphService.User.GetMeAsync();
 
-                // Create backup folder in OneDrive if not exists
-                if (backupFolder == null)
-                    backupFolder = await _graphService.OneDrive.CreateNewFolderAsync("Kanban Tasker");
+            // Find backupFolder in user's OneDrive, if it exists
+            DriveItem backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
 
-                // Backup datafile (or overwrite)
-                DriveItem uploadedFile = await _graphService.OneDrive.UploadFileAsync(backupFolder.Id, DataFilename);
+            // Create backup folder in OneDrive if not exists
+            if (backupFolder == null)
+                backupFolder = await _graphService.OneDrive.CreateNewFolderAsync("Kanban Tasker");
 
-                DisplayNotification("Data backed up successfully");
+            // Backup datafile (or overwrite)
+            DriveItem uploadedFile = await _graphService.OneDrive.UploadFileAsync(backupFolder.Id, DataFilename);
 
-                var displayName = await _graphService.User.GetMyDisplayNameAsync();
-                WelcomeText = "Welcome " + displayName;
-                IsSignoutEnabled = true;
-            }
-            catch (ServiceException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    // MS Graph Known Error 
-                    // Users need to sign into OneDrive at least once
-                    // https://docs.microsoft.com/en-us/graph/known-issues#files-onedrive
+            DisplayNotification("Data backed up successfully");
 
-                    // Empty all cached accounts / data to allow user to rety
-                    await _graphService.AuthenticationProvider.SignOut();
-
-                    DisplayNotification("Error 401. Access Denied. Please make sure you've logged\ninto OneDrive and your email at least once then try again.");
-                }
-                else if (ex.StatusCode == HttpStatusCode.NotFound)
-                {
-                    DisplayNotification("Error 404. Resource requested is not available.");
-                }
-                else if (ex.StatusCode == HttpStatusCode.Conflict)
-                {
-                    DisplayNotification("Error 409. Error backing up, issue retrieving backup folder. Please try again.");
-                }
-                else if (ex.StatusCode == HttpStatusCode.BadGateway)
-                {
-                    DisplayNotification("Error 502. Bad Gateway.\nPlease check your internet connection and try again in a few.");
-                }
-                else if (ex.StatusCode == HttpStatusCode.ServiceUnavailable)
-                {
-                    DisplayNotification("Error 503. Service unavailable due to high load or maintenance.\nPlease try again in a few.");
-                }
-                else if (ex.IsMatch(GraphErrorCode.GeneralException.ToString()))
-                {
-                    DisplayNotification("General Exception. Please check your internet connection and try again in a few.");
-                }
-            }
-            catch (MsalException msalex)
-            {
-                if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
-                {
-                    DisplayNotification(msalex.Message);
-                }
-                else if (msalex.ErrorCode == MsalError.InvalidGrantError)
-                {
-                    // invalid_grant ErrorCode comes from no consent
-                    // for the correct scopes (todo: add interactive retry)
-                    DisplayNotification("Invalid access scopes, please contact the developer.");
-                }
-            }
-            catch (Exception ex)
-            {
-                DisplayNotification(ex.Message);
-            }
-            finally
-            {
-                IsProgressRingActive = false;
-            }
+            var displayName = await _graphService.User.GetMyDisplayNameAsync();
+            WelcomeText = "Welcome " + displayName;
+            IsSignoutEnabled = true;
         }
 
         /// <summary>
@@ -197,33 +145,44 @@ namespace KanbanTasker.ViewModels
             IsProgressRingActive = true;
             ClosePopups();
 
+            await ExecuteOperation(Restore);
+            IsProgressRingActive = false;
+        }
+
+        public async Task Restore()
+        {
+            // Request a token to sign in the user
+            var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
+
+            // Set current user (temp)
+            App.CurrentUser = await _graphService.User.GetMeAsync();
+
+            // Find the backupFolder in OneDrive, if it exists
+            var backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
+
+            if (backupFolder != null)
+            {
+                // Restore local data file using the backup file, if it exists
+                await _graphService.OneDrive.RestoreFileAsync(backupFolder.Id, "ktdatabase.db");
+
+                DisplayNotification("Data restored successfully");
+
+                var displayName = await _graphService.User.GetMyDisplayNameAsync();
+                WelcomeText = "Welcome " + App.CurrentUser.GivenName;
+                IsSignoutEnabled = true;
+
+                // Restart app to make changes
+                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("");
+            }
+            else
+                DisplayNotification("No backup folder found to restore from.");
+        }
+
+        public async Task ExecuteOperation(Func<Task> OneDriveOperation)
+        {
             try
             {
-                // Request a token to sign in the user
-                var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
-
-                // Set current user (temp)
-                App.CurrentUser = await _graphService.User.GetMeAsync();
-
-                // Find the backupFolder in OneDrive, if it exists
-                var backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
-
-                if (backupFolder != null)
-                {
-                    // Restore local data file using the backup file, if it exists
-                    await _graphService.OneDrive.RestoreFileAsync(backupFolder.Id, "ktdatabase.db");
-
-                    DisplayNotification("Data restored successfully");
-
-                    var displayName = await _graphService.User.GetMyDisplayNameAsync();
-                    WelcomeText = "Welcome " + App.CurrentUser.GivenName;
-                    IsSignoutEnabled = true;
-
-                    // Restart app to make changes
-                    await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("");
-                }
-                else
-                    DisplayNotification("No backup folder found to restore from.");
+                await OneDriveOperation();
             }
             catch (ServiceException ex)
             {
@@ -278,10 +237,6 @@ namespace KanbanTasker.ViewModels
             catch (Exception ex)
             {
                 DisplayNotification("Unexpected Error: " + ex.Message);
-            }
-            finally
-            {
-                IsProgressRingActive = false;
             }
         }
 
