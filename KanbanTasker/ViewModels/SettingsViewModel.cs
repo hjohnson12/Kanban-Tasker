@@ -12,6 +12,7 @@ using KanbanTasker.Services;
 using KanbanTasker.Model.Services;
 using Windows.System;
 using System.Threading;
+using CommunityToolkit.Mvvm.Input;
 
 namespace KanbanTasker.ViewModels
 {
@@ -32,17 +33,17 @@ namespace KanbanTasker.ViewModels
 
         public Microsoft.Graph.User CurrentUser { get; set; }
 
-        public ICommand BackupDatabaseCommand { get; set; }
-        public ICommand RestoreDatabaseCommand { get; set; }
-        public ICommand SignoutUserCommand { get; set; }
+        public ICommand BackupDbCommand { get; set; }
+        public ICommand RestoreDbCommand { get; set; }
+        public ICommand SignOutCommand { get; set; }
 
         public SettingsViewModel(
             IAppNotificationService appNotificationService,
             GraphService graphService)
         {
-            BackupDatabaseCommand = new RelayCommand(BackupToOneDrive, () => true);
-            RestoreDatabaseCommand = new RelayCommand(RestoreFromOneDrive, () => true);
-            SignoutUserCommand = new RelayCommand(SignOut, () => IsSignoutEnabled);
+            BackupDbCommand = new AsyncRelayCommand(Backup, () => true);
+            RestoreDbCommand = new AsyncRelayCommand(Restore, () => true);
+            SignOutCommand = new Base.RelayCommand(SignOut, () => IsSignoutEnabled);
 
             _appNotificationService = appNotificationService;
             _graphService = graphService;
@@ -161,19 +162,21 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        /// <summary>
-        /// Initiate backup of data to OneDrive.
-        /// </summary>
-        private async void BackupToOneDrive()
+        public async Task Backup()
         {
             IsProgressRingActive = true;
             ClosePopups();
 
-            await ExecuteOperationAsync(Backup);
+            // Currently only one way to backup but can determine 
+            // based on a parameter to Backup() if more are added
+            await ExecuteOperationAsync(BackupToOneDrive);
             IsProgressRingActive = false;
         }
 
-        public async Task Backup()
+        /// <summary>
+        /// Initiate backup of data to OneDrive.
+        /// </summary>
+        private async Task BackupToOneDrive()
         {
             // Request a token to sign in the user
             var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
@@ -198,20 +201,22 @@ namespace KanbanTasker.ViewModels
             IsSignoutEnabled = true;
         }
 
-        /// <summary>
-        /// Initiate restoration of data from OneDrive.
-        /// <para>*Application restarts if finished successfully.</para>
-        /// </summary>
-        private async void RestoreFromOneDrive()
+        public async Task Restore()
         {
             IsProgressRingActive = true;
             ClosePopups();
 
-            await ExecuteOperationAsync(Restore);
+            // Currently only one way to restore but can determine
+            // based on parameter to Restore() if more are added
+            await ExecuteOperationAsync(RestoreFromOneDrive);
             IsProgressRingActive = false;
         }
 
-        public async Task Restore()
+        /// <summary>
+        /// Initiate restoration of data from OneDrive.
+        /// <para>*Application restarts if finished successfully.</para>
+        /// </summary>
+        private async Task RestoreFromOneDrive()
         {
             // Request a token to sign in the user
             var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();

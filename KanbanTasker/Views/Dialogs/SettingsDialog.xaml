@@ -129,7 +129,7 @@
                                         <muxc:TeachingTip
                                             x:Name="BackupTip"
                                             Title="Confirm Data Backup"
-                                            ActionButtonCommand="{x:Bind ViewModel.BackupDatabaseCommand}"
+                                            ActionButtonCommand="{x:Bind ViewModel.BackupDbCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
@@ -153,7 +153,7 @@
                                         <muxc:TeachingTip
                                             x:Name="RestoreTip"
                                             Title="Confirm Data Restore"
-                                            ActionButtonCommand="{x:Bind ViewModel.RestoreDatabaseCommand}"
+                                            ActionButtonCommand="{x:Bind ViewModel.RestoreDbCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
@@ -175,7 +175,7 @@
                                         <muxc:TeachingTip
                                             x:Name="SignOutPopup"
                                             Title="Confirm Sign Out"
-                                            ActionButtonCommand="{x:Bind ViewModel.SignoutUserCommand}"
+                                            ActionButtonCommand="{x:Bind ViewModel.SignOutCommand}"
                                             ActionButtonContent="Yes"
                                             CloseButtonContent="No"
                                             IsLightDismissEnabled="True"
