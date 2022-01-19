@@ -99,86 +99,7 @@ namespace KanbanTasker.ViewModels
             set => SetProperty(ref _isRestorePopupOpen, value);
         }
 
-        /// <summary>
-        /// Initiate backup of data to OneDrive.
-        /// </summary>
-        private async void BackupToOneDrive()
-        {
-            IsProgressRingActive = true;
-            ClosePopups();
-
-            await ExecuteOperation(Backup);
-            IsProgressRingActive = false;
-        }
-
-        public async Task Backup()
-        {
-            // Request a token to sign in the user
-            var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
-
-            // Set current user (temp)
-            App.CurrentUser = await _graphService.User.GetMeAsync();
-
-            // Find backupFolder in user's OneDrive, if it exists
-            DriveItem backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
-
-            // Create backup folder in OneDrive if not exists
-            if (backupFolder == null)
-                backupFolder = await _graphService.OneDrive.CreateNewFolderAsync("Kanban Tasker");
-
-            // Backup datafile (or overwrite)
-            DriveItem uploadedFile = await _graphService.OneDrive.UploadFileAsync(backupFolder.Id, DataFilename);
-
-            DisplayNotification("Data backed up successfully");
-
-            var displayName = await _graphService.User.GetMyDisplayNameAsync();
-            WelcomeText = "Welcome " + displayName;
-            IsSignoutEnabled = true;
-        }
-
-        /// <summary>
-        /// Initiate restoration of data from OneDrive.
-        /// <para>*Application restarts if finished successfully.</para>
-        /// </summary>
-        private async void RestoreFromOneDrive()
-        {
-            IsProgressRingActive = true;
-            ClosePopups();
-
-            await ExecuteOperation(Restore);
-            IsProgressRingActive = false;
-        }
-
-        public async Task Restore()
-        {
-            // Request a token to sign in the user
-            var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
-
-            // Set current user (temp)
-            App.CurrentUser = await _graphService.User.GetMeAsync();
-
-            // Find the backupFolder in OneDrive, if it exists
-            var backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
-
-            if (backupFolder != null)
-            {
-                // Restore local data file using the backup file, if it exists
-                await _graphService.OneDrive.RestoreFileAsync(backupFolder.Id, "ktdatabase.db");
-
-                DisplayNotification("Data restored successfully");
-
-                var displayName = await _graphService.User.GetMyDisplayNameAsync();
-                WelcomeText = "Welcome " + App.CurrentUser.GivenName;
-                IsSignoutEnabled = true;
-
-                // Restart app to make changes
-                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("");
-            }
-            else
-                DisplayNotification("No backup folder found to restore from.");
-        }
-
-        public async Task ExecuteOperation(Func<Task> OneDriveOperation)
+        public async Task ExecuteOperationAsync(Func<Task> OneDriveOperation)
         {
             try
             {
@@ -238,6 +159,85 @@ namespace KanbanTasker.ViewModels
             {
                 DisplayNotification("Unexpected Error: " + ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Initiate backup of data to OneDrive.
+        /// </summary>
+        private async void BackupToOneDrive()
+        {
+            IsProgressRingActive = true;
+            ClosePopups();
+
+            await ExecuteOperationAsync(Backup);
+            IsProgressRingActive = false;
+        }
+
+        public async Task Backup()
+        {
+            // Request a token to sign in the user
+            var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
+
+            // Set current user (temp)
+            App.CurrentUser = await _graphService.User.GetMeAsync();
+
+            // Find backupFolder in user's OneDrive, if it exists
+            DriveItem backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
+
+            // Create backup folder in OneDrive if not exists
+            if (backupFolder == null)
+                backupFolder = await _graphService.OneDrive.CreateNewFolderAsync("Kanban Tasker");
+
+            // Backup datafile (or overwrite)
+            DriveItem uploadedFile = await _graphService.OneDrive.UploadFileAsync(backupFolder.Id, DataFilename);
+
+            DisplayNotification("Data backed up successfully");
+
+            var displayName = await _graphService.User.GetMyDisplayNameAsync();
+            WelcomeText = "Welcome " + displayName;
+            IsSignoutEnabled = true;
+        }
+
+        /// <summary>
+        /// Initiate restoration of data from OneDrive.
+        /// <para>*Application restarts if finished successfully.</para>
+        /// </summary>
+        private async void RestoreFromOneDrive()
+        {
+            IsProgressRingActive = true;
+            ClosePopups();
+
+            await ExecuteOperationAsync(Restore);
+            IsProgressRingActive = false;
+        }
+
+        public async Task Restore()
+        {
+            // Request a token to sign in the user
+            var accessToken = await _graphService.AuthenticationProvider.GetAccessToken();
+
+            // Set current user (temp)
+            App.CurrentUser = await _graphService.User.GetMeAsync();
+
+            // Find the backupFolder in OneDrive, if it exists
+            var backupFolder = await _graphService.OneDrive.GetFolderAsync("Kanban Tasker");
+
+            if (backupFolder != null)
+            {
+                // Restore local data file using the backup file, if it exists
+                await _graphService.OneDrive.RestoreFileAsync(backupFolder.Id, "ktdatabase.db");
+
+                DisplayNotification("Data restored successfully");
+
+                var displayName = await _graphService.User.GetMyDisplayNameAsync();
+                WelcomeText = "Welcome " + App.CurrentUser.GivenName;
+                IsSignoutEnabled = true;
+
+                // Restart app to make changes
+                await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("");
+            }
+            else
+                DisplayNotification("No backup folder found to restore from.");
         }
 
         private async void SignOut()
