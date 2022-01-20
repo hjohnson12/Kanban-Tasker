@@ -41,8 +41,8 @@ namespace KanbanTasker.ViewModels
             IAppNotificationService appNotificationService,
             GraphService graphService)
         {
-            BackupDbCommand = new AsyncRelayCommand(Backup, () => true);
-            RestoreDbCommand = new AsyncRelayCommand(Restore, () => true);
+            BackupDbCommand = new AsyncRelayCommand(BackupDb, () => true);
+            RestoreDbCommand = new AsyncRelayCommand(RestoreDb, () => true);
             SignOutCommand = new Base.RelayCommand(SignOut, () => IsSignoutEnabled);
 
             _appNotificationService = appNotificationService;
@@ -162,7 +162,7 @@ namespace KanbanTasker.ViewModels
             }
         }
 
-        public async Task Backup()
+        public async Task BackupDb()
         {
             IsProgressRingActive = true;
             ClosePopups();
@@ -201,7 +201,7 @@ namespace KanbanTasker.ViewModels
             IsSignoutEnabled = true;
         }
 
-        public async Task Restore()
+        public async Task RestoreDb()
         {
             IsProgressRingActive = true;
             ClosePopups();
