@@ -43,7 +43,7 @@ namespace KanbanTasker.ViewModels
         {
             BackupDbCommand = new AsyncRelayCommand(BackupDb, () => true);
             RestoreDbCommand = new AsyncRelayCommand(RestoreDb, () => true);
-            SignOutCommand = new Base.RelayCommand(SignOut, () => IsSignoutEnabled);
+            SignOutCommand = new AsyncRelayCommand(SignOut, () => IsSignoutEnabled);
 
             _appNotificationService = appNotificationService;
             _graphService = graphService;
@@ -249,26 +249,18 @@ namespace KanbanTasker.ViewModels
                 DisplayNotification("No backup folder found to restore from.");
         }
 
-        private async void SignOut()
+        private async Task SignOut()
         {
             ClosePopups();
 
-            try
+            await ExecuteOperationAsync(async () => 
             {
                 await _graphService.AuthenticationProvider.SignOut();
 
                 WelcomeText = "User has signed-out";
                 IsSignoutEnabled = false;
                 App.CurrentUser = null;
-            }
-            catch (MsalException ex)
-            {
-                DisplayNotification(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                DisplayNotification(ex.Message);
-            }
+            });
         }
 
         /// <summary>
