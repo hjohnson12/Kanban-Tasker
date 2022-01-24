@@ -44,17 +44,6 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                                 .WithRedirectUri(redirectUriWithWAM)
                                 .Build();
 
-            // OLD - With HostAuth and not WAM
-            //_msalClient = PublicClientApplicationBuilder.Create(appId)
-            //    .WithAuthority(Authority)
-            //    .WithLogging((level, message, containsPii) =>
-            //    {
-            //        Debug.WriteLine($"MSAL: {level} {message} ");
-            //    }, LogLevel.Warning, enablePiiLogging: false, enableDefaultPlatformLogging: true)
-            //    .WithUseCorporateNetwork(true)
-            //    .WithRedirectUri("https://login.microsoftonline.com/common/oauth2/nativeclient")
-            //    .Build();
-
             AuthResult = null;
         }
 
