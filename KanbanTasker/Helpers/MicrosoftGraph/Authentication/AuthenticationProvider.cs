@@ -23,8 +23,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
         private string[] _scopes;
         private IAccount _userAccount;
         private IAccount _accountToLogin;
-
-        // SynchContext for the associated UI thread to show the Interactive prompt on
+        // For the associated UI thread to show the Interactive prompt on
         private SynchronizationContext _synchronizationContext;
 
         private AuthenticationResult AuthResult { get; set; }
@@ -56,7 +55,6 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
             // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
             _accountToLogin = accounts.FirstOrDefault();
-
             _userAccount = _accountToLogin;
 
             // If there is no saved user account, the user must sign-in
