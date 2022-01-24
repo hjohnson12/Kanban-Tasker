@@ -156,6 +156,10 @@ namespace KanbanTasker.ViewModels
                     DisplayNotification(msalex.Message);
                 }
             }
+            catch (MsalUiRequiredException msalReqEx)
+            {
+                DisplayNotification(msalReqEx.Message);
+            }
             catch (Exception ex)
             {
                 DisplayNotification("Unexpected Error: " + ex.Message);
@@ -258,6 +262,10 @@ namespace KanbanTasker.ViewModels
                 App.CurrentUser = null;
             }
             catch (MsalException ex)
+            {
+                DisplayNotification(ex.Message);
+            }
+            catch (Exception ex)
             {
                 DisplayNotification(ex.Message);
             }

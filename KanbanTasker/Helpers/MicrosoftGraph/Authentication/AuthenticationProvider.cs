@@ -89,36 +89,23 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                 catch (MsalUiRequiredException ex)
                 {
                     // A MsalUiRequiredException happened on AcquireTokenSilentAsync. 
-                    // This indicates you need to call AcquireTokenAsync to acquire a token,
+                    // This indicates we need to call AcquireTokenAsync to acquire a token,
                     // consent, or re-sign-in (password expiration), or two-factor authentication
-                    System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
-                
-                    try
+                    Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
+
+                    // Request for interactive window to allow the user to select 
+                    // an account, which aquires a token for the scopes if sucessful
+                    AuthResult = await Task.Run<AuthenticationResult>(async () =>
                     {
-                        // Request for interactive window to allow the user to select 
-                        // an account, which aquires a token for the scopes if sucessful
-                        AuthResult = await Task.Run<AuthenticationResult>(async () =>
-                        {
-                            // Task.Run() will guarantee the given piece of code be executed on a separate thread pool.
-                            // Used to simulate the scenario of running the prompt on the UI from a different thread.
-                            return await ShowInteractivePrompt();
-                        });
-                    }
-                    catch (MsalException msalex)
-                    {
-                        if (msalex.ErrorCode == MsalError.AuthenticationCanceledError)
-                            Debug.WriteLine($"MsalException, Authentication Canceled:{System.Environment.NewLine}{msalex}");
-                        if (msalex.ErrorCode == MsalError.AuthenticationFailed)
-                            Debug.WriteLine($"MsalException, Authentication Failed:{System.Environment.NewLine}{msalex}");
-                        else if (msalex.ErrorCode == MsalError.RequestTimeout)
-                            Debug.WriteLine($"MsalException, Request Timeout:{System.Environment.NewLine}{msalex}");
-                        throw;
-                    }
+                        // Task.Run() will guarantee the given piece of code be executed on a separate thread pool.
+                        // Used to simulate the scenario of running the prompt on the UI from a different thread.
+                        return await ShowInteractivePrompt();
+                    });
                 }
                 catch (Exception ex)
                 {
                     Debug.Write("ERROR: " + ex.Message);
-                    return null;
+                    throw;
                 }
 
                 return AuthResult == null ? "" : AuthResult.AccessToken;
@@ -187,18 +174,10 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
             IAccount firstAccount = accounts.FirstOrDefault();
 
-            try
+            if (firstAccount != null)
             {
-                if (firstAccount != null)
-                {
-                    await _msalClient.RemoveAsync(firstAccount).ConfigureAwait(false);
-                    _userAccount = null;
-                }
-            }
-            catch (MsalException ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"MsalException, Error signing-out user: {ex.Message}");
-                throw;
+                await _msalClient.RemoveAsync(firstAccount).ConfigureAwait(false);
+                _userAccount = null;
             }
         }
 
