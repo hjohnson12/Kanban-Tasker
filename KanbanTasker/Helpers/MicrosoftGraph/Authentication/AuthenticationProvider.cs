@@ -43,8 +43,6 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                                 .WithBroker(true)
                                 .WithRedirectUri(redirectUriWithWAM)
                                 .Build();
-
-            AuthResult = null;
         }
 
 
