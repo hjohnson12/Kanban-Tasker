@@ -22,7 +22,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
         private IPublicClientApplication _msalClient;
         private string[] _scopes;
         private IAccount _userAccount;
-        private IAccount accountToLogin;
+        private IAccount _accountToLogin;
 
         // SynchContext for the associated UI thread to show the Interactive prompt on
         private SynchronizationContext _synchronizationContext;
@@ -45,22 +45,19 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                                 .Build();
         }
 
-
         public async Task<IAccount> GetSignedInUser()
         {
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
-            IAccount firstAccount = accounts.FirstOrDefault();
-            return firstAccount;
+            return accounts.FirstOrDefault();
         }
 
         public async Task<string> GetAccessToken()
         {
             // It's good practice to not do work on the UI thread, so use ConfigureAwait(false) whenever possible.            
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
-            IAccount firstAccount = accounts.FirstOrDefault();
-            accountToLogin = firstAccount;
+            _accountToLogin = accounts.FirstOrDefault();
 
-            _userAccount = firstAccount;
+            _userAccount = _accountToLogin;
 
             // If there is no saved user account, the user must sign-in
             if (_userAccount == null)
@@ -68,7 +65,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                 try
                 {
                     // Attempts to acquire access token for the account from the user token cache
-                    AuthResult = await _msalClient.AcquireTokenSilent(_scopes, firstAccount)
+                    AuthResult = await _msalClient.AcquireTokenSilent(_scopes, _accountToLogin)
                                                       .ExecuteAsync();
                     _userAccount = AuthResult.Account;
                     return AuthResult.AccessToken;
@@ -126,7 +123,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                 try
                 {
                     var authResult = await _msalClient.AcquireTokenInteractive(_scopes)
-                                            .WithAccount(accountToLogin)
+                                            .WithAccount(_accountToLogin)
                                             .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
                                             .ExecuteAsync();
                     taskCompletionSource.SetResult(authResult);
@@ -159,11 +156,11 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
         public async Task SignOut()
         {
             IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync().ConfigureAwait(false);
-            IAccount firstAccount = accounts.FirstOrDefault();
+            IAccount accountToLogin = accounts.FirstOrDefault();
 
-            if (firstAccount != null)
+            if (accountToLogin != null)
             {
-                await _msalClient.RemoveAsync(firstAccount).ConfigureAwait(false);
+                await _msalClient.RemoveAsync(accountToLogin).ConfigureAwait(false);
                 _userAccount = null;
             }
         }
