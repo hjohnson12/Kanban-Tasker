@@ -290,6 +290,7 @@ namespace KanbanTasker.ViewModels
         {
             IsBackupPopupOpen = false;
             IsRestorePopupOpen = false;
+            IsSignoutPopupOpen = false;
         }
     }
 }
