@@ -10,28 +10,28 @@ namespace KanbanTasker.Services
 {
     public class TimerService : ITimerService
     {
-        private DispatcherTimer _timer;
+        private readonly DispatcherTimer _timer;
 
-        public DateTime Time { get; set; }
-
-        public void ConfigureTimer()
+        public TimerService()
         {
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += Timer_Tick; ;
         }
 
+        public DateTime Time { get; set; }
+
         private void Timer_Tick(object sender, object e)
         {
             Time = DateTime.Now;
         }
 
-        public void StartTimer()
+        public void Start()
         {
             _timer.Start();
         }
 
-        public void StopTimer()
+        public void Stop()
         {
             _timer.Stop();
         }

@@ -6,8 +6,8 @@ namespace KanbanTasker.Model.Services
 {
     public interface ITimerService
     {
-        void ConfigureTimer();
-        void StartTimer();
-        void StopTimer();
+        DateTime Time { get; set; }
+        void Start();
+        void Stop();
     }
 }
