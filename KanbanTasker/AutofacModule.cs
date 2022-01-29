@@ -33,6 +33,10 @@ namespace KanbanTasker
 
             builder.RegisterType<GraphService>()
                 .SingleInstance();
+
+            builder.RegisterType<TimerService>()
+                .As<ITimerService>()
+                .SingleInstance();
         }
     }
 }
