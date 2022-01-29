@@ -50,7 +50,8 @@ namespace KanbanTasker.ViewModels
 
             // Context to the original thread of the calling code (i.e., UI thread)
             _syncContext = SynchronizationContext.Current;
-            _graphService.AuthenticationProvider.SetSynchronizationContext(_syncContext);
+            _graphService.AuthenticationProvider.SynchronizationContext = _syncContext;
+
 
             if (App.CurrentUser != null)
             {

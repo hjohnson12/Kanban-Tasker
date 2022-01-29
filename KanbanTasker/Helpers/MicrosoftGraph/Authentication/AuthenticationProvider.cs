@@ -19,14 +19,11 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
     /// </summary>
     public class AuthenticationProvider : IAuthenticationProvider
     {
-        private IPublicClientApplication _msalClient;
-        private string[] _scopes;
+        private readonly IPublicClientApplication _msalClient;
+        private readonly string[] _scopes;
         private IAccount _userAccount;
         private IAccount _accountToLogin;
-        // For the associated UI thread to show the Interactive prompt on
-        private SynchronizationContext _synchronizationContext;
-
-        private AuthenticationResult AuthResult { get; set; }
+        private SynchronizationContext _syncContext;
 
         public AuthenticationProvider(string appId, string[] scopes)
         {
@@ -42,6 +39,18 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                                 .WithBroker(true)
                                 .WithRedirectUri(redirectUriWithWAM)
                                 .Build();
+        }
+
+        private AuthenticationResult AuthResult { get; set; }
+
+        /// <summary>
+        /// Gets or sets the associated context thread to show the Interactive 
+        /// prompt on for WAM (i.e., on the UI thread)
+        /// </summary>
+        public SynchronizationContext SynchronizationContext
+        {
+            get => _syncContext;
+            set => _syncContext = value;
         }
 
         public async Task<IAccount> GetSignedInUser()
@@ -73,7 +82,6 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                     // A MsalUiRequiredException happened on AcquireTokenSilentAsync. 
                     // This indicates we need to call AcquireTokenAsync to acquire a token,
                     // consent, or re-sign-in (password expiration), or two-factor authentication
-                    Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
 
                     // Request for interactive window to allow the user to select 
                     // an account, which aquires a token for the scopes if sucessful
@@ -116,7 +124,7 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
             var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
 
             // Uses Post to show the interactive prompt on the UI thread of the given context
-            _synchronizationContext.Post(async (_) =>
+            _syncContext.Post(async (_) =>
             {
                 try
                 {
@@ -161,16 +169,6 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                 await _msalClient.RemoveAsync(accountToLogin).ConfigureAwait(false);
                 _userAccount = null;
             }
-        }
-
-        /// <summary>
-        /// Sets the synchronization context from the calling code to allow running
-        /// the interactive prompt on the UI thread for WAM
-        /// </summary>
-        /// <param name="context"></param>
-        public void SetSynchronizationContext(SynchronizationContext context)
-        {
-            this._synchronizationContext = context;
         }
     }
 }
