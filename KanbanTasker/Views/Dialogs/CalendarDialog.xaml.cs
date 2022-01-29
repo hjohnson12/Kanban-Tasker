@@ -2,20 +2,26 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using KanbanTasker.Models;
+using Autofac;
+using KanbanTasker.Model.Services;
+using KanbanTasker.ViewModels;
 
 namespace KanbanTasker.Views.Dialogs
 {
     public sealed partial class CalendarDialog : ContentDialog
     {
-        public ViewModels.MainViewModel ViewModel { get; set; }
-        public ViewModels.CalendarViewModel CalendarViewModel { get; set; }
+        public MainViewModel ViewModel { get; set; }
+        public CalendarViewModel CalendarViewModel { get; set; }
         private PresentationTask SelectedTask { get; set; }
 
         public CalendarDialog(object viewModel)
         {
             this.InitializeComponent();
-            ViewModel = viewModel as ViewModels.MainViewModel;
-            CalendarViewModel = new ViewModels.CalendarViewModel();
+
+            ViewModel = viewModel as MainViewModel;
+
+            CalendarViewModel = new CalendarViewModel(
+                App.container.Resolve<ITimerService>());
         }
 
         private void btnCloseNewBoardFlyout_Click(object sender, RoutedEventArgs e)

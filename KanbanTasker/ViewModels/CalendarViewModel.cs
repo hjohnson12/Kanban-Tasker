@@ -4,28 +4,37 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
 using KanbanTasker.Base;
 using KanbanTasker.Extensions;
 using KanbanTasker.Models;
+using KanbanTasker.Model.Services;
 
 namespace KanbanTasker.ViewModels
 {
     public class CalendarViewModel : Observable
     {
-        private DispatcherTimer _timer;
+        private readonly ITimerService _timerService;
         private DateTime _currentTime;
         private DateTimeOffset _selectedDate;
         private ObservableCollection<PresentationTask> _scheduledTasks;
         private bool _isResultsVisible;
 
-        public CalendarViewModel()
+        public CalendarViewModel(ITimerService timerService)
         {
-            SelectedDate = DateTimeOffset.Now;
+            _timerService = timerService;
+            _timerService.Tick += Timer_Tick;
+
             CurrentTime = DateTime.Now;
+            SelectedDate = DateTimeOffset.Now;
+
             StartTimer();
         }
-       
+
+        private void Timer_Tick(ITimerService obj)
+        {
+            CurrentTime = DateTime.Now;
+        }
+
         public DateTime CurrentTime
         {
             get => _currentTime;
@@ -43,12 +52,9 @@ namespace KanbanTasker.ViewModels
             get => _scheduledTasks;
             set
             {
-                if(_scheduledTasks != value)
-                {
-                    _scheduledTasks = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("IsResultsVisible");
-                }
+                SetProperty(ref _scheduledTasks, value);
+                OnPropertyChanged();
+                OnPropertyChanged("IsResultsVisible");
             }
         }
 
@@ -57,6 +63,10 @@ namespace KanbanTasker.ViewModels
             get => _scheduledTasks.Count == 0;
             set => _isResultsVisible = value;
         }
+
+        private void StartTimer() => _timerService.Start();
+
+        public void StopTimer() => _timerService.Stop();
 
         /// <summary>
         /// Gets all of the tasks from the current board and places only the ones
@@ -84,21 +94,6 @@ namespace KanbanTasker.ViewModels
                     }
                 }
             return new ObservableCollection<PresentationTask>(ScheudledTasks.OrderBy(x => x.TimeDue));
-        }
-
-        private void StartTimer()
-        {
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += timer_tick;
-            _timer.Start();
-        }
-
-        public void StopTimer() => _timer.Stop();
-
-        private void timer_tick(object sender, object e)
-        {
-            CurrentTime = DateTime.Now;
         }
     }
 }

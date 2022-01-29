@@ -6,8 +6,9 @@ namespace KanbanTasker.Model.Services
 {
     public interface ITimerService
     {
-        DateTime Time { get; set; }
+        event Action<ITimerService> Tick;
         void Start();
         void Stop();
+        DateTime Time { get; set; }
     }
 }

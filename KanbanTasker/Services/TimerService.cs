@@ -11,19 +11,20 @@ namespace KanbanTasker.Services
     public class TimerService : ITimerService
     {
         private readonly DispatcherTimer _timer;
+        public event Action<ITimerService> Tick;
 
         public TimerService()
         {
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += Timer_Tick; ;
+            _timer.Tick += Timer_Tick;
         }
 
         public DateTime Time { get; set; }
 
         private void Timer_Tick(object sender, object e)
         {
-            Time = DateTime.Now;
+            Tick?.Invoke(this);
         }
 
         public void Start()
