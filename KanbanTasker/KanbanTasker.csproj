@@ -160,6 +160,7 @@
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\GraphService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\TimerService.cs" />
     <Compile Include="Services\ToastService.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
