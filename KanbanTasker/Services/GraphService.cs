@@ -1,6 +1,8 @@
 ﻿using KanbanTasker.Helpers.MicrosoftGraph;
 using KanbanTasker.Helpers.MicrosoftGraph.Authentication;
 using KanbanTasker.Helpers.MicrosoftGraph.Requests;
+using System;
+using System.Threading.Tasks;
 
 namespace KanbanTasker.Services
 {
@@ -33,6 +35,32 @@ namespace KanbanTasker.Services
         public UserRequests User
         {
             get => _graphServiceHelper.User;
+        }
+
+        /// <summary>
+        /// Perform an HTTP GET request to a URL using an HTTP Authorization header
+        /// </summary>
+        /// <param name="url">The URL</param>
+        /// <param name="token">The token</param>
+        /// <returns>String containing the results of the GET operation</returns>
+        private async Task<string> GetHttpContentWithToken(string url, string token)
+        {
+            var httpClient = new System.Net.Http.HttpClient();
+            System.Net.Http.HttpResponseMessage response;
+            try
+            {
+                var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
+
+                // Add the token in Authorization header
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                response = await httpClient.SendAsync(request).ConfigureAwait(false);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return content;
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
         }
     }
 }
