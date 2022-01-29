@@ -20,12 +20,12 @@ namespace KanbanTasker.Services
             _timer.Tick += Timer_Tick;
         }
 
-        public DateTime Time { get; set; }
-
         private void Timer_Tick(object sender, object e)
         {
             Tick?.Invoke(this);
         }
+
+        public DateTime Time { get; set; }
 
         public void Start()
         {
