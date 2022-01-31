@@ -6,7 +6,7 @@ using System.Text;
 
 namespace KanbanTasker.Extensions
 {
-    public static class CustomExtensionMethods
+    public static class ExtensionMethods
     {
         /// <summary>
         /// Converts a string in date format into a nullable DateTimeOffset type

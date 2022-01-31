@@ -147,7 +147,7 @@
     <Compile Include="Behaviors\ComboBoxSelectionChangedTriggerBehavior.cs" />
     <Compile Include="Helpers\CustomKanbanColumn.cs" />
     <Compile Include="Helpers\MicrosoftGraph\Authentication\AuthenticationProvider.cs" />
-    <Compile Include="Extensions\CustomExtensionMethods.cs" />
+    <Compile Include="Extensions\ExtensionMethods.cs" />
     <Compile Include="Helpers\MicrosoftGraph\GraphServiceHelper.cs" />
     <Compile Include="Helpers\MicrosoftGraph\Requests\IRequest.cs" />
     <Compile Include="Helpers\MicrosoftGraph\Requests\OneDriveRequests.cs" />
