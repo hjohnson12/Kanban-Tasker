@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc1="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
+    muxc1:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
@@ -36,15 +37,12 @@
             </UserControl>
         </DataTemplate>
     </Page.Resources>
-    <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid
-            x:Name="AppTitleBar"
-            Grid.Row="0"
-            Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+        <Grid x:Name="AppTitleBar" Grid.Row="0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
