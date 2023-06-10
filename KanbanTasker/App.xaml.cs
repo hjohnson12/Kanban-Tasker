@@ -55,7 +55,7 @@ namespace KanbanTasker
             //}
 
             // Added because was still prompting users from the store
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDU1NTIwQDMxMzkyZTMxMmUzME9UVExhQlpERC95UExwQlhRWVVtVm1mSmN0Z1ZWc3BzYU5oQmtYR0tyVk09");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjM3ODA2OUAzMjMxMmUzMDJlMzBpVjFTeWQ4bzlDby9aVC9lQ0k0blBiMlBGRkVERU5iTHBuRFc0bExGS2NjPQ==");
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;

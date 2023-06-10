@@ -66,15 +66,7 @@
                         Click="btnCloseNewBoardFlyout_Click">
                         <SymbolIcon Symbol="Cancel" />
                     </Button>
-                    <Border
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Width="Auto"
-                        Margin="0,16,0,0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        BorderBrush="Gray"
-                        BorderThickness="0.5" />
+
                     <StackPanel
                         Grid.Row="2"
                         Grid.ColumnSpan="2"

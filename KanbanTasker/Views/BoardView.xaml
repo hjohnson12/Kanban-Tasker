@@ -204,12 +204,12 @@
                             <Canvas HorizontalAlignment="Center">
                                 <!--  NOTE: Text needs to be set before Margin, otherwise it doesn't render correctly  -->
                                 <TextBlock
-                                    Text="{TemplateBinding Title}"
                                     Margin="{Binding Converter={StaticResource CollapsedHeaderMarginConverter}, RelativeSource={RelativeSource Mode=Self}}"
                                     HorizontalAlignment="Center"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}">
+                                    Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                    Text="{TemplateBinding Title}">
                                     <TextBlock.RenderTransform>
                                         <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
                                     </TextBlock.RenderTransform>
@@ -636,6 +636,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{Binding ElementName=boardViewPage, Path=ViewModel.CancelEditCommand}"
+                        CornerRadius="4"
                         Icon="OpenPane"
                         Label="Close Pane" />
                 </Grid>
@@ -651,6 +652,7 @@
                     <StackPanel Margin="20,0,20,20">
                         <TextBox
                             x:Name="txtBoxID"
+                            CornerRadius="4"
                             Header="ID:"
                             IsEnabled="False"
                             Text="{x:Bind ViewModel.CurrentTask.ID, Mode=OneWay}"
@@ -663,6 +665,7 @@
                             Text="Title" />
                         <TextBox
                             x:Name="txtBoxTitle"
+                            CornerRadius="4"
                             PlaceholderText="Type your information here"
                             Style="{StaticResource TextBoxStyle1}"
                             Text="{x:Bind ViewModel.CurrentTask.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -681,7 +684,7 @@
                                 AcceptsReturn="True"
                                 Background="{ThemeResource RegionBrush}"
                                 BorderThickness="1"
-                                CornerRadius="2"
+                                CornerRadius="4"
                                 PlaceholderText="Type your information here"
                                 Text="{x:Bind ViewModel.CurrentTask.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap" />
@@ -731,7 +734,7 @@
                                 HorizontalAlignment="Stretch"
                                 Background="{ThemeResource RegionBrush}"
                                 BorderThickness="1"
-                                CornerRadius="2"
+                                CornerRadius="4"
                                 ItemsSource="{x:Bind ViewModel.ColorKeys, Mode=OneWay}"
                                 PlaceholderText="Choose One:"
                                 SelectedItem="{Binding SelectedColorKey, Mode=TwoWay}">
@@ -743,7 +746,7 @@
                                         x:Name="ChoosePriorityInidcatorTeachingTip"
                                         Title="Choose indicator"
                                         Background="{ThemeResource RegionBrush}"
-                                        CornerRadius="3"
+                                        CornerRadius="4"
                                         IsLightDismissEnabled="True"
                                         Subtitle="Please fill out a priority indicator for your task to continue."
                                         Target="{x:Bind comboBoxColorKey}">
@@ -772,6 +775,7 @@
                                 Grid.Column="2"
                                 Margin="36,10,0,0"
                                 HorizontalAlignment="Stretch"
+                                CornerRadius="4"
                                 GotFocus="autoSuggestBoxTags_GotFocus"
                                 ItemsSource="{x:Bind ViewModel.SuggestedTagsCollection, Mode=OneWay}"
                                 PlaceholderText="Press enter to add tag"
@@ -841,7 +845,7 @@
                                                     Command="{Binding ElementName=boardViewPage, Path=ViewModel.DeleteTagCommand}"
                                                     CommandParameter="{Binding}"
                                                     Content="&#xE74D;"
-                                                    CornerRadius="2"
+                                                    CornerRadius="4"
                                                     FontFamily="Segoe MDL2 Assets"
                                                     Foreground="Black">
                                                     <Button.Resources>
@@ -872,6 +876,7 @@
                                 VerticalAlignment="Top"
                                 HorizontalContentAlignment="Center"
                                 Background="{ThemeResource RegionBrush}"
+                                CornerRadius="4"
                                 ExpandDirection="Down"
                                 Header="Date Information"
                                 IsExpanded="False">
@@ -915,6 +920,7 @@
                                             Margin="12,10,8,0"
                                             HorizontalAlignment="Stretch"
                                             Background="{ThemeResource RegionBrush}"
+                                            CornerRadius="4"
                                             Date="{x:Bind ViewModel.CurrentTask.DateCreated, Mode=OneWay, Converter={StaticResource stringToDateConverter}}"
                                             IsEnabled="False"
                                             PlaceholderText="Not Available" />
@@ -943,6 +949,7 @@
                                             Margin="36,10,8,0"
                                             HorizontalAlignment="Stretch"
                                             Background="{x:Bind ViewModel.IsPassedDue, Mode=OneWay, Converter={StaticResource BoolToBrushConverter}}"
+                                            CornerRadius="4"
                                             Date="{x:Bind ViewModel.CurrentTask.DueDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
                                             Foreground="Red"
@@ -955,6 +962,7 @@
                                                 Grid.ColumnSpan="2"
                                                 Margin="0,4,0,4"
                                                 HorizontalAlignment="Stretch"
+                                                CornerRadius="4"
                                                 Style="{ThemeResource CustomTimePickerStyle}"
                                                 Time="{x:Bind ViewModel.CurrentTask.TimeDue, Mode=OneWay, Converter={StaticResource stringToTimeSpanConverter}}"
                                                 TimeChanged="TaskReminderTimePicker_TimeChanged" />
@@ -965,6 +973,7 @@
                                                 HorizontalAlignment="Stretch"
                                                 Background="{ThemeResource RegionBrush}"
                                                 BorderThickness="1"
+                                                CornerRadius="4"
                                                 Header="Reminder:"
                                                 ItemsSource="{x:Bind ViewModel.ReminderTimes, Mode=OneWay}"
                                                 SelectedItem="{Binding SelectedReminderTime, Mode=TwoWay}" />
@@ -986,6 +995,7 @@
                                             Margin="32,8,8,0"
                                             HorizontalAlignment="Stretch"
                                             Background="{ThemeResource RegionBrush}"
+                                            CornerRadius="4"
                                             Date="{x:Bind ViewModel.CurrentTask.StartDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
                                             PlaceholderText="Pick a date" />
@@ -1006,6 +1016,7 @@
                                             Margin="24,10,8,0"
                                             HorizontalAlignment="Stretch"
                                             Background="{ThemeResource RegionBrush}"
+                                            CornerRadius="4"
                                             Date="{x:Bind ViewModel.CurrentTask.FinishDate, Mode=TwoWay, Converter={StaticResource stringToDateConverter}}"
                                             DateChanged="CalendarPicker_DateChanged"
                                             MinDate="{x:Bind StartDateCalendarPicker.Date.Value, Mode=OneWay}"
@@ -1079,15 +1090,17 @@
                             x:Name="btnSaveTask"
                             Margin="20,17,20,20"
                             Command="{Binding ElementName=boardViewPage, Path=ViewModel.SaveTaskCommand}"
+                            CornerRadius="4"
                             Icon="Save"
-                            Label="Save Task" />
+                            Label="Save" />
                         <AppBarButton
                             x:Name="btnDeleteTask"
-                            Margin="22,17,20,20"
+                            Margin="12,17,20,20"
                             AllowFocusOnInteraction="True"
                             Click="btnDeleteTask_Click"
+                            CornerRadius="4"
                             Icon="Delete"
-                            Label="Delete Task"
+                            Label="Delete"
                             Style="{ThemeResource AppBarButtonCustomStyle}">
                             <AppBarButton.Flyout>
                                 <Flyout
@@ -1123,6 +1136,7 @@
                             x:Name="btnClosePane"
                             Margin="14,17,20,20"
                             Command="{Binding ElementName=boardViewPage, Path=ViewModel.CancelEditCommand}"
+                            CornerRadius="4"
                             Icon="Cancel"
                             Label="Cancel" />
                     </StackPanel>

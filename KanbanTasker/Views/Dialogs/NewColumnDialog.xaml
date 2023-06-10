@@ -24,11 +24,12 @@
                 <TextBox
                     x:Name="ColumnNameTextbox"
                     Margin="0,4,0,4"
-                    CornerRadius="2"
+                    CornerRadius="4"
                     Header="Column Name" />
                 <muxc:NumberBox
                     x:Name="MaxLimitNumberBox"
                     Margin="0,4,0,4"
+                    CornerRadius="4"
                     Header="Max Task Limit" />
             </StackPanel>
         </Grid>
