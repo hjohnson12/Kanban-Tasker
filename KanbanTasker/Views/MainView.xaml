@@ -42,7 +42,10 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid x:Name="AppTitleBar" Grid.Row="0">
+        <Grid
+            x:Name="AppTitleBar"
+            Grid.Row="0"
+            Background="Transparent">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
