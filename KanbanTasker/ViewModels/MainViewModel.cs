@@ -160,7 +160,7 @@ namespace KanbanTasker.ViewModels
             var dialogOpen = _dialogService.CheckForOpenDialog();
             if (!dialogOpen)
             {
-                BoardEditorTitle = "New Board Editor";
+                BoardEditorTitle = "New Board";
 
                 BoardViewModel newBoard = boardViewModelFactory(
                     new PresentationBoard(new BoardDTO()),
