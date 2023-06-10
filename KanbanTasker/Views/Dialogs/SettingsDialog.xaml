@@ -111,15 +111,16 @@
                         </Grid>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0" HorizontalAlignment="Center">
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch">
 
                                 <Button
                                     x:Name="btnBackupTip"
                                     Margin="4,2,4,4"
+                                    HorizontalAlignment="Stretch"
                                     Click="{x:Bind ViewModel.ShowBackupPopup}">
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72C;" />
@@ -140,10 +141,11 @@
                                     </Button.Resources>
                                 </Button>
                             </Grid>
-                            <Grid Grid.Column="1" HorizontalAlignment="Center">
+                            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                                 <Button
                                     x:Name="btnRestoreTip"
                                     Margin="4,2,4,4"
+                                    HorizontalAlignment="Stretch"
                                     Click="{x:Bind ViewModel.ShowRestorePopup}">
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE777;" />

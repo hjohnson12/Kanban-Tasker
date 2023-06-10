@@ -1169,7 +1169,11 @@
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top">
-                <Button x:Name="AddColumnButton" Click="AddColumnButton_Click">
+                <Button
+                    x:Name="AddColumnButton"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="AddColumnButton_Click">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,4,0"
@@ -1185,7 +1189,7 @@
             <Grid Grid.Row="2">
                 <syncfusion:SfKanban
                     x:Name="kanbanBoard"
-                    Margin="0,0,0,0"
+                    Margin="0,-6,0,0"
                     HorizontalAlignment="Left"
                     AutoGenerateColumns="False"
                     Background="{ThemeResource RegionBrush}"
