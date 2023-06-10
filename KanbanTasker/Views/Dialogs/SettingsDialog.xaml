@@ -123,7 +123,7 @@
                                     Click="{x:Bind ViewModel.ShowBackupPopup}">
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72C;" />
-                                        <TextBlock Margin="4,0,0,0" Text="Backup to OneDrive" />
+                                        <TextBlock Margin="4,0,0,0" Text="Backup" />
                                     </StackPanel>
                                     <Button.Resources>
                                         <muxc:TeachingTip
@@ -147,7 +147,7 @@
                                     Click="{x:Bind ViewModel.ShowRestorePopup}">
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE777;" />
-                                        <TextBlock Margin="4,0,0,0" Text="Restore from OneDrive" />
+                                        <TextBlock Margin="4,0,0,0" Text="Restore" />
                                     </StackPanel>
                                     <Button.Resources>
                                         <muxc:TeachingTip
