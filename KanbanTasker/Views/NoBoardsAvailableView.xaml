@@ -33,12 +33,12 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Vertical">
-            <Image
+            <!--<Image
                 Height="65"
                 Margin="8"
                 HorizontalAlignment="Center"
                 Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
-                Stretch="Uniform" />
+                Stretch="Uniform" />-->
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc1="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:KanbanTasker.ViewModels"
+    muxc1:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
@@ -36,7 +37,7 @@
             </UserControl>
         </DataTemplate>
     </Page.Resources>
-    <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
@@ -44,7 +45,7 @@
         <Grid
             x:Name="AppTitleBar"
             Grid.Row="0"
-            Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+            Background="Transparent">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -100,6 +101,7 @@
                         Width="40"
                         AllowFocusOnInteraction="True"
                         Click="ShowFlyout"
+                        CornerRadius="4"
                         Icon="Edit"
                         Style="{StaticResource AppBarButtonCustomStyle}"
                         ToolTipService.Placement="Bottom"
@@ -126,7 +128,7 @@
                                             Click="ShowDialog"
                                             Command="{x:Bind ViewModel.EditBoardCommand}"
                                             Content="Yes, edit this board"
-                                            CornerRadius="3" />
+                                            CornerRadius="4" />
                                     </StackPanel>
                                 </StackPanel>
                             </Flyout>
@@ -138,6 +140,7 @@
                         Width="40"
                         AllowFocusOnInteraction="True"
                         Click="ShowFlyout"
+                        CornerRadius="4"
                         Icon="Delete"
                         Style="{ThemeResource AppBarButtonCustomStyle}"
                         ToolTipService.Placement="Bottom"
@@ -164,7 +167,7 @@
                                             Click="HideFlyout"
                                             Command="{x:Bind ViewModel.DeleteBoardCommand}"
                                             Content="Yes, delete this board"
-                                            CornerRadius="3" />
+                                            CornerRadius="4" />
                                     </StackPanel>
                                 </StackPanel>
                             </Flyout>
@@ -174,7 +177,7 @@
                                 x:Name="UnableToDeleteBoardTeachingTip"
                                 Title="No board selected"
                                 Background="{ThemeResource RegionBrush}"
-                                CornerRadius="3"
+                                CornerRadius="4"
                                 IsLightDismissEnabled="True"
                                 PreferredPlacement="Left"
                                 Subtitle="Please create or select a board to be deleted"
@@ -190,6 +193,7 @@
                         x:Name="btnViewBoardList"
                         Width="40"
                         Command="{x:Bind ViewModel.OpenBoardListCommand}"
+                        CornerRadius="4"
                         ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="View Board List">
                         <AppBarButton.Icon>
@@ -200,6 +204,7 @@
                         x:Name="btnOpenTaskCalendar"
                         Width="40"
                         Command="{x:Bind ViewModel.OpenCalendarCommand}"
+                        CornerRadius="4"
                         ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="View Task Calendar">
                         <AppBarButton.Icon>
@@ -210,6 +215,7 @@
                         x:Name="btnCompactOverlay"
                         Width="40"
                         Click="BtnCompactOverlay_Click"
+                        CornerRadius="4"
                         ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="Compact Overlay (PiP) Mode">
                         <AppBarButton.Icon>
@@ -220,6 +226,7 @@
                         x:Name="btnSettings"
                         Width="40"
                         Click="{x:Bind ViewModel.OpenSettingsDialog}"
+                        CornerRadius="4"
                         Icon="Setting"
                         ToolTipService.Placement="Bottom"
                         ToolTipService.ToolTip="Settings" />
@@ -234,6 +241,7 @@
                     AllowFocusOnInteraction="True"
                     Click="ShowDialog"
                     Command="{x:Bind ViewModel.NewBoardCommand}"
+                    CornerRadius="4"
                     Icon="Add"
                     Style="{ThemeResource AppBarButtonCustomStyle}"
                     ToolTipService.ToolTip="Create new board" />

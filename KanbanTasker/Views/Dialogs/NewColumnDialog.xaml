@@ -6,7 +6,7 @@
     xmlns:local="using:KanbanTasker.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Title="Create New Column"
+    Title="New Column"
     Background="{ThemeResource PaneBackgroundAcrylicBrush}"
     CornerRadius="4"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
@@ -24,11 +24,12 @@
                 <TextBox
                     x:Name="ColumnNameTextbox"
                     Margin="0,4,0,4"
-                    CornerRadius="2"
-                    Header="Column Name" />
+                    CornerRadius="4"
+                    Header="Name" />
                 <muxc:NumberBox
                     x:Name="MaxLimitNumberBox"
                     Margin="0,4,0,4"
+                    CornerRadius="4"
                     Header="Max Task Limit" />
             </StackPanel>
         </Grid>
