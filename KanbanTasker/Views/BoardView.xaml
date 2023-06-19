@@ -1147,7 +1147,7 @@
         <Grid x:Name="grid" Background="{ThemeResource RegionBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="9" />
-                <RowDefinition Height="50" />
+                <RowDefinition Height="55" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Rectangle
@@ -1167,12 +1167,13 @@
             </Rectangle>
             <Grid
                 Grid.Row="1"
+                Margin="0,4,0,4"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top">
                 <Button
                     x:Name="AddColumnButton"
                     Background="Transparent"
-                    BorderThickness="0"
+                    BorderThickness="0.5"
                     Click="AddColumnButton_Click">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock

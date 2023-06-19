@@ -57,7 +57,7 @@
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{StaticResource RegionColor}"
                         TintColor="{StaticResource RegionColor}"
-                        TintOpacity="0.8" />
+                        TintOpacity="0.9" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -112,7 +112,7 @@
                         BackgroundSource="HostBackdrop"
                         FallbackColor="#D1D1D1"
                         TintColor="#D1D1D1"
-                        TintOpacity="0.8" />
+                        TintOpacity="0.9" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
