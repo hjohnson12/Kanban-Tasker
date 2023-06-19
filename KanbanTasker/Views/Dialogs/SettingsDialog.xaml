@@ -378,7 +378,7 @@
                             <TextBlock
                                 Margin="0,4,0,4"
                                 HorizontalAlignment="Center"
-                                Text="Kanban Tasker v1.3.5"
+                                Text="Kanban Tasker v1.3.6"
                                 TextDecorations="Underline" />
                             <TextBlock
                                 Margin="0,4,0,4"
@@ -404,7 +404,7 @@
                                 Content="Rate and Review"
                                 NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
                                 Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
-							<HyperlinkButton
+                            <HyperlinkButton
                                 HorizontalAlignment="Center"
                                 Content="Donate"
                                 NavigateUri="https://paypal.me/kanbantasker"
