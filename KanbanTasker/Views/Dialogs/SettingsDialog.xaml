@@ -402,6 +402,11 @@
                                 Content="Rate and Review"
                                 NavigateUri="https://www.microsoft.com/store/apps/9NMKTDZ3L9LQ"
                                 Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
+                            <HyperlinkButton
+                                HorizontalAlignment="Center"
+                                Content="Donate"
+                                NavigateUri="https://paypal.me/kanbantasker"
+                                Style="{ThemeResource SettingsHyperlinkButtonStyle}" />
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
