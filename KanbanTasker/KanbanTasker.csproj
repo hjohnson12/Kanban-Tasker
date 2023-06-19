@@ -404,9 +404,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="KanbanTasker_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
     <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
       <Name>Microsoft Engagement Framework</Name>
     </SDKReference>
