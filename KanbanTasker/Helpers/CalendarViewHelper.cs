@@ -23,8 +23,11 @@ namespace KanbanTasker.Helpers
                     var calendarView = (Windows.UI.Xaml.Controls.CalendarView)d;
                     var newSelectedDate = (DateTimeOffset)e.NewValue;
 
-                    calendarView.SelectedDates.Clear();
-                    calendarView.SelectedDates.Add(newSelectedDate);
+                    if (!calendarView.SelectedDates.Contains(newSelectedDate))
+                    {
+                        calendarView.SelectedDates.Clear();
+                        calendarView.SelectedDates.Add(newSelectedDate);
+                    }
                 }));
     }
 }

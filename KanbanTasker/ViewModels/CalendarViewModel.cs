@@ -53,7 +53,7 @@ namespace KanbanTasker.ViewModels
             set
             {
                 SetProperty(ref _scheduledTasks, value);
-                OnPropertyChanged();
+                //OnPropertyChanged();
                 OnPropertyChanged("IsResultsVisible");
             }
         }
