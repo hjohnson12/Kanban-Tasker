@@ -106,44 +106,11 @@ namespace KanbanTasker.Helpers.MicrosoftGraph.Authentication
                 // By doing this, MSAL will refresh the token automatically if
                 // it is expired. Otherwise it returns the cached token.
 
-                //var result = await _msalClient
-                //    .AcquireTokenSilent(_scopes, _userAccount)
-                //    .ExecuteAsync();
+                var result = await _msalClient
+                    .AcquireTokenSilent(_scopes, _userAccount)
+                    .ExecuteAsync();
 
-                //return result.AccessToken;
-
-                try
-                {
-                    // Since there is an account, call AcquireTokenSilent.
-                    // By doing this, MSAL will refresh the token automatically if
-                    // it is expired. Otherwise it returns the cached token.
-
-                    var result = await _msalClient
-                        .AcquireTokenSilent(_scopes, _userAccount)
-                        .WithForceRefresh(true)
-                        .ExecuteAsync();
-
-                    return result.AccessToken;
-                }
-                catch (MsalUiRequiredException ex)
-                {
-                    //AuthResult = await _msalClient.AcquireTokenInteractive(_scopes).ExecuteAsync();
-                    //return AuthResult.AccessToken;
-
-                    AuthResult = await Task.Run<AuthenticationResult>(async () =>
-                    {
-                        // Task.Run() will guarantee the given piece of code be executed on a separate thread pool.
-                        // Used to simulate the scenario of running the prompt on the UI from a different thread.
-                        return await ShowInteractivePrompt();
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Debug.Write("ERROR: " + ex.Message);
-                    throw;
-                }
-
-                return AuthResult == null ? "" : AuthResult.AccessToken;
+                return result.AccessToken;
             }
         }
 

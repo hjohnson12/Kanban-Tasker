@@ -146,7 +146,7 @@ namespace KanbanTasker
                 TitleBarHelper.SetupTitleBar();
 
                 await SetupStoreServices();
-                await GetCurrentUserIfSignedIn();
+                //await GetCurrentUserIfSignedIn();
                 await CheckForUpdateOrFirstRun();
             }
         }
